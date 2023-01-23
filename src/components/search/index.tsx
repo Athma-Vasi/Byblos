@@ -1,5 +1,5 @@
-import { Container, Flex, TextInput, useMantineTheme } from "@mantine/core";
-import { Fragment, useState } from "react";
+import { Flex, TextInput } from "@mantine/core";
+import { useState } from "react";
 import { CgSearch } from "react-icons/cg";
 import { RiCloseLine } from "react-icons/ri";
 import { RxDividerVertical } from "react-icons/rx";
@@ -13,25 +13,26 @@ import {
   Volume,
 } from "../types";
 
+///////
 type SearchProps = {
   children?: React.ReactNode;
   allStates: AllStates;
   allActions: AllActions;
   allDispatches: AllDispatches;
 };
+///////
 
 function Search({
   allStates: { responseState },
   allActions: { responseActions },
   allDispatches: { responseDispatch },
 }: SearchProps) {
-  const [search, setSearch] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const { width = 0 } = useWindowSize();
-  const theme = useMantineTheme();
 
   async function handleEnterKeyInput(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === "Enter") {
-      responseState.searchTerm = search;
+      responseState.searchTerm = searchTerm;
       responseDispatch({
         type: responseActions.setSearchTerm,
         payload: {
@@ -40,7 +41,7 @@ function Search({
       });
 
       const response = await fetch(
-        `https://www.googleapis.com/books/v1/volumes?q=${search}`,
+        `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}`,
       );
       const data: ApiResponseVolume = await response.json();
 
@@ -52,43 +53,46 @@ function Search({
         },
       });
 
-      console.log(responseState.searchResults.items);
+      console.log(responseState.searchResults);
     }
   }
 
   return (
     <Flex gap="md" justify="flex-end">
       <TextInput
-        value={search}
+        value={searchTerm}
         onChange={(event) => {
-          setSearch(event.currentTarget.value);
+          setSearchTerm(event.currentTarget.value);
         }}
         size={`${width < 576 ? "xs" : width < 768 ? "sm" : width < 992 ? "md" : "lg"}`}
-        rightSection={rightInputSection(search)}
-        rightSectionWidth={search === "" ? 50 : 100}
+        rightSection={rightInputSection(searchTerm)}
+        rightSectionWidth={searchTerm === "" ? 50 : 100}
         onKeyDown={handleEnterKeyInput}
       />
+      <a href="">
+        <p></p>
+      </a>
     </Flex>
   );
 }
 
 export { Search };
 
-function rightInputSection(search: string) {
+function rightInputSection(searchTerm: string) {
   async function handleSearchIconClick(event: React.MouseEvent<SVGElement, MouseEvent>) {
     //
   }
 
   return (
-    <Flex gap="sm">
-      {search === "" ? (
+    <Flex gap="xs">
+      {searchTerm === "" ? (
         ""
       ) : (
         <RiCloseLine
           style={{ color: "GrayText", transform: "scale(1.5)", cursor: "pointer" }}
         />
       )}
-      {search === "" ? (
+      {searchTerm === "" ? (
         ""
       ) : (
         <RxDividerVertical style={{ color: "GrayText", transform: "scale(1.5)" }} />

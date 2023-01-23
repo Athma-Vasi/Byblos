@@ -33,9 +33,8 @@ type AllActions = {
   responseActions: ResponseActions;
 };
 
-/**
- * below are the types for the Google Books Api Response
- */
+//below are the types for the Google Books Api Response
+
 type ApiResponseVolume = {
   kind: Kind;
   totalItems: number;
@@ -152,9 +151,7 @@ interface ReadingModes {
   image: boolean;
 }
 
-/**
- * above are the types for the Google Books Api Response
- */
+// above are the types for the Google Books Api Response
 
 export type {
   AllActions,
