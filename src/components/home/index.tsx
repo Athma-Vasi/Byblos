@@ -43,12 +43,6 @@ function Home({ children, allStates, allActions, allDispatches }: HomeProps) {
       footer={<MyFooter />}
     >
       {children}
-      {allStates.responseState.searchResults?.items.map((item: Volume) => (
-        <div key={item.id}>
-          <h1>{item.volumeInfo.title}</h1>
-          <p>{item.volumeInfo.description}</p>
-        </div>
-      ))}
     </AppShell>
   );
 }

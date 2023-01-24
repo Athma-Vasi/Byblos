@@ -7,6 +7,7 @@ import {
   Title,
   useMantineTheme,
 } from "@mantine/core";
+import { Link } from "react-router-dom";
 
 import { Search } from "../search";
 import { AllActions, AllDispatches, AllStates } from "../types";
@@ -46,7 +47,9 @@ function MyHeader({
         </MediaQuery>
 
         <Grid.Col span={3}>
-          <Title order={1}>Byblos</Title>
+          <Link to={"/"}>
+            <Title order={1}>Byblos</Title>
+          </Link>
         </Grid.Col>
 
         <Grid.Col span={5} offset={3}>

@@ -1,35 +1,31 @@
-import { Flex, Text, TextInput } from "@mantine/core";
-import { useState } from "react";
+import { Button, Flex, Text, TextInput, Title } from "@mantine/core";
+import React, { useState } from "react";
 import { CgSearch } from "react-icons/cg";
 import { RiCloseLine } from "react-icons/ri";
 import { RxDividerVertical } from "react-icons/rx";
-import { Link } from "react-router-dom";
+
+import { Link, useNavigate } from "react-router-dom";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
-import {
-  AllActions,
-  AllDispatches,
-  AllStates,
-  ApiResponseVolume,
-  Volume,
-} from "../types";
+import { responseActions } from "../state";
+import { AllActions, AllDispatches, AllStates, ApiResponseVolume } from "../types";
 
-///////
-type SearchProps = {
+type WelcomeProps = {
   children?: React.ReactNode;
   allStates: AllStates;
   allActions: AllActions;
   allDispatches: AllDispatches;
 };
-///////
 
-function Search({
+function Welcome({
+  children,
   allStates: { responseState },
   allActions: { responseActions },
   allDispatches: { responseDispatch },
-}: SearchProps) {
+}: WelcomeProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const { width = 0 } = useWindowSize();
+  const navigate = useNavigate();
 
   async function handleEnterKeyInput(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === "Enter") {
@@ -55,11 +51,15 @@ function Search({
       });
 
       console.log(responseState.searchResults);
+
+      // take user to home page
+      navigate("/home");
     }
   }
 
   return (
-    <Flex gap="md" justify="flex-end">
+    <div>
+      <Title order={1}>Byblos</Title>
       <TextInput
         value={searchTerm}
         onChange={(event) => {
@@ -70,14 +70,17 @@ function Search({
         rightSectionWidth={searchTerm === "" ? 50 : 100}
         onKeyDown={handleEnterKeyInput}
       />
-      <Link to={`/advancedSearch`}>
-        <Text>Advanced Search</Text>
+      <Link to={`/home`}>
+        <Button>Search</Button>
       </Link>
-    </Flex>
+      <Title
+        order={3}
+      >{`Search the world's most comprehensive list of volumes powered by Google Books`}</Title>
+    </div>
   );
 }
 
-export { Search };
+export { Welcome };
 
 function rightInputSection(searchTerm: string) {
   async function handleSearchIconClick(event: React.MouseEvent<SVGElement, MouseEvent>) {
