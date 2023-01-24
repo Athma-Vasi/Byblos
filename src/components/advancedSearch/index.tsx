@@ -11,7 +11,7 @@ import {
 import React, { useEffect } from "react";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
-import { AllActions, AllDispatches, AllStates } from "../types";
+import { AllActions, AllDispatches, AllStates, FormInputNames } from "../types";
 
 type AdvancedSearchProps = {
   children?: React.ReactNode;
@@ -30,14 +30,27 @@ function AdvancedSearch({
   useEffect(() => {
     // selects the default radio buttons on page load because passing checked={true} does not work
     clickDefaultRadioBttns();
+
+    //TESTING ONLY: REMOVE THIS
+    populateInputsForTesting();
   }, []);
 
   async function handleSearchFormSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-    const formDataObj = Object.fromEntries(formData.entries());
-    console.log("formDataObj: ", formDataObj);
+    //turned into a map for better intellisense and typescript support
+    const formDataMap = Array.from(formData.entries()).reduce(
+      (
+        formDataObj_: Map<FormInputNames, FormDataEntryValue>,
+        [inputName, inputValue],
+      ) => {
+        formDataObj_.set(inputName as FormInputNames, inputValue);
+        return formDataObj_;
+      },
+      new Map(),
+    );
+    console.log("formDataMap: ", formDataMap);
   }
 
   return (
@@ -65,7 +78,11 @@ function AdvancedSearch({
                   </Text>
                 </Grid.Col>
                 <Grid.Col span={1}>
-                  <TextInput size="lg" name="find-allWords" />
+                  <TextInput
+                    size="lg"
+                    name="find-allWords"
+                    data-textinput="find-allWords"
+                  />
                 </Grid.Col>
               </Grid>
               <Grid
@@ -79,7 +96,11 @@ function AdvancedSearch({
                   </Text>
                 </Grid.Col>
                 <Grid.Col span={1}>
-                  <TextInput size="lg" name="find-exactPhrase" />
+                  <TextInput
+                    size="lg"
+                    name="find-exactPhrase"
+                    data-textinput="find-exactPhrase"
+                  />
                 </Grid.Col>
               </Grid>
               <Grid
@@ -93,7 +114,11 @@ function AdvancedSearch({
                   </Text>
                 </Grid.Col>
                 <Grid.Col span={1}>
-                  <TextInput size="lg" name="find-atLeastOne" />
+                  <TextInput
+                    size="lg"
+                    name="find-atLeastOne"
+                    data-textinput="find-atLeastOne"
+                  />
                 </Grid.Col>
               </Grid>
               <Grid
@@ -107,7 +132,7 @@ function AdvancedSearch({
                   </Text>
                 </Grid.Col>
                 <Grid.Col span={1}>
-                  <TextInput size="lg" name="find-none" />
+                  <TextInput size="lg" name="find-none" data-textinput="find-none" />
                 </Grid.Col>
               </Grid>
               {/* search results amount per page modifier */}
@@ -156,10 +181,14 @@ function AdvancedSearch({
           {/* search book views section body */}
           <Grid.Col span={width < 576 ? 1 : 3} style={{ outline: "2px solid GrayText" }}>
             <Radio.Group
-              name="filterBookViews"
+              name="filter-bookViews"
               description="You can further narrow the search by restricting it to one of the following types of book views: "
             >
-              <Radio value="allBooks" label="All books" id="filter-allBooks" />
+              <Radio
+                value="allBooks"
+                label="All books"
+                data-radioinput="filter-allBooks"
+              />
               <Radio value="partialBooks" label="Partial books" />
               <Radio value="fullBooks" label="Full books" />
               <Radio value="freeEbooks" label="Free e-books" />
@@ -180,10 +209,14 @@ function AdvancedSearch({
           {/* print type section body */}
           <Grid.Col span={width < 576 ? 1 : 3} style={{ outline: "2px solid GrayText" }}>
             <Radio.Group
-              name="filterPrintType"
+              name="filter-printType"
               description="You can further narrow the search by restricting  it to a specific print or publication type: "
             >
-              <Radio value="allType" label="All types" id="filter-allContent" />
+              <Radio
+                value="allType"
+                label="All types"
+                data-radioinput="filter-allContent"
+              />
               <Radio value="books" label="Books" />
               <Radio value="magazines" label="Magazines" />
             </Radio.Group>
@@ -210,7 +243,7 @@ function AdvancedSearch({
                 <Text>Return books with the title</Text>
               </Grid.Col>
               <Grid.Col span={width < 576 ? 1 : 2}>
-                <TextInput size="lg" name="title" />
+                <TextInput size="lg" name="title" data-textinput="title" />
               </Grid.Col>
             </Grid>
           </Grid.Col>
@@ -236,7 +269,7 @@ function AdvancedSearch({
                 <Text>Return books with the author</Text>
               </Grid.Col>
               <Grid.Col span={width < 576 ? 1 : 2}>
-                <TextInput size="lg" name="author" />
+                <TextInput size="lg" name="author" data-textinput="author" />
               </Grid.Col>
             </Grid>
           </Grid.Col>
@@ -262,7 +295,7 @@ function AdvancedSearch({
                 <Text>Return books published by</Text>
               </Grid.Col>
               <Grid.Col span={width < 576 ? 1 : 2}>
-                <TextInput size="lg" name="publisher" />
+                <TextInput size="lg" name="publisher" data-textinput="publisher" />
               </Grid.Col>
             </Grid>
           </Grid.Col>
@@ -288,7 +321,7 @@ function AdvancedSearch({
                 <Text>Return books in the category</Text>
               </Grid.Col>
               <Grid.Col span={width < 576 ? 1 : 2}>
-                <TextInput size="lg" name="category" />
+                <TextInput size="lg" name="category" data-textinput="category" />
               </Grid.Col>
             </Grid>
           </Grid.Col>
@@ -314,7 +347,7 @@ function AdvancedSearch({
                 <Text>Return books with the ISBN</Text>
               </Grid.Col>
               <Grid.Col span={width < 576 ? 1 : 2}>
-                <TextInput size="lg" name="isbn" />
+                <TextInput size="lg" name="isbn" data-textinput="isbn" />
               </Grid.Col>
             </Grid>
           </Grid.Col>
@@ -340,7 +373,7 @@ function AdvancedSearch({
                 <Text>Return books with the Library of Congress Control Number</Text>
               </Grid.Col>
               <Grid.Col span={width < 576 ? 1 : 2}>
-                <TextInput size="lg" name="lccn" />
+                <TextInput size="lg" name="lccn" data-textinput="lccn" />
               </Grid.Col>
             </Grid>
           </Grid.Col>
@@ -366,7 +399,7 @@ function AdvancedSearch({
                 <Text>Return books with the Online Computer Library Center Number</Text>
               </Grid.Col>
               <Grid.Col span={width < 576 ? 1 : 2}>
-                <TextInput size="lg" name="oclc" />
+                <TextInput size="lg" name="oclc" data-textinput="oclc" />
               </Grid.Col>
             </Grid>
           </Grid.Col>
@@ -384,9 +417,64 @@ function AdvancedSearch({
 export { AdvancedSearch };
 
 function clickDefaultRadioBttns() {
-  const allBooksRadio = document.querySelector<HTMLInputElement>("#filter-allBooks");
+  const allBooksRadio = document.querySelector<HTMLInputElement>(
+    "[data-radioinput='filter-allBooks']",
+  );
   allBooksRadio?.click();
 
-  const allContentRadio = document.querySelector<HTMLInputElement>("#filter-allContent");
+  const allContentRadio = document.querySelector<HTMLInputElement>(
+    "[data-radioinput='filter-allContent']",
+  );
   allContentRadio?.click();
+
+  const oclc = document.querySelector<HTMLInputElement>("[data-textinput='oclc']");
+  oclc === null ? null : (oclc.defaultValue = "oclc");
+}
+
+function populateInputsForTesting() {
+  /*
+  const findAll = document.querySelector<HTMLInputElement>(
+    "[data-textinput='find-allWords']",
+  );
+  findAll === null ? null : (findAll.defaultValue = "barrayar");
+
+  const findExact = document.querySelector<HTMLInputElement>(
+    "[data-textinput='find-exactPhrase']",
+  );
+  findExact === null ? null : (findExact.defaultValue = "barrayar");
+
+  const findAtLeastOne = document.querySelector<HTMLInputElement>(
+    "[data-textinput='find-atLeastOne']",
+  );
+  findAtLeastOne === null ? null : (findAtLeastOne.defaultValue = "barrayar");
+
+  const findWithout = document.querySelector<HTMLInputElement>(
+    "[data-textinput='find-none']",
+  );
+  findWithout === null ? null : (findWithout.defaultValue = "barrayar");
+
+  */
+
+  const title = document.querySelector<HTMLInputElement>("[data-textinput='title']");
+  title === null ? null : (title.defaultValue = "barrayar");
+
+  const author = document.querySelector<HTMLInputElement>("[data-textinput='author']");
+  author === null ? null : (author.defaultValue = "lois mcmaster bujold");
+
+  const publisher = document.querySelector<HTMLInputElement>(
+    "[data-textinput='publisher']",
+  );
+  publisher === null ? null : (publisher.defaultValue = "baen");
+
+  const subject = document.querySelector<HTMLInputElement>("[data-textinput='category']");
+  subject === null ? null : (subject.defaultValue = "science fiction");
+
+  const isbn = document.querySelector<HTMLInputElement>("[data-textinput='isbn']");
+  isbn === null ? null : (isbn.defaultValue = "978-0-671-03142-9");
+
+  const lccn = document.querySelector<HTMLInputElement>("[data-textinput='lccn']");
+  lccn === null ? null : (lccn.defaultValue = " 2001022200");
+
+  const oclc = document.querySelector<HTMLInputElement>("[data-textinput='oclc']");
+  oclc === null ? null : (oclc.defaultValue = " 12345678");
 }

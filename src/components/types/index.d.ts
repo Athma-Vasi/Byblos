@@ -33,6 +33,22 @@ type AllActions = {
   responseActions: ResponseActions;
 };
 
+type FormInputNames =
+  | "find-allWords"
+  | "find-exactPhrase"
+  | "find-atLeastOne"
+  | "find-none"
+  | "filter-bookViews"
+  | "filter-printType"
+  | "title"
+  | "author"
+  | "publisher"
+  | "subject"
+  | "category"
+  | "isbn"
+  | "lccn"
+  | "oclc";
+
 //below are the types for the Google Books Api Response
 
 type ApiResponseVolume = {
@@ -157,10 +173,11 @@ export type {
   AllActions,
   AllDispatches,
   AllStates,
+  ApiResponseVolume,
+  FormInputNames,
   ResponseActions,
   ResponseDispatch,
   ResponseState,
-  WindowSize,
-  ApiResponseVolume,
   Volume,
+  WindowSize,
 };
