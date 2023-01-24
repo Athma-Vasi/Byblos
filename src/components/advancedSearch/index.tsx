@@ -270,13 +270,40 @@ function AdvancedSearch({
               name="filter-printType"
               description="You can further narrow the search by restricting  it to a specific print or publication type: "
             >
-              <Radio
-                value="allType"
-                label="All types"
-                data-radioinput="filter-allContent"
-              />
-              <Radio value="books" label="Books" />
-              <Radio value="magazines" label="Magazines" />
+              {/*  all publication types hover card */}
+              <HoverCard width={280} openDelay={618} closeDelay={382}>
+                <HoverCard.Target>
+                  <Radio
+                    value="allType"
+                    label="All types"
+                    data-radioinput="filter-allContent"
+                  />
+                </HoverCard.Target>
+                <HoverCard.Dropdown>
+                  <Text>
+                    Default: does not restrict and returns all publication types
+                  </Text>
+                </HoverCard.Dropdown>
+              </HoverCard>
+              {/* book publication types hover card */}
+              <HoverCard width={280} openDelay={618} closeDelay={382}>
+                <HoverCard.Target>
+                  <Radio value="books" label="Books" />
+                </HoverCard.Target>
+
+                <HoverCard.Dropdown>
+                  <Text>Returns only results that are books.</Text>
+                </HoverCard.Dropdown>
+              </HoverCard>
+              {/* magazines publication types hover card */}
+              <HoverCard width={280} openDelay={618} closeDelay={382}>
+                <HoverCard.Target>
+                  <Radio value="magazines" label="Magazines" />
+                </HoverCard.Target>
+                <HoverCard.Dropdown>
+                  <Text>Returns only results that are magazines.</Text>
+                </HoverCard.Dropdown>
+              </HoverCard>
             </Radio.Group>
           </Grid.Col>
         </Grid>
