@@ -51,14 +51,6 @@ function MyHeader({
             <Title order={1}>Byblos</Title>
           </Link>
         </Grid.Col>
-
-        <Grid.Col span={5} offset={3}>
-          <Search
-            allStates={allStates}
-            allActions={allActions}
-            allDispatches={allDispatches}
-          />
-        </Grid.Col>
       </Grid>
     </Header>
   );
