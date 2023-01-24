@@ -8,10 +8,9 @@ import {
   Text,
   TextInput,
 } from "@mantine/core";
-import { RadioGroup } from "@mantine/core/lib/Radio/RadioGroup/RadioGroup";
 import React, { useEffect } from "react";
-import { useWindowSize } from "../../hooks/useWindowSize";
 
+import { useWindowSize } from "../../hooks/useWindowSize";
 import { AllActions, AllDispatches, AllStates } from "../types";
 
 type AdvancedSearchProps = {
@@ -30,7 +29,8 @@ function AdvancedSearch({
   console.log("width: ", width);
 
   useEffect(() => {
-    clickAllBooksRadioBttn();
+    // selects the default radio buttons on page load because passing checked={true} does not work
+    clickDefaultRadioBttns();
   }, []);
 
   async function handleSearchFormSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -53,7 +53,7 @@ function AdvancedSearch({
           </Grid.Col>
 
           {/* contains label and inputs */}
-          <Grid.Col span={width < 576 ? 1 : 2} style={{ outline: "2px solid GrayText" }}>
+          <Grid.Col span={width < 576 ? 1 : 3} style={{ outline: "2px solid GrayText" }}>
             <Flex gap="sm" direction="column" justify="space-evenly" align="stretch">
               <Grid
                 columns={width < 576 ? 1 : 2}
@@ -111,40 +111,54 @@ function AdvancedSearch({
                   <TextInput size="lg" name="find-none" />
                 </Grid.Col>
               </Grid>
+              {/* search results amount per page modifier */}
+              <Grid
+                columns={width < 576 ? 1 : 4}
+                style={{ outline: "2px solid GrayText" }}
+                py={width < 576 ? "sm" : "md"}
+              >
+                <Grid.Col span={1}>
+                  {width > 576 ? (
+                    <NativeSelect
+                      data={["10", "20", "30", "40"]}
+                      label="Results per page"
+                    />
+                  ) : (
+                    <Flex
+                      justify="flex-start"
+                      align="center"
+                      style={{ outline: "2px solid GrayText" }}
+                    >
+                      <NativeSelect
+                        data={["10", "20", "30", "40"]}
+                        label="Results per page"
+                      />
+                    </Flex>
+                  )}
+                </Grid.Col>
+              </Grid>
             </Flex>
-          </Grid.Col>
-          {/* search results amount modifier */}
-          <Grid.Col span={1}>
-            {width > 576 ? (
-              <Center style={{ width: "100%", height: "100%" }}>
-                <NativeSelect data={["10", "20", "30", "40"]} label="Results per page" />
-              </Center>
-            ) : (
-              <Flex justify="flex-start" align="center">
-                <NativeSelect data={["10", "20", "30", "40"]} label="Results per page" />
-              </Flex>
-            )}
           </Grid.Col>
         </Grid>
         {/*  */}
-        {/* search filters: partial, full, e-books(paid, full)*/}
+        {/* search book views section: partial, full, e-books(paid, full)*/}
         <Grid
           columns={width < 576 ? 1 : 4}
           style={{ outline: "2px solid GrayText" }}
           p={width < 576 ? "sm" : "md"}
         >
-          {/* filter section heading */}
+          {/* search book views  heading */}
           <Grid.Col span={1}>
             <Center style={{ width: "100%", height: "100%" }}>
-              <Text>Filter</Text>
+              <Text>Search</Text>
             </Center>
           </Grid.Col>
 
-          {/* filter section body */}
-          <Grid.Col span={width < 576 ? 1 : 2} style={{ outline: "2px solid GrayText" }}>
+          {/* search book views section body */}
+          <Grid.Col span={width < 576 ? 1 : 3} style={{ outline: "2px solid GrayText" }}>
             <Radio.Group
-              name="filterResults"
-              description="You can further narrow the search by restricting it to one of the following values: "
+              name="filterBookViews"
+              description="You can further narrow the search by restricting it to one of the following types of book views: "
             >
               <Radio value="allBooks" label="All books" id="filter-allBooks" />
               <Radio value="partialBooks" label="Partial books" />
@@ -153,12 +167,60 @@ function AdvancedSearch({
               <Radio value="paidEbooks" label="Paid e-books" />
             </Radio.Group>
           </Grid.Col>
-
-          {/* submit button */}
-          <Button type="submit" color="blue" variant="outline">
-            Search
-          </Button>
         </Grid>
+        {/*  */}
+        {/* content section modifiers */}
+        <Grid columns={width < 576 ? 1 : 4} p={width < 576 ? "sm" : "md"}>
+          {/* content section heading */}
+          <Grid.Col span={1}>
+            <Center style={{ width: "100%", height: "100%" }}>
+              <Text>Content</Text>
+            </Center>
+          </Grid.Col>
+
+          {/* print type section body */}
+          <Grid.Col span={width < 576 ? 1 : 3} style={{ outline: "2px solid GrayText" }}>
+            <Radio.Group
+              name="filterPrintType"
+              description="You can further narrow the search by restricting  it to a specific print or publication type: "
+            >
+              <Radio value="allType" label="All types" id="filter-allContent" />
+              <Radio value="books" label="Books" />
+              <Radio value="magazines" label="Magazines" />
+            </Radio.Group>
+          </Grid.Col>
+        </Grid>
+
+        {/* title section modifier */}
+        <Grid columns={width < 576 ? 1 : 4} p={width < 576 ? "sm" : "md"}>
+          {/* title section heading */}
+          <Grid.Col span={1}>
+            <Center style={{ width: "100%", height: "100%" }}>
+              <Text>Title</Text>
+            </Center>
+          </Grid.Col>
+
+          {/* title section body */}
+          <Grid.Col span={width < 576 ? 1 : 3}>
+            <Grid
+              columns={width < 576 ? 1 : 3}
+              style={{ outline: "2px solid GrayText" }}
+              py={width < 576 ? "sm" : "md"}
+            >
+              <Grid.Col span={1}>
+                <Text>Return books with the title</Text>
+              </Grid.Col>
+              <Grid.Col span={2}>
+                <TextInput size="lg" name="title" />
+              </Grid.Col>
+            </Grid>
+          </Grid.Col>
+        </Grid>
+
+        {/* submit button */}
+        <Button type="submit" color="blue" variant="outline">
+          Search
+        </Button>
       </form>
     </div>
   );
@@ -166,7 +228,10 @@ function AdvancedSearch({
 
 export { AdvancedSearch };
 
-function clickAllBooksRadioBttn() {
+function clickDefaultRadioBttns() {
   const allBooksRadio = document.querySelector<HTMLInputElement>("#filter-allBooks");
   allBooksRadio?.click();
+
+  const allContentRadio = document.querySelector<HTMLInputElement>("#filter-allContent");
+  allContentRadio?.click();
 }
