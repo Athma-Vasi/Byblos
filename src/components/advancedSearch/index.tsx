@@ -186,7 +186,7 @@ function AdvancedSearch({
               description="You can further narrow the search by restricting it to one of the following types of book views: "
             >
               {/* all books radio with hover card */}
-              <HoverCard width={280} openDelay={618} closeDelay={382}>
+              <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
                 <HoverCard.Target>
                   <Radio
                     value="allBooks"
@@ -199,7 +199,7 @@ function AdvancedSearch({
                 </HoverCard.Dropdown>
               </HoverCard>
               {/* partial books radio with hover card */}
-              <HoverCard width={280} openDelay={618} closeDelay={382}>
+              <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
                 <HoverCard.Target>
                   <Radio value="partialBooks" label="Partial books" />
                 </HoverCard.Target>
@@ -210,7 +210,7 @@ function AdvancedSearch({
                 </HoverCard.Dropdown>
               </HoverCard>
               {/* full books radio with hover card */}
-              <HoverCard width={280} openDelay={618} closeDelay={382}>
+              <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
                 <HoverCard.Target>
                   <Radio value="fullBooks" label="Full books" />
                 </HoverCard.Target>
@@ -219,7 +219,7 @@ function AdvancedSearch({
                 </HoverCard.Dropdown>
               </HoverCard>
               {/* e-books radio with hover card */}
-              <HoverCard width={280} openDelay={618} closeDelay={382}>
+              <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
                 <HoverCard.Target>
                   <Radio value="freeEbooks" label="Free eBooks" />
                 </HoverCard.Target>
@@ -229,7 +229,7 @@ function AdvancedSearch({
               </HoverCard>
 
               {/* paid e-books radio with hover card */}
-              <HoverCard width={280} openDelay={618} closeDelay={382}>
+              <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
                 <HoverCard.Target>
                   <Radio value="paidEbooks" label="Paid eBooks" />
                 </HoverCard.Target>
@@ -239,7 +239,7 @@ function AdvancedSearch({
               </HoverCard>
 
               {/* all Google e-books radio with hover card */}
-              <HoverCard width={280} openDelay={618} closeDelay={382}>
+              <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
                 <HoverCard.Target>
                   <Radio value="allEbooks" label="All eBooks" />
                 </HoverCard.Target>
@@ -271,7 +271,7 @@ function AdvancedSearch({
               description="You can further narrow the search by restricting  it to a specific print or publication type: "
             >
               {/*  all publication types hover card */}
-              <HoverCard width={280} openDelay={618} closeDelay={382}>
+              <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
                 <HoverCard.Target>
                   <Radio
                     value="allType"
@@ -286,7 +286,7 @@ function AdvancedSearch({
                 </HoverCard.Dropdown>
               </HoverCard>
               {/* book publication types hover card */}
-              <HoverCard width={280} openDelay={618} closeDelay={382}>
+              <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
                 <HoverCard.Target>
                   <Radio value="books" label="Books" />
                 </HoverCard.Target>
@@ -296,7 +296,7 @@ function AdvancedSearch({
                 </HoverCard.Dropdown>
               </HoverCard>
               {/* magazines publication types hover card */}
-              <HoverCard width={280} openDelay={618} closeDelay={382}>
+              <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
                 <HoverCard.Target>
                   <Radio value="magazines" label="Magazines" />
                 </HoverCard.Target>
@@ -328,7 +328,17 @@ function AdvancedSearch({
                 <Text>Return books with the title</Text>
               </Grid.Col>
               <Grid.Col span={width < 576 ? 1 : 2}>
-                <TextInput size="lg" name="title" data-textinput="title" />
+                {/* title search string hover card */}
+                <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
+                  <HoverCard.Target>
+                    <TextInput size="lg" name="title" data-textinput="title" />
+                  </HoverCard.Target>
+                  <HoverCard.Dropdown>
+                    <Text>
+                      Search for books that contain this word or phrase in the title.
+                    </Text>
+                  </HoverCard.Dropdown>
+                </HoverCard>
               </Grid.Col>
             </Grid>
           </Grid.Col>
@@ -354,7 +364,19 @@ function AdvancedSearch({
                 <Text>Return books with the author</Text>
               </Grid.Col>
               <Grid.Col span={width < 576 ? 1 : 2}>
-                <TextInput size="lg" name="author" data-textinput="author" />
+                {/* author search string hover card */}
+                <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
+                  <HoverCard.Target>
+                    <TextInput size="lg" name="author" data-textinput="author" />
+                  </HoverCard.Target>
+                  <HoverCard.Dropdown>
+                    <Text>
+                      {
+                        "Search for books that contain this word or phrase in the author's name."
+                      }
+                    </Text>
+                  </HoverCard.Dropdown>
+                </HoverCard>
               </Grid.Col>
             </Grid>
           </Grid.Col>
@@ -380,7 +402,19 @@ function AdvancedSearch({
                 <Text>Return books published by</Text>
               </Grid.Col>
               <Grid.Col span={width < 576 ? 1 : 2}>
-                <TextInput size="lg" name="publisher" data-textinput="publisher" />
+                {/* publisher search string hover card */}
+                <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
+                  <HoverCard.Target>
+                    <TextInput size="lg" name="publisher" data-textinput="publisher" />
+                  </HoverCard.Target>
+                  <HoverCard.Dropdown>
+                    <Text>
+                      {
+                        "Search for books that contain this word or phrase in the publisher's name."
+                      }
+                    </Text>
+                  </HoverCard.Dropdown>
+                </HoverCard>
               </Grid.Col>
             </Grid>
           </Grid.Col>
@@ -406,7 +440,19 @@ function AdvancedSearch({
                 <Text>Return books in the category</Text>
               </Grid.Col>
               <Grid.Col span={width < 576 ? 1 : 2}>
-                <TextInput size="lg" name="category" data-textinput="category" />
+                {/* category search string hover card */}
+                <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
+                  <HoverCard.Target>
+                    <TextInput size="lg" name="category" data-textinput="category" />
+                  </HoverCard.Target>
+                  <HoverCard.Dropdown>
+                    <Text>
+                      {
+                        "Search for books that contain this word or phrase within a category. Example: 'science-fiction'"
+                      }
+                    </Text>
+                  </HoverCard.Dropdown>
+                </HoverCard>
               </Grid.Col>
             </Grid>
           </Grid.Col>
@@ -432,7 +478,19 @@ function AdvancedSearch({
                 <Text>Return books with the ISBN</Text>
               </Grid.Col>
               <Grid.Col span={width < 576 ? 1 : 2}>
-                <TextInput size="lg" name="isbn" data-textinput="isbn" />
+                {/* isbn search string hover card */}
+                <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
+                  <HoverCard.Target>
+                    <TextInput size="lg" name="isbn" data-textinput="isbn" />
+                  </HoverCard.Target>
+                  <HoverCard.Dropdown>
+                    <Text>
+                      {
+                        "Search for books that match this ISBN. The International Standard Book Number is ten digits long if assigned before 2007, and thirteen digits long if assigned on or after 1 January 2007. Example: '978-0671578282'"
+                      }
+                    </Text>
+                  </HoverCard.Dropdown>
+                </HoverCard>
               </Grid.Col>
             </Grid>
           </Grid.Col>
@@ -455,10 +513,22 @@ function AdvancedSearch({
               py={width < 576 ? "sm" : "md"}
             >
               <Grid.Col span={1}>
-                <Text>Return books with the Library of Congress Control Number</Text>
+                <Text>Return books with the LCCN</Text>
               </Grid.Col>
               <Grid.Col span={width < 576 ? 1 : 2}>
-                <TextInput size="lg" name="lccn" data-textinput="lccn" />
+                {/* lccn search string hover card */}
+                <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
+                  <HoverCard.Target>
+                    <TextInput size="lg" name="lccn" data-textinput="lccn" />
+                  </HoverCard.Target>
+                  <HoverCard.Dropdown>
+                    <Text>
+                      {
+                        "Search for books that match this LCCN. A Library of Congress Control Number is assigned to a book while the book is being catalogued by the Library of Congress, if it has been selected for addition to the Library's collections. Example: '96024819'"
+                      }
+                    </Text>
+                  </HoverCard.Dropdown>
+                </HoverCard>
               </Grid.Col>
             </Grid>
           </Grid.Col>
@@ -481,10 +551,22 @@ function AdvancedSearch({
               py={width < 576 ? "sm" : "md"}
             >
               <Grid.Col span={1}>
-                <Text>Return books with the Online Computer Library Center Number</Text>
+                <Text>Return books with the OCLC</Text>
               </Grid.Col>
               <Grid.Col span={width < 576 ? 1 : 2}>
-                <TextInput size="lg" name="oclc" data-textinput="oclc" />
+                {/* oclc search string hover card */}
+                <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
+                  <HoverCard.Target>
+                    <TextInput size="lg" name="oclc" data-textinput="oclc" />
+                  </HoverCard.Target>
+                  <HoverCard.Dropdown>
+                    <Text>
+                      {
+                        "Search for books that match this OCLC number. Online Computer Library Center is a cooperative, computerized network for libraries and provide bibliographic, abstract and full-text information to anyone. They also maintain the Dewey Decimal Classification system. Example: '42320675'"
+                      }
+                    </Text>
+                  </HoverCard.Dropdown>
+                </HoverCard>
               </Grid.Col>
             </Grid>
           </Grid.Col>
@@ -555,11 +637,11 @@ function populateInputsForTesting() {
   subject === null ? null : (subject.defaultValue = "science fiction");
 
   const isbn = document.querySelector<HTMLInputElement>("[data-textinput='isbn']");
-  isbn === null ? null : (isbn.defaultValue = "978-0-671-03142-9");
+  isbn === null ? null : (isbn.defaultValue = "978-0671578282");
 
   const lccn = document.querySelector<HTMLInputElement>("[data-textinput='lccn']");
-  lccn === null ? null : (lccn.defaultValue = " 2001022200");
+  lccn === null ? null : (lccn.defaultValue = " 96024819");
 
   const oclc = document.querySelector<HTMLInputElement>("[data-textinput='oclc']");
-  oclc === null ? null : (oclc.defaultValue = " 12345678");
+  oclc === null ? null : (oclc.defaultValue = " 42320675");
 }
