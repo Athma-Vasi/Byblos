@@ -26,7 +26,6 @@ function AdvancedSearch({
   allDispatches: { responseDispatch },
 }: AdvancedSearchProps) {
   const { width = 0 } = useWindowSize();
-  console.log("width: ", width);
 
   useEffect(() => {
     // selects the default radio buttons on page load because passing checked={true} does not work
@@ -210,8 +209,164 @@ function AdvancedSearch({
               <Grid.Col span={1}>
                 <Text>Return books with the title</Text>
               </Grid.Col>
-              <Grid.Col span={2}>
+              <Grid.Col span={width < 576 ? 1 : 2}>
                 <TextInput size="lg" name="title" />
+              </Grid.Col>
+            </Grid>
+          </Grid.Col>
+        </Grid>
+
+        {/* author section modifier */}
+        <Grid columns={width < 576 ? 1 : 4} p={width < 576 ? "sm" : "md"}>
+          {/* author section heading */}
+          <Grid.Col span={1}>
+            <Center style={{ width: "100%", height: "100%" }}>
+              <Text>Author</Text>
+            </Center>
+          </Grid.Col>
+
+          {/* author section body */}
+          <Grid.Col span={width < 576 ? 1 : 3}>
+            <Grid
+              columns={width < 576 ? 1 : 3}
+              style={{ outline: "2px solid GrayText" }}
+              py={width < 576 ? "sm" : "md"}
+            >
+              <Grid.Col span={1}>
+                <Text>Return books with the author</Text>
+              </Grid.Col>
+              <Grid.Col span={width < 576 ? 1 : 2}>
+                <TextInput size="lg" name="author" />
+              </Grid.Col>
+            </Grid>
+          </Grid.Col>
+        </Grid>
+
+        {/* publisher section modifier */}
+        <Grid columns={width < 576 ? 1 : 4} p={width < 576 ? "sm" : "md"}>
+          {/* publisher section heading */}
+          <Grid.Col span={1}>
+            <Center style={{ width: "100%", height: "100%" }}>
+              <Text>Publisher</Text>
+            </Center>
+          </Grid.Col>
+
+          {/* publisher section body */}
+          <Grid.Col span={width < 576 ? 1 : 3}>
+            <Grid
+              columns={width < 576 ? 1 : 3}
+              style={{ outline: "2px solid GrayText" }}
+              py={width < 576 ? "sm" : "md"}
+            >
+              <Grid.Col span={1}>
+                <Text>Return books published by</Text>
+              </Grid.Col>
+              <Grid.Col span={width < 576 ? 1 : 2}>
+                <TextInput size="lg" name="publisher" />
+              </Grid.Col>
+            </Grid>
+          </Grid.Col>
+        </Grid>
+
+        {/* category section modifier */}
+        <Grid columns={width < 576 ? 1 : 4} p={width < 576 ? "sm" : "md"}>
+          {/* category section heading */}
+          <Grid.Col span={1}>
+            <Center style={{ width: "100%", height: "100%" }}>
+              <Text>Category</Text>
+            </Center>
+          </Grid.Col>
+
+          {/* category section body */}
+          <Grid.Col span={width < 576 ? 1 : 3}>
+            <Grid
+              columns={width < 576 ? 1 : 3}
+              style={{ outline: "2px solid GrayText" }}
+              py={width < 576 ? "sm" : "md"}
+            >
+              <Grid.Col span={1}>
+                <Text>Return books in the category</Text>
+              </Grid.Col>
+              <Grid.Col span={width < 576 ? 1 : 2}>
+                <TextInput size="lg" name="category" />
+              </Grid.Col>
+            </Grid>
+          </Grid.Col>
+        </Grid>
+
+        {/* isbn section modifier */}
+        <Grid columns={width < 576 ? 1 : 4} p={width < 576 ? "sm" : "md"}>
+          {/* isbn section heading */}
+          <Grid.Col span={1}>
+            <Center style={{ width: "100%", height: "100%" }}>
+              <Text>ISBN</Text>
+            </Center>
+          </Grid.Col>
+
+          {/* isbn section body */}
+          <Grid.Col span={width < 576 ? 1 : 3}>
+            <Grid
+              columns={width < 576 ? 1 : 3}
+              style={{ outline: "2px solid GrayText" }}
+              py={width < 576 ? "sm" : "md"}
+            >
+              <Grid.Col span={1}>
+                <Text>Return books with the ISBN</Text>
+              </Grid.Col>
+              <Grid.Col span={width < 576 ? 1 : 2}>
+                <TextInput size="lg" name="isbn" />
+              </Grid.Col>
+            </Grid>
+          </Grid.Col>
+        </Grid>
+
+        {/* lccn section modifier */}
+        <Grid columns={width < 576 ? 1 : 4} p={width < 576 ? "sm" : "md"}>
+          {/* lccn section heading */}
+          <Grid.Col span={1}>
+            <Center style={{ width: "100%", height: "100%" }}>
+              <Text>LCCN</Text>
+            </Center>
+          </Grid.Col>
+
+          {/* lccn section body */}
+          <Grid.Col span={width < 576 ? 1 : 3}>
+            <Grid
+              columns={width < 576 ? 1 : 3}
+              style={{ outline: "2px solid GrayText" }}
+              py={width < 576 ? "sm" : "md"}
+            >
+              <Grid.Col span={1}>
+                <Text>Return books with the Library of Congress Control Number</Text>
+              </Grid.Col>
+              <Grid.Col span={width < 576 ? 1 : 2}>
+                <TextInput size="lg" name="lccn" />
+              </Grid.Col>
+            </Grid>
+          </Grid.Col>
+        </Grid>
+
+        {/* oclc section modifier */}
+        <Grid columns={width < 576 ? 1 : 4} p={width < 576 ? "sm" : "md"}>
+          {/* oclc section heading */}
+          <Grid.Col span={1}>
+            <Center style={{ width: "100%", height: "100%" }}>
+              <Text>OCLC</Text>
+            </Center>
+          </Grid.Col>
+
+          {/* oclc section body */}
+          <Grid.Col span={width < 576 ? 1 : 3}>
+            <Grid
+              columns={width < 576 ? 1 : 3}
+              style={{ outline: "2px solid GrayText" }}
+              py={width < 576 ? "sm" : "md"}
+            >
+              <Grid.Col span={1}>
+                <Text>Return books with the Online Computer Library Center Number</Text>
+              </Grid.Col>
+              <Grid.Col span={width < 576 ? 1 : 2}>
+                <TextInput size="lg" name="oclc" />
               </Grid.Col>
             </Grid>
           </Grid.Col>
