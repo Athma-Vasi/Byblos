@@ -70,7 +70,7 @@ function Search({
         rightSectionWidth={searchTerm === "" ? 50 : 100}
         onKeyDown={handleEnterKeyInput}
       />
-      <Link to={`/advancedSearch`}>
+      <Link to={`/home/advancedSearch`}>
         <Text>Advanced Search</Text>
       </Link>
     </Flex>

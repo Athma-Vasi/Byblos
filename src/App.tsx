@@ -67,17 +67,29 @@ export default function App() {
                 allDispatches={allDispatches}
               />
             }
-          />
-          <Route
-            path="/advancedSearch"
-            element={
-              <AdvancedSearch
-                allStates={allStates}
-                allActions={allActions}
-                allDispatches={allDispatches}
-              />
-            }
-          />
+          >
+            <Route
+              index
+              element={
+                <Home
+                  allStates={allStates}
+                  allActions={allActions}
+                  allDispatches={allDispatches}
+                />
+              }
+            />
+
+            <Route
+              path="advancedSearch"
+              element={
+                <AdvancedSearch
+                  allStates={allStates}
+                  allActions={allActions}
+                  allDispatches={allDispatches}
+                />
+              }
+            />
+          </Route>
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

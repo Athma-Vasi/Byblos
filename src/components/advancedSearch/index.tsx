@@ -3,6 +3,7 @@ import {
   Center,
   Flex,
   Grid,
+  HoverCard,
   NativeSelect,
   Radio,
   Text,
@@ -184,15 +185,72 @@ function AdvancedSearch({
               name="filter-bookViews"
               description="You can further narrow the search by restricting it to one of the following types of book views: "
             >
-              <Radio
-                value="allBooks"
-                label="All books"
-                data-radioinput="filter-allBooks"
-              />
-              <Radio value="partialBooks" label="Partial books" />
-              <Radio value="fullBooks" label="Full books" />
-              <Radio value="freeEbooks" label="Free e-books" />
-              <Radio value="paidEbooks" label="Paid e-books" />
+              {/* all books radio with hover card */}
+              <HoverCard width={280} openDelay={618} closeDelay={382}>
+                <HoverCard.Target>
+                  <Radio
+                    value="allBooks"
+                    label="All books"
+                    data-radioinput="filter-allBooks"
+                  />
+                </HoverCard.Target>
+                <HoverCard.Dropdown>
+                  <Text>Default: does not filter and returns all books</Text>
+                </HoverCard.Dropdown>
+              </HoverCard>
+              {/* partial books radio with hover card */}
+              <HoverCard width={280} openDelay={618} closeDelay={382}>
+                <HoverCard.Target>
+                  <Radio value="partialBooks" label="Partial books" />
+                </HoverCard.Target>
+                <HoverCard.Dropdown>
+                  <Text>
+                    Returns results where at least part of the text is previewable.
+                  </Text>
+                </HoverCard.Dropdown>
+              </HoverCard>
+              {/* full books radio with hover card */}
+              <HoverCard width={280} openDelay={618} closeDelay={382}>
+                <HoverCard.Target>
+                  <Radio value="fullBooks" label="Full books" />
+                </HoverCard.Target>
+                <HoverCard.Dropdown>
+                  <Text>Only returns results where all of the text is viewable.</Text>
+                </HoverCard.Dropdown>
+              </HoverCard>
+              {/* e-books radio with hover card */}
+              <HoverCard width={280} openDelay={618} closeDelay={382}>
+                <HoverCard.Target>
+                  <Radio value="freeEbooks" label="Free eBooks" />
+                </HoverCard.Target>
+                <HoverCard.Dropdown>
+                  <Text>Only returns results that are free Google eBooks.</Text>
+                </HoverCard.Dropdown>
+              </HoverCard>
+
+              {/* paid e-books radio with hover card */}
+              <HoverCard width={280} openDelay={618} closeDelay={382}>
+                <HoverCard.Target>
+                  <Radio value="paidEbooks" label="Paid eBooks" />
+                </HoverCard.Target>
+                <HoverCard.Dropdown>
+                  <Text>Only returns results that are Google eBooks with a price.</Text>
+                </HoverCard.Dropdown>
+              </HoverCard>
+
+              {/* all Google e-books radio with hover card */}
+              <HoverCard width={280} openDelay={618} closeDelay={382}>
+                <HoverCard.Target>
+                  <Radio value="allEbooks" label="All eBooks" />
+                </HoverCard.Target>
+                <HoverCard.Dropdown>
+                  <Text>
+                    Returns all Google eBooks, both free and paid. Examples of non-eBooks
+                    would be publisher content that is available in limited preview and
+                    not for sale, or magazines.
+                  </Text>
+                </HoverCard.Dropdown>
+              </HoverCard>
             </Radio.Group>
           </Grid.Col>
         </Grid>

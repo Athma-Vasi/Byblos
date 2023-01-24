@@ -1,5 +1,6 @@
 import { AppShell, useMantineTheme } from "@mantine/core";
 import { useState } from "react";
+import { Outlet } from "react-router-dom";
 
 import { MyFooter } from "../footer";
 import { MyHeader } from "../header";
@@ -42,7 +43,7 @@ function Home({ children, allStates, allActions, allDispatches }: HomeProps) {
       }
       footer={<MyFooter />}
     >
-      {children}
+      <Outlet />
     </AppShell>
   );
 }
