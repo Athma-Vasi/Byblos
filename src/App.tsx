@@ -3,15 +3,11 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { AdvancedSearch } from "./components/advancedSearch";
 import { Home } from "./components/home";
-import {
-  initialResponseState,
-  responseActions,
-  responseReducer,
-} from "./components/state";
-import { AllActions, AllDispatches } from "./components/types";
 import { Welcome } from "./components/welcome";
 import { useWindowSize } from "./hooks/useWindowSize";
+import { initialResponseState, responseActions, responseReducer } from "./state";
 import { ThemeProvider } from "./ThemeProvider";
+import { AllActions, AllDispatches } from "./types";
 
 export default function App() {
   const { width = 0, height = 0 } = useWindowSize();

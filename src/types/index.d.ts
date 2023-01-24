@@ -38,19 +38,18 @@ type FormInputNames =
   | "find-exactPhrase"
   | "find-atLeastOne"
   | "find-none"
+  | "filter-downloadFormat"
   | "filter-bookViews"
   | "filter-printType"
   | "title"
   | "author"
   | "publisher"
   | "subject"
-  | "category"
   | "isbn"
   | "lccn"
   | "oclc";
 
 //below are the types for the Google Books Api Response
-
 type ApiResponseVolume = {
   kind: Kind;
   totalItems: number;
@@ -143,6 +142,7 @@ interface VolumeInfo {
   infoLink: string;
   canonicalVolumeLink: string;
   publisher?: string;
+  subtitle?: string;
 }
 
 interface ImageLinks {
@@ -155,7 +155,7 @@ interface IndustryIdentifier {
   identifier: string;
 }
 
-type Type = "OTHER" | "ISBN_10" | "ISBN_13" | string;
+type Type = "OTHER" | "ISBN_10" | "ISBN_13" | "ISSN" | "UUID";
 
 interface PanelizationSummary {
   containsEpubBubbles: boolean;
@@ -166,7 +166,6 @@ interface ReadingModes {
   text: boolean;
   image: boolean;
 }
-
 // above are the types for the Google Books Api Response
 
 export type {

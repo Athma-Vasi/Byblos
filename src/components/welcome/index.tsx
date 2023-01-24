@@ -1,15 +1,9 @@
-import { Button, Flex, Text, TextInput, Title } from "@mantine/core";
-import React, { useState } from "react";
-import { CgSearch } from "react-icons/cg";
-import { RiCloseLine } from "react-icons/ri";
-import { RxDividerVertical } from "react-icons/rx";
+import { Title } from "@mantine/core";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
-import { Link, useNavigate } from "react-router-dom";
-
-import { useWindowSize } from "../../hooks/useWindowSize";
+import { AllActions, AllDispatches, AllStates } from "../../types";
 import { Search } from "../search";
-import { responseActions } from "../state";
-import { AllActions, AllDispatches, AllStates, ApiResponseVolume } from "../types";
 
 type WelcomeProps = {
   children?: React.ReactNode;

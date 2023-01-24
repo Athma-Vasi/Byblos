@@ -6,7 +6,7 @@ import { MyFooter } from "../footer";
 import { MyHeader } from "../header";
 import { MyNavBar } from "../navbar";
 import { Sidebar } from "../sidebar";
-import { AllActions, AllDispatches, AllStates, Volume } from "../types";
+import { AllActions, AllDispatches, AllStates, Volume } from "../../types";
 
 type HomeProps = {
   children?: React.ReactNode;

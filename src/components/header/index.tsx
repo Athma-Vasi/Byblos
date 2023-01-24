@@ -10,7 +10,7 @@ import {
 import { Link } from "react-router-dom";
 
 import { Search } from "../search";
-import { AllActions, AllDispatches, AllStates } from "../types";
+import { AllActions, AllDispatches, AllStates } from "../../types";
 
 type MyHeaderProps = {
   children?: React.ReactNode;

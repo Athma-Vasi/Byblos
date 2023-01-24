@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
-import { WindowSize } from "../components/types";
+import { WindowSize } from "../types";
 
 function useWindowSize() {
   const [windowSize, setWindowSize] = useState<WindowSize>({

@@ -12,7 +12,7 @@ import {
   AllStates,
   ApiResponseVolume,
   Volume,
-} from "../types";
+} from "../../types";
 
 ///////
 type SearchProps = {
@@ -42,7 +42,7 @@ function Search({
       });
 
       const response = await fetch(
-        `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}`,
+        `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`,
       );
       const data: ApiResponseVolume = await response.json();
 
