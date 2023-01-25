@@ -100,3 +100,7 @@ export default function App() {
       <Home allStates={allStates} allActions={allActions} allDispatches={allDispatches} />
     </ThemeProvider>
  */
+
+//<script async src="https://cse.google.com/cse.js?cx=96eeae794df64441b">
+// </script>
+// <div class="gcse-search"></div>

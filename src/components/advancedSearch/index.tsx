@@ -9,8 +9,8 @@ import {
   Text,
   TextInput,
 } from "@mantine/core";
-import React, { useEffect } from "react";
 import axios from "axios";
+import React, { useEffect } from "react";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
 import {
@@ -49,11 +49,9 @@ function AdvancedSearch({
     const formData = new FormData(event.currentTarget);
     //turned into a map for better performance, intellisense and typescript support
     const formDataMap = Array.from(formData.entries()).reduce(
-      (
-        formDataObj_: Map<FormInputNames, FormDataEntryValue>,
-        [inputName, inputValue],
-      ) => {
-        formDataObj_.set(inputName as FormInputNames, inputValue);
+      (formDataObj_: Map<FormInputNames, string>, [inputName, inputValue]) => {
+        formDataObj_.set(inputName as FormInputNames, inputValue as string);
+
         return formDataObj_;
       },
       new Map(),
@@ -68,35 +66,61 @@ function AdvancedSearch({
     fetchSearchResults(searchStr);
   }
 
-  function populateSearchTermForFetch(
-    formDataMap: Map<FormInputNames, FormDataEntryValue>,
-  ) {
-    const searchStrWithTitle = `${
-      formDataMap.get("title") === "" ? "" : formDataMap.get("title") || ""
+  function populateSearchTermForFetch(formDataMap: Map<FormInputNames, string>) {
+    const searchStrWithAllWords = `${
+      formDataMap.get("find-allWords") === ""
+        ? ""
+        : formDataMap.get("find-allWords") || ""
     }`;
 
-    const searchStrWithAuthor = `${formDataMap.get("author") === "" ? "" : "+inauthor:"}${
-      formDataMap.get("author") || ""
+    const searchStrWithExactPhrase = `${
+      formDataMap.get("find-exactPhrase") === ""
+        ? ""
+        : `"${formDataMap.get("find-exactPhrase") || ""}"`
+    }`;
+
+    const searchStrWithAtLeastOneWord = `${
+      formDataMap.get("find-atLeastOne") === ""
+        ? ""
+        : formDataMap.get("find-atLeastOne")?.split(" ").join("|") || ""
+    }`;
+
+    const searchStrWithWithoutWords = `${
+      formDataMap.get("find-none") === ""
+        ? ""
+        : `-${formDataMap.get("find-none")?.split(" ").join(" -") || ""}`
+    }`;
+
+    const searchStrCondensedComesFirst = `${searchStrWithAllWords}${searchStrWithExactPhrase}${searchStrWithAtLeastOneWord}${searchStrWithWithoutWords}`;
+
+    const searchStrWithTitle = `${
+      formDataMap.get("title") === "" ? "" : `+intitle:${formDataMap.get("title")}`
+    }`;
+
+    const searchStrWithAuthor = `${
+      formDataMap.get("author") === "" ? "" : `+inauthor:${formDataMap.get("author")}`
     }`;
 
     const searchStrWithPublisher = `${
-      formDataMap.get("publisher") === "" ? "" : "+inpublisher:"
-    }${formDataMap.get("publisher") || ""}`;
+      formDataMap.get("publisher") === ""
+        ? ""
+        : `+inpublisher:${formDataMap.get("publisher")}`
+    }`;
 
-    const searchStrWithIsbn = `${formDataMap.get("isbn") === "" ? "" : "+isbn:"}${
-      formDataMap.get("isbn") || ""
+    const searchStrWithIsbn = `${
+      formDataMap.get("isbn") === "" ? "" : `+isbn:${formDataMap.get("isbn")}`
     }`;
 
     const searchStrWithSubject = `${
-      formDataMap.get("subject") === "" ? "" : "+subject:"
-    }${formDataMap.get("subject") || ""}`;
-
-    const searchStrWithLccn = `${formDataMap.get("lccn") === "" ? "" : "+lccn:"}${
-      formDataMap.get("lccn") || ""
+      formDataMap.get("subject") === "" ? "" : `+subject:${formDataMap.get("subject")}`
     }`;
 
-    const searchStrWithOclc = `${formDataMap.get("oclc") === "" ? "" : "+oclc:"}${
-      formDataMap.get("oclc") || ""
+    const searchStrWithLccn = `${
+      formDataMap.get("lccn") === "" ? "" : `+lccn:${formDataMap.get("lccn")}`
+    }`;
+
+    const searchStrWithOclc = `${
+      formDataMap.get("oclc") === "" ? "" : `+oclc:${formDataMap.get("oclc")}`
     }`;
 
     const searchStrWithAllCategories = `${searchStrWithTitle}${searchStrWithAuthor}${searchStrWithPublisher}${searchStrWithIsbn}${searchStrWithSubject}${searchStrWithLccn}${searchStrWithOclc}`;
@@ -113,7 +137,7 @@ function AdvancedSearch({
       formDataMap.get("filter-printType") === "" ? "" : "&printType="
     }${formDataMap.get("filter-printType") || ""}`;
 
-    const searchStrFinal = `${searchStrWithAllCategories}${searchStrWithDownloadFormat}${searchStrWithViewability}${searchStrWithPrintType}`;
+    const searchStrFinal = `${searchStrCondensedComesFirst}${searchStrWithAllCategories}${searchStrWithDownloadFormat}${searchStrWithViewability}${searchStrWithPrintType}`;
 
     return searchStrFinal;
   }
