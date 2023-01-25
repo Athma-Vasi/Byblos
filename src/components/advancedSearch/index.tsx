@@ -70,25 +70,25 @@ function AdvancedSearch({
     const searchStrWithAllWords = `${
       formDataMap.get("find-allWords") === ""
         ? ""
-        : formDataMap.get("find-allWords") || ""
+        : "+" + formDataMap.get("find-allWords")?.split(" ").join("+")
     }`;
 
     const searchStrWithExactPhrase = `${
       formDataMap.get("find-exactPhrase") === ""
         ? ""
-        : `"${formDataMap.get("find-exactPhrase") || ""}"`
+        : `"${formDataMap.get("find-exactPhrase")}"`
     }`;
 
     const searchStrWithAtLeastOneWord = `${
       formDataMap.get("find-atLeastOne") === ""
         ? ""
-        : formDataMap.get("find-atLeastOne")?.split(" ").join("|") || ""
+        : formDataMap.get("find-atLeastOne")?.split(" ").join("|")
     }`;
 
     const searchStrWithWithoutWords = `${
       formDataMap.get("find-none") === ""
         ? ""
-        : `-${formDataMap.get("find-none")?.split(" ").join(" -") || ""}`
+        : `-${formDataMap.get("find-none")?.split(" ").join(" -")}`
     }`;
 
     const searchStrCondensedComesFirst = `${searchStrWithAllWords}${searchStrWithExactPhrase}${searchStrWithAtLeastOneWord}${searchStrWithWithoutWords}`;
@@ -127,17 +127,23 @@ function AdvancedSearch({
 
     const searchStrWithDownloadFormat = `${
       formDataMap.get("filter-downloadFormat") === "" ? "" : "&download="
-    }${formDataMap.get("filter-downloadFormat") || ""}`;
+    }${formDataMap.get("filter-downloadFormat")}`;
 
     const searchStrWithViewability = `${
       formDataMap.get("filter-bookViews") === "" ? "" : "&filter="
-    }${formDataMap.get("filter-bookViews") || ""}`;
+    }${formDataMap.get("filter-bookViews")}`;
 
     const searchStrWithPrintType = `${
       formDataMap.get("filter-printType") === "" ? "" : "&printType="
-    }${formDataMap.get("filter-printType") || ""}`;
+    }${formDataMap.get("filter-printType")}`;
 
-    const searchStrFinal = `${searchStrCondensedComesFirst}${searchStrWithAllCategories}${searchStrWithDownloadFormat}${searchStrWithViewability}${searchStrWithPrintType}`;
+    const searchStrWithResultsPerPage = `${
+      formDataMap.get("resultsPerPage") === "10"
+        ? ""
+        : `&maxResults=${formDataMap.get("resultsPerPage")}`
+    }`;
+
+    const searchStrFinal = `${searchStrCondensedComesFirst}${searchStrWithAllCategories}${searchStrWithDownloadFormat}${searchStrWithViewability}${searchStrWithResultsPerPage}${searchStrWithPrintType}`;
 
     return searchStrFinal;
   }
@@ -214,7 +220,17 @@ function AdvancedSearch({
       const { data } = await axios.get(
         `https://www.googleapis.com/books/v1/volumes?q=${searchString}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`,
       );
-      console.log("data: ", data);
+
+      // set the state of the search results
+      responseState.searchResults = data;
+      responseDispatch({
+        type: responseActions.setSearchResults,
+        payload: {
+          responseState,
+        },
+      });
+
+      console.log(responseState.searchResults);
     } catch (error: any) {
       if (error.response) {
         // client received an error response (5xx, 4xx)
@@ -322,6 +338,8 @@ function AdvancedSearch({
                     <NativeSelect
                       data={["10", "20", "30", "40"]}
                       label="Results per page"
+                      name="resultsPerPage"
+                      data-nativeselect="resultsPerPage"
                     />
                   ) : (
                     <Flex
@@ -332,6 +350,8 @@ function AdvancedSearch({
                       <NativeSelect
                         data={["10", "20", "30", "40"]}
                         label="Results per page"
+                        name="resultsPerPage"
+                        data-nativeselect="resultsPerPage"
                       />
                     </Flex>
                   )}
@@ -365,7 +385,9 @@ function AdvancedSearch({
                 </HoverCard.Target>
 
                 <HoverCard.Dropdown>
-                  <Text>Default: does not restrict and returns all books</Text>
+                  <Text data-radioinput="filter-allBooksFormat-dropdown">
+                    Default: does not restrict and returns all books
+                  </Text>
                 </HoverCard.Dropdown>
               </HoverCard>
               {/* epub radio input hover card */}
@@ -375,7 +397,7 @@ function AdvancedSearch({
                 </HoverCard.Target>
 
                 <HoverCard.Dropdown>
-                  <Text>
+                  <Text data-radioinput="filter-epubFormat-dropdown">
                     Only returns results that have an available epub download format
                   </Text>
                 </HoverCard.Dropdown>
@@ -410,7 +432,9 @@ function AdvancedSearch({
                   <Radio value="" label="All books" data-radioinput="filter-allBooks" />
                 </HoverCard.Target>
                 <HoverCard.Dropdown>
-                  <Text>Default: does not restrict and returns all books</Text>
+                  <Text data-radioinput="filter-allBooks-dropdown">
+                    Default: does not restrict and returns all books
+                  </Text>
                 </HoverCard.Dropdown>
               </HoverCard>
               {/* partial books radio input hover card */}
@@ -423,7 +447,7 @@ function AdvancedSearch({
                   />
                 </HoverCard.Target>
                 <HoverCard.Dropdown>
-                  <Text>
+                  <Text data-radioinput="filter-partialBooks-dropdown">
                     Returns results where at least part of the text is previewable.
                   </Text>
                 </HoverCard.Dropdown>
@@ -438,7 +462,9 @@ function AdvancedSearch({
                   />
                 </HoverCard.Target>
                 <HoverCard.Dropdown>
-                  <Text>Only returns results where all of the text is viewable.</Text>
+                  <Text data-radioinput="filter-fullBooks-dropdown">
+                    Only returns results where all of the text is viewable.
+                  </Text>
                 </HoverCard.Dropdown>
               </HoverCard>
               {/* e-books radio input hover card */}
@@ -451,7 +477,9 @@ function AdvancedSearch({
                   />
                 </HoverCard.Target>
                 <HoverCard.Dropdown>
-                  <Text>Only returns results that are free Google eBooks.</Text>
+                  <Text data-radioinput="filter-freeEbooks-dropdown">
+                    Only returns results that are free Google eBooks.
+                  </Text>
                 </HoverCard.Dropdown>
               </HoverCard>
 
@@ -465,7 +493,9 @@ function AdvancedSearch({
                   />
                 </HoverCard.Target>
                 <HoverCard.Dropdown>
-                  <Text>Only returns results that are Google eBooks with a price.</Text>
+                  <Text data-radioinput="filter-paidEbooks-dropdown">
+                    Only returns results that are Google eBooks with a price.
+                  </Text>
                 </HoverCard.Dropdown>
               </HoverCard>
 
@@ -479,7 +509,7 @@ function AdvancedSearch({
                   />
                 </HoverCard.Target>
                 <HoverCard.Dropdown>
-                  <Text>
+                  <Text data-radioinput="filter-allEbooks-dropdown">
                     Returns all Google eBooks, both free and paid. Examples of non-eBooks
                     would be publisher content that is available in limited preview and
                     not for sale, or magazines.

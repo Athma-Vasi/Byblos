@@ -38,6 +38,7 @@ type FormInputNames =
   | "find-exactPhrase"
   | "find-atLeastOne"
   | "find-none"
+  | "resultsPerPage"
   | "filter-downloadFormat"
   | "filter-bookViews"
   | "filter-printType"

@@ -17,7 +17,9 @@ function Welcome({ children, allStates, allActions, allDispatches }: WelcomeProp
 
   return (
     <div>
-      <Title order={1}>Byblos</Title>
+      <Title order={1} data-cy="welcome-title">
+        Byblos
+      </Title>
       <Search
         allStates={allStates}
         allActions={allActions}

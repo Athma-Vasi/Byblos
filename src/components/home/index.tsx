@@ -42,6 +42,7 @@ function Home({ children, allStates, allActions, allDispatches }: HomeProps) {
         />
       }
       footer={<MyFooter />}
+      data-cy="home-appShell"
     >
       <Outlet />
     </AppShell>
