@@ -60,7 +60,7 @@ export default function App() {
             />
           </Route>
           <Route
-            path="/home"
+            path="home"
             element={
               <Home
                 allStates={allStates}
@@ -111,7 +111,37 @@ export default function App() {
                 </ErrorBoundary>
               }
               errorElement={<Text>Unable to fetch search results</Text>}
-            />
+            >
+              <Route
+                index
+                element={
+                  <ErrorBoundary fallback={<Text>Unable to fetch search results</Text>}>
+                    <Suspense fallback={<Text>Loading results...</Text>}>
+                      <DisplayResults
+                        allStates={allStates}
+                        allActions={allActions}
+                        allDispatches={allDispatches}
+                      />
+                    </Suspense>
+                  </ErrorBoundary>
+                }
+              />
+
+              <Route
+                path=":page"
+                element={
+                  <ErrorBoundary fallback={<Text>Unable to fetch search results</Text>}>
+                    <Suspense fallback={<Text>Loading results...</Text>}>
+                      <DisplayResults
+                        allStates={allStates}
+                        allActions={allActions}
+                        allDispatches={allDispatches}
+                      />
+                    </Suspense>
+                  </ErrorBoundary>
+                }
+              />
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>

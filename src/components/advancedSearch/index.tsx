@@ -241,7 +241,7 @@ function AdvancedSearch({
       //the response state dispatch is centralized inside the async function handleSearchFormSubmit to avoid multiple rerenders
       responseState.searchResults = data as ApiResponseVolume | null;
 
-      navigate("/home/displayResults");
+      navigate(`/home/displayResults/${responseState.activePage}`);
     } catch (error: any) {
       if (error.response) {
         // client received an error response (5xx, 4xx)

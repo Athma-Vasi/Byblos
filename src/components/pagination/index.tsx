@@ -1,6 +1,7 @@
 import { Button, Center, Grid, NumberInput, Space, Text } from "@mantine/core";
 import axios from "axios";
 import React, { Fragment, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useWindowSize } from "../../hooks/useWindowSize";
 
 import { AllActions, AllDispatches, AllStates } from "../../types";
@@ -20,6 +21,7 @@ function MyPagination({
   const { width = 0 } = useWindowSize();
   const { searchTerm, fetchUrl, activePage, searchResults, resultsPerPage } =
     responseState;
+  const navigate = useNavigate();
 
   const totalItems = searchResults?.totalItems ?? 0;
   const numberOfPages = Math.ceil(totalItems / Number(resultsPerPage));
@@ -29,9 +31,15 @@ function MyPagination({
   useEffect(() => {
     if (searchTerm && fetchUrl) {
       const fetchUsingStartIndex = async () => {
-        const startIndexAddedToFetchUrl = fetchUrl + `&startIndex=${startIndex}`;
+        // const startIndexAddedToFetchUrl = fetchUrl + `&startIndex=${startIndex}`;
 
-        console.log("fetching using startIndex: ", startIndexAddedToFetchUrl);
+        // console.log("fetching using startIndex: ", startIndexAddedToFetchUrl);
+
+        const [first, ...rest] = fetchUrl.split("&");
+        const startIndexAddedToFetchUrl = `${first}&startIndex=${startIndex}&${rest.join(
+          "&",
+        )}`;
+
         try {
           const { data } = await axios.get(startIndexAddedToFetchUrl);
 
@@ -52,6 +60,9 @@ function MyPagination({
 
       //scroll to top of page
       window.scrollTo(0, 0);
+
+      //navigate to the page
+      navigate(`/home/displayResults/${activePage}`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activePage]);
@@ -67,6 +78,9 @@ function MyPagination({
 
     //scroll to top of page
     window.scrollTo(0, 0);
+
+    //navigate to the page
+    navigate(`/home/displayResults/${activePage}`);
   }
 
   function handleNextPageBttnClick() {
@@ -80,6 +94,9 @@ function MyPagination({
 
     //scroll to top of page
     window.scrollTo(0, 0);
+
+    //navigate to the page
+    navigate(`/home/displayResults/${activePage}`);
   }
 
   function handlePageJumpBttnClick(event: React.FormEvent<HTMLFormElement>) {
@@ -98,6 +115,9 @@ function MyPagination({
 
     //scroll to top of page
     window.scrollTo(0, 0);
+
+    //navigate to the page
+    navigate(`/home/displayResults/${activePage}`);
   }
 
   return (

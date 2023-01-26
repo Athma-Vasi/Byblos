@@ -11,6 +11,7 @@ import {
   Title,
 } from "@mantine/core";
 import { Fragment, useState } from "react";
+import { useParams } from "react-router-dom";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
 import {
@@ -39,6 +40,8 @@ function DisplayResults({
   allDispatches,
 }: DisplayResultsProps) {
   const { width = 0 } = useWindowSize();
+  const { page } = useParams();
+  console.log("useParams page", page);
   const [modalOpened, setModalOpened] = useState(false);
   const [modalSrc, setModalSrc] = useState("");
   const [modalAlt, setModalAlt] = useState("");
@@ -92,7 +95,9 @@ function DisplayResults({
                   {author}
                 </Text>
               ))}
-              <Text>{new Date(item.volumeInfo.publishedDate).getFullYear()}</Text>
+              <Text>
+                {new Date(item.volumeInfo.publishedDate).getFullYear().toString()}
+              </Text>
               <Spoiler
                 maxHeight={100}
                 showLabel="Show more"
