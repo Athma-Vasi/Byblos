@@ -69,6 +69,7 @@ function Search({
         rightSection={rightInputSection(searchTerm)}
         rightSectionWidth={searchTerm === "" ? 50 : 100}
         onKeyDown={handleEnterKeyInput}
+        data-textinput="search"
       />
       <Link to={`/home/advancedSearch`}>
         <Text>Advanced Search</Text>

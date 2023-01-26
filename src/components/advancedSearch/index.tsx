@@ -58,9 +58,27 @@ function AdvancedSearch({
       },
       new Map(),
     );
-    console.log("formDataMap: ", formDataMap);
+
+    // set resultsPerPage to state
+    responseState.resultsPerPage = formDataMap.get("resultsPerPage") as string;
+    responseDispatch({
+      type: responseActions.setResultsPerPage,
+      payload: {
+        responseState,
+      },
+    });
 
     const searchStr = populateSearchTermForFetch(formDataMap);
+
+    //set fetchUrl
+    responseState.fetchUrl = `https://www.googleapis.com/books/v1/volumes?q=${searchStr}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
+    responseDispatch({
+      type: responseActions.setFetchUrl,
+      payload: {
+        responseState,
+      },
+    });
+
     console.log(
       `https://www.googleapis.com/books/v1/volumes?q=${searchStr}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`,
     );
@@ -224,14 +242,13 @@ function AdvancedSearch({
 
       // set the state of the search results
       responseState.searchResults = data as ApiResponseVolume | null;
+
       responseDispatch({
         type: responseActions.setSearchResults,
         payload: {
           responseState,
         },
       });
-
-      console.log(responseState.searchResults);
 
       navigate("/home/displayResults");
     } catch (error: any) {
@@ -336,7 +353,7 @@ function AdvancedSearch({
                 style={{ outline: "2px solid GrayText" }}
                 py={width < 576 ? "sm" : "md"}
               >
-                <Grid.Col span={1}>
+                <Grid.Col span={width < 576 ? 1 : 2}>
                   {width > 576 ? (
                     <NativeSelect
                       data={["10", "20", "30", "40"]}
@@ -360,7 +377,7 @@ function AdvancedSearch({
                   )}
                 </Grid.Col>
 
-                <Grid.Col span={1}>
+                <Grid.Col span={width < 576 ? 1 : 2}>
                   {width > 576 ? (
                     <NativeSelect
                       data={["relevance", "newest"]}

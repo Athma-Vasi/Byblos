@@ -2,11 +2,17 @@ import { ResponseActions, ResponseDispatch, ResponseState } from "../types";
 
 const initialResponseState: ResponseState = {
   searchTerm: "",
+  activePage: "1",
+  fetchUrl: "",
+  resultsPerPage: "10",
   searchResults: null,
 };
 
 const responseActions: ResponseActions = {
   setSearchTerm: "setSearchTerm",
+  setActivePage: "setActivePage",
+  setFetchUrl: "setFetchUrl",
+  setResultsPerPage: "setResultsPerPage",
   setSearchResults: "setSearchResults",
   setAll: "setAll",
 };
@@ -18,13 +24,28 @@ function responseReducer(
   const responseClone = structuredClone(responseState);
   const {
     payload: {
-      responseState: { searchTerm, searchResults },
+      responseState: { fetchUrl, searchTerm, activePage, searchResults, resultsPerPage },
     },
   } = responseDispatch;
 
   switch (responseDispatch.type) {
     case responseActions.setSearchTerm: {
       responseClone.searchTerm = searchTerm;
+      return responseClone;
+    }
+
+    case responseActions.setActivePage: {
+      responseClone.activePage = activePage;
+      return responseClone;
+    }
+
+    case responseActions.setResultsPerPage: {
+      responseClone.resultsPerPage = resultsPerPage;
+      return responseClone;
+    }
+
+    case responseActions.setFetchUrl: {
+      responseClone.fetchUrl = fetchUrl;
       return responseClone;
     }
 
@@ -35,6 +56,9 @@ function responseReducer(
 
     case responseActions.setAll: {
       responseClone.searchTerm = searchTerm;
+      responseClone.activePage = activePage;
+      responseClone.fetchUrl = fetchUrl;
+      responseClone.resultsPerPage = resultsPerPage;
       responseClone.searchResults = searchResults;
       return responseClone;
     }

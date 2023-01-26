@@ -5,11 +5,17 @@ type WindowSize = {
 
 type ResponseState = {
   searchTerm: string;
+  activePage: string;
+  fetchUrl: string;
+  resultsPerPage: string;
   searchResults: null | ApiResponseVolume;
 };
 
 type ResponseActions = {
   setSearchTerm: "setSearchTerm";
+  setActivePage: "setActivePage";
+  setFetchUrl: "setFetchUrl";
+  setResultsPerPage: "setResultsPerPage";
   setSearchResults: "setSearchResults";
   setAll: "setAll";
 };

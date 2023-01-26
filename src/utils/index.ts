@@ -1,5 +1,6 @@
-import { ApiResponseVolume, VolumeWithCustomId } from "../types";
 import { v4 as uuidV4 } from "uuid";
+
+import { ApiResponseVolume, VolumeWithCustomId } from "../types";
 
 function insertCustomId(items: ApiResponseVolume["items"]): VolumeWithCustomId[] {
   return items.map((item) => {
@@ -11,6 +12,7 @@ function insertCustomId(items: ApiResponseVolume["items"]): VolumeWithCustomId[]
       enumerable: true,
       configurable: false,
     });
+
     return clone as VolumeWithCustomId;
   });
 }

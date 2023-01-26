@@ -1,5 +1,6 @@
-import { Center, Flex, Grid, Image, Title, Text, Space } from "@mantine/core";
+import { Center, Flex, Grid, Image, Space, Text, Title } from "@mantine/core";
 import { Fragment } from "react";
+
 import { useWindowSize } from "../../hooks/useWindowSize";
 import {
   AllActions,
@@ -9,6 +10,7 @@ import {
   Volume,
 } from "../../types";
 import { insertCustomId } from "../../utils";
+import { MyPagination } from "../pagination";
 import { Search } from "../search";
 
 type DisplayResultsProps = {
@@ -65,6 +67,14 @@ function DisplayResults({
           </Grid>
         ))}
       </Flex>
+      {Array.from({ length: 5 }).map((_, i) => (
+        <Space key={i} h="lg" />
+      ))}
+      <MyPagination
+        allStates={allStates}
+        allActions={allActions}
+        allDispatches={allDispatches}
+      />
     </Fragment>
   );
 }

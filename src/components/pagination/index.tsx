@@ -1,18 +1,65 @@
-import React from "react";
-import { AllStates, AllActions, AllDispatches } from "../../types";
+import { Pagination } from "@mantine/core";
+import axios from "axios";
+import React, { useState } from "react";
+import { responseActions } from "../../state";
+import { AllStates, AllActions, AllDispatches, ApiResponseVolume } from "../../types";
 
-type PaginationProps = {
+type MyPaginationProps = {
   children?: React.ReactNode;
   allStates: AllStates;
   allActions: AllActions;
   allDispatches: AllDispatches;
 };
 
-function Pagination({ allStates, allActions, allDispatches }: PaginationProps) {
-  const {
-    responseState: { searchResults },
-  } = allStates;
-  return <div>Pagination</div>;
+function MyPagination({
+  allStates: { responseState },
+  allActions: { responseActions },
+  allDispatches: { responseDispatch },
+}: MyPaginationProps) {
+  const { searchTerm, fetchUrl, activePage, searchResults, resultsPerPage } =
+    responseState;
+  console.log("searchResults", searchResults);
+
+  const totalItems = searchResults?.totalItems ?? 0;
+  const numberOfPages = Math.ceil(totalItems / Number(resultsPerPage));
+  console.log("numberOfPages", numberOfPages);
+  const startIndex = Number(activePage) * Number(resultsPerPage);
+  console.log("startIndex", startIndex);
+  console.log("activePage", activePage);
+
+  //
+  async function handlePageChange() {
+    console.log("fetchUrl", fetchUrl);
+    const searchStrWithStartIndex = `${fetchUrl}&startIndex=${startIndex}`;
+    console.log("searchStrWithStartIndex", searchStrWithStartIndex);
+
+    const { data } = await axios.get(searchStrWithStartIndex);
+    //set active page
+
+    responseState.activePage = (Number(activePage) + 1).toString();
+    // set the state of the search results
+    responseState.searchResults = data as ApiResponseVolume | null;
+    responseDispatch({
+      type: responseActions.setAll,
+      payload: {
+        responseState,
+      },
+    });
+    console.log("data", data);
+
+    //scrolls to top of page
+    window.scrollTo(0, 0);
+  }
+
+  return (
+    <div>
+      <Pagination
+        page={Number(activePage)}
+        onChange={handlePageChange}
+        total={numberOfPages}
+      />
+    </div>
+  );
 }
 
-export default Pagination;
+export { MyPagination };
