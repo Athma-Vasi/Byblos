@@ -1,4 +1,5 @@
 import { Pagination } from "@mantine/core";
+import { usePagination } from "@mantine/hooks";
 import axios from "axios";
 import React, { useState } from "react";
 import { responseActions } from "../../state";
@@ -27,6 +28,10 @@ function MyPagination({
   console.log("startIndex", startIndex);
   console.log("activePage", activePage);
 
+  const pagination = usePagination({
+    total: numberOfPages,
+    initialPage: Number(activePage),
+  });
   //
   async function handlePageChange() {
     console.log("fetchUrl", fetchUrl);
@@ -36,7 +41,7 @@ function MyPagination({
     const { data } = await axios.get(searchStrWithStartIndex);
     //set active page
 
-    responseState.activePage = (Number(activePage) + 1).toString();
+    responseState.activePage = activePage;
     // set the state of the search results
     responseState.searchResults = data as ApiResponseVolume | null;
     responseDispatch({
@@ -47,6 +52,8 @@ function MyPagination({
     });
     console.log("data", data);
 
+    pagination.next();
+
     //scrolls to top of page
     window.scrollTo(0, 0);
   }
@@ -54,7 +61,7 @@ function MyPagination({
   return (
     <div>
       <Pagination
-        page={Number(activePage)}
+        page={pagination.active}
         onChange={handlePageChange}
         total={numberOfPages}
       />
