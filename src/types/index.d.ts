@@ -5,7 +5,7 @@ type WindowSize = {
 
 type ResponseState = {
   searchTerm: string;
-  activePage: string;
+  activePage: number;
   fetchUrl: string;
   resultsPerPage: string;
   searchResults: null | ApiResponseVolume;

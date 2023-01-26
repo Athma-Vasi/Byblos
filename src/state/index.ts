@@ -2,7 +2,7 @@ import { ResponseActions, ResponseDispatch, ResponseState } from "../types";
 
 const initialResponseState: ResponseState = {
   searchTerm: "",
-  activePage: "1",
+  activePage: 1,
   fetchUrl: "",
   resultsPerPage: "10",
   searchResults: null,

@@ -1,9 +1,9 @@
-import { Pagination } from "@mantine/core";
-import { usePagination } from "@mantine/hooks";
+import { Button, Center, Grid, NumberInput, Space, Text } from "@mantine/core";
 import axios from "axios";
-import React, { useState } from "react";
-import { responseActions } from "../../state";
-import { AllStates, AllActions, AllDispatches, ApiResponseVolume } from "../../types";
+import React, { Fragment, useEffect } from "react";
+import { useWindowSize } from "../../hooks/useWindowSize";
+
+import { AllActions, AllDispatches, AllStates } from "../../types";
 
 type MyPaginationProps = {
   children?: React.ReactNode;
@@ -17,55 +17,137 @@ function MyPagination({
   allActions: { responseActions },
   allDispatches: { responseDispatch },
 }: MyPaginationProps) {
+  const { width = 0 } = useWindowSize();
   const { searchTerm, fetchUrl, activePage, searchResults, resultsPerPage } =
     responseState;
-  console.log("searchResults", searchResults);
 
   const totalItems = searchResults?.totalItems ?? 0;
   const numberOfPages = Math.ceil(totalItems / Number(resultsPerPage));
-  console.log("numberOfPages", numberOfPages);
-  const startIndex = Number(activePage) * Number(resultsPerPage);
-  console.log("startIndex", startIndex);
-  console.log("activePage", activePage);
+  //this index is only evaluated when the page changes; on initial render, it is not used
+  const startIndex = activePage * Number(resultsPerPage) - Number(resultsPerPage);
 
-  const pagination = usePagination({
-    total: numberOfPages,
-    initialPage: Number(activePage),
-  });
-  //
-  async function handlePageChange() {
-    console.log("fetchUrl", fetchUrl);
-    const searchStrWithStartIndex = `${fetchUrl}&startIndex=${startIndex}`;
-    console.log("searchStrWithStartIndex", searchStrWithStartIndex);
+  useEffect(() => {
+    if (searchTerm && fetchUrl) {
+      const fetchUsingStartIndex = async () => {
+        const startIndexAddedToFetchUrl = fetchUrl + `&startIndex=${startIndex}`;
 
-    const { data } = await axios.get(searchStrWithStartIndex);
-    //set active page
+        console.log("fetching using startIndex: ", startIndexAddedToFetchUrl);
+        try {
+          const { data } = await axios.get(startIndexAddedToFetchUrl);
 
-    responseState.activePage = activePage;
-    // set the state of the search results
-    responseState.searchResults = data as ApiResponseVolume | null;
+          responseState.activePage = activePage;
+          responseState.searchResults = data;
+          responseDispatch({
+            type: responseActions.setAll,
+            payload: { responseState },
+          });
+
+          console.log("data: ", data);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+      fetchUsingStartIndex();
+
+      //scroll to top of page
+      window.scrollTo(0, 0);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activePage]);
+
+  function handlePrevPageBttnClick() {
+    // event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    if (activePage === 1) return;
+    responseState.activePage = activePage - 1;
     responseDispatch({
-      type: responseActions.setAll,
-      payload: {
-        responseState,
-      },
+      type: responseActions.setActivePage,
+      payload: { responseState },
     });
-    console.log("data", data);
 
-    pagination.next();
+    //scroll to top of page
+    window.scrollTo(0, 0);
+  }
 
-    //scrolls to top of page
+  function handleNextPageBttnClick() {
+    // event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    if (activePage === numberOfPages) return;
+    responseState.activePage = activePage + 1;
+    responseDispatch({
+      type: responseActions.setActivePage,
+      payload: { responseState },
+    });
+
+    //scroll to top of page
+    window.scrollTo(0, 0);
+  }
+
+  function handlePageJumpBttnClick(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const pageToJumpTo = Number(formData.get("bttn-pageJump"));
+
+    if (pageToJumpTo < 1 || pageToJumpTo > numberOfPages) return;
+
+    responseState.activePage = pageToJumpTo;
+    responseDispatch({
+      type: responseActions.setActivePage,
+      payload: { responseState },
+    });
+
+    //scroll to top of page
     window.scrollTo(0, 0);
   }
 
   return (
-    <div>
-      <Pagination
-        page={pagination.active}
-        onChange={handlePageChange}
-        total={numberOfPages}
-      />
-    </div>
+    <Fragment>
+      <Grid columns={3}>
+        <Grid.Col span={1}>
+          <Center>
+            <Button disabled={activePage === 1} onClick={handlePrevPageBttnClick}>
+              Prev
+            </Button>
+          </Center>
+        </Grid.Col>
+        <Grid.Col span={1}>
+          <Center style={{ width: "100%", height: "100%" }}>
+            <Text>
+              Page: {activePage} of {numberOfPages}
+            </Text>
+          </Center>
+        </Grid.Col>
+        <Grid.Col span={1}>
+          <Center>
+            <Button
+              disabled={activePage === numberOfPages}
+              onClick={handleNextPageBttnClick}
+            >
+              Next
+            </Button>
+          </Center>
+        </Grid.Col>
+      </Grid>
+
+      {Array.from({ length: 3 }).map((_, index) => (
+        <Space key={index} h="md" />
+      ))}
+
+      <form action="#" onSubmit={handlePageJumpBttnClick}>
+        <Center style={{ width: "100%", height: "100%" }}>
+          <NumberInput
+            defaultValue={activePage}
+            min={1}
+            max={numberOfPages}
+            value={activePage}
+            name="bttn-pageJump"
+            size={width < 576 ? "xs" : "sm"}
+          />
+
+          <Button type="submit">Jump to</Button>
+        </Center>
+      </form>
+    </Fragment>
   );
 }
 

@@ -6,6 +6,7 @@ import {
   Image,
   Modal,
   Space,
+  Spoiler,
   Text,
   Title,
 } from "@mantine/core";
@@ -20,6 +21,7 @@ import {
   Volume,
 } from "../../types";
 import { insertCustomId } from "../../utils";
+import { MyImageModal } from "../myImageModal";
 import { MyPagination } from "../pagination";
 import { Search } from "../search";
 
@@ -46,7 +48,6 @@ function DisplayResults({
     allStates.responseState.searchResults?.items ?? [],
   );
 
-  console.log(" modifiedSearchResults: ", modifiedSearchResults);
   return (
     <Fragment>
       <Search
@@ -57,7 +58,7 @@ function DisplayResults({
       {Array.from({ length: 5 }).map((_, i) => (
         <Space key={i} h="lg" />
       ))}
-      <MyModal
+      <MyImageModal
         modalOpened={modalOpened}
         setModalOpened={setModalOpened}
         src={modalSrc}
@@ -71,7 +72,7 @@ function DisplayResults({
                 <Image
                   style={{ cursor: "pointer" }}
                   src={item.volumeInfo.imageLinks?.thumbnail}
-                  alt="thumbnail of book cover"
+                  alt={`thumbnail of ${item.volumeInfo.title} book cover`}
                   onClick={() => {
                     setModalSrc(item.volumeInfo.imageLinks?.thumbnail ?? "");
                     setModalAlt(item.volumeInfo.title);
@@ -83,12 +84,23 @@ function DisplayResults({
               </Center>
             </Grid.Col>
             <Grid.Col span={width < 992 ? 7 : 8}>
-              <Title order={3}>{item.volumeInfo.title}</Title>
+              <Title order={3} style={{ cursor: "pointer" }}>
+                {item.volumeInfo.title}
+              </Title>
               {item.volumeInfo.authors?.map((author) => (
-                <Text key={author}>{author}</Text>
+                <Text key={author} style={{ cursor: "pointer" }}>
+                  {author}
+                </Text>
               ))}
               <Text>{new Date(item.volumeInfo.publishedDate).getFullYear()}</Text>
-              <Text lineClamp={4}>{item.volumeInfo.description}</Text>
+              <Spoiler
+                maxHeight={100}
+                showLabel="Show more"
+                hideLabel="Hide"
+                transitionDuration={382}
+              >
+                <Text>{item.volumeInfo.description}</Text>
+              </Spoiler>
             </Grid.Col>
           </Grid>
         ))}
@@ -106,21 +118,3 @@ function DisplayResults({
 }
 
 export default DisplayResults;
-
-type MyModalProps = {
-  children?: React.ReactNode;
-  src: string;
-  alt: string;
-  modalOpened: boolean;
-  setModalOpened: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-function MyModal({ modalOpened, setModalOpened, src, alt }: MyModalProps) {
-  return (
-    <Fragment>
-      <Modal opened={modalOpened} onClose={() => setModalOpened(false)} size="xs">
-        <Image src={src} alt={alt} />
-      </Modal>
-    </Fragment>
-  );
-}

@@ -121,13 +121,3 @@ export default function App() {
 
 //AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI
 //TODO: restrict API key: https://cloud.google.com/docs/authentication/api-keys#securing_an_api_key
-
-/**
- <ThemeProvider>
-      <Home allStates={allStates} allActions={allActions} allDispatches={allDispatches} />
-    </ThemeProvider>
- */
-
-//<script async src="https://cse.google.com/cse.js?cx=96eeae794df64441b">
-// </script>
-// <div class="gcse-search"></div>

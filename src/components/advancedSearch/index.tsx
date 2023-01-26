@@ -61,29 +61,26 @@ function AdvancedSearch({
 
     // set resultsPerPage to state
     responseState.resultsPerPage = formDataMap.get("resultsPerPage") as string;
-    responseDispatch({
-      type: responseActions.setResultsPerPage,
-      payload: {
-        responseState,
-      },
-    });
 
     const searchStr = populateSearchTermForFetch(formDataMap);
-
+    //set searchTerm to state
+    responseState.searchTerm = searchStr;
     //set fetchUrl
     responseState.fetchUrl = `https://www.googleapis.com/books/v1/volumes?q=${searchStr}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
-    responseDispatch({
-      type: responseActions.setFetchUrl,
-      payload: {
-        responseState,
-      },
-    });
 
     console.log(
       `https://www.googleapis.com/books/v1/volumes?q=${searchStr}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`,
     );
 
     fetchSearchResults(searchStr);
+
+    //state is updated after all responseState properties are set
+    responseDispatch({
+      type: responseActions.setAll,
+      payload: {
+        responseState,
+      },
+    });
   }
 
   function populateSearchTermForFetch(formDataMap: Map<FormInputNames, string>) {
@@ -241,14 +238,8 @@ function AdvancedSearch({
       );
 
       // set the state of the search results
+      //the response state dispatch is centralized inside the async function handleSearchFormSubmit to avoid multiple rerenders
       responseState.searchResults = data as ApiResponseVolume | null;
-
-      responseDispatch({
-        type: responseActions.setSearchResults,
-        payload: {
-          responseState,
-        },
-      });
 
       navigate("/home/displayResults");
     } catch (error: any) {
