@@ -11,6 +11,7 @@ import {
 } from "@mantine/core";
 import axios from "axios";
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
 import {
@@ -34,6 +35,7 @@ function AdvancedSearch({
   allDispatches: { responseDispatch },
 }: AdvancedSearchProps) {
   const { width = 0 } = useWindowSize();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // selects the default radio buttons on page load because passing checked={true} does not work
@@ -143,7 +145,13 @@ function AdvancedSearch({
         : `&maxResults=${formDataMap.get("resultsPerPage")}`
     }`;
 
-    const searchStrFinal = `${searchStrCondensedComesFirst}${searchStrWithAllCategories}${searchStrWithDownloadFormat}${searchStrWithViewability}${searchStrWithResultsPerPage}${searchStrWithPrintType}`;
+    const searchStrWithSortBy = `${
+      formDataMap.get("sortBy") === "relevance"
+        ? ""
+        : `&orderBy=${formDataMap.get("sortBy")}`
+    }`;
+
+    const searchStrFinal = `${searchStrCondensedComesFirst}${searchStrWithAllCategories}${searchStrWithDownloadFormat}${searchStrWithViewability}${searchStrWithResultsPerPage}${searchStrWithSortBy}${searchStrWithPrintType}`;
 
     return searchStrFinal;
   }
@@ -171,29 +179,22 @@ function AdvancedSearch({
     findWithout === null ? null : (findWithout.defaultValue = "barrayar");
   
     */
-
     // const title = document.querySelector<HTMLInputElement>("[data-textinput='title']");
     // title === null ? null : (title.defaultValue = "cordelia's honor");
-
     const author = document.querySelector<HTMLInputElement>("[data-textinput='author']");
     author === null ? null : (author.defaultValue = "lois mcmaster bujold");
-
     // const publisher = document.querySelector<HTMLInputElement>(
     //   "[data-textinput='publisher']",
     // );
     // publisher === null ? null : (publisher.defaultValue = "baen");
-
     // const subject = document.querySelector<HTMLInputElement>(
     //   "[data-textinput='subject']",
     // );
     // subject === null ? null : (subject.defaultValue = "science fiction");
-
     // const isbn = document.querySelector<HTMLInputElement>("[data-textinput='isbn']");
     // isbn === null ? null : (isbn.defaultValue = "978-0671578282");
-
     // const lccn = document.querySelector<HTMLInputElement>("[data-textinput='lccn']");
     // lccn === null ? null : (lccn.defaultValue = " 96024819");
-
     // const oclc = document.querySelector<HTMLInputElement>("[data-textinput='oclc']");
     // oclc === null ? null : (oclc.defaultValue = " 42320675");
   }
@@ -222,7 +223,7 @@ function AdvancedSearch({
       );
 
       // set the state of the search results
-      responseState.searchResults = data;
+      responseState.searchResults = data as ApiResponseVolume | null;
       responseDispatch({
         type: responseActions.setSearchResults,
         payload: {
@@ -231,6 +232,8 @@ function AdvancedSearch({
       });
 
       console.log(responseState.searchResults);
+
+      navigate("/home/displayResults");
     } catch (error: any) {
       if (error.response) {
         // client received an error response (5xx, 4xx)
@@ -329,7 +332,7 @@ function AdvancedSearch({
               </Grid>
               {/* search results amount per page modifier */}
               <Grid
-                columns={width < 576 ? 1 : 4}
+                columns={width < 576 ? 2 : 4}
                 style={{ outline: "2px solid GrayText" }}
                 py={width < 576 ? "sm" : "md"}
               >
@@ -352,6 +355,30 @@ function AdvancedSearch({
                         label="Results per page"
                         name="resultsPerPage"
                         data-nativeselect="resultsPerPage"
+                      />
+                    </Flex>
+                  )}
+                </Grid.Col>
+
+                <Grid.Col span={1}>
+                  {width > 576 ? (
+                    <NativeSelect
+                      data={["relevance", "newest"]}
+                      label="Sort by"
+                      name="sortBy"
+                      data-nativeselect="sortBy"
+                    />
+                  ) : (
+                    <Flex
+                      justify="flex-start"
+                      align="center"
+                      style={{ outline: "2px solid GrayText" }}
+                    >
+                      <NativeSelect
+                        data={["relevance", "newest"]}
+                        label="Sort by"
+                        name="sortBy"
+                        data-nativeselect="sortBy"
                       />
                     </Flex>
                   )}
@@ -545,7 +572,7 @@ function AdvancedSearch({
                   />
                 </HoverCard.Target>
                 <HoverCard.Dropdown>
-                  <Text>
+                  <Text data-radioinput="filter-allContent-dropdown">
                     Default: does not restrict and returns all publication types
                   </Text>
                 </HoverCard.Dropdown>
@@ -557,7 +584,9 @@ function AdvancedSearch({
                 </HoverCard.Target>
 
                 <HoverCard.Dropdown>
-                  <Text>Returns only results that are books.</Text>
+                  <Text data-radioinput="filter-books-dropdown">
+                    Returns only results that are books.
+                  </Text>
                 </HoverCard.Dropdown>
               </HoverCard>
               {/* magazines publication input hover card */}
@@ -570,7 +599,9 @@ function AdvancedSearch({
                   />
                 </HoverCard.Target>
                 <HoverCard.Dropdown>
-                  <Text>Returns only results that are magazines.</Text>
+                  <Text data-radioinput="filter-magazines-dropdown">
+                    Returns only results that are magazines.
+                  </Text>
                 </HoverCard.Dropdown>
               </HoverCard>
             </Radio.Group>
@@ -603,8 +634,8 @@ function AdvancedSearch({
                     <TextInput size="lg" name="title" data-textinput="title" />
                   </HoverCard.Target>
                   <HoverCard.Dropdown>
-                    <Text>
-                      Search for books that contain this word or phrase in the title.
+                    <Text data-textinput="title-dropdown">
+                      {"Search for books that contain this word or phrase in the title."}
                     </Text>
                   </HoverCard.Dropdown>
                 </HoverCard>
@@ -639,9 +670,9 @@ function AdvancedSearch({
                     <TextInput size="lg" name="author" data-textinput="author" />
                   </HoverCard.Target>
                   <HoverCard.Dropdown>
-                    <Text>
+                    <Text data-textinput="author-dropdown">
                       {
-                        "Search for books that contain this word or phrase in the author's name."
+                        "Search for books that contain this word or words in the author's name."
                       }
                     </Text>
                   </HoverCard.Dropdown>
@@ -677,7 +708,7 @@ function AdvancedSearch({
                     <TextInput size="lg" name="publisher" data-textinput="publisher" />
                   </HoverCard.Target>
                   <HoverCard.Dropdown>
-                    <Text>
+                    <Text data-textinput="publisher-dropdown">
                       {
                         "Search for books that contain this word or phrase in the publisher's name."
                       }
@@ -715,7 +746,7 @@ function AdvancedSearch({
                     <TextInput size="lg" name="subject" data-textinput="subject" />
                   </HoverCard.Target>
                   <HoverCard.Dropdown>
-                    <Text>
+                    <Text data-textinput="subject-dropdown">
                       {
                         "Search for books that contain this word or phrase within a category. Example: 'science-fiction'"
                       }
@@ -753,7 +784,7 @@ function AdvancedSearch({
                     <TextInput size="lg" name="isbn" data-textinput="isbn" />
                   </HoverCard.Target>
                   <HoverCard.Dropdown>
-                    <Text>
+                    <Text data-textinput="isbn-dropdown">
                       {
                         "Search for books that match this ISBN. The International Standard Book Number is a unique product identifier used in the publishing industry to identify the registrant as well as the specific title, edition and format. Example: '978-0671578282'"
                       }
@@ -791,7 +822,7 @@ function AdvancedSearch({
                     <TextInput size="lg" name="lccn" data-textinput="lccn" />
                   </HoverCard.Target>
                   <HoverCard.Dropdown>
-                    <Text>
+                    <Text data-textinput="lccn-dropdown">
                       {
                         "Search for books that match this LCCN. A Library of Congress Control Number is assigned to a book while the book is being catalogued by the Library of Congress, if it has been selected for addition to the Library's collections. Example: '96024819'"
                       }
@@ -829,7 +860,7 @@ function AdvancedSearch({
                     <TextInput size="lg" name="oclc" data-textinput="oclc" />
                   </HoverCard.Target>
                   <HoverCard.Dropdown>
-                    <Text>
+                    <Text data-textinput="oclc-dropdown">
                       {
                         "Search for books that match this OCLC number. Online Computer Library Center is a cooperative, computerized network for libraries and provide bibliographic, abstract and full-text information. They also maintain the Dewey Decimal Classification system. Example: '42320675'"
                       }
@@ -842,12 +873,23 @@ function AdvancedSearch({
         </Grid>
 
         {/* submit button */}
-        <Button type="submit" color="blue" variant="outline">
-          Search
-        </Button>
+        <Grid columns={width < 576 ? 1 : 4} p={width < 576 ? "sm" : "md"}>
+          {/* empty div for alignment */}
+          <Grid.Col span={1}>
+            <Center style={{ width: "100%", height: "100%" }}>
+              <Text></Text>
+            </Center>
+          </Grid.Col>
+
+          <Grid.Col span={width < 576 ? 1 : 2}>
+            <Button type="submit" variant="default" size={width < 992 ? "md" : "lg"}>
+              Search
+            </Button>
+          </Grid.Col>
+        </Grid>
       </form>
     </div>
   );
 }
 
-export { AdvancedSearch };
+export default AdvancedSearch;

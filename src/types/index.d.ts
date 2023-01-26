@@ -39,6 +39,7 @@ type FormInputNames =
   | "find-atLeastOne"
   | "find-none"
   | "resultsPerPage"
+  | "sortBy"
   | "filter-downloadFormat"
   | "filter-bookViews"
   | "filter-printType"
@@ -169,6 +170,8 @@ interface ReadingModes {
 }
 // above are the types for the Google Books Api Response
 
+type VolumeWithCustomId = Volume & { customId: string };
+
 export type {
   AllActions,
   AllDispatches,
@@ -180,4 +183,5 @@ export type {
   ResponseState,
   Volume,
   WindowSize,
+  VolumeWithCustomId,
 };

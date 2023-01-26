@@ -25,29 +25,29 @@ describe("Advanced Search page ", () => {
     it("should display text when user enters chars in find-allWords input", () => {
       cy.visit("localhost:5173/home/advancedSearch");
 
-      cy.get("[data-textinput='find-allWords']").type("test");
-      cy.get("[data-textinput='find-allWords']").should("have.value", "test");
+      cy.get("[data-textinput='find-allWords']").type("Cordelia's Honor");
+      cy.get("[data-textinput='find-allWords']").should("have.value", "Cordelia's Honor");
     });
 
     it("should display text when user enters chars in find-exactPhrase input", () => {
       cy.visit("localhost:5173/home/advancedSearch");
 
-      cy.get("[data-textinput='find-exactPhrase']").type("test");
-      cy.get("[data-textinput='find-exactPhrase']").should("have.value", "test");
+      cy.get("[data-textinput='find-exactPhrase']").type("Paladin of Souls");
+      cy.get("[data-textinput='find-exactPhrase']").should("have.value", "Paladin of Souls");
     });
 
     it("should display text when user enters chars in find-atLeastOne input", () => {
       cy.visit("localhost:5173/home/advancedSearch");
 
-      cy.get("[data-textinput='find-atLeastOne']").type("test");
-      cy.get("[data-textinput='find-atLeastOne']").should("have.value", "test");
+      cy.get("[data-textinput='find-atLeastOne']").type("Snow Crash");
+      cy.get("[data-textinput='find-atLeastOne']").should("have.value", "Snow Crash");
     });
 
     it("should display text when user enters chars in find-none input", () => {
       cy.visit("localhost:5173/home/advancedSearch");
 
-      cy.get("[data-textinput='find-none']").type("test");
-      cy.get("[data-textinput='find-none']").should("have.value", "test");
+      cy.get("[data-textinput='find-none']").type("The Uplift War");
+      cy.get("[data-textinput='find-none']").should("have.value", "The Uplift War");
     });
 
     it("should display '10' upon initial render in resultsPerPage input", () => {
@@ -81,7 +81,6 @@ describe("Advanced Search page ", () => {
     });
   });
   */
-
   /*
   describe("download format modifiers", () => {
     it("should have 'All books' selected upon initial render", () => {
@@ -125,7 +124,7 @@ describe("Advanced Search page ", () => {
     });
   });
 */
-
+  /*
   describe("book views modifiers", () => {
     it("should have 'All books' selected upon initial render", () => {
       cy.visit("localhost:5173/home/advancedSearch");
@@ -234,6 +233,189 @@ describe("Advanced Search page ", () => {
         cy.get("[data-radioinput='filter-allEbooks-dropdown']").should(
           "have.text",
           `Returns all Google eBooks, both free and paid. Examples of non-eBooks would be publisher content that is available in limited preview and not for sale, or magazines.`,
+        );
+      });
+    });
+  });
+  */
+  /*
+  describe("publication type modifiers", () => {
+    it("should have 'All types' selected upon initial render", () => {
+      cy.visit("localhost:5173/home/advancedSearch");
+
+      cy.get("[data-radioinput='filter-allContent']").should("be.checked");
+    });
+
+    describe("should have ${} selected when user selects ${}", () => {
+      it("'All types' radio button", () => {
+        cy.visit("localhost:5173/home/advancedSearch");
+
+        cy.get("[data-radioinput='filter-allContent']").click();
+        cy.get("[data-radioinput='filter-allContent']").should("be.checked");
+      });
+
+      it("'Books' radio button", () => {
+        cy.visit("localhost:5173/home/advancedSearch");
+
+        cy.get("[data-radioinput='filter-books']").click();
+        cy.get("[data-radioinput='filter-books']").should("be.checked");
+      });
+
+      it("'Magazines' radio button", () => {
+        cy.visit("localhost:5173/home/advancedSearch");
+
+        cy.get("[data-radioinput='filter-magazines']").click();
+        cy.get("[data-radioinput='filter-magazines']").should("be.checked");
+      });
+    });
+
+    describe("should display dropdown with text when user mouse over ...", () => {
+      it("'All types' radio button", () => {
+        cy.visit("localhost:5173/home/advancedSearch");
+
+        cy.get("[data-radioinput='filter-allContent']").trigger("mouseover");
+        cy.get("[data-radioinput='filter-allContent-dropdown']").should(
+          "have.text",
+          "Default: does not restrict and returns all publication types",
+        );
+      });
+
+      it("'Books' radio button", () => {
+        cy.visit("localhost:5173/home/advancedSearch");
+
+        cy.get("[data-radioinput='filter-books']").trigger("mouseover");
+        cy.get("[data-radioinput='filter-books-dropdown']").should(
+          "have.text",
+          "Returns only results that are books.",
+        );
+      });
+
+      it("'Magazines' radio button", () => {
+        cy.visit("localhost:5173/home/advancedSearch");
+
+        cy.get("[data-radioinput='filter-magazines']").trigger("mouseover");
+        cy.get("[data-radioinput='filter-magazines-dropdown']").should(
+          "have.text",
+          "Returns only results that are magazines.",
+        );
+      });
+    });
+  });
+  */
+
+  describe("book volumes general modifiers", () => {
+    describe("should have text in ${} inputs", () => {
+      it("'title''", () => {
+        cy.visit("localhost:5173/home/advancedSearch");
+
+        cy.get("[data-textinput='title']").type("A Fire Upon the Deep");
+        cy.get("[data-textinput='title']").should("have.value", "A Fire Upon the Deep");
+      });
+
+      it("'author''", () => {
+        cy.visit("localhost:5173/home/advancedSearch");
+
+        cy.get("[data-textinput='author']").type("Vernor Vinge");
+        cy.get("[data-textinput='author']").should("have.value", "Vernor Vinge");
+      });
+
+      it("'publisher''", () => {
+        cy.visit("localhost:5173/home/advancedSearch");
+
+        cy.get("[data-textinput='publisher']").type("Tor Books");
+        cy.get("[data-textinput='publisher']").should("have.value", "Tor Books");
+      });
+
+      it("'isbn''", () => {
+        cy.visit("localhost:5173/home/advancedSearch");
+
+        cy.get("[data-textinput='isbn']").type("9780765376479");
+        cy.get("[data-textinput='isbn']").should("have.value", "9780765376479");
+      });
+
+      it("'lccn''", () => {
+        cy.visit("localhost:5173/home/advancedSearch");
+
+        cy.get("[data-textinput='lccn']").type("2001044843");
+        cy.get("[data-textinput='lccn']").should("have.value", "2001044843");
+      });
+
+      it("'oclc''", () => {
+        cy.visit("localhost:5173/home/advancedSearch");
+
+        cy.get("[data-textinput='oclc']").type("123456789");
+        cy.get("[data-textinput='oclc']").should("have.value", "123456789");
+      });
+    });
+
+    describe("should display dropdown with text when user mouse over ...", () => {
+      it("'title''", () => {
+        cy.visit("localhost:5173/home/advancedSearch");
+
+        cy.get("[data-textinput='title']").trigger("mouseover");
+        cy.get("[data-textinput='title-dropdown']").should(
+          "have.text",
+          "Search for books that contain this word or phrase in the title.",
+        );
+      });
+
+      it("'author''", () => {
+        cy.visit("localhost:5173/home/advancedSearch");
+
+        cy.get("[data-textinput='author']").trigger("mouseover");
+        cy.get("[data-textinput='author-dropdown']").should(
+          "have.text",
+          "Search for books that contain this word or phrase in the author's name.",
+        );
+      });
+
+      it("'publisher''", () => {
+        cy.visit("localhost:5173/home/advancedSearch");
+
+        cy.get("[data-textinput='publisher']").trigger("mouseover");
+        cy.get("[data-textinput='publisher-dropdown']").should(
+          "have.text",
+          "Search for books that contain this word or phrase in the publisher's name.",
+        );
+      });
+
+      it("'subject'", () => {
+        cy.visit("localhost:5173/home/advancedSearch");
+
+        cy.get("[data-textinput='subject']").trigger("mouseover");
+        cy.get("[data-textinput='subject-dropdown']").should(
+          "have.text",
+          `Search for books that contain this word or phrase within a category. Example: 'science-fiction'`,
+        );
+      });
+
+      it("'isbn''", () => {
+        cy.visit("localhost:5173/home/advancedSearch");
+
+        cy.get("[data-textinput='isbn']").trigger("mouseover");
+        cy.get("[data-textinput='isbn-dropdown']").should(
+          "have.text",
+          "Search for books that match this ISBN. The International Standard Book Number is a unique product identifier used in the publishing industry to identify the registrant as well as the specific title, edition and format. Example: '978-0671578282'",
+        );
+      });
+
+      it("'lccn''", () => {
+        cy.visit("localhost:5173/home/advancedSearch");
+
+        cy.get("[data-textinput='lccn']").trigger("mouseover");
+        cy.get("[data-textinput='lccn-dropdown']").should(
+          "have.text",
+          "Search for books that match this LCCN. A Library of Congress Control Number is assigned to a book while the book is being catalogued by the Library of Congress, if it has been selected for addition to the Library's collections. Example: '96024819'",
+        );
+      });
+
+      it("'oclc''", () => {
+        cy.visit("localhost:5173/home/advancedSearch");
+
+        cy.get("[data-textinput='oclc']").trigger("mouseover");
+        cy.get("[data-textinput='oclc-dropdown']").should(
+          "have.text",
+          "Search for books that match this OCLC number. Online Computer Library Center is a cooperative, computerized network for libraries and provide bibliographic, abstract and full-text information. They also maintain the Dewey Decimal Classification system. Example: '42320675'",
         );
       });
     });

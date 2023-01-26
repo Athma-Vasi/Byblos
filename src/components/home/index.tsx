@@ -1,4 +1,4 @@
-import { AppShell, useMantineTheme } from "@mantine/core";
+import { AppShell, Space, useMantineTheme } from "@mantine/core";
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
 
@@ -7,6 +7,7 @@ import { MyHeader } from "../header";
 import { MyNavBar } from "../navbar";
 import { Sidebar } from "../sidebar";
 import { AllActions, AllDispatches, AllStates, Volume } from "../../types";
+import { Search } from "../search";
 
 type HomeProps = {
   children?: React.ReactNode;
