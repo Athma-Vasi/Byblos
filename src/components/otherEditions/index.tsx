@@ -1,4 +1,4 @@
-import { Text } from "@mantine/core";
+import { Text, Title } from "@mantine/core";
 import axios from "axios";
 import React, { Suspense } from "react";
 import { Fragment, useEffect, useState } from "react";
@@ -27,7 +27,7 @@ function OtherEditions({
   allDispatches,
 }: OtherEditionsProps) {
   const {
-    responseState: { selectedVolume, fetchUrl },
+    responseState: { selectedVolume },
   } = allStates;
 
   const { width = 0 } = useWindowSize();
@@ -59,8 +59,10 @@ function OtherEditions({
 
     fetchOtherEditions();
   }, []);
+
   return (
-    <Fragment>
+    <div>
+      <Title order={3}>Other editions</Title>
       <ErrorBoundary
         fallback={
           <Text>
@@ -89,7 +91,7 @@ function OtherEditions({
         allActions={allActions}
         allDispatches={allDispatches}
       />
-    </Fragment>
+    </div>
   );
 }
 

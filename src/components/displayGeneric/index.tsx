@@ -39,10 +39,13 @@ function DisplayGeneric({
   const navigate = useNavigate();
 
   function handleTitleClick(volume: VolumeWithCustomId) {
+    allStates.responseState.activePage = 1;
     allStates.responseState.searchTerm = volume.volumeInfo.title;
     allStates.responseState.selectedVolume = volume;
+    allStates.responseState.selectedAuthor = volume.volumeInfo.authors?.[0] ?? "";
+    allStates.responseState.selectedPublisher = volume.volumeInfo.publisher ?? "";
     allDispatches.responseDispatch({
-      type: allActions.responseActions.setSelectedVolume,
+      type: allActions.responseActions.setAll,
       payload: { responseState: allStates.responseState },
     });
 

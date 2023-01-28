@@ -6,7 +6,10 @@ const initialResponseState: ResponseState = {
   fetchUrl: "",
   selectedVolume: null,
   otherEditions: null,
+  publisherCollection: null,
+  authorCollection: null,
   selectedAuthor: "",
+  selectedPublisher: "",
   resultsPerPage: "10",
   searchResults: null,
 };
@@ -17,7 +20,10 @@ const responseActions: ResponseActions = {
   setFetchUrl: "setFetchUrl",
   setSelectedVolume: "setSelectedVolume",
   setOtherEditions: "setOtherEditions",
+  setPublisherCollection: "setPublisherCollection",
+  setAuthorCollection: "setAuthorCollection",
   setSelectedAuthor: "setSelectedAuthor",
+  setSelectedPublisher: "setSelectedPublisher",
   setResultsPerPage: "setResultsPerPage",
   setSearchResults: "setSearchResults",
   setAll: "setAll",
@@ -33,7 +39,10 @@ function responseReducer(
       responseState: {
         selectedVolume,
         otherEditions,
+        publisherCollection,
+        authorCollection,
         selectedAuthor,
+        selectedPublisher,
         fetchUrl,
         searchTerm,
         activePage,
@@ -69,8 +78,23 @@ function responseReducer(
       return responseClone;
     }
 
+    case responseActions.setPublisherCollection: {
+      responseClone.publisherCollection = publisherCollection;
+      return responseClone;
+    }
+
+    case responseActions.setAuthorCollection: {
+      responseClone.authorCollection = authorCollection;
+      return responseClone;
+    }
+
     case responseActions.setSelectedAuthor: {
       responseClone.selectedAuthor = selectedAuthor;
+      return responseClone;
+    }
+
+    case responseActions.setSelectedPublisher: {
+      responseClone.selectedPublisher = selectedPublisher;
       return responseClone;
     }
 
@@ -90,7 +114,10 @@ function responseReducer(
       responseClone.fetchUrl = fetchUrl;
       responseClone.selectedVolume = selectedVolume;
       responseClone.otherEditions = otherEditions;
+      responseClone.publisherCollection = publisherCollection;
+      responseClone.authorCollection = authorCollection;
       responseClone.selectedAuthor = selectedAuthor;
+      responseClone.selectedPublisher = selectedPublisher;
       responseClone.resultsPerPage = resultsPerPage;
       responseClone.searchResults = searchResults;
       return responseClone;

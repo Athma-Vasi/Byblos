@@ -10,7 +10,10 @@ type ResponseState = {
   resultsPerPage: string;
   selectedVolume: null | VolumeWithCustomId;
   otherEditions: null | VolumeWithCustomId[];
+  publisherCollection: null | VolumeWithCustomId[];
+  authorCollection: null | VolumeWithCustomId[];
   selectedAuthor: string;
+  selectedPublisher: string;
   searchResults: null | ApiResponseVolume;
 };
 
@@ -21,6 +24,9 @@ type ResponseActions = {
   setSelectedVolume: "setSelectedVolume";
   setOtherEditions: "setOtherEditions";
   setSelectedAuthor: "setSelectedAuthor";
+  setSelectedPublisher: "setSelectedPublisher";
+  setPublisherCollection: "setPublisherCollection";
+  setAuthorCollection: "setAuthorCollection";
   setResultsPerPage: "setResultsPerPage";
   setSearchResults: "setSearchResults";
   setAll: "setAll";
