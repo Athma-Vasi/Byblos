@@ -31,10 +31,6 @@ function MyPagination({
   useEffect(() => {
     if (searchTerm && fetchUrl) {
       const fetchUsingStartIndex = async () => {
-        // const startIndexAddedToFetchUrl = fetchUrl + `&startIndex=${startIndex}`;
-
-        // console.log("fetching using startIndex: ", startIndexAddedToFetchUrl);
-
         const [first, ...rest] = fetchUrl.split("&");
         const startIndexAddedToFetchUrl = `${first}&startIndex=${startIndex}&${rest.join(
           "&",
@@ -49,8 +45,6 @@ function MyPagination({
             type: responseActions.setAll,
             payload: { responseState },
           });
-
-          console.log("data: ", data);
         } catch (error) {
           console.error(error);
         }

@@ -24,6 +24,7 @@ import {
   VolumeWithCustomId,
 } from "../../types";
 import { insertCustomId } from "../../utils";
+import DisplayGeneric from "../displayGeneric";
 import { MyImageModal } from "../myImageModal";
 import { MyPagination } from "../pagination";
 import { Search } from "../search";
@@ -41,32 +42,13 @@ function DisplayResults({
   allActions,
   allDispatches,
 }: DisplayResultsProps) {
-  const { width = 0 } = useWindowSize();
   const { page } = useParams();
-  console.log("useParams page", page);
-  console.log(
-    "allStates.responseState.selectedVolume: ",
-    allStates.responseState.selectedVolume,
-  );
-  const [modalOpened, setModalOpened] = useState(false);
-  const [modalSrc, setModalSrc] = useState("");
-  const [modalAlt, setModalAlt] = useState("");
 
   const navigate = useNavigate();
   //required because id from google books api is not unique
   const modifiedSearchResults = insertCustomId(
     allStates.responseState.searchResults?.items ?? [],
   );
-
-  function handleTitleClick(volume: VolumeWithCustomId) {
-    allStates.responseState.selectedVolume = volume;
-    allDispatches.responseDispatch({
-      type: allActions.responseActions.setSelectedVolume,
-      payload: { responseState: allStates.responseState },
-    });
-
-    navigate(`/home/displayVolume/${volume.customId}`);
-  }
 
   return (
     <Fragment>
@@ -78,7 +60,28 @@ function DisplayResults({
       {Array.from({ length: 5 }).map((_, i) => (
         <Space key={i} h="lg" />
       ))}
-      <MyImageModal
+      <DisplayGeneric
+        allStates={allStates}
+        allActions={allActions}
+        allDispatches={allDispatches}
+        volumes={modifiedSearchResults}
+      />
+      {Array.from({ length: 5 }).map((_, i) => (
+        <Space key={i} h="lg" />
+      ))}
+      <MyPagination
+        allStates={allStates}
+        allActions={allActions}
+        allDispatches={allDispatches}
+      />
+    </Fragment>
+  );
+}
+
+export default DisplayResults;
+
+/**
+ <MyImageModal
         modalOpened={modalOpened}
         setModalOpened={setModalOpened}
         src={modalSrc}
@@ -135,16 +138,4 @@ function DisplayResults({
           </Grid>
         ))}
       </Flex>
-      {Array.from({ length: 5 }).map((_, i) => (
-        <Space key={i} h="lg" />
-      ))}
-      <MyPagination
-        allStates={allStates}
-        allActions={allActions}
-        allDispatches={allDispatches}
-      />
-    </Fragment>
-  );
-}
-
-export default DisplayResults;
+ */
