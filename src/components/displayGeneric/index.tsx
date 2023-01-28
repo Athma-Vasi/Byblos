@@ -1,4 +1,13 @@
-import { Center, Flex, Grid, Image, Spoiler, Text, Title } from "@mantine/core";
+import {
+  Center,
+  Flex,
+  Grid,
+  Highlight,
+  Image,
+  Spoiler,
+  Text,
+  Title,
+} from "@mantine/core";
 import { Fragment, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -30,6 +39,7 @@ function DisplayGeneric({
   const navigate = useNavigate();
 
   function handleTitleClick(volume: VolumeWithCustomId) {
+    allStates.responseState.searchTerm = volume.volumeInfo.title;
     allStates.responseState.selectedVolume = volume;
     allDispatches.responseDispatch({
       type: allActions.responseActions.setSelectedVolume,
@@ -92,7 +102,9 @@ function DisplayGeneric({
                 hideLabel="Hide"
                 transitionDuration={382}
               >
-                <Text>{item.volumeInfo.description}</Text>
+                <Highlight highlight={allStates.responseState.searchTerm.split(" ")}>
+                  {item.volumeInfo.description ?? "Description unavailable"}
+                </Highlight>
               </Spoiler>
             </Grid.Col>
           </Grid>

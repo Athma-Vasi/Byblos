@@ -36,7 +36,7 @@ function OtherEditions({
     const fetchOtherEditions = async () => {
       console.log("title:", selectedVolume?.volumeInfo.title);
       try {
-        const fetchUrlWithName = `https://www.googleapis.com/books/v1/volumes?q=${selectedVolume?.volumeInfo.title}&+intitle:${selectedVolume?.volumeInfo.title}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
+        const fetchUrlWithName = `https://www.googleapis.com/books/v1/volumes?q=${selectedVolume?.volumeInfo.title}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
 
         allStates.responseState.fetchUrl = fetchUrlWithName;
 
