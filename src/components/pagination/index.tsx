@@ -154,18 +154,27 @@ function MyPagination({
       ))}
 
       <form action="#" onSubmit={handlePageJumpBttnClick}>
-        <Center style={{ width: "100%", height: "100%" }}>
-          <NumberInput
-            defaultValue={activePage}
-            min={1}
-            max={numberOfPages}
-            value={activePage}
-            name="bttn-pageJump"
-            size={width < 576 ? "xs" : "sm"}
-          />
+        <Grid columns={3}>
+          <Grid.Col span={1}></Grid.Col>
 
-          <Button type="submit">Jump to</Button>
-        </Center>
+          <Grid.Col span={1}>
+            <Center style={{ width: "100%", height: "100%" }}>
+              <NumberInput
+                defaultValue={activePage}
+                min={1}
+                max={numberOfPages}
+                value={activePage}
+                name="bttn-pageJump"
+                size={width < 576 ? "xs" : "sm"}
+                px={width < 576 ? "sm" : "md"}
+              />
+
+              <Button type="submit">Jump to</Button>
+            </Center>
+          </Grid.Col>
+
+          <Grid.Col span={1}></Grid.Col>
+        </Grid>
       </form>
     </Fragment>
   );

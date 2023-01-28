@@ -4,6 +4,8 @@ const initialResponseState: ResponseState = {
   searchTerm: "",
   activePage: 1,
   fetchUrl: "",
+  selectedVolume: null,
+  selectedAuthor: "",
   resultsPerPage: "10",
   searchResults: null,
 };
@@ -12,6 +14,8 @@ const responseActions: ResponseActions = {
   setSearchTerm: "setSearchTerm",
   setActivePage: "setActivePage",
   setFetchUrl: "setFetchUrl",
+  setSelectedVolume: "setSelectedVolume",
+  setSelectedAuthor: "setSelectedAuthor",
   setResultsPerPage: "setResultsPerPage",
   setSearchResults: "setSearchResults",
   setAll: "setAll",
@@ -24,7 +28,15 @@ function responseReducer(
   const responseClone = structuredClone(responseState);
   const {
     payload: {
-      responseState: { fetchUrl, searchTerm, activePage, searchResults, resultsPerPage },
+      responseState: {
+        selectedVolume,
+        selectedAuthor,
+        fetchUrl,
+        searchTerm,
+        activePage,
+        searchResults,
+        resultsPerPage,
+      },
     },
   } = responseDispatch;
 
@@ -44,6 +56,16 @@ function responseReducer(
       return responseClone;
     }
 
+    case responseActions.setSelectedVolume: {
+      responseClone.selectedVolume = selectedVolume;
+      return responseClone;
+    }
+
+    case responseActions.setSelectedAuthor: {
+      responseClone.selectedAuthor = selectedAuthor;
+      return responseClone;
+    }
+
     case responseActions.setFetchUrl: {
       responseClone.fetchUrl = fetchUrl;
       return responseClone;
@@ -58,6 +80,8 @@ function responseReducer(
       responseClone.searchTerm = searchTerm;
       responseClone.activePage = activePage;
       responseClone.fetchUrl = fetchUrl;
+      responseClone.selectedVolume = selectedVolume;
+      responseClone.selectedAuthor = selectedAuthor;
       responseClone.resultsPerPage = resultsPerPage;
       responseClone.searchResults = searchResults;
       return responseClone;

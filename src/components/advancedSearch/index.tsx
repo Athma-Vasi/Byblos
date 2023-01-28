@@ -195,7 +195,7 @@ function AdvancedSearch({
   
     */
     // const title = document.querySelector<HTMLInputElement>("[data-textinput='title']");
-    // title === null ? null : (title.defaultValue = "cordelia's honor");
+    // title === null ? null : (title.defaultValue = "hyperion");
     const author = document.querySelector<HTMLInputElement>("[data-textinput='author']");
     author === null ? null : (author.defaultValue = "lois mcmaster bujold");
     // const publisher = document.querySelector<HTMLInputElement>(

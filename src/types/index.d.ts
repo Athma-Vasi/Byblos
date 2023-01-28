@@ -8,6 +8,8 @@ type ResponseState = {
   activePage: number;
   fetchUrl: string;
   resultsPerPage: string;
+  selectedVolume: null | VolumeWithCustomId;
+  selectedAuthor: string;
   searchResults: null | ApiResponseVolume;
 };
 
@@ -15,6 +17,8 @@ type ResponseActions = {
   setSearchTerm: "setSearchTerm";
   setActivePage: "setActivePage";
   setFetchUrl: "setFetchUrl";
+  setSelectedVolume: "setSelectedVolume";
+  setSelectedAuthor: "setSelectedAuthor";
   setResultsPerPage: "setResultsPerPage";
   setSearchResults: "setSearchResults";
   setAll: "setAll";

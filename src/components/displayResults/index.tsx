@@ -11,7 +11,8 @@ import {
   Title,
 } from "@mantine/core";
 import { Fragment, useState } from "react";
-import { useParams } from "react-router-dom";
+import { RiHandbagLine } from "react-icons/ri";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
 import {
@@ -20,6 +21,7 @@ import {
   AllStates,
   ApiResponseVolume,
   Volume,
+  VolumeWithCustomId,
 } from "../../types";
 import { insertCustomId } from "../../utils";
 import { MyImageModal } from "../myImageModal";
@@ -42,14 +44,29 @@ function DisplayResults({
   const { width = 0 } = useWindowSize();
   const { page } = useParams();
   console.log("useParams page", page);
+  console.log(
+    "allStates.responseState.selectedVolume: ",
+    allStates.responseState.selectedVolume,
+  );
   const [modalOpened, setModalOpened] = useState(false);
   const [modalSrc, setModalSrc] = useState("");
   const [modalAlt, setModalAlt] = useState("");
 
+  const navigate = useNavigate();
   //required because id from google books api is not unique
   const modifiedSearchResults = insertCustomId(
     allStates.responseState.searchResults?.items ?? [],
   );
+
+  function handleTitleClick(volume: VolumeWithCustomId) {
+    allStates.responseState.selectedVolume = volume;
+    allDispatches.responseDispatch({
+      type: allActions.responseActions.setSelectedVolume,
+      payload: { responseState: allStates.responseState },
+    });
+
+    navigate(`/home/displayVolume/${volume.customId}`);
+  }
 
   return (
     <Fragment>
@@ -69,13 +86,15 @@ function DisplayResults({
       />
       <Flex gap="xl" direction="column">
         {modifiedSearchResults.map((item) => (
-          <Grid key={item.id} columns={9}>
+          <Grid key={item.customId} columns={9}>
             <Grid.Col span={width < 992 ? 2 : 1}>
               <Center>
                 <Image
                   style={{ cursor: "pointer" }}
                   src={item.volumeInfo.imageLinks?.thumbnail}
-                  alt={`thumbnail of ${item.volumeInfo.title} book cover`}
+                  alt={`thumbnail of ${
+                    item.volumeInfo.title ?? "unavailable"
+                  } book cover`}
                   onClick={() => {
                     setModalSrc(item.volumeInfo.imageLinks?.thumbnail ?? "");
                     setModalAlt(item.volumeInfo.title);
@@ -87,7 +106,13 @@ function DisplayResults({
               </Center>
             </Grid.Col>
             <Grid.Col span={width < 992 ? 7 : 8}>
-              <Title order={3} style={{ cursor: "pointer" }}>
+              <Title
+                order={3}
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  handleTitleClick(item);
+                }}
+              >
                 {item.volumeInfo.title}
               </Title>
               {item.volumeInfo.authors?.map((author) => (

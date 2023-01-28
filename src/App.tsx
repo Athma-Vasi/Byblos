@@ -6,17 +6,19 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { Home } from "./components/home";
 import { Welcome } from "./components/welcome";
-import { useWindowSize } from "./hooks/useWindowSize";
 import { initialResponseState, responseActions, responseReducer } from "./state";
 import { ThemeProvider } from "./ThemeProvider";
 import { AllActions, AllDispatches } from "./types";
 
 const DisplayResults = React.lazy(() => import("./components/displayResults"));
+const DisplayVolume = React.lazy(() => import("./components/displayVolume"));
 const AdvancedSearch = React.lazy(() => import("./components/advancedSearch"));
+const Overview = React.lazy(() => import("./components/overview"));
+const OtherEditions = React.lazy(() => import("./components/otherEditions"));
+const PublisherCollection = React.lazy(() => import("./components/publisherCollection"));
+const AuthorCollection = React.lazy(() => import("./components/authorCollection"));
 
 export default function App() {
-  const { width = 0, height = 0 } = useWindowSize();
-
   const [responseState, responseDispatch] = useReducer(
     responseReducer,
     initialResponseState,
@@ -140,7 +142,102 @@ export default function App() {
                     </Suspense>
                   </ErrorBoundary>
                 }
-              />
+              ></Route>
+            </Route>
+
+            <Route
+              path="displayVolume/:volumeId"
+              element={
+                <ErrorBoundary fallback={<Text>Unable to fetch volume</Text>}>
+                  <Suspense fallback={<Text>Loading volume...</Text>}>
+                    <DisplayVolume
+                      allStates={allStates}
+                      allActions={allActions}
+                      allDispatches={allDispatches}
+                    />
+                  </Suspense>
+                </ErrorBoundary>
+              }
+            >
+              {/* inside displayVolume */}
+              <Route
+                index
+                element={
+                  <ErrorBoundary fallback={<Text>Unable to fetch overview</Text>}>
+                    <Suspense fallback={<Text>Loading overview...</Text>}>
+                      <Overview
+                        allStates={allStates}
+                        allActions={allActions}
+                        allDispatches={allDispatches}
+                      />
+                    </Suspense>
+                  </ErrorBoundary>
+                }
+              ></Route>
+
+              <Route
+                path="overview"
+                element={
+                  <ErrorBoundary fallback={<Text>Unable to fetch overview</Text>}>
+                    <Suspense fallback={<Text>Loading overview...</Text>}>
+                      <Overview
+                        allStates={allStates}
+                        allActions={allActions}
+                        allDispatches={allDispatches}
+                      />
+                    </Suspense>
+                  </ErrorBoundary>
+                }
+              ></Route>
+
+              <Route
+                path="otherEditions"
+                element={
+                  <ErrorBoundary fallback={<Text>Unable to fetch other editions</Text>}>
+                    <Suspense fallback={<Text>Loading other editions...</Text>}>
+                      <OtherEditions
+                        allStates={allStates}
+                        allActions={allActions}
+                        allDispatches={allDispatches}
+                      />
+                    </Suspense>
+                  </ErrorBoundary>
+                }
+              ></Route>
+
+              <Route
+                path="publisherCollection"
+                element={
+                  <ErrorBoundary
+                    fallback={<Text>Unable to fetch publisher collection</Text>}
+                  >
+                    <Suspense fallback={<Text>Loading publisher collection...</Text>}>
+                      <PublisherCollection
+                        allStates={allStates}
+                        allActions={allActions}
+                        allDispatches={allDispatches}
+                      />
+                    </Suspense>
+                  </ErrorBoundary>
+                }
+              ></Route>
+
+              <Route
+                path="authorCollection"
+                element={
+                  <ErrorBoundary
+                    fallback={<Text>Unable to fetch author collection</Text>}
+                  >
+                    <Suspense fallback={<Text>Loading author collection...</Text>}>
+                      <AuthorCollection
+                        allStates={allStates}
+                        allActions={allActions}
+                        allDispatches={allDispatches}
+                      />
+                    </Suspense>
+                  </ErrorBoundary>
+                }
+              ></Route>
             </Route>
           </Route>
         </Routes>
