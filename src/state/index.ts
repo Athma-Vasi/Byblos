@@ -5,6 +5,7 @@ const initialResponseState: ResponseState = {
   activePage: 1,
   fetchUrl: "",
   selectedVolume: null,
+  otherEditions: null,
   selectedAuthor: "",
   resultsPerPage: "10",
   searchResults: null,
@@ -15,6 +16,7 @@ const responseActions: ResponseActions = {
   setActivePage: "setActivePage",
   setFetchUrl: "setFetchUrl",
   setSelectedVolume: "setSelectedVolume",
+  setOtherEditions: "setOtherEditions",
   setSelectedAuthor: "setSelectedAuthor",
   setResultsPerPage: "setResultsPerPage",
   setSearchResults: "setSearchResults",
@@ -30,6 +32,7 @@ function responseReducer(
     payload: {
       responseState: {
         selectedVolume,
+        otherEditions,
         selectedAuthor,
         fetchUrl,
         searchTerm,
@@ -61,6 +64,11 @@ function responseReducer(
       return responseClone;
     }
 
+    case responseActions.setOtherEditions: {
+      responseClone.otherEditions = otherEditions;
+      return responseClone;
+    }
+
     case responseActions.setSelectedAuthor: {
       responseClone.selectedAuthor = selectedAuthor;
       return responseClone;
@@ -81,6 +89,7 @@ function responseReducer(
       responseClone.activePage = activePage;
       responseClone.fetchUrl = fetchUrl;
       responseClone.selectedVolume = selectedVolume;
+      responseClone.otherEditions = otherEditions;
       responseClone.selectedAuthor = selectedAuthor;
       responseClone.resultsPerPage = resultsPerPage;
       responseClone.searchResults = searchResults;
