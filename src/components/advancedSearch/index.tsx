@@ -10,8 +10,9 @@ import {
   TextInput,
 } from "@mantine/core";
 import axios from "axios";
+import localforage from "localforage";
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
 import {
@@ -30,7 +31,7 @@ type AdvancedSearchProps = {
 };
 
 function AdvancedSearch({
-  allStates: { responseState },
+  allStates,
   allActions: { responseActions },
   allDispatches: { responseDispatch },
 }: AdvancedSearchProps) {
@@ -60,27 +61,37 @@ function AdvancedSearch({
     );
 
     // set resultsPerPage to state
-    responseState.resultsPerPage = formDataMap.get("resultsPerPage") as string;
+    allStates.responseState.resultsPerPage = formDataMap.get("resultsPerPage") as string;
 
     const searchStr = populateSearchTermForFetch(formDataMap);
     //set searchTerm to state
-    responseState.searchTerm = searchStr;
+    allStates.responseState.searchTerm = searchStr;
     //set fetchUrl
-    responseState.fetchUrl = `https://www.googleapis.com/books/v1/volumes?q=${searchStr}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
+    allStates.responseState.fetchUrl = `https://www.googleapis.com/books/v1/volumes?q=${searchStr}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
 
     console.log(
       `https://www.googleapis.com/books/v1/volumes?q=${searchStr}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`,
     );
 
-    fetchSearchResults(searchStr);
+    try {
+      await fetchSearchResults(searchStr);
+      //first clear localforage
+      await localforage.clear();
 
-    //state is updated after all responseState properties are set
-    responseDispatch({
-      type: responseActions.setAll,
-      payload: {
-        responseState,
-      },
-    });
+      await localforage.setItem("responseState", allStates.responseState).then(() => {
+        //state is updated after all responseState properties are set
+        responseDispatch({
+          type: responseActions.setAll,
+          payload: {
+            responseState: allStates.responseState,
+          },
+        });
+
+        navigate(`/home/displayResults/${allStates.responseState.activePage}`);
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   function populateSearchTermForFetch(formDataMap: Map<FormInputNames, string>) {
@@ -239,9 +250,8 @@ function AdvancedSearch({
 
       // set the state of the search results
       //the response state dispatch is centralized inside the async function handleSearchFormSubmit to avoid multiple rerenders
-      responseState.searchResults = data as ApiResponseVolume | null;
 
-      navigate(`/home/displayResults/${responseState.activePage}`);
+      allStates.responseState.searchResults = data as ApiResponseVolume | null;
     } catch (error: any) {
       if (error.response) {
         // client received an error response (5xx, 4xx)

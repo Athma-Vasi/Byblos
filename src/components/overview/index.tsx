@@ -1,7 +1,15 @@
 import { Card, Grid, Space, Container, Text, Image } from "@mantine/core";
+import localforage from "localforage";
+import { useEffect, useState } from "react";
 import { AiOutlineAmazon, AiFillBook } from "react-icons/ai";
 import { useWindowSize } from "../../hooks/useWindowSize";
-import { AllActions, AllDispatches, AllStates } from "../../types";
+import {
+  AllActions,
+  AllDispatches,
+  AllStates,
+  ResponseState,
+  VolumeWithCustomId,
+} from "../../types";
 
 type OverviewProps = {
   children?: React.ReactNode;
@@ -12,9 +20,25 @@ type OverviewProps = {
 
 function Overview({ children, allStates, allActions, allDispatches }: OverviewProps) {
   const { width = 0 } = useWindowSize();
-  const {
-    responseState: { selectedVolume },
-  } = allStates;
+
+  const [selectedVolume, setSelectedVolume] = useState<VolumeWithCustomId | null>(null);
+
+  useEffect(() => {
+    const fetchSelectedVolumeFromLocalForage = async () => {
+      try {
+        localforage.getItem<ResponseState>("responseState").then((value) => {
+          console.log("value from overview: ", value);
+          if (value) {
+            setSelectedVolume(value.selectedVolume);
+          }
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchSelectedVolumeFromLocalForage();
+  });
 
   return (
     <div>
@@ -29,7 +53,11 @@ function Overview({ children, allStates, allActions, allDispatches }: OverviewPr
               <Image
                 width={width < 576 ? "50%" : "75%"}
                 src={selectedVolume?.volumeInfo.imageLinks?.thumbnail}
-                alt={`thumbnail of ${selectedVolume?.volumeInfo.title}`}
+                alt={
+                  selectedVolume?.volumeInfo.title === undefined
+                    ? "thumbnail unavailable"
+                    : `thumbnail of ${selectedVolume?.volumeInfo.title}`
+                }
               />
             </Card.Section>
           </Grid.Col>
@@ -47,10 +75,14 @@ function Overview({ children, allStates, allActions, allDispatches }: OverviewPr
                 </Text>
               ))}
               <Text>
-                Published:{" "}
-                {new Date(selectedVolume?.volumeInfo?.publishedDate ?? "Date unavailable")
-                  .getFullYear()
-                  .toString()}
+                Published:
+                {Number.isNaN(
+                  new Date(selectedVolume?.volumeInfo?.publishedDate ?? "").getFullYear(),
+                )
+                  ? "Unavailable"
+                  : new Date(selectedVolume?.volumeInfo?.publishedDate ?? "")
+                      .getFullYear()
+                      .toString()}
                 <Space h="xs" />
               </Text>
               <Text>

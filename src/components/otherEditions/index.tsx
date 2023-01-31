@@ -1,12 +1,19 @@
 import { Text, Title } from "@mantine/core";
 import axios from "axios";
+import localforage from "localforage";
 import React, { Suspense } from "react";
 import { Fragment, useEffect, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { useNavigate } from "react-router-dom";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
-import { AllActions, AllDispatches, AllStates, VolumeWithCustomId } from "../../types";
+import {
+  AllActions,
+  AllDispatches,
+  AllStates,
+  ResponseState,
+  VolumeWithCustomId,
+} from "../../types";
 import { insertCustomId } from "../../utils";
 import { MyImageModal } from "../myImageModal";
 import { MyPagination } from "../pagination";
@@ -27,33 +34,38 @@ function OtherEditions({
   allDispatches,
 }: OtherEditionsProps) {
   const {
-    responseState: { selectedVolume },
+    responseState: { selectedVolume, selectedAuthor },
   } = allStates;
 
+  const [otherEditions, setOtherEditions] = useState<VolumeWithCustomId[]>([]);
   const { width = 0 } = useWindowSize();
 
   useEffect(() => {
     const fetchOtherEditions = async () => {
       console.log("title:", selectedVolume?.volumeInfo.title);
       try {
-        const fetchUrlWithName = `https://www.googleapis.com/books/v1/volumes?q=${selectedVolume?.volumeInfo.title}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
-
-        allStates.responseState.fetchUrl = fetchUrlWithName;
+        const fetchUrlWithName = `https://www.googleapis.com/books/v1/volumes?q=${selectedVolume?.volumeInfo.title}+inauthor:${selectedAuthor}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
 
         const { data } = await axios.get(fetchUrlWithName);
-
-        console.log("fetchUrl from otherEditions: ", allStates.responseState.fetchUrl);
-        console.log("data: ", data);
 
         const itemsWithCustomId = insertCustomId(data.items ?? []);
 
         allStates.responseState.otherEditions = itemsWithCustomId;
-        allDispatches.responseDispatch({
-          type: allActions.responseActions.setAll,
-          payload: { responseState: allStates.responseState },
-        });
+
+        try {
+          localforage.setItem<ResponseState>("responseState", allStates.responseState);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          allDispatches.responseDispatch({
+            type: allActions.responseActions.setAll,
+            payload: { responseState: allStates.responseState },
+          });
+        }
       } catch (error) {
         console.error(error);
+      } finally {
+        setOtherEditions(allStates.responseState.otherEditions ?? []);
       }
     };
 
@@ -81,7 +93,7 @@ function OtherEditions({
             allStates={allStates}
             allActions={allActions}
             allDispatches={allDispatches}
-            volumes={allStates.responseState.otherEditions ?? []}
+            volumes={allStates.responseState.otherEditions ?? otherEditions}
           />
         </Suspense>
       </ErrorBoundary>

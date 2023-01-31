@@ -1,12 +1,13 @@
+import { Text } from "@mantine/core";
 import axios from "axios";
-import { useEffect, Fragment, Suspense } from "react";
+import { Fragment, Suspense, useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
+
 import { useWindowSize } from "../../hooks/useWindowSize";
-import { AllStates, AllActions, AllDispatches } from "../../types";
+import { AllActions, AllDispatches, AllStates } from "../../types";
 import { insertCustomId } from "../../utils";
 import DisplayGeneric from "../displayGeneric";
 import { MyPagination } from "../pagination";
-import { Text } from "@mantine/core";
 
 type PublisherCollectionProps = {
   children?: React.ReactNode;
@@ -28,20 +29,12 @@ function PublisherCollection({
   const { width = 0 } = useWindowSize();
 
   useEffect(() => {
-    const fetchOtherPublisherVolumes = async () => {
+    const fetchPublisherVolumes = async () => {
       console.log("publisher:", selectedVolume?.volumeInfo.publisher);
       try {
         const fetchUrlWithPublisher = `https://www.googleapis.com/books/v1/volumes?q=${allStates.responseState.selectedAuthor}+inpublisher:${selectedVolume?.volumeInfo.publisher}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
 
-        allStates.responseState.fetchUrl = fetchUrlWithPublisher;
-
         const { data } = await axios.get(fetchUrlWithPublisher);
-
-        console.log(
-          "fetchUrl from publisherCollection: ",
-          allStates.responseState.fetchUrl,
-        );
-        console.log("data: ", data);
 
         const itemsWithCustomId = insertCustomId(data.items ?? []);
 
@@ -55,7 +48,7 @@ function PublisherCollection({
       }
     };
 
-    fetchOtherPublisherVolumes();
+    fetchPublisherVolumes();
   }, []);
   return (
     <Fragment>

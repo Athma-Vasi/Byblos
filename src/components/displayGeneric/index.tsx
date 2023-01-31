@@ -8,7 +8,9 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { Fragment, useState } from "react";
+import localforage from "localforage";
+import { Fragment, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
@@ -31,25 +33,52 @@ function DisplayGeneric({
   allDispatches,
 }: DisplayGenericProps) {
   const { width = 0 } = useWindowSize();
+  const navigate = useNavigate();
 
   const [modalOpened, setModalOpened] = useState(false);
   const [modalSrc, setModalSrc] = useState("");
   const [modalAlt, setModalAlt] = useState("");
+  const [localForageFallback, setLocalForageFallback] = useState<VolumeWithCustomId[]>(
+    [],
+  );
 
-  const navigate = useNavigate();
+  console.log("volumes from displayGeneric: ", volumes);
 
-  function handleTitleClick(volume: VolumeWithCustomId) {
+  useEffect(() => {
+    const fetchLocalStorageFallback = async () => {
+      try {
+        localforage.getItem<VolumeWithCustomId[]>("localForageFallback").then((value) => {
+          console.log("value from displayGeneric: ", value);
+          if (value) {
+            setLocalForageFallback(value);
+          }
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchLocalStorageFallback();
+  }, []);
+
+  async function handleTitleClick(volume: VolumeWithCustomId) {
     allStates.responseState.activePage = 1;
     allStates.responseState.searchTerm = volume.volumeInfo.title;
     allStates.responseState.selectedVolume = volume;
     allStates.responseState.selectedAuthor = volume.volumeInfo.authors?.[0] ?? "";
     allStates.responseState.selectedPublisher = volume.volumeInfo.publisher ?? "";
-    allDispatches.responseDispatch({
-      type: allActions.responseActions.setAll,
-      payload: { responseState: allStates.responseState },
-    });
 
-    navigate(`/home/displayVolume/${volume.customId}`);
+    try {
+      localforage.setItem("responseState", allStates.responseState);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      allDispatches.responseDispatch({
+        type: allActions.responseActions.setAll,
+        payload: { responseState: allStates.responseState },
+      });
+    }
+
+    // navigate(`/home/displayVolume/${volume.customId}`);
   }
 
   return (
@@ -89,7 +118,9 @@ function DisplayGeneric({
                   handleTitleClick(item);
                 }}
               >
-                {item.volumeInfo.title}
+                <Link to={`/home/displayVolume/${item.customId}`}>
+                  {item.volumeInfo.title}
+                </Link>
               </Title>
               {item.volumeInfo.authors?.map((author) => (
                 <Text key={author} style={{ cursor: "pointer" }}>
@@ -97,7 +128,11 @@ function DisplayGeneric({
                 </Text>
               ))}
               <Text>
-                {new Date(item.volumeInfo.publishedDate).getFullYear().toString()}
+                {Number.isNaN(
+                  new Date(item.volumeInfo.publishedDate).getFullYear().toString(),
+                )
+                  ? "Date unavailable"
+                  : new Date(item.volumeInfo.publishedDate).getFullYear().toString()}
               </Text>
               <Spoiler
                 maxHeight={100}
@@ -105,9 +140,7 @@ function DisplayGeneric({
                 hideLabel="Hide"
                 transitionDuration={382}
               >
-                <Highlight highlight={allStates.responseState.searchTerm.split(" ")}>
-                  {item.volumeInfo.description ?? "Description unavailable"}
-                </Highlight>
+                <Text>{item.volumeInfo.description ?? "Description unavailable"}</Text>
               </Spoiler>
             </Grid.Col>
           </Grid>

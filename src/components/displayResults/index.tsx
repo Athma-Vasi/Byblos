@@ -10,7 +10,8 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { Fragment, useState } from "react";
+import localforage from "localforage";
+import { Fragment, useEffect, useState } from "react";
 import { RiHandbagLine } from "react-icons/ri";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -20,6 +21,7 @@ import {
   AllDispatches,
   AllStates,
   ApiResponseVolume,
+  ResponseState,
   Volume,
   VolumeWithCustomId,
 } from "../../types";
@@ -43,9 +45,27 @@ function DisplayResults({
   allDispatches,
 }: DisplayResultsProps) {
   const { page } = useParams();
+  const [localForageFallback, setLocalForageFallback] = useState<VolumeWithCustomId[]>(
+    [],
+  );
 
-  const navigate = useNavigate();
-  //required because id from google books api is not unique
+  useEffect(() => {
+    const fetchLocalStorageFallback = async () => {
+      try {
+        localforage.getItem<ResponseState>("responseState").then((value) => {
+          console.log("value from displayResults: ", value);
+          if (value) {
+            setLocalForageFallback(insertCustomId(value.searchResults?.items ?? []));
+          }
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchLocalStorageFallback();
+  }, []);
+
   const modifiedSearchResults = insertCustomId(
     allStates.responseState.searchResults?.items ?? [],
   );
@@ -64,7 +84,9 @@ function DisplayResults({
         allStates={allStates}
         allActions={allActions}
         allDispatches={allDispatches}
-        volumes={modifiedSearchResults}
+        volumes={
+          modifiedSearchResults.length === 0 ? localForageFallback : modifiedSearchResults
+        }
       />
       {Array.from({ length: 5 }).map((_, i) => (
         <Space key={i} h="lg" />
