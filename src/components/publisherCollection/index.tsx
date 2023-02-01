@@ -40,10 +40,8 @@ function PublisherCollection({
 
   useEffect(() => {
     const fetchPublisherVolumes = async () => {
-      console.log("publisher:", selectedVolume?.volumeInfo.publisher);
       try {
         const fetchUrlWithPublisher = `https://www.googleapis.com/books/v1/volumes?q=${allStates.responseState.selectedAuthor}+inpublisher:${selectedVolume?.volumeInfo.publisher}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
-        console.log("fetchUrlWithPublisher:", fetchUrlWithPublisher);
 
         const { data } = await axios.get(fetchUrlWithPublisher);
 

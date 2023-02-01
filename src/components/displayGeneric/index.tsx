@@ -10,7 +10,7 @@ import {
 } from "@mantine/core";
 import localforage from "localforage";
 import { Fragment, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
@@ -41,6 +41,7 @@ function DisplayGeneric({
 }: DisplayGenericProps) {
   const { width = 0 } = useWindowSize();
   const navigate = useNavigate();
+  const activePage = allStates.responseState.activePage;
 
   const [modalOpened, setModalOpened] = useState(false);
   const [modalSrc, setModalSrc] = useState("");
@@ -48,8 +49,6 @@ function DisplayGeneric({
   const [localForageFallback, setLocalForageFallback] = useState<VolumeWithCustomId[]>(
     [],
   );
-
-  console.log("volumes from displayGeneric: ", volumes);
 
   useEffect(() => {
     const fetchLocalStorageFallback = async () => {
@@ -64,16 +63,18 @@ function DisplayGeneric({
         const value = await localforage.getItem<ResponseState["searchResults"]>(
           "byblos-searchResults",
         );
-        console.log("value from displayGeneric: ", value);
         if (value) {
           setLocalForageFallback(insertCustomId(value?.items ?? []));
         }
       } catch (error) {
-        console.error(error);
+        console.error(
+          "Error in displayGeneric useEffect  fetchLocalStorageFallback() ;: ",
+          error,
+        );
       }
     };
     fetchLocalStorageFallback();
-  }, []);
+  }, [activePage]);
 
   async function handleTitleClick(volume: VolumeWithCustomId) {
     allStates.responseState.activePage = 1;

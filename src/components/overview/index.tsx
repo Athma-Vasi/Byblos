@@ -31,7 +31,6 @@ function Overview({ children, allStates, allActions, allDispatches }: OverviewPr
         localforage
           .getItem<ResponseState["selectedVolume"]>("byblos-selectedVolume")
           .then((value) => {
-            console.log("value from overview: ", value);
             if (value) {
               setSelectedVolumeForage(value);
             }

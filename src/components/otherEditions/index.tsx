@@ -42,7 +42,6 @@ function OtherEditions({
 
   useEffect(() => {
     const fetchOtherEditions = async () => {
-      console.log("title:", selectedVolume?.volumeInfo.title);
       try {
         const fetchUrlWithName = `https://www.googleapis.com/books/v1/volumes?q=${
           selectedVolume?.volumeInfo.title ?? otherEditions[0].volumeInfo.title
@@ -50,7 +49,6 @@ function OtherEditions({
           selectedAuthor ?? otherEditions[0].volumeInfo.authors[0]
         }&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
 
-        console.log("fetchUrlWithName from otherEditions:", fetchUrlWithName);
         const { data } = await axios.get(fetchUrlWithName);
 
         const itemsWithCustomId = insertCustomId(data.items ?? []);
@@ -95,20 +93,8 @@ function OtherEditions({
   return (
     <div>
       <Title order={3}>Other editions</Title>
-      <ErrorBoundary
-        fallback={
-          <Text>
-            {`Unable to display other editions of ${allStates.responseState.selectedVolume}`}
-          </Text>
-        }
-      >
-        <Suspense
-          fallback={
-            <Text>
-              {`Loading other editions of ${allStates.responseState.selectedVolume}`}
-            </Text>
-          }
-        >
+      <ErrorBoundary fallback={<Text>{`Unable to display other editions`}</Text>}>
+        <Suspense fallback={<Text>{`Loading other editions`}</Text>}>
           <DisplayGeneric
             allStates={allStates}
             allActions={allActions}

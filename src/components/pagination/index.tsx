@@ -2,7 +2,7 @@ import { Button, Center, Grid, NumberInput, Space, Text } from "@mantine/core";
 import axios from "axios";
 import localforage from "localforage";
 import { Fragment, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
@@ -10,16 +10,22 @@ import { AllActions, AllDispatches, AllStates, ResponseState } from "../../types
 
 type MyPaginationProps = {
   children?: React.ReactNode;
+  parentPath: string;
   allStates: AllStates;
   allActions: AllActions;
   allDispatches: AllDispatches;
 };
 
 function MyPagination({
+  parentPath,
   allStates: { responseState },
   allActions: { responseActions },
   allDispatches: { responseDispatch },
 }: MyPaginationProps) {
+  const { page } = useParams();
+  console.log("pagination page params : ", page);
+
+  const navigate = useNavigate();
   const { width = 0 } = useWindowSize();
   const { searchTerm, searchResults, fetchUrl, activePage, resultsPerPage } =
     responseState;
@@ -62,12 +68,77 @@ function MyPagination({
 
   //   fetchItemsData();
   // }, []);
+  useEffect(() => {
+    const onBackButtonEvent = async (e: PopStateEvent) => {
+      e.preventDefault();
+
+      try {
+        localforage
+          .getItem<ResponseState["activePage"]>("byblos-activePage")
+          .then((value) => {
+            if (value) {
+              if (value === 1) return;
+              responseState.activePage = value - 1;
+              console.log("pagination prevButton: ", responseState.activePage);
+            }
+          });
+
+        localforage
+          .setItem("byblos-activePage", responseState.activePage)
+          .then((value) => {
+            responseDispatch({
+              type: responseActions.setActivePage,
+              payload: { responseState },
+            });
+            window.scrollTo(0, 0);
+            navigate(`${value - 1}`);
+          });
+      } catch (error) {
+        console.error("Error in pagination prevBttnClick:", error);
+      }
+    };
+
+    const onForwardButtonEvent = async (e: PopStateEvent) => {
+      e.preventDefault();
+
+      try {
+        localforage
+          .getItem<ResponseState["activePage"]>("byblos-activePage")
+          .then((value) => {
+            if (value) {
+              if (value === 1) return;
+              responseState.activePage = value - 1;
+              console.log("pagination prevButton: ", responseState.activePage);
+            }
+          });
+
+        localforage
+          .setItem("byblos-activePage", responseState.activePage)
+          .then((value) => {
+            responseDispatch({
+              type: responseActions.setActivePage,
+              payload: { responseState },
+            });
+            window.scrollTo(0, 0);
+            navigate(`${value - 1}`);
+          });
+      } catch (error) {
+        console.error("Error in pagination prevBttnClick:", error);
+      }
+    };
+
+    window.addEventListener("popstate", onBackButtonEvent);
+    window.addEventListener("popstate", onForwardButtonEvent);
+
+    return () => {
+      window.removeEventListener("popstate", onBackButtonEvent);
+      window.removeEventListener("popstate", onForwardButtonEvent);
+    };
+  }, []);
 
   //this is only to be used when the page changes
   useEffect(() => {
     if (searchTerm && fetchUrl) {
-      console.log("activePage: ", activePage);
-
       const fetchUsingStartIndex = async () => {
         const [first, ...rest] = fetchUrl.split("&");
         const startIndexAddedToFetchUrl = `${first}&startIndex=${startIndex}&${rest.join(
@@ -89,9 +160,8 @@ function MyPagination({
             "byblos-searchResults",
             responseState.searchResults,
           );
-          console.log("pagination useEffect: ", data);
         } catch (error) {
-          console.error(error);
+          console.error("Error in pagination useEffect - fetchUsingStartIndex:", error);
         } finally {
           responseDispatch({
             type: responseActions.setAll,
@@ -131,20 +201,21 @@ function MyPagination({
         .then((value) => {
           if (value) {
             if (value === 1) return;
-            console.log("pagination prevButton: ", value);
             responseState.activePage = value - 1;
+            console.log("pagination prevButton: ", responseState.activePage);
           }
         });
 
-      localforage.setItem("byblos-activePage", responseState.activePage).then((_) => {
+      localforage.setItem("byblos-activePage", responseState.activePage).then((value) => {
         responseDispatch({
           type: responseActions.setActivePage,
           payload: { responseState },
         });
         window.scrollTo(0, 0);
+        navigate(`${value - 1}`);
       });
     } catch (error) {
-      console.error(error);
+      console.error("Error in pagination prevBttnClick:", error);
     }
   }
 
@@ -161,41 +232,26 @@ function MyPagination({
     // window.scrollTo(0, 0);
 
     try {
-      // localforage.getItem<ResponseState>("responseState").then((value) => {
-      //   if (value) {
-      //     if (value.activePage === numberOfPages) return;
-      //     console.log("pagination nextButton: ", value);
-      //     responseState.activePage = value.activePage + 1;
-      //   }
-      // });
-
-      // localforage.setItem("responseState", responseState).then((_) => {
-      //   responseDispatch({
-      //     type: responseActions.setActivePage,
-      //     payload: { responseState },
-      //   });
-      //   scrollTo(0, 0);
-      // });
-
       localforage
         .getItem<ResponseState["activePage"]>("byblos-activePage")
         .then((value) => {
           if (value) {
             if (value === numberOfPages) return;
-            console.log("pagination nextButton: ", value);
             responseState.activePage = value + 1;
+            console.log("pagination nextButton: ", responseState.activePage);
           }
         });
 
-      localforage.setItem("byblos-activePage", responseState.activePage).then((_) => {
+      localforage.setItem("byblos-activePage", responseState.activePage).then((value) => {
         responseDispatch({
           type: responseActions.setActivePage,
           payload: { responseState },
         });
         window.scrollTo(0, 0);
+        navigate(`${value + 1}`);
       });
     } catch (error) {
-      console.error(error);
+      console.error("Error in pagination nextBttnClick:", error);
     }
   }
 
@@ -218,7 +274,7 @@ function MyPagination({
         window.scrollTo(0, 0);
       });
     } catch (error) {
-      console.error("MyPagination component error", error);
+      console.error("pagination jumpBttn error", error);
     } finally {
       responseDispatch({
         type: responseActions.setActivePage,

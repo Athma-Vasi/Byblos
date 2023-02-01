@@ -55,7 +55,6 @@ function DisplayResults({
         localforage
           .getItem<ResponseState["searchResults"]>("byblos-searchResults")
           .then((value) => {
-            console.log("value from displayResults: ", value);
             if (value) {
               setLocalForageFallback(insertCustomId(value?.items ?? []));
             }
@@ -66,7 +65,7 @@ function DisplayResults({
     };
 
     fetchLocalStorageFallback();
-  }, []);
+  }, [allStates.responseState.searchResults]);
 
   const modifiedSearchResults = insertCustomId(
     allStates.responseState.searchResults?.items ?? [],
@@ -94,6 +93,7 @@ function DisplayResults({
         <Space key={i} h="lg" />
       ))}
       <MyPagination
+        parentPath="/home/displayResults"
         allStates={allStates}
         allActions={allActions}
         allDispatches={allDispatches}

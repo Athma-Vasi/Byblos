@@ -74,7 +74,6 @@ function AdvancedSearch({
     );
 
     try {
-      console.log("advancedSearch searchStr: ", searchStr);
       await fetchSearchResults(searchStr);
       //first clear localforage
       await localforage.clear();

@@ -32,7 +32,6 @@ function AuthorCollection({
 
   useEffect(() => {
     const fetchAuthorCollection = async () => {
-      console.log("author:", selectedVolume?.volumeInfo.authors[0]);
       try {
         const fetchUrlWithAuthor = `https://www.googleapis.com/books/v1/volumes?q=${allStates.responseState.selectedAuthor}+inauthor:${selectedVolume?.volumeInfo.authors[0]}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
 
