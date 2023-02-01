@@ -23,49 +23,45 @@ function MyPagination({
   const { width = 0 } = useWindowSize();
   const { searchTerm, searchResults, fetchUrl, activePage, resultsPerPage } =
     responseState;
-  const navigate = useNavigate();
 
   const totalItems = searchResults?.totalItems ?? 0;
   console.log("totalItems: ", totalItems);
+
   const numberOfPages = Math.ceil(totalItems / Number(resultsPerPage));
   console.log("numberOfPages: ", numberOfPages);
-  //this index is only evaluated when the page changes; on initial render, it is not used
+
   const startIndex = activePage * Number(resultsPerPage) - Number(resultsPerPage);
   console.log("startIndex: ", startIndex);
 
   //
+  //
   // const [numberOfPages, setNumberOfPages] = useState(0);
   // const [startIndex, setStartIndex] = useState(0);
-  // const [totalItems, setTotalItems] = useState(0);
 
-  // //fetches items from localForage
   // useEffect(() => {
   //   const fetchItemsData = async () => {
   //     try {
-  //       localforage.getItem<ResponseState>("responseState").then((value) => {
-  //         if (value) {
-  //           setTotalItems(value.searchResults?.totalItems ?? 0);
-  //           setNumberOfPages(
-  //             Math.ceil((value.searchResults?.totalItems ?? 0) / Number(resultsPerPage)),
-  //           );
-  //           setStartIndex(
-  //             value.activePage * Number(resultsPerPage) - Number(resultsPerPage),
-  //           );
-  //         }
-
-  //         console.group("pagination: ");
-  //         console.log("totalItems: ", totalItems);
-  //         console.log("numberOfPages: ", numberOfPages);
-  //         console.log("startIndex: ", startIndex);
-  //         console.groupEnd();
-  //       });
+  //       localforage
+  //         .getItem<ResponseState["searchResults"]>("byblos-searchResults")
+  //         .then((value) => {
+  //           console.log("value from pagination: ", value);
+  //           if (value) {
+  //             setNumberOfPages(Math.ceil(value.totalItems / Number(resultsPerPage)));
+  //             setStartIndex(activePage * Number(resultsPerPage) - Number(resultsPerPage));
+  //           }
+  //         });
   //     } catch (error) {
   //       console.error(error);
+  //     } finally {
+  //       responseDispatch({
+  //         type: responseActions.setAll,
+  //         payload: { responseState },
+  //       });
   //     }
   //   };
 
   //   fetchItemsData();
-  // }, [activePage]);
+  // }, []);
 
   //this is only to be used when the page changes
   useEffect(() => {
@@ -85,9 +81,15 @@ function MyPagination({
           responseState.searchResults = data;
 
           //save the data to localForage
-          localforage.setItem("responseState", responseState).then((value) => {
-            console.log("pagination useEffect: ", value);
-          });
+          localforage.setItem<ResponseState["activePage"]>(
+            "byblos-activePage",
+            responseState.activePage,
+          );
+          localforage.setItem<ResponseState["searchResults"]>(
+            "byblos-searchResults",
+            responseState.searchResults,
+          );
+          console.log("pagination useEffect: ", data);
         } catch (error) {
           console.error(error);
         } finally {
@@ -107,32 +109,39 @@ function MyPagination({
   }, [activePage]);
 
   async function handlePrevPageBttnClick() {
-    // event: MouseEvent<HTMLButtonElement, MouseEvent>,
-    // if (activePage === 1) return;
-    // responseState.activePage = activePage - 1;
-    // responseDispatch({
-    //   type: responseActions.setActivePage,
-    //   payload: { responseState },
-    // });
-
-    // //scroll to top of page
-    // window.scrollTo(0, 0);
-
     try {
-      localforage.getItem<ResponseState>("responseState").then((value) => {
-        if (value) {
-          if (value.activePage === 1) return;
-          console.log("pagination prevButton: ", value);
-          responseState.activePage = value.activePage - 1;
-          responseDispatch({
-            type: responseActions.setActivePage,
-            payload: { responseState },
-          });
-        }
-      });
+      // localforage.getItem<ResponseState>("responseState").then((value) => {
+      //   if (value) {
+      //     if (value.activePage === 1) return;
+      //     console.log("pagination prevButton: ", value);
+      //     responseState.activePage = value.activePage - 1;
+      //     responseDispatch({
+      //       type: responseActions.setActivePage,
+      //       payload: { responseState },
+      //     });
+      //   }
+      // });
 
-      localforage.setItem("responseState", responseState).then((_) => {
-        scrollTo(0, 0);
+      // localforage.setItem("responseState", responseState).then((_) => {
+      //   scrollTo(0, 0);
+      // });
+
+      localforage
+        .getItem<ResponseState["activePage"]>("byblos-activePage")
+        .then((value) => {
+          if (value) {
+            if (value === 1) return;
+            console.log("pagination prevButton: ", value);
+            responseState.activePage = value - 1;
+          }
+        });
+
+      localforage.setItem("byblos-activePage", responseState.activePage).then((_) => {
+        responseDispatch({
+          type: responseActions.setActivePage,
+          payload: { responseState },
+        });
+        window.scrollTo(0, 0);
       });
     } catch (error) {
       console.error(error);
@@ -152,20 +161,38 @@ function MyPagination({
     // window.scrollTo(0, 0);
 
     try {
-      localforage.getItem<ResponseState>("responseState").then((value) => {
-        if (value) {
-          if (value.activePage === numberOfPages) return;
-          console.log("pagination nextButton: ", value);
-          responseState.activePage = value.activePage + 1;
-        }
-      });
+      // localforage.getItem<ResponseState>("responseState").then((value) => {
+      //   if (value) {
+      //     if (value.activePage === numberOfPages) return;
+      //     console.log("pagination nextButton: ", value);
+      //     responseState.activePage = value.activePage + 1;
+      //   }
+      // });
 
-      localforage.setItem("responseState", responseState).then((_) => {
+      // localforage.setItem("responseState", responseState).then((_) => {
+      //   responseDispatch({
+      //     type: responseActions.setActivePage,
+      //     payload: { responseState },
+      //   });
+      //   scrollTo(0, 0);
+      // });
+
+      localforage
+        .getItem<ResponseState["activePage"]>("byblos-activePage")
+        .then((value) => {
+          if (value) {
+            if (value === numberOfPages) return;
+            console.log("pagination nextButton: ", value);
+            responseState.activePage = value + 1;
+          }
+        });
+
+      localforage.setItem("byblos-activePage", responseState.activePage).then((_) => {
         responseDispatch({
           type: responseActions.setActivePage,
           payload: { responseState },
         });
-        scrollTo(0, 0);
+        window.scrollTo(0, 0);
       });
     } catch (error) {
       console.error(error);
@@ -181,16 +208,23 @@ function MyPagination({
     if (pageToJumpTo < 1 || pageToJumpTo > numberOfPages) return;
 
     responseState.activePage = pageToJumpTo;
-    responseDispatch({
-      type: responseActions.setActivePage,
-      payload: { responseState },
-    });
 
-    //scroll to top of page
-    window.scrollTo(0, 0);
+    try {
+      // localforage.setItem("responseState", responseState).then((_) => {
+      //   window.scrollTo(0, 0);
+      // });
 
-    //navigate to the page
-    // navigate(`/home/displayResults/${activePage}`);
+      localforage.setItem("byblos-activePage", responseState.activePage).then((_) => {
+        window.scrollTo(0, 0);
+      });
+    } catch (error) {
+      console.error("MyPagination component error", error);
+    } finally {
+      responseDispatch({
+        type: responseActions.setActivePage,
+        payload: { responseState },
+      });
+    }
   }
 
   return (

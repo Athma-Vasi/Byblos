@@ -44,18 +44,38 @@ function OtherEditions({
     const fetchOtherEditions = async () => {
       console.log("title:", selectedVolume?.volumeInfo.title);
       try {
-        const fetchUrlWithName = `https://www.googleapis.com/books/v1/volumes?q=${selectedVolume?.volumeInfo.title}+inauthor:${selectedAuthor}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
+        const fetchUrlWithName = `https://www.googleapis.com/books/v1/volumes?q=${
+          selectedVolume?.volumeInfo.title ?? otherEditions[0].volumeInfo.title
+        }+inauthor:${
+          selectedAuthor ?? otherEditions[0].volumeInfo.authors[0]
+        }&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
 
+        console.log("fetchUrlWithName from otherEditions:", fetchUrlWithName);
         const { data } = await axios.get(fetchUrlWithName);
 
         const itemsWithCustomId = insertCustomId(data.items ?? []);
 
         allStates.responseState.otherEditions = itemsWithCustomId;
+        allStates.responseState.searchResults = data;
+        allStates.responseState.fetchUrl = fetchUrlWithName;
 
         try {
-          localforage.setItem<ResponseState>("responseState", allStates.responseState);
+          localforage.setItem<ResponseState["otherEditions"]>(
+            "byblos-otherEditions",
+            allStates.responseState.otherEditions,
+          );
+
+          localforage.setItem<ResponseState["searchResults"]>(
+            "byblos-searchResults",
+            allStates.responseState.searchResults,
+          );
+
+          localforage.setItem<ResponseState["fetchUrl"]>(
+            "byblos-fetchUrl",
+            allStates.responseState.fetchUrl,
+          );
         } catch (error) {
-          console.error(error);
+          console.error("Error setting otherEditions to localforage ", error);
         } finally {
           allDispatches.responseDispatch({
             type: allActions.responseActions.setAll,
@@ -63,7 +83,7 @@ function OtherEditions({
           });
         }
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching other editions", error);
       } finally {
         setOtherEditions(allStates.responseState.otherEditions ?? []);
       }

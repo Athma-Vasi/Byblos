@@ -1,6 +1,7 @@
+import localforage from "localforage";
 import { v4 as uuidV4 } from "uuid";
 
-import { ApiResponseVolume, VolumeWithCustomId } from "../types";
+import { ApiResponseVolume, ResponseState, VolumeWithCustomId } from "../types";
 
 function insertCustomId(items: ApiResponseVolume["items"]): VolumeWithCustomId[] {
   return items.map((item) => {

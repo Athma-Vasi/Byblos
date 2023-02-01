@@ -52,12 +52,14 @@ function DisplayResults({
   useEffect(() => {
     const fetchLocalStorageFallback = async () => {
       try {
-        localforage.getItem<ResponseState>("responseState").then((value) => {
-          console.log("value from displayResults: ", value);
-          if (value) {
-            setLocalForageFallback(insertCustomId(value.searchResults?.items ?? []));
-          }
-        });
+        localforage
+          .getItem<ResponseState["searchResults"]>("byblos-searchResults")
+          .then((value) => {
+            console.log("value from displayResults: ", value);
+            if (value) {
+              setLocalForageFallback(insertCustomId(value?.items ?? []));
+            }
+          });
       } catch (error) {
         console.error(error);
       }

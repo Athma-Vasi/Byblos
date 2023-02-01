@@ -1,6 +1,6 @@
 import { AppShell, Space, useMantineTheme } from "@mantine/core";
-import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 
 import { MyFooter } from "../footer";
 import { MyHeader } from "../header";
@@ -18,7 +18,32 @@ type HomeProps = {
 
 function Home({ children, allStates, allActions, allDispatches }: HomeProps) {
   const theme = useMantineTheme();
+  const navigate = useNavigate();
   const [opened, setOpened] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener("beforeunload", alertUser);
+    return () => {
+      window.removeEventListener("beforeunload", alertUser);
+    };
+  }, []);
+  const alertUser = (e: BeforeUnloadEvent) => {
+    e.preventDefault();
+    e.returnValue = "";
+  };
+
+  // useEffect(() => {
+  //   if (window.performance.navigation.type === 1) {
+  //     window.onbeforeunload = function () {
+  //       return true;
+  //     };
+  //     navigate("/");
+  //   }
+
+  //   return () => {
+  //     window.onbeforeunload = null;
+  //   };
+  // }, [window.performance.navigation.type]);
 
   return (
     <AppShell

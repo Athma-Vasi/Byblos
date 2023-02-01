@@ -1,10 +1,11 @@
 import { Text } from "@mantine/core";
 import axios from "axios";
-import { Fragment, Suspense, useEffect } from "react";
+import localforage from "localforage";
+import { Fragment, Suspense, useEffect, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
-import { AllActions, AllDispatches, AllStates } from "../../types";
+import { AllActions, AllDispatches, AllStates, VolumeWithCustomId } from "../../types";
 import { insertCustomId } from "../../utils";
 import DisplayGeneric from "../displayGeneric";
 import { MyPagination } from "../pagination";
@@ -25,6 +26,7 @@ function AuthorCollection({
   const {
     responseState: { selectedVolume },
   } = allStates;
+  const [authorCollection, setAuthorCollection] = useState<VolumeWithCustomId[]>([]);
 
   const { width = 0 } = useWindowSize();
 
@@ -39,30 +41,59 @@ function AuthorCollection({
         const itemsWithCustomId = insertCustomId(data.items ?? []);
 
         allStates.responseState.authorCollection = itemsWithCustomId;
-        allDispatches.responseDispatch({
-          type: allActions.responseActions.setAll,
-          payload: { responseState: allStates.responseState },
-        });
+        allStates.responseState.searchResults = data;
+        allStates.responseState.fetchUrl = fetchUrlWithAuthor;
+
+        try {
+          localforage
+            .setItem("byblos-authorCollection", itemsWithCustomId)
+            .then((value) => {
+              setAuthorCollection(value);
+            });
+
+          localforage.setItem(
+            "byblos-searchResults",
+            allStates.responseState.searchResults,
+          );
+
+          localforage.setItem("byblos-fetchUrl", fetchUrlWithAuthor);
+        } catch (error) {
+          console.error("Error saving authorCollection to localforage: ", error);
+        } finally {
+          allDispatches.responseDispatch({
+            type: allActions.responseActions.setAll,
+            payload: { responseState: allStates.responseState },
+          });
+        }
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching author collection", error);
       }
     };
 
     fetchAuthorCollection();
   }, []);
+
   return (
     <Fragment>
       <ErrorBoundary
         fallback={
           <Text>
-            {`Unable to display other volumes of ${allStates.responseState.selectedAuthor}`}
+            {`Unable to display other volumes of ${
+              allStates.responseState.selectedAuthor ??
+              authorCollection[0]?.volumeInfo.authors[0] ??
+              ""
+            }`}
           </Text>
         }
       >
         <Suspense
           fallback={
             <Text>
-              {`Loading other volumes of ${allStates.responseState.selectedAuthor}`}
+              {`Loading other volumes of ${
+                allStates.responseState.selectedAuthor ??
+                authorCollection[0]?.volumeInfo.authors[0] ??
+                ""
+              }`}
             </Text>
           }
         >
@@ -70,7 +101,7 @@ function AuthorCollection({
             allStates={allStates}
             allActions={allActions}
             allDispatches={allDispatches}
-            volumes={allStates.responseState.authorCollection ?? []}
+            volumes={allStates.responseState.authorCollection ?? authorCollection}
           />
         </Suspense>
       </ErrorBoundary>

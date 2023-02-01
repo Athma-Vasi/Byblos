@@ -74,23 +74,64 @@ function AdvancedSearch({
     );
 
     try {
+      console.log("advancedSearch searchStr: ", searchStr);
       await fetchSearchResults(searchStr);
       //first clear localforage
       await localforage.clear();
 
-      await localforage.setItem("responseState", allStates.responseState).then(() => {
-        //state is updated after all responseState properties are set
-        responseDispatch({
-          type: responseActions.setAll,
-          payload: {
-            responseState: allStates.responseState,
-          },
-        });
+      // await localforage.setItem("responseState", allStates.responseState).then(() => {
+      //   //state is updated after all responseState properties are set
+      //
 
-        navigate(`/home/displayResults/${allStates.responseState.activePage}`);
-      });
+      //   navigate(`/home/displayResults/${allStates.responseState.activePage}`);
+      // });
+
+      await localforage.setItem("activePage", allStates.responseState.activePage);
+      await localforage.setItem(
+        "authorCollection",
+        allStates.responseState.authorCollection,
+      );
+      await localforage.setItem("byblos-fetchUrl", allStates.responseState.fetchUrl);
+      await localforage.setItem(
+        "byblos-otherEditions",
+        allStates.responseState.otherEditions,
+      );
+      await localforage.setItem(
+        "publisherCollection",
+        allStates.responseState.publisherCollection,
+      );
+      await localforage.setItem(
+        "byblos-resultsPerPage",
+        allStates.responseState.resultsPerPage,
+      );
+      await localforage.setItem(
+        "byblos-searchResults",
+        allStates.responseState.searchResults,
+      );
+      await localforage.setItem("byblos-searchTerm", allStates.responseState.searchTerm);
+      await localforage.setItem(
+        "byblos-selectedAuthor",
+        allStates.responseState.selectedAuthor,
+      );
+      await localforage.setItem(
+        "byblos-selectedPublisher",
+        allStates.responseState.selectedPublisher,
+      );
+      await localforage.setItem(
+        "byblos-selectedVolume",
+        allStates.responseState.selectedVolume,
+      );
     } catch (error) {
       console.error(error);
+    } finally {
+      responseDispatch({
+        type: responseActions.setAll,
+        payload: {
+          responseState: allStates.responseState,
+        },
+      });
+
+      navigate(`/home/displayResults/${allStates.responseState.activePage}`);
     }
   }
 

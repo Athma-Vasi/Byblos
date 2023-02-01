@@ -1,10 +1,17 @@
 import { Text } from "@mantine/core";
 import axios from "axios";
-import { Fragment, Suspense, useEffect } from "react";
+import localforage from "localforage";
+import { Fragment, Suspense, useEffect, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
-import { AllActions, AllDispatches, AllStates } from "../../types";
+import {
+  AllActions,
+  AllDispatches,
+  AllStates,
+  Volume,
+  VolumeWithCustomId,
+} from "../../types";
 import { insertCustomId } from "../../utils";
 import DisplayGeneric from "../displayGeneric";
 import { MyPagination } from "../pagination";
@@ -25,6 +32,9 @@ function PublisherCollection({
   const {
     responseState: { selectedVolume },
   } = allStates;
+  const [publisherCollection, setPublisherCollection] = useState<VolumeWithCustomId[]>(
+    [],
+  );
 
   const { width = 0 } = useWindowSize();
 
@@ -33,16 +43,37 @@ function PublisherCollection({
       console.log("publisher:", selectedVolume?.volumeInfo.publisher);
       try {
         const fetchUrlWithPublisher = `https://www.googleapis.com/books/v1/volumes?q=${allStates.responseState.selectedAuthor}+inpublisher:${selectedVolume?.volumeInfo.publisher}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
+        console.log("fetchUrlWithPublisher:", fetchUrlWithPublisher);
 
         const { data } = await axios.get(fetchUrlWithPublisher);
 
         const itemsWithCustomId = insertCustomId(data.items ?? []);
 
         allStates.responseState.publisherCollection = itemsWithCustomId;
-        allDispatches.responseDispatch({
-          type: allActions.responseActions.setAll,
-          payload: { responseState: allStates.responseState },
-        });
+        allStates.responseState.searchResults = data;
+        allStates.responseState.fetchUrl = fetchUrlWithPublisher;
+
+        try {
+          localforage
+            .setItem("byblos-publisherCollection", itemsWithCustomId)
+            .then((value) => {
+              setPublisherCollection(value);
+            });
+
+          localforage.setItem(
+            "byblos-searchResults",
+            allStates.responseState.searchResults,
+          );
+
+          localforage.setItem("byblos-fetchUrl", allStates.responseState.fetchUrl);
+        } catch (error) {
+          console.error("Error saving publisherCollection to localforage: ", error);
+        } finally {
+          allDispatches.responseDispatch({
+            type: allActions.responseActions.setAll,
+            payload: { responseState: allStates.responseState },
+          });
+        }
       } catch (error) {
         console.error(error);
       }
@@ -50,19 +81,28 @@ function PublisherCollection({
 
     fetchPublisherVolumes();
   }, []);
+
   return (
     <Fragment>
       <ErrorBoundary
         fallback={
           <Text>
-            {`Unable to display other editions of ${allStates.responseState.selectedVolume}`}
+            {`Unable to display other editions of ${
+              allStates.responseState.selectedVolume ??
+              publisherCollection[0]?.volumeInfo.title ??
+              ""
+            }`}
           </Text>
         }
       >
         <Suspense
           fallback={
             <Text>
-              {`Loading other editions of ${allStates.responseState.selectedVolume}`}
+              {`Loading other editions of ${
+                allStates.responseState.selectedVolume ??
+                publisherCollection[0]?.volumeInfo.title ??
+                ""
+              }`}
             </Text>
           }
         >
@@ -70,7 +110,7 @@ function PublisherCollection({
             allStates={allStates}
             allActions={allActions}
             allDispatches={allDispatches}
-            volumes={allStates.responseState.otherEditions ?? []}
+            volumes={allStates.responseState.otherEditions ?? publisherCollection}
           />
         </Suspense>
       </ErrorBoundary>

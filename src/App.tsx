@@ -1,11 +1,12 @@
 import { Text } from "@mantine/core";
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
 import { useReducer } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 
 import { Home } from "./components/home";
 import { Welcome } from "./components/welcome";
+import { useExitPrompt } from "./hooks/useExitPrompt";
 import { initialResponseState, responseActions, responseReducer } from "./state";
 import { ThemeProvider } from "./ThemeProvider";
 import { AllActions, AllDispatches } from "./types";

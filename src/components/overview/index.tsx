@@ -20,25 +20,119 @@ type OverviewProps = {
 
 function Overview({ children, allStates, allActions, allDispatches }: OverviewProps) {
   const { width = 0 } = useWindowSize();
+  const selectedVolume = allStates.responseState.selectedVolume;
 
-  const [selectedVolume, setSelectedVolume] = useState<VolumeWithCustomId | null>(null);
+  const [selectedVolumeForage, setSelectedVolumeForage] =
+    useState<VolumeWithCustomId | null>(null);
 
   useEffect(() => {
     const fetchSelectedVolumeFromLocalForage = async () => {
       try {
-        localforage.getItem<ResponseState>("responseState").then((value) => {
-          console.log("value from overview: ", value);
-          if (value) {
-            setSelectedVolume(value.selectedVolume);
-          }
-        });
+        localforage
+          .getItem<ResponseState["selectedVolume"]>("byblos-selectedVolume")
+          .then((value) => {
+            console.log("value from overview: ", value);
+            if (value) {
+              setSelectedVolumeForage(value);
+            }
+          });
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchSelectedVolumeFromLocalForage();
-  });
+  }, []);
+
+  const imageSrc =
+    selectedVolume?.volumeInfo.imageLinks?.thumbnail ??
+    selectedVolumeForage?.volumeInfo.imageLinks?.thumbnail ??
+    "";
+  const imageAlt = selectedVolume
+    ? selectedVolume?.volumeInfo.title
+      ? `thumbnail of ${selectedVolume?.volumeInfo.title}`
+      : "thumbnail unavailable"
+    : selectedVolumeForage?.volumeInfo.title
+    ? `thumbnail of ${selectedVolumeForage?.volumeInfo.title}`
+    : "thumbnail unavailable";
+
+  const industryIdentifiers = selectedVolume
+    ? selectedVolume?.volumeInfo.industryIdentifiers?.map((id) => (
+        <Text key={id.identifier}>
+          {id.type.includes("ISBN") ? `${id.type.split("_").join("-")}` : "Other"}:{" "}
+          {id.identifier.toLowerCase().includes(":")
+            ? id.identifier.split(":")[1]
+            : id.identifier.toLowerCase()}
+          <Space h="xs" />
+        </Text>
+      ))
+    : selectedVolumeForage?.volumeInfo.industryIdentifiers?.map((id) => (
+        <Text key={id.identifier}>
+          {id.type.includes("ISBN") ? `${id.type.split("_").join("-")}` : "Other"}:{" "}
+          {id.identifier.toLowerCase().includes(":")
+            ? id.identifier.split(":")[1]
+            : id.identifier.toLowerCase()}
+          <Space h="xs" />
+        </Text>
+      ));
+
+  const publishedDate = selectedVolume
+    ? Number.isNaN(
+        new Date(selectedVolume?.volumeInfo?.publishedDate ?? "").getFullYear(),
+      )
+      ? "Unavailable"
+      : new Date(selectedVolume?.volumeInfo?.publishedDate ?? "").getFullYear().toString()
+    : Number.isNaN(
+        new Date(selectedVolumeForage?.volumeInfo?.publishedDate ?? "").getFullYear(),
+      )
+    ? "Unavailable"
+    : new Date(selectedVolumeForage?.volumeInfo?.publishedDate ?? "")
+        .getFullYear()
+        .toString();
+
+  const publisher = selectedVolume
+    ? selectedVolume?.volumeInfo.publisher ?? "Unavailable"
+    : selectedVolumeForage?.volumeInfo.publisher ?? "Unavailable";
+
+  const pageCount = selectedVolume
+    ? selectedVolume?.volumeInfo.pageCount ?? "Unavailable"
+    : selectedVolumeForage?.volumeInfo.pageCount ?? "Unavailable";
+
+  const authors = selectedVolume
+    ? selectedVolume?.volumeInfo.authors?.join(", ") ?? "Unavailable"
+    : selectedVolumeForage?.volumeInfo.authors?.join(", ") ?? "Unavailable";
+
+  const printType = selectedVolume
+    ? selectedVolume?.volumeInfo.printType ?? "Unavailable"
+    : selectedVolumeForage?.volumeInfo.printType ?? "Unavailable";
+
+  const categories = selectedVolume
+    ? selectedVolume?.volumeInfo.categories?.join(", ") ?? "Unavailable"
+    : selectedVolumeForage?.volumeInfo.categories?.join(", ") ?? "Unavailable";
+
+  const language = selectedVolume
+    ? selectedVolume?.volumeInfo.language ?? "Unavailable"
+    : selectedVolumeForage?.volumeInfo.language ?? "Unavailable";
+
+  const averageRating = selectedVolume
+    ? selectedVolume?.volumeInfo.averageRating ?? "Unavailable"
+    : selectedVolumeForage?.volumeInfo.averageRating ?? "Unavailable";
+
+  const ratingsCount = selectedVolume
+    ? selectedVolume?.volumeInfo.ratingsCount ?? "Unavailable"
+    : selectedVolumeForage?.volumeInfo.ratingsCount ?? "Unavailable";
+
+  const maturityRating = selectedVolume
+    ? selectedVolume?.volumeInfo.maturityRating ?? "Unavailable"
+    : selectedVolumeForage?.volumeInfo.maturityRating ?? "Unavailable";
+
+  const amazonLink = selectedVolume
+    ? `https://www.amazon.ca/gp/search?index=books&keywords=${selectedVolume?.volumeInfo.industryIdentifiers[0].identifier}`
+    : `https://www.amazon.ca/gp/search?index=books&keywords=${selectedVolumeForage?.volumeInfo.industryIdentifiers[0].identifier}`;
+
+  const chaptersLink = selectedVolume
+    ? `https://www.chapters.indigo.ca/en-ca/books/product/${selectedVolume?.volumeInfo.industryIdentifiers[0].identifier}-item.html?s_campaign=Google_BookSearch_organic`
+    : `https://www.chapters.indigo.ca/en-ca/books/product/${selectedVolumeForage?.volumeInfo.industryIdentifiers[0].identifier}-item.html?s_campaign=Google_BookSearch_organic`;
 
   return (
     <div>
@@ -50,51 +144,27 @@ function Overview({ children, allStates, allActions, allDispatches }: OverviewPr
         <Grid columns={width < 576 ? 1 : 3}>
           <Grid.Col span={1}>
             <Card.Section p={width < 576 ? "sm" : "lg"}>
-              <Image
-                width={width < 576 ? "50%" : "75%"}
-                src={selectedVolume?.volumeInfo.imageLinks?.thumbnail}
-                alt={
-                  selectedVolume?.volumeInfo.title === undefined
-                    ? "thumbnail unavailable"
-                    : `thumbnail of ${selectedVolume?.volumeInfo.title}`
-                }
-              />
+              <Image width={width < 576 ? "50%" : "75%"} src={imageSrc} alt={imageAlt} />
             </Card.Section>
           </Grid.Col>
 
           <Grid.Col span={1}>
             <Card.Section p={width < 576 ? "sm" : "lg"}>
-              {selectedVolume?.volumeInfo.industryIdentifiers?.map((id) => (
-                <Text key={id.identifier}>
-                  {id.type.includes("ISBN") ? `${id.type.split("_").join("-")}` : "Other"}
-                  :{" "}
-                  {id.identifier.toLowerCase().includes(":")
-                    ? id.identifier.split(":")[1]
-                    : id.identifier.toLowerCase()}
-                  <Space h="xs" />
-                </Text>
-              ))}
+              {industryIdentifiers}
               <Text>
-                Published:
-                {Number.isNaN(
-                  new Date(selectedVolume?.volumeInfo?.publishedDate ?? "").getFullYear(),
-                )
-                  ? "Unavailable"
-                  : new Date(selectedVolume?.volumeInfo?.publishedDate ?? "")
-                      .getFullYear()
-                      .toString()}
+                Published: {publishedDate}
                 <Space h="xs" />
               </Text>
               <Text>
-                Publisher: {selectedVolume?.volumeInfo.publisher ?? "Unavailable"}
+                Publisher: {publisher}
                 <Space h="xs" />
               </Text>
               <Text>
-                Pages: {selectedVolume?.volumeInfo.pageCount ?? "Unavailable"}
+                Pages: {pageCount}
                 <Space h="xs" />
               </Text>
               <Text>
-                Author: {selectedVolume?.volumeInfo.authors?.join(", ") ?? "Unavailable"}
+                Author: {authors}
                 <Space h="xs" />
               </Text>
             </Card.Section>
@@ -102,34 +172,27 @@ function Overview({ children, allStates, allActions, allDispatches }: OverviewPr
           <Grid.Col span={1}>
             <Card.Section p={width < 576 ? "sm" : "lg"}>
               <Text>
-                Print type:{" "}
-                {selectedVolume?.volumeInfo.printType.toLowerCase() ?? "Unavailable"}
+                Print type: {printType}
                 <Space h="xs" />
               </Text>
               <Text>
-                Categories:{" "}
-                {selectedVolume?.volumeInfo.categories?.join(", ") ?? "Unavailable"}
+                Categories: {categories}
                 <Space h="xs" />
               </Text>
               <Text>
-                Language: {selectedVolume?.volumeInfo.language ?? "Unavailable"}
+                Language: {language}
                 <Space h="xs" />
               </Text>
               <Text>
-                Average rating:{" "}
-                {selectedVolume?.volumeInfo.averageRating ?? "Unavailable"}
+                Average rating: {averageRating}
                 <Space h="xs" />
               </Text>
               <Text>
-                Ratings count: {selectedVolume?.volumeInfo.ratingsCount ?? "Unavailable"}
+                Ratings count: {ratingsCount}
                 <Space h="xs" />
               </Text>
               <Text>
-                Maturity rating:{" "}
-                {selectedVolume?.volumeInfo.maturityRating
-                  .toLowerCase()
-                  .split("_")
-                  .join(" ") ?? "Unavailable"}
+                Maturity rating: {maturityRating}
                 <Space h="xs" />
               </Text>
             </Card.Section>
@@ -151,21 +214,13 @@ function Overview({ children, allStates, allActions, allDispatches }: OverviewPr
               <Container>
                 <AiOutlineAmazon size={50} />
                 <Text>Amazon.ca</Text>
-                <a
-                  href={`https://www.amazon.ca/gp/search?index=books&keywords=${selectedVolume?.volumeInfo.industryIdentifiers[0].identifier}`}
-                >
-                  Search Amazon.ca
-                </a>
+                <a href={amazonLink}>Search Amazon.ca</a>
               </Container>
 
               <Container>
                 <AiFillBook size={50} />
                 <Text>Chapters Indigo</Text>
-                <a
-                  href={`https://www.chapters.indigo.ca/en-ca/books/product/${selectedVolume?.volumeInfo.industryIdentifiers[0].identifier}-item.html?s_campaign=Google_BookSearch_organic`}
-                >
-                  Search Chapters Indigo
-                </a>
+                <a href={chaptersLink}>Search Chapters Indigo</a>
               </Container>
             </Card.Section>
           </Grid.Col>
