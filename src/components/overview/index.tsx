@@ -10,6 +10,7 @@ import {
   ResponseState,
   VolumeWithCustomId,
 } from "../../types";
+import { getLanguageFromCode } from "../../utils";
 
 type OverviewProps = {
   children?: React.ReactNode;
@@ -102,16 +103,23 @@ function Overview({ children, allStates, allActions, allDispatches }: OverviewPr
     : selectedVolumeForage?.volumeInfo.authors?.join(", ") ?? "Unavailable";
 
   const printType = selectedVolume
-    ? selectedVolume?.volumeInfo.printType ?? "Unavailable"
-    : selectedVolumeForage?.volumeInfo.printType ?? "Unavailable";
+    ? `${selectedVolume?.volumeInfo?.printType.slice(
+        0,
+        1,
+      )}${selectedVolume?.volumeInfo.printType.toLowerCase().slice(1)}` ?? "Unavailable"
+    : `${selectedVolumeForage?.volumeInfo?.printType.slice(
+        0,
+        1,
+      )}${selectedVolumeForage?.volumeInfo.printType.toLowerCase().slice(1)}` ??
+      "Unavailable";
 
   const categories = selectedVolume
     ? selectedVolume?.volumeInfo.categories?.join(", ") ?? "Unavailable"
     : selectedVolumeForage?.volumeInfo.categories?.join(", ") ?? "Unavailable";
 
   const language = selectedVolume
-    ? selectedVolume?.volumeInfo.language ?? "Unavailable"
-    : selectedVolumeForage?.volumeInfo.language ?? "Unavailable";
+    ? getLanguageFromCode(selectedVolume?.volumeInfo.language) ?? "Unavailable"
+    : getLanguageFromCode(selectedVolumeForage?.volumeInfo.language) ?? "Unavailable";
 
   const averageRating = selectedVolume
     ? selectedVolume?.volumeInfo.averageRating ?? "Unavailable"
@@ -122,12 +130,22 @@ function Overview({ children, allStates, allActions, allDispatches }: OverviewPr
     : selectedVolumeForage?.volumeInfo.ratingsCount ?? "Unavailable";
 
   const maturityRating = selectedVolume
-    ? selectedVolume?.volumeInfo.maturityRating.toLowerCase().split("_").join(" ") ??
-      "Unavailable"
-    : selectedVolumeForage?.volumeInfo.maturityRating
+    ? `${selectedVolume?.volumeInfo.maturityRating.slice(
+        0,
+        1,
+      )}${selectedVolume?.volumeInfo.maturityRating
         .toLowerCase()
         .split("_")
-        .join(" ") ?? "Unavailable";
+        .join(" ")
+        .slice(1)}` ?? "Unavailable"
+    : `${selectedVolumeForage?.volumeInfo.maturityRating.slice(
+        0,
+        1,
+      )}${selectedVolumeForage?.volumeInfo.maturityRating
+        .toLowerCase()
+        .split("_")
+        .join(" ")
+        .slice(1)}` ?? "Unavailable";
 
   const amazonLink = selectedVolume
     ? `https://www.amazon.ca/gp/search?index=books&keywords=${selectedVolume?.volumeInfo.industryIdentifiers[0].identifier}`
