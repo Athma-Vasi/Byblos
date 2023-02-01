@@ -3,6 +3,7 @@ import axios from "axios";
 import localforage from "localforage";
 import { Fragment, Suspense, useEffect, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
+import { useParams } from "react-router-dom";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
 import { AllActions, AllDispatches, AllStates, VolumeWithCustomId } from "../../types";
@@ -29,6 +30,7 @@ function AuthorCollection({
   const [authorCollection, setAuthorCollection] = useState<VolumeWithCustomId[]>([]);
 
   const { width = 0 } = useWindowSize();
+  const { volumeId } = useParams();
 
   useEffect(() => {
     const fetchAuthorCollection = async () => {
@@ -40,22 +42,19 @@ function AuthorCollection({
         const itemsWithCustomId = insertCustomId(data.items ?? []);
 
         allStates.responseState.authorCollection = itemsWithCustomId;
-        allStates.responseState.searchResults = data;
         allStates.responseState.fetchUrl = fetchUrlWithAuthor;
+        allStates.responseState.activePage = 1;
 
         try {
-          localforage
+          await localforage
             .setItem("byblos-authorCollection", itemsWithCustomId)
             .then((value) => {
               setAuthorCollection(value);
             });
 
-          localforage.setItem(
-            "byblos-searchResults",
-            allStates.responseState.searchResults,
-          );
+          await localforage.setItem("byblos-fetchUrl", fetchUrlWithAuthor);
 
-          localforage.setItem("byblos-fetchUrl", fetchUrlWithAuthor);
+          await localforage.setItem("byblos-activePage", 1);
         } catch (error) {
           console.error("Error saving authorCollection to localforage: ", error);
         } finally {
@@ -71,6 +70,10 @@ function AuthorCollection({
 
     fetchAuthorCollection();
   }, []);
+
+  const modifiedSearchResults = insertCustomId(
+    allStates.responseState.searchResults?.items ?? [],
+  );
 
   return (
     <Fragment>
@@ -100,12 +103,13 @@ function AuthorCollection({
             allStates={allStates}
             allActions={allActions}
             allDispatches={allDispatches}
-            volumes={allStates.responseState.authorCollection ?? authorCollection}
+            volumes={modifiedSearchResults ?? authorCollection}
           />
         </Suspense>
       </ErrorBoundary>
 
       <MyPagination
+        parentPath={`/home/displayVolume/${volumeId}/authorCollection/`}
         allStates={allStates}
         allActions={allActions}
         allDispatches={allDispatches}

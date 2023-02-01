@@ -1,33 +1,17 @@
-import {
-  Center,
-  Flex,
-  Grid,
-  Group,
-  Image,
-  Modal,
-  Space,
-  Spoiler,
-  Text,
-  Title,
-} from "@mantine/core";
+import { Space } from "@mantine/core";
 import localforage from "localforage";
 import { Fragment, useEffect, useState } from "react";
-import { RiHandbagLine } from "react-icons/ri";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-import { useWindowSize } from "../../hooks/useWindowSize";
 import {
   AllActions,
   AllDispatches,
   AllStates,
-  ApiResponseVolume,
   ResponseState,
-  Volume,
   VolumeWithCustomId,
 } from "../../types";
 import { insertCustomId } from "../../utils";
 import DisplayGeneric from "../displayGeneric";
-import { MyImageModal } from "../myImageModal";
 import { MyPagination } from "../pagination";
 import { Search } from "../search";
 
@@ -44,7 +28,7 @@ function DisplayResults({
   allActions,
   allDispatches,
 }: DisplayResultsProps) {
-  const { page } = useParams();
+  const { volumeId, page } = useParams();
   const [localForageFallback, setLocalForageFallback] = useState<VolumeWithCustomId[]>(
     [],
   );
@@ -52,7 +36,7 @@ function DisplayResults({
   useEffect(() => {
     const fetchLocalStorageFallback = async () => {
       try {
-        localforage
+        await localforage
           .getItem<ResponseState["searchResults"]>("byblos-searchResults")
           .then((value) => {
             if (value) {
@@ -93,7 +77,7 @@ function DisplayResults({
         <Space key={i} h="lg" />
       ))}
       <MyPagination
-        parentPath="/home/displayResults"
+        parentPath="/home/displayResults/"
         allStates={allStates}
         allActions={allActions}
         allDispatches={allDispatches}

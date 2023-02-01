@@ -3,15 +3,10 @@ import axios from "axios";
 import localforage from "localforage";
 import { Fragment, Suspense, useEffect, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
+import { useParams } from "react-router-dom";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
-import {
-  AllActions,
-  AllDispatches,
-  AllStates,
-  Volume,
-  VolumeWithCustomId,
-} from "../../types";
+import { AllActions, AllDispatches, AllStates, VolumeWithCustomId } from "../../types";
 import { insertCustomId } from "../../utils";
 import DisplayGeneric from "../displayGeneric";
 import { MyPagination } from "../pagination";
@@ -32,6 +27,8 @@ function PublisherCollection({
   const {
     responseState: { selectedVolume },
   } = allStates;
+  const { volumeId } = useParams();
+
   const [publisherCollection, setPublisherCollection] = useState<VolumeWithCustomId[]>(
     [],
   );
@@ -48,22 +45,21 @@ function PublisherCollection({
         const itemsWithCustomId = insertCustomId(data.items ?? []);
 
         allStates.responseState.publisherCollection = itemsWithCustomId;
-        allStates.responseState.searchResults = data;
         allStates.responseState.fetchUrl = fetchUrlWithPublisher;
+        allStates.responseState.activePage = 1;
 
         try {
-          localforage
+          await localforage
             .setItem("byblos-publisherCollection", itemsWithCustomId)
             .then((value) => {
               setPublisherCollection(value);
             });
 
-          localforage.setItem(
-            "byblos-searchResults",
-            allStates.responseState.searchResults,
+          await localforage.setItem("byblos-fetchUrl", allStates.responseState.fetchUrl);
+          await localforage.setItem(
+            "byblos-activePage",
+            allStates.responseState.activePage,
           );
-
-          localforage.setItem("byblos-fetchUrl", allStates.responseState.fetchUrl);
         } catch (error) {
           console.error("Error saving publisherCollection to localforage: ", error);
         } finally {
@@ -79,6 +75,10 @@ function PublisherCollection({
 
     fetchPublisherVolumes();
   }, []);
+
+  const modifiedSearchResults = insertCustomId(
+    allStates.responseState.searchResults?.items ?? [],
+  );
 
   return (
     <Fragment>
@@ -108,12 +108,13 @@ function PublisherCollection({
             allStates={allStates}
             allActions={allActions}
             allDispatches={allDispatches}
-            volumes={allStates.responseState.otherEditions ?? publisherCollection}
+            volumes={modifiedSearchResults ?? publisherCollection}
           />
         </Suspense>
       </ErrorBoundary>
 
       <MyPagination
+        parentPath={`/home/displayVolume/${volumeId}/publisherCollection/`}
         allStates={allStates}
         allActions={allActions}
         allDispatches={allDispatches}

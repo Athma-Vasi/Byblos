@@ -41,7 +41,7 @@ function DisplayGeneric({
 }: DisplayGenericProps) {
   const { width = 0 } = useWindowSize();
   const navigate = useNavigate();
-  const activePage = allStates.responseState.activePage;
+  const { volumeId, page } = useParams();
 
   const [modalOpened, setModalOpened] = useState(false);
   const [modalSrc, setModalSrc] = useState("");
@@ -53,13 +53,6 @@ function DisplayGeneric({
   useEffect(() => {
     const fetchLocalStorageFallback = async () => {
       try {
-        // localforage.getItem<ResponseState>("responseState").then((value) => {
-        //   console.log("value from displayGeneric: ", value);
-        //   if (value) {
-        //     setLocalForageFallback(insertCustomId(value.searchResults?.items ?? []));
-        //   }
-        // });
-
         const value = await localforage.getItem<ResponseState["searchResults"]>(
           "byblos-searchResults",
         );
@@ -68,13 +61,18 @@ function DisplayGeneric({
         }
       } catch (error) {
         console.error(
-          "Error in displayGeneric useEffect  fetchLocalStorageFallback() ;: ",
+          "Error in displayGeneric useEffect  fetchLocalStorageFallback(): ",
           error,
         );
       }
     };
+
     fetchLocalStorageFallback();
-  }, [activePage]);
+  }, [allStates.responseState.searchResults]);
+
+  const modifiedSearchResults = insertCustomId(
+    allStates.responseState.searchResults?.items ?? [],
+  );
 
   async function handleTitleClick(volume: VolumeWithCustomId) {
     allStates.responseState.activePage = 1;
@@ -84,32 +82,32 @@ function DisplayGeneric({
     allStates.responseState.selectedPublisher = volume.volumeInfo.publisher ?? "";
 
     try {
-      localforage.setItem<ResponseState["activePage"]>(
+      await localforage.setItem<ResponseState["activePage"]>(
         "byblos-activePage",
         allStates.responseState.activePage,
       );
 
-      localforage.setItem<ResponseState["searchTerm"]>(
+      await localforage.setItem<ResponseState["searchTerm"]>(
         "byblos-searchTerm",
         allStates.responseState.searchTerm,
       );
 
-      localforage.setItem<ResponseState["selectedVolume"]>(
+      await localforage.setItem<ResponseState["selectedVolume"]>(
         "byblos-selectedVolume",
         allStates.responseState.selectedVolume,
       );
 
-      localforage.setItem<ResponseState["selectedAuthor"]>(
+      await localforage.setItem<ResponseState["selectedAuthor"]>(
         "byblos-selectedAuthor",
         allStates.responseState.selectedAuthor,
       );
 
-      localforage.setItem<ResponseState["selectedPublisher"]>(
+      await localforage.setItem<ResponseState["selectedPublisher"]>(
         "byblos-selectedPublisher",
         allStates.responseState.selectedPublisher,
       );
     } catch (error) {
-      console.error(error);
+      console.error("Error in displayGeneric handleTitleClick(): ", error);
     } finally {
       allDispatches.responseDispatch({
         type: allActions.responseActions.setAll,

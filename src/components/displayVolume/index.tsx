@@ -1,9 +1,9 @@
-import { Collapse, Flex, NavLink, Menu } from "@mantine/core";
+import { Flex, Menu, NavLink } from "@mantine/core";
 import React, { useState } from "react";
 import { BsPersonLinesFill } from "react-icons/bs";
+import { BsMenuButtonFill } from "react-icons/bs";
 import { GrOverview } from "react-icons/gr";
 import { MdOutlinePublish } from "react-icons/md";
-import { BsMenuButtonFill } from "react-icons/bs";
 import { VscUngroupByRefType } from "react-icons/vsc";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -19,7 +19,7 @@ type DisplayVolumeProps = {
 };
 
 function DisplayVolume({ allStates, allActions, allDispatches }: DisplayVolumeProps) {
-  const { volumeId } = useParams();
+  const { volumeId, page } = useParams();
   const navigate = useNavigate();
   const { width = 0 } = useWindowSize();
 
@@ -136,7 +136,7 @@ function DisplayVolume({ allStates, allActions, allDispatches }: DisplayVolumePr
             </Menu.Item>
 
             <Menu.Item>
-              <Link to={`/home/displayVolume/${volumeId}/otherEditions`}>
+              <Link to={`/home/displayVolume/${volumeId}/otherEditions/${page}`}>
                 <NavLink
                   active={navLinkActive.otherEditions}
                   label="Other editions"

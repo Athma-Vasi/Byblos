@@ -204,7 +204,37 @@ export default function App() {
                     </Suspense>
                   </ErrorBoundary>
                 }
-              ></Route>
+              >
+                <Route
+                  index
+                  element={
+                    <ErrorBoundary fallback={<Text>Unable to fetch other editions</Text>}>
+                      <Suspense fallback={<Text>Loading other editions...</Text>}>
+                        <OtherEditions
+                          allStates={allStates}
+                          allActions={allActions}
+                          allDispatches={allDispatches}
+                        />
+                      </Suspense>
+                    </ErrorBoundary>
+                  }
+                ></Route>
+
+                <Route
+                  path=":page"
+                  element={
+                    <ErrorBoundary fallback={<Text>Unable to fetch other editions</Text>}>
+                      <Suspense fallback={<Text>Loading other editions...</Text>}>
+                        <OtherEditions
+                          allStates={allStates}
+                          allActions={allActions}
+                          allDispatches={allDispatches}
+                        />
+                      </Suspense>
+                    </ErrorBoundary>
+                  }
+                ></Route>
+              </Route>
 
               <Route
                 path="publisherCollection"
@@ -221,7 +251,41 @@ export default function App() {
                     </Suspense>
                   </ErrorBoundary>
                 }
-              ></Route>
+              >
+                <Route
+                  index
+                  element={
+                    <ErrorBoundary
+                      fallback={<Text>Unable to fetch publisher collection</Text>}
+                    >
+                      <Suspense fallback={<Text>Loading publisher collection...</Text>}>
+                        <PublisherCollection
+                          allStates={allStates}
+                          allActions={allActions}
+                          allDispatches={allDispatches}
+                        />
+                      </Suspense>
+                    </ErrorBoundary>
+                  }
+                ></Route>
+
+                <Route
+                  path=":page"
+                  element={
+                    <ErrorBoundary
+                      fallback={<Text>Unable to fetch publisher collection</Text>}
+                    >
+                      <Suspense fallback={<Text>Loading publisher collection...</Text>}>
+                        <PublisherCollection
+                          allStates={allStates}
+                          allActions={allActions}
+                          allDispatches={allDispatches}
+                        />
+                      </Suspense>
+                    </ErrorBoundary>
+                  }
+                ></Route>
+              </Route>
 
               <Route
                 path="authorCollection"
@@ -238,7 +302,41 @@ export default function App() {
                     </Suspense>
                   </ErrorBoundary>
                 }
-              ></Route>
+              >
+                <Route
+                  index
+                  element={
+                    <ErrorBoundary
+                      fallback={<Text>Unable to fetch author collection</Text>}
+                    >
+                      <Suspense fallback={<Text>Loading author collection...</Text>}>
+                        <AuthorCollection
+                          allStates={allStates}
+                          allActions={allActions}
+                          allDispatches={allDispatches}
+                        />
+                      </Suspense>
+                    </ErrorBoundary>
+                  }
+                ></Route>
+
+                <Route
+                  path=":page"
+                  element={
+                    <ErrorBoundary
+                      fallback={<Text>Unable to fetch author collection</Text>}
+                    >
+                      <Suspense fallback={<Text>Loading author collection...</Text>}>
+                        <AuthorCollection
+                          allStates={allStates}
+                          allActions={allActions}
+                          allDispatches={allDispatches}
+                        />
+                      </Suspense>
+                    </ErrorBoundary>
+                  }
+                ></Route>
+              </Route>
             </Route>
           </Route>
         </Routes>

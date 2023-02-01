@@ -22,8 +22,9 @@ function MyPagination({
   allActions: { responseActions },
   allDispatches: { responseDispatch },
 }: MyPaginationProps) {
-  const { page } = useParams();
+  const { page, volumeId } = useParams();
   console.log("pagination page params : ", page);
+  console.log("parent path", parentPath);
 
   const navigate = useNavigate();
   const { width = 0 } = useWindowSize();
@@ -68,22 +69,23 @@ function MyPagination({
 
   //   fetchItemsData();
   // }, []);
+
+  //handles browser back and forward button page navigation
   useEffect(() => {
-    const onBackButtonEvent = async (e: PopStateEvent) => {
-      e.preventDefault();
+    const onBackButtonEvent = async (event: PopStateEvent) => {
+      event.preventDefault();
 
       try {
-        localforage
+        await localforage
           .getItem<ResponseState["activePage"]>("byblos-activePage")
           .then((value) => {
             if (value) {
               if (value === 1) return;
               responseState.activePage = value - 1;
-              console.log("pagination prevButton: ", responseState.activePage);
             }
           });
 
-        localforage
+        await localforage
           .setItem("byblos-activePage", responseState.activePage)
           .then((value) => {
             responseDispatch({
@@ -91,28 +93,27 @@ function MyPagination({
               payload: { responseState },
             });
             window.scrollTo(0, 0);
-            navigate(`${value - 1}`);
+            navigate(`${parentPath}${value - 1}`);
           });
       } catch (error) {
-        console.error("Error in pagination prevBttnClick:", error);
+        console.error("Error in pagination browser back button click:", error);
       }
     };
 
-    const onForwardButtonEvent = async (e: PopStateEvent) => {
-      e.preventDefault();
+    const onForwardButtonEvent = async (event: PopStateEvent) => {
+      event.preventDefault();
 
       try {
-        localforage
+        await localforage
           .getItem<ResponseState["activePage"]>("byblos-activePage")
           .then((value) => {
             if (value) {
               if (value === 1) return;
               responseState.activePage = value - 1;
-              console.log("pagination prevButton: ", responseState.activePage);
             }
           });
 
-        localforage
+        await localforage
           .setItem("byblos-activePage", responseState.activePage)
           .then((value) => {
             responseDispatch({
@@ -120,10 +121,10 @@ function MyPagination({
               payload: { responseState },
             });
             window.scrollTo(0, 0);
-            navigate(`${value - 1}`);
+            navigate(`${parentPath}${value}`);
           });
       } catch (error) {
-        console.error("Error in pagination prevBttnClick:", error);
+        console.error("Error in pagination browser forward button click:", error);
       }
     };
 
@@ -152,16 +153,16 @@ function MyPagination({
           responseState.searchResults = data;
 
           //save the data to localForage
-          localforage.setItem<ResponseState["activePage"]>(
+          await localforage.setItem<ResponseState["activePage"]>(
             "byblos-activePage",
             responseState.activePage,
           );
-          localforage.setItem<ResponseState["searchResults"]>(
+          await localforage.setItem<ResponseState["searchResults"]>(
             "byblos-searchResults",
             responseState.searchResults,
           );
         } catch (error) {
-          console.error("Error in pagination useEffect - fetchUsingStartIndex:", error);
+          console.error("Error in pagination useEffect - fetchUsingStartIndex():", error);
         } finally {
           responseDispatch({
             type: responseActions.setAll,
@@ -196,7 +197,7 @@ function MyPagination({
       //   scrollTo(0, 0);
       // });
 
-      localforage
+      await localforage
         .getItem<ResponseState["activePage"]>("byblos-activePage")
         .then((value) => {
           if (value) {
@@ -206,14 +207,16 @@ function MyPagination({
           }
         });
 
-      localforage.setItem("byblos-activePage", responseState.activePage).then((value) => {
-        responseDispatch({
-          type: responseActions.setActivePage,
-          payload: { responseState },
+      await localforage
+        .setItem("byblos-activePage", responseState.activePage)
+        .then((value) => {
+          responseDispatch({
+            type: responseActions.setActivePage,
+            payload: { responseState },
+          });
+          window.scrollTo(0, 0);
+          navigate(`${parentPath}${value}`);
         });
-        window.scrollTo(0, 0);
-        navigate(`${value - 1}`);
-      });
     } catch (error) {
       console.error("Error in pagination prevBttnClick:", error);
     }
@@ -232,7 +235,7 @@ function MyPagination({
     // window.scrollTo(0, 0);
 
     try {
-      localforage
+      await localforage
         .getItem<ResponseState["activePage"]>("byblos-activePage")
         .then((value) => {
           if (value) {
@@ -242,14 +245,16 @@ function MyPagination({
           }
         });
 
-      localforage.setItem("byblos-activePage", responseState.activePage).then((value) => {
-        responseDispatch({
-          type: responseActions.setActivePage,
-          payload: { responseState },
+      await localforage
+        .setItem("byblos-activePage", responseState.activePage)
+        .then((value) => {
+          responseDispatch({
+            type: responseActions.setActivePage,
+            payload: { responseState },
+          });
+          window.scrollTo(0, 0);
+          navigate(`${parentPath}${value}`);
         });
-        window.scrollTo(0, 0);
-        navigate(`${value + 1}`);
-      });
     } catch (error) {
       console.error("Error in pagination nextBttnClick:", error);
     }
@@ -270,9 +275,12 @@ function MyPagination({
       //   window.scrollTo(0, 0);
       // });
 
-      localforage.setItem("byblos-activePage", responseState.activePage).then((_) => {
-        window.scrollTo(0, 0);
-      });
+      await localforage
+        .setItem("byblos-activePage", responseState.activePage)
+        .then((value) => {
+          window.scrollTo(0, 0);
+          navigate(`${parentPath}${value}`);
+        });
     } catch (error) {
       console.error("pagination jumpBttn error", error);
     } finally {

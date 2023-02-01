@@ -4,7 +4,7 @@ import localforage from "localforage";
 import React, { Suspense } from "react";
 import { Fragment, useEffect, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
 import {
@@ -36,6 +36,7 @@ function OtherEditions({
   const {
     responseState: { selectedVolume, selectedAuthor },
   } = allStates;
+  const { volumeId, page } = useParams();
 
   const [otherEditions, setOtherEditions] = useState<VolumeWithCustomId[]>([]);
   const { width = 0 } = useWindowSize();
@@ -54,23 +55,23 @@ function OtherEditions({
         const itemsWithCustomId = insertCustomId(data.items ?? []);
 
         allStates.responseState.otherEditions = itemsWithCustomId;
-        allStates.responseState.searchResults = data;
         allStates.responseState.fetchUrl = fetchUrlWithName;
+        allStates.responseState.activePage = 1;
 
         try {
-          localforage.setItem<ResponseState["otherEditions"]>(
+          await localforage.setItem<ResponseState["otherEditions"]>(
             "byblos-otherEditions",
             allStates.responseState.otherEditions,
           );
 
-          localforage.setItem<ResponseState["searchResults"]>(
-            "byblos-searchResults",
-            allStates.responseState.searchResults,
-          );
-
-          localforage.setItem<ResponseState["fetchUrl"]>(
+          await localforage.setItem<ResponseState["fetchUrl"]>(
             "byblos-fetchUrl",
             allStates.responseState.fetchUrl,
+          );
+
+          await localforage.setItem<ResponseState["activePage"]>(
+            "byblos-activePage",
+            allStates.responseState.activePage,
           );
         } catch (error) {
           console.error("Error setting otherEditions to localforage ", error);
@@ -90,6 +91,10 @@ function OtherEditions({
     fetchOtherEditions();
   }, []);
 
+  const modifiedSearchResults = insertCustomId(
+    allStates?.responseState?.searchResults?.items ?? [],
+  );
+
   return (
     <div>
       <Title order={3}>Other editions</Title>
@@ -99,12 +104,13 @@ function OtherEditions({
             allStates={allStates}
             allActions={allActions}
             allDispatches={allDispatches}
-            volumes={allStates.responseState.otherEditions ?? otherEditions}
+            volumes={modifiedSearchResults ?? otherEditions}
           />
         </Suspense>
       </ErrorBoundary>
 
       <MyPagination
+        parentPath={`/home/displayVolume/${volumeId}/otherEditions/`}
         allStates={allStates}
         allActions={allActions}
         allDispatches={allDispatches}

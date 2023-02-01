@@ -122,8 +122,12 @@ function Overview({ children, allStates, allActions, allDispatches }: OverviewPr
     : selectedVolumeForage?.volumeInfo.ratingsCount ?? "Unavailable";
 
   const maturityRating = selectedVolume
-    ? selectedVolume?.volumeInfo.maturityRating ?? "Unavailable"
-    : selectedVolumeForage?.volumeInfo.maturityRating ?? "Unavailable";
+    ? selectedVolume?.volumeInfo.maturityRating.toLowerCase().split("_").join(" ") ??
+      "Unavailable"
+    : selectedVolumeForage?.volumeInfo.maturityRating
+        .toLowerCase()
+        .split("_")
+        .join(" ") ?? "Unavailable";
 
   const amazonLink = selectedVolume
     ? `https://www.amazon.ca/gp/search?index=books&keywords=${selectedVolume?.volumeInfo.industryIdentifiers[0].identifier}`
