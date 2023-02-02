@@ -50,6 +50,8 @@ function OtherEditions({
           selectedAuthor ?? otherEditions[0].volumeInfo.authors[0]
         }&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
 
+        console.log("fetchUrlWithName from otherEditions", fetchUrlWithName);
+
         const { data } = await axios.get(fetchUrlWithName);
 
         const itemsWithCustomId = insertCustomId(data.items ?? []);
@@ -61,17 +63,17 @@ function OtherEditions({
         try {
           await localforage.setItem<ResponseState["otherEditions"]>(
             "byblos-otherEditions",
-            allStates.responseState.otherEditions,
+            allStates.responseState.otherEditions
           );
 
           await localforage.setItem<ResponseState["fetchUrl"]>(
             "byblos-fetchUrl",
-            allStates.responseState.fetchUrl,
+            allStates.responseState.fetchUrl
           );
 
           await localforage.setItem<ResponseState["activePage"]>(
             "byblos-activePage",
-            allStates.responseState.activePage,
+            allStates.responseState.activePage
           );
         } catch (error) {
           console.error("Error setting otherEditions to localforage ", error);
@@ -92,13 +94,15 @@ function OtherEditions({
   }, []);
 
   const modifiedSearchResults = insertCustomId(
-    allStates?.responseState?.searchResults?.items ?? [],
+    allStates?.responseState?.otherEditions ?? []
   );
 
   return (
     <div>
       <Title order={3}>Other editions</Title>
-      <ErrorBoundary fallback={<Text>{`Unable to display other editions`}</Text>}>
+      <ErrorBoundary
+        fallback={<Text>{`Unable to display other editions`}</Text>}
+      >
         <Suspense fallback={<Text>{`Loading other editions`}</Text>}>
           <DisplayGeneric
             allStates={allStates}

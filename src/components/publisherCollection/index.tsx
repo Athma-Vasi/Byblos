@@ -6,7 +6,12 @@ import { ErrorBoundary } from "react-error-boundary";
 import { useParams } from "react-router-dom";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
-import { AllActions, AllDispatches, AllStates, VolumeWithCustomId } from "../../types";
+import {
+  AllActions,
+  AllDispatches,
+  AllStates,
+  VolumeWithCustomId,
+} from "../../types";
 import { insertCustomId } from "../../utils";
 import DisplayGeneric from "../displayGeneric";
 import { MyPagination } from "../pagination";
@@ -29,9 +34,9 @@ function PublisherCollection({
   } = allStates;
   const { volumeId } = useParams();
 
-  const [publisherCollection, setPublisherCollection] = useState<VolumeWithCustomId[]>(
-    [],
-  );
+  const [publisherCollection, setPublisherCollection] = useState<
+    VolumeWithCustomId[]
+  >([]);
 
   const { width = 0 } = useWindowSize();
 
@@ -55,14 +60,20 @@ function PublisherCollection({
               setPublisherCollection(value);
             });
 
-          await localforage.setItem("byblos-fetchUrl", allStates.responseState.fetchUrl);
+          await localforage.setItem(
+            "byblos-fetchUrl",
+            allStates.responseState.fetchUrl
+          );
 
           await localforage.setItem(
             "byblos-activePage",
-            allStates.responseState.activePage,
+            allStates.responseState.activePage
           );
         } catch (error) {
-          console.error("Error saving publisherCollection to localforage: ", error);
+          console.error(
+            "Error saving publisherCollection to localforage: ",
+            error
+          );
         } finally {
           allDispatches.responseDispatch({
             type: allActions.responseActions.setAll,
@@ -78,7 +89,7 @@ function PublisherCollection({
   }, []);
 
   const modifiedSearchResults = insertCustomId(
-    allStates.responseState.searchResults?.items ?? [],
+    allStates.responseState.publisherCollection ?? []
   );
 
   return (

@@ -115,6 +115,8 @@ function DisplayGeneric({
         type: allActions.responseActions.setAll,
         payload: { responseState: allStates.responseState },
       });
+
+      window.scrollTo(0, 0);
     }
 
     // navigate(`/home/displayVolume/${volume.customId}`);

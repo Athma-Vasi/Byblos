@@ -86,7 +86,7 @@ function AuthorCollection({
   }, []);
 
   const modifiedSearchResults = insertCustomId(
-    allStates.responseState.searchResults?.items ?? []
+    allStates.responseState.authorCollection ?? []
   );
 
   return (
