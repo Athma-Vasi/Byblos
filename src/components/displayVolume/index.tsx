@@ -18,7 +18,11 @@ type DisplayVolumeProps = {
   allDispatches: AllDispatches;
 };
 
-function DisplayVolume({ allStates, allActions, allDispatches }: DisplayVolumeProps) {
+function DisplayVolume({
+  allStates,
+  allActions,
+  allDispatches,
+}: DisplayVolumeProps) {
   const { volumeId, page } = useParams();
   const navigate = useNavigate();
   const { width = 0 } = useWindowSize();
@@ -136,7 +140,9 @@ function DisplayVolume({ allStates, allActions, allDispatches }: DisplayVolumePr
             </Menu.Item>
 
             <Menu.Item>
-              <Link to={`/home/displayVolume/${volumeId}/otherEditions/${page}`}>
+              <Link
+                to={`/home/displayVolume/${volumeId}/otherEditions/${allStates.responseState.activePage}`}
+              >
                 <NavLink
                   active={navLinkActive.otherEditions}
                   label="Other editions"
@@ -148,19 +154,25 @@ function DisplayVolume({ allStates, allActions, allDispatches }: DisplayVolumePr
             </Menu.Item>
 
             <Menu.Item>
-              <Link to={`/home/displayVolume/${volumeId}/publisherCollection`}>
+              <Link
+                to={`/home/displayVolume/${volumeId}/publisherCollection/${allStates.responseState.activePage}`}
+              >
                 <NavLink
                   active={navLinkActive.publisherCollection}
                   label="Publisher collection"
                   variant="subtle"
                   icon={<MdOutlinePublish size={20} />}
-                  onClick={() => handleNavLinkActiveClick("Publisher collection")}
+                  onClick={() =>
+                    handleNavLinkActiveClick("Publisher collection")
+                  }
                 />
               </Link>
             </Menu.Item>
 
             <Menu.Item>
-              <Link to={`/home/displayVolume/${volumeId}/authorCollection`}>
+              <Link
+                to={`/home/displayVolume/${volumeId}/authorCollection/${allStates.responseState.activePage}`}
+              >
                 <NavLink
                   active={navLinkActive.authorCollection}
                   label="Author collection"

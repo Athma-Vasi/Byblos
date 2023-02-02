@@ -48,20 +48,24 @@ function AuthorCollection({
           ","
         )}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
 
+        console.log("fetchUrlWithAuthor :", fetchUrlWithAuthor);
+
         const { data } = await axios.get(fetchUrlWithAuthor);
 
         const itemsWithCustomId = insertCustomId(data.items ?? []);
 
-        allStates.responseState.authorCollection = itemsWithCustomId;
+        // allStates.responseState.authorCollection = itemsWithCustomId;
+        allStates.responseState.searchResults = data;
         allStates.responseState.fetchUrl = fetchUrlWithAuthor;
         allStates.responseState.activePage = 1;
 
         try {
-          await localforage
-            .setItem("byblos-authorCollection", itemsWithCustomId)
-            .then((value) => {
-              setAuthorCollection(value);
-            });
+          // await localforage
+          //   .setItem("byblos-authorCollection", itemsWithCustomId)
+          //   .then((value) => {
+          //     setAuthorCollection(value);
+          //   });
+          await localforage.setItem("byblos-searchResults", data);
 
           await localforage.setItem("byblos-fetchUrl", fetchUrlWithAuthor);
 
@@ -76,6 +80,7 @@ function AuthorCollection({
             type: allActions.responseActions.setAll,
             payload: { responseState: allStates.responseState },
           });
+          setAuthorCollection(itemsWithCustomId);
         }
       } catch (error) {
         console.error("Error fetching author collection", error);
@@ -84,10 +89,6 @@ function AuthorCollection({
 
     fetchAuthorCollection();
   }, []);
-
-  const modifiedSearchResults = insertCustomId(
-    allStates.responseState.authorCollection ?? []
-  );
 
   return (
     <Fragment>
@@ -117,7 +118,6 @@ function AuthorCollection({
             allStates={allStates}
             allActions={allActions}
             allDispatches={allDispatches}
-            volumes={modifiedSearchResults ?? authorCollection}
           />
         </Suspense>
       </ErrorBoundary>

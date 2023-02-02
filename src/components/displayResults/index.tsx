@@ -29,9 +29,9 @@ function DisplayResults({
   allDispatches,
 }: DisplayResultsProps) {
   const { volumeId, page } = useParams();
-  const [localForageFallback, setLocalForageFallback] = useState<VolumeWithCustomId[]>(
-    [],
-  );
+  const [localForageFallback, setLocalForageFallback] = useState<
+    VolumeWithCustomId[]
+  >([]);
 
   useEffect(() => {
     const fetchLocalStorageFallback = async () => {
@@ -52,7 +52,7 @@ function DisplayResults({
   }, [allStates.responseState.searchResults]);
 
   const modifiedSearchResults = insertCustomId(
-    allStates.responseState.searchResults?.items ?? [],
+    allStates.responseState.searchResults?.items ?? []
   );
 
   return (
@@ -69,9 +69,9 @@ function DisplayResults({
         allStates={allStates}
         allActions={allActions}
         allDispatches={allDispatches}
-        volumes={
-          modifiedSearchResults.length === 0 ? localForageFallback : modifiedSearchResults
-        }
+        // volumes={
+        //   modifiedSearchResults.length === 0 ? localForageFallback : modifiedSearchResults
+        // }
       />
       {Array.from({ length: 5 }).map((_, i) => (
         <Space key={i} h="lg" />

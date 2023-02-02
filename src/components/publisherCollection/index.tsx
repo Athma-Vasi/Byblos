@@ -45,20 +45,28 @@ function PublisherCollection({
       try {
         const fetchUrlWithPublisher = `https://www.googleapis.com/books/v1/volumes?q=${allStates.responseState.selectedAuthor}+inpublisher:${selectedVolume?.volumeInfo.publisher}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
 
+        console.log("fetchUrlWithPublisher: ", fetchUrlWithPublisher);
+
         const { data } = await axios.get(fetchUrlWithPublisher);
 
         const itemsWithCustomId = insertCustomId(data.items ?? []);
 
-        allStates.responseState.publisherCollection = itemsWithCustomId;
+        // allStates.responseState.publisherCollection = itemsWithCustomId;
+        allStates.responseState.searchResults = data;
         allStates.responseState.fetchUrl = fetchUrlWithPublisher;
         allStates.responseState.activePage = 1;
 
         try {
-          await localforage
-            .setItem("byblos-publisherCollection", itemsWithCustomId)
-            .then((value) => {
-              setPublisherCollection(value);
-            });
+          // await localforage
+          //   .setItem("byblos-publisherCollection", itemsWithCustomId)
+          //   .then((value) => {
+          //     setPublisherCollection(value);
+          //   });
+
+          await localforage.setItem(
+            "byblos-searchResults",
+            allStates.responseState.searchResults
+          );
 
           await localforage.setItem(
             "byblos-fetchUrl",
@@ -79,6 +87,8 @@ function PublisherCollection({
             type: allActions.responseActions.setAll,
             payload: { responseState: allStates.responseState },
           });
+
+          setPublisherCollection(itemsWithCustomId);
         }
       } catch (error) {
         console.error(error);
@@ -87,10 +97,6 @@ function PublisherCollection({
 
     fetchPublisherVolumes();
   }, []);
-
-  const modifiedSearchResults = insertCustomId(
-    allStates.responseState.publisherCollection ?? []
-  );
 
   return (
     <Fragment>
@@ -120,7 +126,6 @@ function PublisherCollection({
             allStates={allStates}
             allActions={allActions}
             allDispatches={allDispatches}
-            volumes={modifiedSearchResults ?? publisherCollection}
           />
         </Suspense>
       </ErrorBoundary>

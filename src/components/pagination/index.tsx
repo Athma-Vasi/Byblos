@@ -6,7 +6,12 @@ import { Link, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
-import { AllActions, AllDispatches, AllStates, ResponseState } from "../../types";
+import {
+  AllActions,
+  AllDispatches,
+  AllStates,
+  ResponseState,
+} from "../../types";
 
 type MyPaginationProps = {
   children?: React.ReactNode;
@@ -37,7 +42,8 @@ function MyPagination({
   const numberOfPages = Math.ceil(totalItems / Number(resultsPerPage));
   console.log("numberOfPages: ", numberOfPages);
 
-  const startIndex = activePage * Number(resultsPerPage) - Number(resultsPerPage);
+  const startIndex =
+    activePage * Number(resultsPerPage) - Number(resultsPerPage);
   console.log("startIndex: ", startIndex);
 
   //
@@ -124,7 +130,10 @@ function MyPagination({
             navigate(`${parentPath}${value}`);
           });
       } catch (error) {
-        console.error("Error in pagination browser forward button click:", error);
+        console.error(
+          "Error in pagination browser forward button click:",
+          error
+        );
       }
     };
 
@@ -143,10 +152,13 @@ function MyPagination({
       const fetchUsingStartIndex = async () => {
         const [first, ...rest] = fetchUrl.split("&");
         const startIndexAddedToFetchUrl = `${first}&startIndex=${startIndex}&${rest.join(
-          "&",
+          "&"
         )}`;
 
-        console.log("startIndexAddedToFetchUrl: ", startIndexAddedToFetchUrl);
+        console.log(
+          "startIndexAddedToFetchUrl from pagination useEffect: ",
+          startIndexAddedToFetchUrl
+        );
         try {
           const { data } = await axios.get(startIndexAddedToFetchUrl);
           responseState.activePage = activePage;
@@ -155,14 +167,17 @@ function MyPagination({
           //save the data to localForage
           await localforage.setItem<ResponseState["activePage"]>(
             "byblos-activePage",
-            responseState.activePage,
+            responseState.activePage
           );
           await localforage.setItem<ResponseState["searchResults"]>(
             "byblos-searchResults",
-            responseState.searchResults,
+            responseState.searchResults
           );
         } catch (error) {
-          console.error("Error in pagination useEffect - fetchUsingStartIndex():", error);
+          console.error(
+            "Error in pagination useEffect - fetchUsingStartIndex():",
+            error
+          );
         } finally {
           responseDispatch({
             type: responseActions.setAll,
@@ -177,7 +192,7 @@ function MyPagination({
       window.scrollTo(0, 0);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activePage]);
+  }, [responseState.activePage]);
 
   async function handlePrevPageBttnClick() {
     try {
@@ -260,7 +275,9 @@ function MyPagination({
     }
   }
 
-  async function handlePageJumpBttnClick(event: React.FormEvent<HTMLFormElement>) {
+  async function handlePageJumpBttnClick(
+    event: React.FormEvent<HTMLFormElement>
+  ) {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
@@ -296,7 +313,10 @@ function MyPagination({
       <Grid columns={3}>
         <Grid.Col span={1}>
           <Center>
-            <Button disabled={activePage === 1} onClick={handlePrevPageBttnClick}>
+            <Button
+              disabled={activePage === 1}
+              onClick={handlePrevPageBttnClick}
+            >
               Prev
             </Button>
           </Center>

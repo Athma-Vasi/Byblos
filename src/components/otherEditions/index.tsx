@@ -56,14 +56,20 @@ function OtherEditions({
 
         const itemsWithCustomId = insertCustomId(data.items ?? []);
 
-        allStates.responseState.otherEditions = itemsWithCustomId;
+        // allStates.responseState.otherEditions = itemsWithCustomId;
+        allStates.responseState.searchResults = data;
         allStates.responseState.fetchUrl = fetchUrlWithName;
         allStates.responseState.activePage = 1;
 
         try {
-          await localforage.setItem<ResponseState["otherEditions"]>(
-            "byblos-otherEditions",
-            allStates.responseState.otherEditions
+          // await localforage.setItem<ResponseState["otherEditions"]>(
+          //   "byblos-otherEditions",
+          //   allStates.responseState.otherEditions
+          // );
+
+          await localforage.setItem<ResponseState["searchResults"]>(
+            "byblos-searchResults",
+            allStates.responseState.searchResults
           );
 
           await localforage.setItem<ResponseState["fetchUrl"]>(
@@ -82,20 +88,16 @@ function OtherEditions({
             type: allActions.responseActions.setAll,
             payload: { responseState: allStates.responseState },
           });
+
+          setOtherEditions(itemsWithCustomId);
         }
       } catch (error) {
         console.error("Error fetching other editions", error);
-      } finally {
-        setOtherEditions(allStates.responseState.otherEditions ?? []);
       }
     };
 
     fetchOtherEditions();
   }, []);
-
-  const modifiedSearchResults = insertCustomId(
-    allStates?.responseState?.otherEditions ?? []
-  );
 
   return (
     <div>
@@ -108,13 +110,12 @@ function OtherEditions({
             allStates={allStates}
             allActions={allActions}
             allDispatches={allDispatches}
-            volumes={modifiedSearchResults ?? otherEditions}
           />
         </Suspense>
       </ErrorBoundary>
 
       <MyPagination
-        parentPath={`/home/displayVolume/${volumeId}/otherEditions/`}
+        parentPath={`/home/displayVolume/${volumeId}/otherEditions/${allStates.responseState.activePage}`}
         allStates={allStates}
         allActions={allActions}
         allDispatches={allDispatches}

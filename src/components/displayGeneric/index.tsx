@@ -29,12 +29,12 @@ type DisplayGenericProps = {
   allStates: AllStates;
   allActions: AllActions;
   allDispatches: AllDispatches;
-  volumes: VolumeWithCustomId[];
+  // volumes: VolumeWithCustomId[];
 };
 
 function DisplayGeneric({
   children,
-  volumes,
+  // volumes,
   allStates,
   allActions,
   allDispatches,
@@ -59,6 +59,11 @@ function DisplayGeneric({
         if (value) {
           setLocalForageFallback(insertCustomId(value?.items ?? []));
         }
+
+        console.log(
+          "localForageFallback useEffect in displayGeneric",
+          localForageFallback
+        );
       } catch (error) {
         console.error(
           "Error in displayGeneric useEffect  fetchLocalStorageFallback(): ",
@@ -68,10 +73,10 @@ function DisplayGeneric({
     };
 
     fetchLocalStorageFallback();
-  }, [allStates.responseState.searchResults]);
+  }, [allStates.responseState.activePage]);
 
   const modifiedSearchResults = insertCustomId(
-    allStates.responseState.searchResults?.items ?? []
+    allStates.responseState.searchResults?.items ?? localForageFallback
   );
 
   async function handleTitleClick(volume: VolumeWithCustomId) {
@@ -131,139 +136,68 @@ function DisplayGeneric({
         alt={modalAlt}
       />
       <Flex gap="xl" direction="column">
-        {volumes.length === 0
-          ? localForageFallback.map((item) => (
-              <Grid key={item.customId} columns={9}>
-                <Grid.Col span={width < 992 ? 2 : 1}>
-                  <Center>
-                    <Image
-                      style={{ cursor: "pointer" }}
-                      src={item.volumeInfo.imageLinks?.thumbnail}
-                      alt={`thumbnail of ${
-                        item.volumeInfo.title ?? "unavailable"
-                      } book cover`}
-                      onClick={() => {
-                        setModalSrc(
-                          item.volumeInfo.imageLinks?.thumbnail ?? ""
-                        );
-                        setModalAlt(item.volumeInfo.title);
-                        setModalOpened(true);
-                      }}
-                      withPlaceholder
-                      placeholder={
-                        <Text align="center">No image available</Text>
-                      }
-                    />
-                  </Center>
-                </Grid.Col>
-                <Grid.Col span={width < 992 ? 7 : 8}>
-                  <Title
-                    order={3}
-                    style={{ cursor: "pointer" }}
-                    onClick={() => {
-                      handleTitleClick(item);
-                    }}
-                  >
-                    <Link to={`/home/displayVolume/${item.customId}`}>
-                      {item.volumeInfo.title}
-                    </Link>
-                  </Title>
-                  {item.volumeInfo.authors
-                    ?.join(",:")
-                    .split(":")
-                    .map((author) => (
-                      <span key={author}>{author} </span>
-                    ))}
-                  <Text>
-                    {Number.isNaN(
-                      new Date(item.volumeInfo.publishedDate)
-                        .getFullYear()
-                        .toString()
-                    )
-                      ? "Date unavailable"
-                      : new Date(item.volumeInfo.publishedDate)
-                          .getFullYear()
-                          .toString()}
-                  </Text>
-                  <Spoiler
-                    maxHeight={100}
-                    showLabel="Show more"
-                    hideLabel="Hide"
-                    transitionDuration={382}
-                  >
-                    <Text>
-                      {item.volumeInfo.description ?? "Description unavailable"}
-                    </Text>
-                  </Spoiler>
-                </Grid.Col>
-              </Grid>
-            ))
-          : volumes.map((item) => (
-              <Grid key={item.customId} columns={9}>
-                <Grid.Col span={width < 992 ? 2 : 1}>
-                  <Center>
-                    <Image
-                      style={{ cursor: "pointer" }}
-                      src={item.volumeInfo.imageLinks?.thumbnail}
-                      alt={`thumbnail of ${
-                        item.volumeInfo.title ?? "unavailable"
-                      } book cover`}
-                      onClick={() => {
-                        setModalSrc(
-                          item.volumeInfo.imageLinks?.thumbnail ?? ""
-                        );
-                        setModalAlt(item.volumeInfo.title);
-                        setModalOpened(true);
-                      }}
-                      withPlaceholder
-                      placeholder={
-                        <Text align="center">No image available</Text>
-                      }
-                    />
-                  </Center>
-                </Grid.Col>
-                <Grid.Col span={width < 992 ? 7 : 8}>
-                  <Title
-                    order={3}
-                    style={{ cursor: "pointer" }}
-                    onClick={() => {
-                      handleTitleClick(item);
-                    }}
-                  >
-                    <Link to={`/home/displayVolume/${item.customId}`}>
-                      {item.volumeInfo.title}
-                    </Link>
-                  </Title>
-                  {item.volumeInfo.authors
-                    ?.join(",:")
-                    .split(":")
-                    .map((author) => (
-                      <span key={author}>{author} </span>
-                    ))}
-                  <Text>
-                    {Number.isNaN(
-                      new Date(item.volumeInfo.publishedDate)
-                        .getFullYear()
-                        .toString()
-                    )
-                      ? "Date unavailable"
-                      : new Date(item.volumeInfo.publishedDate)
-                          .getFullYear()
-                          .toString()}
-                  </Text>
-                  <Spoiler
-                    maxHeight={100}
-                    showLabel="Show more"
-                    hideLabel="Hide"
-                    transitionDuration={382}
-                  >
-                    <Text>
-                      {item.volumeInfo.description ?? "Description unavailable"}
-                    </Text>
-                  </Spoiler>
-                </Grid.Col>
-              </Grid>
-            ))}
+        {modifiedSearchResults.map((item) => (
+          <Grid key={item.customId} columns={9}>
+            <Grid.Col span={width < 992 ? 2 : 1}>
+              <Center>
+                <Image
+                  style={{ cursor: "pointer" }}
+                  src={item.volumeInfo.imageLinks?.thumbnail}
+                  alt={`thumbnail of ${
+                    item.volumeInfo.title ?? "unavailable"
+                  } book cover`}
+                  onClick={() => {
+                    setModalSrc(item.volumeInfo.imageLinks?.thumbnail ?? "");
+                    setModalAlt(item.volumeInfo.title);
+                    setModalOpened(true);
+                  }}
+                  withPlaceholder
+                  placeholder={<Text align="center">No image available</Text>}
+                />
+              </Center>
+            </Grid.Col>
+            <Grid.Col span={width < 992 ? 7 : 8}>
+              <Title
+                order={3}
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  handleTitleClick(item);
+                }}
+              >
+                <Link to={`/home/displayVolume/${item.customId}`}>
+                  {item.volumeInfo.title}
+                </Link>
+              </Title>
+              {item.volumeInfo.authors
+                ?.join(",:")
+                .split(":")
+                .map((author) => (
+                  <span key={author}>{author} </span>
+                ))}
+              <Text>
+                {Number.isNaN(
+                  new Date(item.volumeInfo.publishedDate)
+                    .getFullYear()
+                    .toString()
+                )
+                  ? "Date unavailable"
+                  : new Date(item.volumeInfo.publishedDate)
+                      .getFullYear()
+                      .toString()}
+              </Text>
+              <Spoiler
+                maxHeight={100}
+                showLabel="Show more"
+                hideLabel="Hide"
+                transitionDuration={382}
+              >
+                <Text>
+                  {item.volumeInfo.description ?? "Description unavailable"}
+                </Text>
+              </Spoiler>
+            </Grid.Col>
+          </Grid>
+        ))}
       </Flex>
     </Fragment>
   );
