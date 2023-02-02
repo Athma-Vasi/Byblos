@@ -1,10 +1,12 @@
-import { Text } from "@mantine/core";
+import { LoadingOverlay, Text } from "@mantine/core";
 import React, { Suspense, useEffect } from "react";
 import { useReducer } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 
+import ErrorFallback from "./components/errorFallback";
 import { Home } from "./components/home";
+import MyLoader from "./components/myLoader";
 import { Welcome } from "./components/welcome";
 import { useExitPrompt } from "./hooks/useExitPrompt";
 import { initialResponseState, responseActions, responseReducer } from "./state";
@@ -18,6 +20,8 @@ const Overview = React.lazy(() => import("./components/overview"));
 const OtherEditions = React.lazy(() => import("./components/otherEditions"));
 const PublisherCollection = React.lazy(() => import("./components/publisherCollection"));
 const AuthorCollection = React.lazy(() => import("./components/authorCollection"));
+// const MyLoader = React.lazy(() => import("./components/myLoader"));
+// const ErrorFallback = React.lazy(() => import("./components/errorFallback"));
 
 export default function App() {
   const [responseState, responseDispatch] = useReducer(
@@ -44,42 +48,58 @@ export default function App() {
           <Route
             path="/"
             element={
-              <Welcome
-                allStates={allStates}
-                allActions={allActions}
-                allDispatches={allDispatches}
-              />
+              <ErrorBoundary fallback={<ErrorFallback componentName="Byblos" />}>
+                <Suspense fallback={<MyLoader componentName="Byblos" />}>
+                  <Welcome
+                    allStates={allStates}
+                    allActions={allActions}
+                    allDispatches={allDispatches}
+                  />
+                </Suspense>
+              </ErrorBoundary>
             }
           >
             <Route
               index
               element={
-                <Welcome
-                  allStates={allStates}
-                  allActions={allActions}
-                  allDispatches={allDispatches}
-                />
+                <ErrorBoundary fallback={<ErrorFallback componentName="Byblos" />}>
+                  <Suspense fallback={<MyLoader componentName="Byblos" />}>
+                    <Welcome
+                      allStates={allStates}
+                      allActions={allActions}
+                      allDispatches={allDispatches}
+                    />
+                  </Suspense>
+                </ErrorBoundary>
               }
             />
           </Route>
           <Route
             path="home"
             element={
-              <Home
-                allStates={allStates}
-                allActions={allActions}
-                allDispatches={allDispatches}
-              />
+              <ErrorBoundary fallback={<ErrorFallback componentName="Home page" />}>
+                <Suspense fallback={<MyLoader componentName="Home" />}>
+                  <Home
+                    allStates={allStates}
+                    allActions={allActions}
+                    allDispatches={allDispatches}
+                  />
+                </Suspense>
+              </ErrorBoundary>
             }
           >
             <Route
               index
               element={
-                <Home
-                  allStates={allStates}
-                  allActions={allActions}
-                  allDispatches={allDispatches}
-                />
+                <ErrorBoundary fallback={<ErrorFallback componentName="Home page" />}>
+                  <Suspense fallback={<MyLoader componentName="Home" />}>
+                    <Home
+                      allStates={allStates}
+                      allActions={allActions}
+                      allDispatches={allDispatches}
+                    />
+                  </Suspense>
+                </ErrorBoundary>
               }
             />
 
@@ -87,9 +107,9 @@ export default function App() {
               path="advancedSearch"
               element={
                 <ErrorBoundary
-                  fallback={<Text>Unable to fetch advanced search page</Text>}
+                  fallback={<ErrorFallback componentName="Advanced search page" />}
                 >
-                  <Suspense fallback={<Text>Loading advanced search...</Text>}>
+                  <Suspense fallback={<MyLoader componentName="Advanced Search" />}>
                     <AdvancedSearch
                       allStates={allStates}
                       allActions={allActions}
@@ -103,8 +123,10 @@ export default function App() {
             <Route
               path="displayResults"
               element={
-                <ErrorBoundary fallback={<Text>Unable to fetch search results</Text>}>
-                  <Suspense fallback={<Text>Loading results...</Text>}>
+                <ErrorBoundary
+                  fallback={<ErrorFallback componentName="search results page" />}
+                >
+                  <Suspense fallback={<MyLoader componentName="Search results" />}>
                     <DisplayResults
                       allStates={allStates}
                       allActions={allActions}
@@ -118,8 +140,10 @@ export default function App() {
               <Route
                 index
                 element={
-                  <ErrorBoundary fallback={<Text>Unable to fetch search results</Text>}>
-                    <Suspense fallback={<Text>Loading results...</Text>}>
+                  <ErrorBoundary
+                    fallback={<ErrorFallback componentName="search results page" />}
+                  >
+                    <Suspense fallback={<MyLoader componentName="Search results" />}>
                       <DisplayResults
                         allStates={allStates}
                         allActions={allActions}
@@ -133,8 +157,10 @@ export default function App() {
               <Route
                 path=":page"
                 element={
-                  <ErrorBoundary fallback={<Text>Unable to fetch search results</Text>}>
-                    <Suspense fallback={<Text>Loading results...</Text>}>
+                  <ErrorBoundary
+                    fallback={<ErrorFallback componentName="search results page" />}
+                  >
+                    <Suspense fallback={<MyLoader componentName="Search results" />}>
                       <DisplayResults
                         allStates={allStates}
                         allActions={allActions}
@@ -149,8 +175,8 @@ export default function App() {
             <Route
               path="displayVolume/:volumeId"
               element={
-                <ErrorBoundary fallback={<Text>Unable to fetch volume</Text>}>
-                  <Suspense fallback={<Text>Loading volume...</Text>}>
+                <ErrorBoundary fallback={<ErrorFallback componentName="volume page" />}>
+                  <Suspense fallback={<MyLoader componentName="volume" />}>
                     <DisplayVolume
                       allStates={allStates}
                       allActions={allActions}
@@ -164,8 +190,8 @@ export default function App() {
               <Route
                 index
                 element={
-                  <ErrorBoundary fallback={<Text>Unable to fetch overview</Text>}>
-                    <Suspense fallback={<Text>Loading overview...</Text>}>
+                  <ErrorBoundary fallback={<ErrorFallback componentName="volume page" />}>
+                    <Suspense fallback={<MyLoader componentName="Overview" />}>
                       <Overview
                         allStates={allStates}
                         allActions={allActions}
@@ -179,8 +205,10 @@ export default function App() {
               <Route
                 path="overview"
                 element={
-                  <ErrorBoundary fallback={<Text>Unable to fetch overview</Text>}>
-                    <Suspense fallback={<Text>Loading overview...</Text>}>
+                  <ErrorBoundary
+                    fallback={<ErrorFallback componentName="overview page" />}
+                  >
+                    <Suspense fallback={<MyLoader componentName="Overview" />}>
                       <Overview
                         allStates={allStates}
                         allActions={allActions}
@@ -194,8 +222,10 @@ export default function App() {
               <Route
                 path="otherEditions"
                 element={
-                  <ErrorBoundary fallback={<Text>Unable to fetch other editions</Text>}>
-                    <Suspense fallback={<Text>Loading other editions...</Text>}>
+                  <ErrorBoundary
+                    fallback={<ErrorFallback componentName="Other editions page" />}
+                  >
+                    <Suspense fallback={<MyLoader componentName="Other editions" />}>
                       <OtherEditions
                         allStates={allStates}
                         allActions={allActions}
@@ -208,8 +238,10 @@ export default function App() {
                 <Route
                   index
                   element={
-                    <ErrorBoundary fallback={<Text>Unable to fetch other editions</Text>}>
-                      <Suspense fallback={<Text>Loading other editions...</Text>}>
+                    <ErrorBoundary
+                      fallback={<ErrorFallback componentName="Other editions page" />}
+                    >
+                      <Suspense fallback={<MyLoader componentName="Other editions" />}>
                         <OtherEditions
                           allStates={allStates}
                           allActions={allActions}
@@ -223,8 +255,10 @@ export default function App() {
                 <Route
                   path=":page"
                   element={
-                    <ErrorBoundary fallback={<Text>Unable to fetch other editions</Text>}>
-                      <Suspense fallback={<Text>Loading other editions...</Text>}>
+                    <ErrorBoundary
+                      fallback={<ErrorFallback componentName="Other editions page" />}
+                    >
+                      <Suspense fallback={<MyLoader componentName="Other editions" />}>
                         <OtherEditions
                           allStates={allStates}
                           allActions={allActions}
@@ -240,9 +274,11 @@ export default function App() {
                 path="publisherCollection"
                 element={
                   <ErrorBoundary
-                    fallback={<Text>Unable to fetch publisher collection</Text>}
+                    fallback={<ErrorFallback componentName="Publisher collection page" />}
                   >
-                    <Suspense fallback={<Text>Loading publisher collection...</Text>}>
+                    <Suspense
+                      fallback={<MyLoader componentName="Publisher collection" />}
+                    >
                       <PublisherCollection
                         allStates={allStates}
                         allActions={allActions}
@@ -256,9 +292,13 @@ export default function App() {
                   index
                   element={
                     <ErrorBoundary
-                      fallback={<Text>Unable to fetch publisher collection</Text>}
+                      fallback={
+                        <ErrorFallback componentName="Publisher collection page" />
+                      }
                     >
-                      <Suspense fallback={<Text>Loading publisher collection...</Text>}>
+                      <Suspense
+                        fallback={<MyLoader componentName="Publisher collection" />}
+                      >
                         <PublisherCollection
                           allStates={allStates}
                           allActions={allActions}
@@ -273,9 +313,13 @@ export default function App() {
                   path=":page"
                   element={
                     <ErrorBoundary
-                      fallback={<Text>Unable to fetch publisher collection</Text>}
+                      fallback={
+                        <ErrorFallback componentName="Publisher collection page" />
+                      }
                     >
-                      <Suspense fallback={<Text>Loading publisher collection...</Text>}>
+                      <Suspense
+                        fallback={<MyLoader componentName="Publisher collection" />}
+                      >
                         <PublisherCollection
                           allStates={allStates}
                           allActions={allActions}
@@ -291,9 +335,9 @@ export default function App() {
                 path="authorCollection"
                 element={
                   <ErrorBoundary
-                    fallback={<Text>Unable to fetch author collection</Text>}
+                    fallback={<ErrorFallback componentName="Author collection page" />}
                   >
-                    <Suspense fallback={<Text>Loading author collection...</Text>}>
+                    <Suspense fallback={<MyLoader componentName="Author collection" />}>
                       <AuthorCollection
                         allStates={allStates}
                         allActions={allActions}
@@ -307,9 +351,9 @@ export default function App() {
                   index
                   element={
                     <ErrorBoundary
-                      fallback={<Text>Unable to fetch author collection</Text>}
+                      fallback={<ErrorFallback componentName="Author collection page" />}
                     >
-                      <Suspense fallback={<Text>Loading author collection...</Text>}>
+                      <Suspense fallback={<MyLoader componentName="Author collection" />}>
                         <AuthorCollection
                           allStates={allStates}
                           allActions={allActions}
@@ -324,9 +368,9 @@ export default function App() {
                   path=":page"
                   element={
                     <ErrorBoundary
-                      fallback={<Text>Unable to fetch author collection</Text>}
+                      fallback={<ErrorFallback componentName="Author collection page" />}
                     >
-                      <Suspense fallback={<Text>Loading author collection...</Text>}>
+                      <Suspense fallback={<MyLoader componentName="Author collection" />}>
                         <AuthorCollection
                           allStates={allStates}
                           allActions={allActions}

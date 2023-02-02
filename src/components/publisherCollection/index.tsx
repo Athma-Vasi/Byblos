@@ -56,6 +56,7 @@ function PublisherCollection({
             });
 
           await localforage.setItem("byblos-fetchUrl", allStates.responseState.fetchUrl);
+
           await localforage.setItem(
             "byblos-activePage",
             allStates.responseState.activePage,

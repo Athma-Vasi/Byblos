@@ -21,7 +21,7 @@ function insertCustomId(items: ApiResponseVolume["items"]): VolumeWithCustomId[]
 function getLanguageFromCode(code: string) {
   function outputLanguageTable() {
     //copy pasted from http://www.lingoes.net/en/translator/langcode.htm
-    //converted to string literal and then into a map object for easy reference
+    //converted to string literal and then into a map object for easier look up
     const langCodesStr = `af	Afrikaans
     af-ZA	Afrikaans (South Africa)
     ar	Arabic
