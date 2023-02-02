@@ -46,15 +46,15 @@ function DisplayGeneric({
   const [modalOpened, setModalOpened] = useState(false);
   const [modalSrc, setModalSrc] = useState("");
   const [modalAlt, setModalAlt] = useState("");
-  const [localForageFallback, setLocalForageFallback] = useState<VolumeWithCustomId[]>(
-    [],
-  );
+  const [localForageFallback, setLocalForageFallback] = useState<
+    VolumeWithCustomId[]
+  >([]);
 
   useEffect(() => {
     const fetchLocalStorageFallback = async () => {
       try {
         const value = await localforage.getItem<ResponseState["searchResults"]>(
-          "byblos-searchResults",
+          "byblos-searchResults"
         );
         if (value) {
           setLocalForageFallback(insertCustomId(value?.items ?? []));
@@ -62,7 +62,7 @@ function DisplayGeneric({
       } catch (error) {
         console.error(
           "Error in displayGeneric useEffect  fetchLocalStorageFallback(): ",
-          error,
+          error
         );
       }
     };
@@ -71,40 +71,42 @@ function DisplayGeneric({
   }, [allStates.responseState.searchResults]);
 
   const modifiedSearchResults = insertCustomId(
-    allStates.responseState.searchResults?.items ?? [],
+    allStates.responseState.searchResults?.items ?? []
   );
 
   async function handleTitleClick(volume: VolumeWithCustomId) {
     allStates.responseState.activePage = 1;
     allStates.responseState.searchTerm = volume.volumeInfo.title;
     allStates.responseState.selectedVolume = volume;
-    allStates.responseState.selectedAuthor = volume.volumeInfo.authors?.[0] ?? "";
-    allStates.responseState.selectedPublisher = volume.volumeInfo.publisher ?? "";
+    allStates.responseState.selectedAuthor =
+      volume.volumeInfo.authors?.join(",") ?? "";
+    allStates.responseState.selectedPublisher =
+      volume.volumeInfo.publisher ?? "";
 
     try {
       await localforage.setItem<ResponseState["activePage"]>(
         "byblos-activePage",
-        allStates.responseState.activePage,
+        allStates.responseState.activePage
       );
 
       await localforage.setItem<ResponseState["searchTerm"]>(
         "byblos-searchTerm",
-        allStates.responseState.searchTerm,
+        allStates.responseState.searchTerm
       );
 
       await localforage.setItem<ResponseState["selectedVolume"]>(
         "byblos-selectedVolume",
-        allStates.responseState.selectedVolume,
+        allStates.responseState.selectedVolume
       );
 
       await localforage.setItem<ResponseState["selectedAuthor"]>(
         "byblos-selectedAuthor",
-        allStates.responseState.selectedAuthor,
+        allStates.responseState.selectedAuthor
       );
 
       await localforage.setItem<ResponseState["selectedPublisher"]>(
         "byblos-selectedPublisher",
-        allStates.responseState.selectedPublisher,
+        allStates.responseState.selectedPublisher
       );
     } catch (error) {
       console.error("Error in displayGeneric handleTitleClick(): ", error);
@@ -139,12 +141,16 @@ function DisplayGeneric({
                         item.volumeInfo.title ?? "unavailable"
                       } book cover`}
                       onClick={() => {
-                        setModalSrc(item.volumeInfo.imageLinks?.thumbnail ?? "");
+                        setModalSrc(
+                          item.volumeInfo.imageLinks?.thumbnail ?? ""
+                        );
                         setModalAlt(item.volumeInfo.title);
                         setModalOpened(true);
                       }}
                       withPlaceholder
-                      placeholder={<Text align="center">No image available</Text>}
+                      placeholder={
+                        <Text align="center">No image available</Text>
+                      }
                     />
                   </Center>
                 </Grid.Col>
@@ -160,17 +166,22 @@ function DisplayGeneric({
                       {item.volumeInfo.title}
                     </Link>
                   </Title>
-                  {item.volumeInfo.authors?.map((author) => (
-                    <Text key={author} style={{ cursor: "pointer" }}>
-                      {author}
-                    </Text>
-                  ))}
+                  {item.volumeInfo.authors
+                    ?.join(",:")
+                    .split(":")
+                    .map((author) => (
+                      <span key={author}>{author} </span>
+                    ))}
                   <Text>
                     {Number.isNaN(
-                      new Date(item.volumeInfo.publishedDate).getFullYear().toString(),
+                      new Date(item.volumeInfo.publishedDate)
+                        .getFullYear()
+                        .toString()
                     )
                       ? "Date unavailable"
-                      : new Date(item.volumeInfo.publishedDate).getFullYear().toString()}
+                      : new Date(item.volumeInfo.publishedDate)
+                          .getFullYear()
+                          .toString()}
                   </Text>
                   <Spoiler
                     maxHeight={100}
@@ -196,12 +207,16 @@ function DisplayGeneric({
                         item.volumeInfo.title ?? "unavailable"
                       } book cover`}
                       onClick={() => {
-                        setModalSrc(item.volumeInfo.imageLinks?.thumbnail ?? "");
+                        setModalSrc(
+                          item.volumeInfo.imageLinks?.thumbnail ?? ""
+                        );
                         setModalAlt(item.volumeInfo.title);
                         setModalOpened(true);
                       }}
                       withPlaceholder
-                      placeholder={<Text align="center">No image available</Text>}
+                      placeholder={
+                        <Text align="center">No image available</Text>
+                      }
                     />
                   </Center>
                 </Grid.Col>
@@ -217,17 +232,22 @@ function DisplayGeneric({
                       {item.volumeInfo.title}
                     </Link>
                   </Title>
-                  {item.volumeInfo.authors?.map((author) => (
-                    <Text key={author} style={{ cursor: "pointer" }}>
-                      {author}
-                    </Text>
-                  ))}
+                  {item.volumeInfo.authors
+                    ?.join(",:")
+                    .split(":")
+                    .map((author) => (
+                      <span key={author}>{author} </span>
+                    ))}
                   <Text>
                     {Number.isNaN(
-                      new Date(item.volumeInfo.publishedDate).getFullYear().toString(),
+                      new Date(item.volumeInfo.publishedDate)
+                        .getFullYear()
+                        .toString()
                     )
                       ? "Date unavailable"
-                      : new Date(item.volumeInfo.publishedDate).getFullYear().toString()}
+                      : new Date(item.volumeInfo.publishedDate)
+                          .getFullYear()
+                          .toString()}
                   </Text>
                   <Spoiler
                     maxHeight={100}

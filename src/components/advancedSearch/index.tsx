@@ -46,7 +46,9 @@ function AdvancedSearch({
     populateInputsForTesting();
   }, []);
 
-  async function handleSearchFormSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSearchFormSubmit(
+    event: React.FormEvent<HTMLFormElement>
+  ) {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
@@ -57,11 +59,13 @@ function AdvancedSearch({
 
         return formDataObj_;
       },
-      new Map(),
+      new Map()
     );
 
     // set resultsPerPage to state
-    allStates.responseState.resultsPerPage = formDataMap.get("resultsPerPage") as string;
+    allStates.responseState.resultsPerPage = formDataMap.get(
+      "resultsPerPage"
+    ) as string;
 
     const searchStr = populateSearchTermForFetch(formDataMap);
     //set searchTerm to state
@@ -70,7 +74,7 @@ function AdvancedSearch({
     allStates.responseState.fetchUrl = `https://www.googleapis.com/books/v1/volumes?q=${searchStr}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
 
     console.log(
-      `https://www.googleapis.com/books/v1/volumes?q=${searchStr}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`,
+      `https://www.googleapis.com/books/v1/volumes?q=${searchStr}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`
     );
 
     try {
@@ -85,40 +89,49 @@ function AdvancedSearch({
       //   navigate(`/home/displayResults/${allStates.responseState.activePage}`);
       // });
 
-      await localforage.setItem("activePage", allStates.responseState.activePage);
+      await localforage.setItem(
+        "activePage",
+        allStates.responseState.activePage
+      );
       await localforage.setItem(
         "authorCollection",
-        allStates.responseState.authorCollection,
+        allStates.responseState.authorCollection
       );
-      await localforage.setItem("byblos-fetchUrl", allStates.responseState.fetchUrl);
+      await localforage.setItem(
+        "byblos-fetchUrl",
+        allStates.responseState.fetchUrl
+      );
       await localforage.setItem(
         "byblos-otherEditions",
-        allStates.responseState.otherEditions,
+        allStates.responseState.otherEditions
       );
       await localforage.setItem(
         "publisherCollection",
-        allStates.responseState.publisherCollection,
+        allStates.responseState.publisherCollection
       );
       await localforage.setItem(
         "byblos-resultsPerPage",
-        allStates.responseState.resultsPerPage,
+        allStates.responseState.resultsPerPage
       );
       await localforage.setItem(
         "byblos-searchResults",
-        allStates.responseState.searchResults,
+        allStates.responseState.searchResults
       );
-      await localforage.setItem("byblos-searchTerm", allStates.responseState.searchTerm);
+      await localforage.setItem(
+        "byblos-searchTerm",
+        allStates.responseState.searchTerm
+      );
       await localforage.setItem(
         "byblos-selectedAuthor",
-        allStates.responseState.selectedAuthor,
+        allStates.responseState.selectedAuthor
       );
       await localforage.setItem(
         "byblos-selectedPublisher",
-        allStates.responseState.selectedPublisher,
+        allStates.responseState.selectedPublisher
       );
       await localforage.setItem(
         "byblos-selectedVolume",
-        allStates.responseState.selectedVolume,
+        allStates.responseState.selectedVolume
       );
     } catch (error) {
       console.error(error);
@@ -134,7 +147,9 @@ function AdvancedSearch({
     }
   }
 
-  function populateSearchTermForFetch(formDataMap: Map<FormInputNames, string>) {
+  function populateSearchTermForFetch(
+    formDataMap: Map<FormInputNames, string>
+  ) {
     const searchStrWithAllWords = `${
       formDataMap.get("find-allWords") === ""
         ? ""
@@ -162,11 +177,15 @@ function AdvancedSearch({
     const searchStrCondensedComesFirst = `${searchStrWithAllWords}${searchStrWithExactPhrase}${searchStrWithAtLeastOneWord}${searchStrWithWithoutWords}`;
 
     const searchStrWithTitle = `${
-      formDataMap.get("title") === "" ? "" : `+intitle:${formDataMap.get("title")}`
+      formDataMap.get("title") === ""
+        ? ""
+        : `+intitle:${formDataMap.get("title")}`
     }`;
 
     const searchStrWithAuthor = `${
-      formDataMap.get("author") === "" ? "" : `+inauthor:${formDataMap.get("author")}`
+      formDataMap.get("author") === ""
+        ? ""
+        : `+inauthor:${formDataMap.get("author")}`
     }`;
 
     const searchStrWithPublisher = `${
@@ -180,7 +199,9 @@ function AdvancedSearch({
     }`;
 
     const searchStrWithSubject = `${
-      formDataMap.get("subject") === "" ? "" : `+subject:${formDataMap.get("subject")}`
+      formDataMap.get("subject") === ""
+        ? ""
+        : `+subject:${formDataMap.get("subject")}`
     }`;
 
     const searchStrWithLccn = `${
@@ -245,10 +266,12 @@ function AdvancedSearch({
     findWithout === null ? null : (findWithout.defaultValue = "barrayar");
   
     */
-    // const title = document.querySelector<HTMLInputElement>("[data-textinput='title']");
-    // title === null ? null : (title.defaultValue = "hyperion");
-    const author = document.querySelector<HTMLInputElement>("[data-textinput='author']");
-    author === null ? null : (author.defaultValue = "lois mcmaster bujold");
+    const title = document.querySelector<HTMLInputElement>(
+      "[data-textinput='title']"
+    );
+    title === null ? null : (title.defaultValue = "March Upcountry");
+    // const author = document.querySelector<HTMLInputElement>("[data-textinput='author']");
+    // author === null ? null : (author.defaultValue = "lois mcmaster bujold");
     // const publisher = document.querySelector<HTMLInputElement>(
     //   "[data-textinput='publisher']",
     // );
@@ -267,17 +290,17 @@ function AdvancedSearch({
 
   function clickDefaultRadioBttns() {
     const allBooksRadio = document.querySelector<HTMLInputElement>(
-      "[data-radioinput='filter-allBooks']",
+      "[data-radioinput='filter-allBooks']"
     );
     allBooksRadio?.click();
 
     const allContentRadio = document.querySelector<HTMLInputElement>(
-      "[data-radioinput='filter-allContent']",
+      "[data-radioinput='filter-allContent']"
     );
     allContentRadio?.click();
 
     const allFormatsRadio = document.querySelector<HTMLInputElement>(
-      "[data-radioinput='filter-allBooksFormat']",
+      "[data-radioinput='filter-allBooksFormat']"
     );
     allFormatsRadio?.click();
   }
@@ -285,7 +308,7 @@ function AdvancedSearch({
   async function fetchSearchResults(searchString: string) {
     try {
       const { data } = await axios.get(
-        `https://www.googleapis.com/books/v1/volumes?q=${searchString}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`,
+        `https://www.googleapis.com/books/v1/volumes?q=${searchString}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`
       );
 
       // set the state of the search results
@@ -318,8 +341,16 @@ function AdvancedSearch({
           </Grid.Col>
 
           {/* contains label and inputs */}
-          <Grid.Col span={width < 576 ? 1 : 3} style={{ outline: "2px solid GrayText" }}>
-            <Flex gap="sm" direction="column" justify="space-evenly" align="stretch">
+          <Grid.Col
+            span={width < 576 ? 1 : 3}
+            style={{ outline: "2px solid GrayText" }}
+          >
+            <Flex
+              gap="sm"
+              direction="column"
+              justify="space-evenly"
+              align="stretch"
+            >
               <Grid
                 columns={width < 576 ? 1 : 2}
                 style={{ outline: "2px solid GrayText" }}
@@ -385,7 +416,11 @@ function AdvancedSearch({
                   </Text>
                 </Grid.Col>
                 <Grid.Col span={1}>
-                  <TextInput size="lg" name="find-none" data-textinput="find-none" />
+                  <TextInput
+                    size="lg"
+                    name="find-none"
+                    data-textinput="find-none"
+                  />
                 </Grid.Col>
               </Grid>
               {/* search results amount per page modifier */}
@@ -454,13 +489,21 @@ function AdvancedSearch({
             </Center>
           </Grid.Col>
           {/* download format body */}
-          <Grid.Col span={width < 576 ? 1 : 3} style={{ outline: "2px solid GrayText" }}>
+          <Grid.Col
+            span={width < 576 ? 1 : 3}
+            style={{ outline: "2px solid GrayText" }}
+          >
             <Radio.Group
               name="filter-downloadFormat"
               description="You can further narrow the search by restricting it to volumes that have an available download format of epub: "
             >
               {/* epub radio input hover card */}
-              <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
+              <HoverCard
+                width={280}
+                openDelay={618}
+                closeDelay={382}
+                shadow="md"
+              >
                 <HoverCard.Target>
                   <Radio
                     value=""
@@ -476,14 +519,24 @@ function AdvancedSearch({
                 </HoverCard.Dropdown>
               </HoverCard>
               {/* epub radio input hover card */}
-              <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
+              <HoverCard
+                width={280}
+                openDelay={618}
+                closeDelay={382}
+                shadow="md"
+              >
                 <HoverCard.Target>
-                  <Radio value="epub" label="Epub" data-radioinput="filter-epubFormat" />
+                  <Radio
+                    value="epub"
+                    label="Epub"
+                    data-radioinput="filter-epubFormat"
+                  />
                 </HoverCard.Target>
 
                 <HoverCard.Dropdown>
                   <Text data-radioinput="filter-epubFormat-dropdown">
-                    Only returns results that have an available epub download format
+                    Only returns results that have an available epub download
+                    format
                   </Text>
                 </HoverCard.Dropdown>
               </HoverCard>
@@ -506,15 +559,27 @@ function AdvancedSearch({
           </Grid.Col>
 
           {/* search book views section body */}
-          <Grid.Col span={width < 576 ? 1 : 3} style={{ outline: "2px solid GrayText" }}>
+          <Grid.Col
+            span={width < 576 ? 1 : 3}
+            style={{ outline: "2px solid GrayText" }}
+          >
             <Radio.Group
               name="filter-bookViews"
               description="You can further narrow the search by restricting it to one of the following types of book views: "
             >
               {/* all books radio input hover card */}
-              <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
+              <HoverCard
+                width={280}
+                openDelay={618}
+                closeDelay={382}
+                shadow="md"
+              >
                 <HoverCard.Target>
-                  <Radio value="" label="All books" data-radioinput="filter-allBooks" />
+                  <Radio
+                    value=""
+                    label="All books"
+                    data-radioinput="filter-allBooks"
+                  />
                 </HoverCard.Target>
                 <HoverCard.Dropdown>
                   <Text data-radioinput="filter-allBooks-dropdown">
@@ -523,7 +588,12 @@ function AdvancedSearch({
                 </HoverCard.Dropdown>
               </HoverCard>
               {/* partial books radio input hover card */}
-              <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
+              <HoverCard
+                width={280}
+                openDelay={618}
+                closeDelay={382}
+                shadow="md"
+              >
                 <HoverCard.Target>
                   <Radio
                     value="partial"
@@ -533,12 +603,18 @@ function AdvancedSearch({
                 </HoverCard.Target>
                 <HoverCard.Dropdown>
                   <Text data-radioinput="filter-partialBooks-dropdown">
-                    Returns results where at least part of the text is previewable.
+                    Returns results where at least part of the text is
+                    previewable.
                   </Text>
                 </HoverCard.Dropdown>
               </HoverCard>
               {/* full books radio input hover card */}
-              <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
+              <HoverCard
+                width={280}
+                openDelay={618}
+                closeDelay={382}
+                shadow="md"
+              >
                 <HoverCard.Target>
                   <Radio
                     value="full"
@@ -553,7 +629,12 @@ function AdvancedSearch({
                 </HoverCard.Dropdown>
               </HoverCard>
               {/* e-books radio input hover card */}
-              <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
+              <HoverCard
+                width={280}
+                openDelay={618}
+                closeDelay={382}
+                shadow="md"
+              >
                 <HoverCard.Target>
                   <Radio
                     value="free-ebooks"
@@ -569,7 +650,12 @@ function AdvancedSearch({
               </HoverCard>
 
               {/* paid e-books radio input hover card */}
-              <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
+              <HoverCard
+                width={280}
+                openDelay={618}
+                closeDelay={382}
+                shadow="md"
+              >
                 <HoverCard.Target>
                   <Radio
                     value="paid-ebooks"
@@ -585,7 +671,12 @@ function AdvancedSearch({
               </HoverCard>
 
               {/* all Google e-books radio input hover card */}
-              <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
+              <HoverCard
+                width={280}
+                openDelay={618}
+                closeDelay={382}
+                shadow="md"
+              >
                 <HoverCard.Target>
                   <Radio
                     value="ebooks"
@@ -595,9 +686,9 @@ function AdvancedSearch({
                 </HoverCard.Target>
                 <HoverCard.Dropdown>
                   <Text data-radioinput="filter-allEbooks-dropdown">
-                    Returns all Google eBooks, both free and paid. Examples of non-eBooks
-                    would be publisher content that is available in limited preview and
-                    not for sale, or magazines.
+                    Returns all Google eBooks, both free and paid. Examples of
+                    non-eBooks would be publisher content that is available in
+                    limited preview and not for sale, or magazines.
                   </Text>
                 </HoverCard.Dropdown>
               </HoverCard>
@@ -615,13 +706,21 @@ function AdvancedSearch({
           </Grid.Col>
 
           {/* print type section body */}
-          <Grid.Col span={width < 576 ? 1 : 3} style={{ outline: "2px solid GrayText" }}>
+          <Grid.Col
+            span={width < 576 ? 1 : 3}
+            style={{ outline: "2px solid GrayText" }}
+          >
             <Radio.Group
               name="filter-printType"
               description="You can further narrow the search by restricting  it to a specific print or publication type: "
             >
               {/*  all publication input hover card */}
-              <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
+              <HoverCard
+                width={280}
+                openDelay={618}
+                closeDelay={382}
+                shadow="md"
+              >
                 <HoverCard.Target>
                   <Radio
                     value="all"
@@ -636,9 +735,18 @@ function AdvancedSearch({
                 </HoverCard.Dropdown>
               </HoverCard>
               {/* book publication input hover card */}
-              <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
+              <HoverCard
+                width={280}
+                openDelay={618}
+                closeDelay={382}
+                shadow="md"
+              >
                 <HoverCard.Target>
-                  <Radio value="books" label="Books" data-radioinput="filter-books" />
+                  <Radio
+                    value="books"
+                    label="Books"
+                    data-radioinput="filter-books"
+                  />
                 </HoverCard.Target>
 
                 <HoverCard.Dropdown>
@@ -648,7 +756,12 @@ function AdvancedSearch({
                 </HoverCard.Dropdown>
               </HoverCard>
               {/* magazines publication input hover card */}
-              <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
+              <HoverCard
+                width={280}
+                openDelay={618}
+                closeDelay={382}
+                shadow="md"
+              >
                 <HoverCard.Target>
                   <Radio
                     value="magazines"
@@ -687,13 +800,20 @@ function AdvancedSearch({
               </Grid.Col>
               <Grid.Col span={width < 576 ? 1 : 2}>
                 {/* title search input hover card */}
-                <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
+                <HoverCard
+                  width={280}
+                  openDelay={618}
+                  closeDelay={382}
+                  shadow="md"
+                >
                   <HoverCard.Target>
                     <TextInput size="lg" name="title" data-textinput="title" />
                   </HoverCard.Target>
                   <HoverCard.Dropdown>
                     <Text data-textinput="title-dropdown">
-                      {"Search for books that contain this word or phrase in the title."}
+                      {
+                        "Search for books that contain this word or phrase in the title."
+                      }
                     </Text>
                   </HoverCard.Dropdown>
                 </HoverCard>
@@ -723,9 +843,18 @@ function AdvancedSearch({
               </Grid.Col>
               <Grid.Col span={width < 576 ? 1 : 2}>
                 {/* author search input hover card */}
-                <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
+                <HoverCard
+                  width={280}
+                  openDelay={618}
+                  closeDelay={382}
+                  shadow="md"
+                >
                   <HoverCard.Target>
-                    <TextInput size="lg" name="author" data-textinput="author" />
+                    <TextInput
+                      size="lg"
+                      name="author"
+                      data-textinput="author"
+                    />
                   </HoverCard.Target>
                   <HoverCard.Dropdown>
                     <Text data-textinput="author-dropdown">
@@ -761,9 +890,18 @@ function AdvancedSearch({
               </Grid.Col>
               <Grid.Col span={width < 576 ? 1 : 2}>
                 {/* publisher search input hover card */}
-                <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
+                <HoverCard
+                  width={280}
+                  openDelay={618}
+                  closeDelay={382}
+                  shadow="md"
+                >
                   <HoverCard.Target>
-                    <TextInput size="lg" name="publisher" data-textinput="publisher" />
+                    <TextInput
+                      size="lg"
+                      name="publisher"
+                      data-textinput="publisher"
+                    />
                   </HoverCard.Target>
                   <HoverCard.Dropdown>
                     <Text data-textinput="publisher-dropdown">
@@ -799,9 +937,18 @@ function AdvancedSearch({
               </Grid.Col>
               <Grid.Col span={width < 576 ? 1 : 2}>
                 {/* category search input hover card */}
-                <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
+                <HoverCard
+                  width={280}
+                  openDelay={618}
+                  closeDelay={382}
+                  shadow="md"
+                >
                   <HoverCard.Target>
-                    <TextInput size="lg" name="subject" data-textinput="subject" />
+                    <TextInput
+                      size="lg"
+                      name="subject"
+                      data-textinput="subject"
+                    />
                   </HoverCard.Target>
                   <HoverCard.Dropdown>
                     <Text data-textinput="subject-dropdown">
@@ -837,7 +984,12 @@ function AdvancedSearch({
               </Grid.Col>
               <Grid.Col span={width < 576 ? 1 : 2}>
                 {/* isbn search input hover card */}
-                <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
+                <HoverCard
+                  width={280}
+                  openDelay={618}
+                  closeDelay={382}
+                  shadow="md"
+                >
                   <HoverCard.Target>
                     <TextInput size="lg" name="isbn" data-textinput="isbn" />
                   </HoverCard.Target>
@@ -875,7 +1027,12 @@ function AdvancedSearch({
               </Grid.Col>
               <Grid.Col span={width < 576 ? 1 : 2}>
                 {/* lccn search input hover card */}
-                <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
+                <HoverCard
+                  width={280}
+                  openDelay={618}
+                  closeDelay={382}
+                  shadow="md"
+                >
                   <HoverCard.Target>
                     <TextInput size="lg" name="lccn" data-textinput="lccn" />
                   </HoverCard.Target>
@@ -913,7 +1070,12 @@ function AdvancedSearch({
               </Grid.Col>
               <Grid.Col span={width < 576 ? 1 : 2}>
                 {/* oclc search input hover card */}
-                <HoverCard width={280} openDelay={618} closeDelay={382} shadow="md">
+                <HoverCard
+                  width={280}
+                  openDelay={618}
+                  closeDelay={382}
+                  shadow="md"
+                >
                   <HoverCard.Target>
                     <TextInput size="lg" name="oclc" data-textinput="oclc" />
                   </HoverCard.Target>
@@ -940,7 +1102,11 @@ function AdvancedSearch({
           </Grid.Col>
 
           <Grid.Col span={width < 576 ? 1 : 2}>
-            <Button type="submit" variant="default" size={width < 992 ? "md" : "lg"}>
+            <Button
+              type="submit"
+              variant="default"
+              size={width < 992 ? "md" : "lg"}
+            >
               Search
             </Button>
           </Grid.Col>

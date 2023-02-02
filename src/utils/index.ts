@@ -3,7 +3,9 @@ import { v4 as uuidV4 } from "uuid";
 
 import { ApiResponseVolume, ResponseState, VolumeWithCustomId } from "../types";
 
-function insertCustomId(items: ApiResponseVolume["items"]): VolumeWithCustomId[] {
+function insertCustomId(
+  items: ApiResponseVolume["items"]
+): VolumeWithCustomId[] {
   return items.map((item) => {
     const customId = uuidV4();
     const clone = structuredClone(item);
@@ -273,7 +275,7 @@ function getLanguageFromCode(code: string) {
 
   const languageTable = outputLanguageTable();
 
-  return languageTable.get(code);
+  return languageTable.get(code) ?? code;
 }
 
 export { getLanguageFromCode, insertCustomId };

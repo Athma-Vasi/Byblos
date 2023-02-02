@@ -19,7 +19,12 @@ type OverviewProps = {
   allDispatches: AllDispatches;
 };
 
-function Overview({ children, allStates, allActions, allDispatches }: OverviewProps) {
+function Overview({
+  children,
+  allStates,
+  allActions,
+  allDispatches,
+}: OverviewProps) {
   const { width = 0 } = useWindowSize();
   const selectedVolume = allStates.responseState.selectedVolume;
 
@@ -59,7 +64,10 @@ function Overview({ children, allStates, allActions, allDispatches }: OverviewPr
   const industryIdentifiers = selectedVolume
     ? selectedVolume?.volumeInfo.industryIdentifiers?.map((id) => (
         <Text key={id.identifier}>
-          {id.type.includes("ISBN") ? `${id.type.split("_").join("-")}` : "Other"}:{" "}
+          {id.type.includes("ISBN")
+            ? `${id.type.split("_").join("-")}`
+            : "Other"}
+          :{" "}
           {id.identifier.toLowerCase().includes(":")
             ? id.identifier.split(":")[1]
             : id.identifier.toLowerCase()}
@@ -68,7 +76,10 @@ function Overview({ children, allStates, allActions, allDispatches }: OverviewPr
       ))
     : selectedVolumeForage?.volumeInfo.industryIdentifiers?.map((id) => (
         <Text key={id.identifier}>
-          {id.type.includes("ISBN") ? `${id.type.split("_").join("-")}` : "Other"}:{" "}
+          {id.type.includes("ISBN")
+            ? `${id.type.split("_").join("-")}`
+            : "Other"}
+          :{" "}
           {id.identifier.toLowerCase().includes(":")
             ? id.identifier.split(":")[1]
             : id.identifier.toLowerCase()}
@@ -78,12 +89,16 @@ function Overview({ children, allStates, allActions, allDispatches }: OverviewPr
 
   const publishedDate = selectedVolume
     ? Number.isNaN(
-        new Date(selectedVolume?.volumeInfo?.publishedDate ?? "").getFullYear(),
+        new Date(selectedVolume?.volumeInfo?.publishedDate ?? "").getFullYear()
       )
       ? "Unavailable"
-      : new Date(selectedVolume?.volumeInfo?.publishedDate ?? "").getFullYear().toString()
+      : new Date(selectedVolume?.volumeInfo?.publishedDate ?? "")
+          .getFullYear()
+          .toString()
     : Number.isNaN(
-        new Date(selectedVolumeForage?.volumeInfo?.publishedDate ?? "").getFullYear(),
+        new Date(
+          selectedVolumeForage?.volumeInfo?.publishedDate ?? ""
+        ).getFullYear()
       )
     ? "Unavailable"
     : new Date(selectedVolumeForage?.volumeInfo?.publishedDate ?? "")
@@ -105,11 +120,12 @@ function Overview({ children, allStates, allActions, allDispatches }: OverviewPr
   const printType = selectedVolume
     ? `${selectedVolume?.volumeInfo?.printType.slice(
         0,
-        1,
-      )}${selectedVolume?.volumeInfo.printType.toLowerCase().slice(1)}` ?? "Unavailable"
+        1
+      )}${selectedVolume?.volumeInfo.printType.toLowerCase().slice(1)}` ??
+      "Unavailable"
     : `${selectedVolumeForage?.volumeInfo?.printType.slice(
         0,
-        1,
+        1
       )}${selectedVolumeForage?.volumeInfo.printType.toLowerCase().slice(1)}` ??
       "Unavailable";
 
@@ -119,7 +135,8 @@ function Overview({ children, allStates, allActions, allDispatches }: OverviewPr
 
   const language = selectedVolume
     ? getLanguageFromCode(selectedVolume?.volumeInfo.language) ?? "Unavailable"
-    : getLanguageFromCode(selectedVolumeForage?.volumeInfo.language) ?? "Unavailable";
+    : getLanguageFromCode(selectedVolumeForage?.volumeInfo.language ?? "") ??
+      "Unavailable";
 
   const averageRating = selectedVolume
     ? selectedVolume?.volumeInfo.averageRating ?? "Unavailable"
@@ -132,7 +149,7 @@ function Overview({ children, allStates, allActions, allDispatches }: OverviewPr
   const maturityRating = selectedVolume
     ? `${selectedVolume?.volumeInfo.maturityRating.slice(
         0,
-        1,
+        1
       )}${selectedVolume?.volumeInfo.maturityRating
         .toLowerCase()
         .split("_")
@@ -140,7 +157,7 @@ function Overview({ children, allStates, allActions, allDispatches }: OverviewPr
         .slice(1)}` ?? "Unavailable"
     : `${selectedVolumeForage?.volumeInfo.maturityRating.slice(
         0,
-        1,
+        1
       )}${selectedVolumeForage?.volumeInfo.maturityRating
         .toLowerCase()
         .split("_")
@@ -165,7 +182,11 @@ function Overview({ children, allStates, allActions, allDispatches }: OverviewPr
         <Grid columns={width < 576 ? 1 : 3}>
           <Grid.Col span={1}>
             <Card.Section p={width < 576 ? "sm" : "lg"}>
-              <Image width={width < 576 ? "50%" : "75%"} src={imageSrc} alt={imageAlt} />
+              <Image
+                width={width < 576 ? "50%" : "75%"}
+                src={imageSrc}
+                alt={imageAlt}
+              />
             </Card.Section>
           </Grid.Col>
 

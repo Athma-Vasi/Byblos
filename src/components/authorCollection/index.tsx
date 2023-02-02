@@ -6,7 +6,12 @@ import { ErrorBoundary } from "react-error-boundary";
 import { useParams } from "react-router-dom";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
-import { AllActions, AllDispatches, AllStates, VolumeWithCustomId } from "../../types";
+import {
+  AllActions,
+  AllDispatches,
+  AllStates,
+  VolumeWithCustomId,
+} from "../../types";
 import { insertCustomId } from "../../utils";
 import DisplayGeneric from "../displayGeneric";
 import { MyPagination } from "../pagination";
@@ -27,7 +32,9 @@ function AuthorCollection({
   const {
     responseState: { selectedVolume },
   } = allStates;
-  const [authorCollection, setAuthorCollection] = useState<VolumeWithCustomId[]>([]);
+  const [authorCollection, setAuthorCollection] = useState<
+    VolumeWithCustomId[]
+  >([]);
 
   const { width = 0 } = useWindowSize();
   const { volumeId } = useParams();
@@ -35,7 +42,11 @@ function AuthorCollection({
   useEffect(() => {
     const fetchAuthorCollection = async () => {
       try {
-        const fetchUrlWithAuthor = `https://www.googleapis.com/books/v1/volumes?q=${allStates.responseState.selectedAuthor}+inauthor:${selectedVolume?.volumeInfo.authors[0]}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
+        const fetchUrlWithAuthor = `https://www.googleapis.com/books/v1/volumes?q=${
+          allStates.responseState.selectedAuthor
+        }+inauthor:${selectedVolume?.volumeInfo.authors.join(
+          ","
+        )}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
 
         const { data } = await axios.get(fetchUrlWithAuthor);
 
@@ -56,7 +67,10 @@ function AuthorCollection({
 
           await localforage.setItem("byblos-activePage", 1);
         } catch (error) {
-          console.error("Error saving authorCollection to localforage: ", error);
+          console.error(
+            "Error saving authorCollection to localforage: ",
+            error
+          );
         } finally {
           allDispatches.responseDispatch({
             type: allActions.responseActions.setAll,
@@ -72,7 +86,7 @@ function AuthorCollection({
   }, []);
 
   const modifiedSearchResults = insertCustomId(
-    allStates.responseState.searchResults?.items ?? [],
+    allStates.responseState.searchResults?.items ?? []
   );
 
   return (
