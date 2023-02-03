@@ -79,36 +79,17 @@ function AdvancedSearch({
 
     try {
       await fetchSearchResults(searchStr);
-      //first clear localforage
-      await localforage.clear();
-
-      // await localforage.setItem("responseState", allStates.responseState).then(() => {
-      //   //state is updated after all responseState properties are set
-      //
-
-      //   navigate(`/home/displayResults/${allStates.responseState.activePage}`);
-      // });
 
       await localforage.setItem(
         "activePage",
         allStates.responseState.activePage
       );
-      await localforage.setItem(
-        "authorCollection",
-        allStates.responseState.authorCollection
-      );
+
       await localforage.setItem(
         "byblos-fetchUrl",
         allStates.responseState.fetchUrl
       );
-      await localforage.setItem(
-        "byblos-otherEditions",
-        allStates.responseState.otherEditions
-      );
-      await localforage.setItem(
-        "publisherCollection",
-        allStates.responseState.publisherCollection
-      );
+
       await localforage.setItem(
         "byblos-resultsPerPage",
         allStates.responseState.resultsPerPage

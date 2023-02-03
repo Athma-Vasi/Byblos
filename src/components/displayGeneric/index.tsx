@@ -138,8 +138,6 @@ function DisplayGeneric({
 
       window.scrollTo(0, 0);
     }
-
-    // navigate(`/home/displayVolume/${volume.customId}`);
   }
 
   return (

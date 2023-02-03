@@ -9,9 +9,6 @@ type ResponseState = {
   fetchUrl: string;
   resultsPerPage: string;
   selectedVolume: null | VolumeWithCustomId;
-  otherEditions: null | VolumeWithCustomId[];
-  publisherCollection: null | VolumeWithCustomId[];
-  authorCollection: null | VolumeWithCustomId[];
   selectedAuthor: string;
   selectedPublisher: string;
   searchResults: null | ApiResponseVolume;
@@ -22,11 +19,8 @@ type ResponseActions = {
   setActivePage: "setActivePage";
   setFetchUrl: "setFetchUrl";
   setSelectedVolume: "setSelectedVolume";
-  setOtherEditions: "setOtherEditions";
   setSelectedAuthor: "setSelectedAuthor";
   setSelectedPublisher: "setSelectedPublisher";
-  setPublisherCollection: "setPublisherCollection";
-  setAuthorCollection: "setAuthorCollection";
   setResultsPerPage: "setResultsPerPage";
   setSearchResults: "setSearchResults";
   setAll: "setAll";
@@ -105,7 +99,11 @@ interface Epub {
   acsTokenLink?: string;
 }
 
-type Kind = "books#volume" | "books#volumes" | "books#bookshelves" | "books#bookshelf";
+type Kind =
+  | "books#volume"
+  | "books#volumes"
+  | "books#bookshelves"
+  | "books#bookshelf";
 
 interface SaleInfo {
   country: string;
