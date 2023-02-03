@@ -16,14 +16,18 @@ type ResponseState = {
 
 type UserBookshelf = {
   name: string;
-  volumeId: string;
+  id: string;
   volume: VolumeWithCustomId;
   rating: number;
-  favorite: boolean;
+  favourite: boolean;
   readLater: boolean;
   markRead: boolean;
-  dateAdded: string;
+  dateAdded: Date;
 };
+
+type UserBookshelfActions = "rating" | "favourite" | "readLater" | "markRead";
+
+type RatingAction = 1 | 2 | 3 | 4 | 5;
 
 type ResponseActions = {
   setSearchTerm: "setSearchTerm";
@@ -205,10 +209,12 @@ export type {
   AllStates,
   ApiResponseVolume,
   FormInputNames,
+  RatingAction,
   ResponseActions,
   ResponseDispatch,
   ResponseState,
   UserBookshelf,
+  UserBookshelfActions,
   Volume,
   WindowSize,
   VolumeWithCustomId,

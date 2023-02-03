@@ -6,6 +6,8 @@ import { ApiResponseVolume, ResponseState, VolumeWithCustomId } from "../types";
 function insertCustomId(
   items: ApiResponseVolume["items"]
 ): VolumeWithCustomId[] {
+  //this function is used to add a custom id to each volume object
+  //only used for rendering as there are sometimes duplicate ids returned from the api
   return items.map((item) => {
     const customId = uuidV4();
     const clone = structuredClone(item);

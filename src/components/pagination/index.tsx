@@ -28,8 +28,6 @@ function MyPagination({
   allDispatches: { responseDispatch },
 }: MyPaginationProps) {
   const { page, volumeId } = useParams();
-  console.log("pagination page params : ", page);
-  console.log("parent path", parentPath);
 
   const navigate = useNavigate();
   const { width = 0 } = useWindowSize();
@@ -37,44 +35,11 @@ function MyPagination({
     responseState;
 
   const totalItems = searchResults?.totalItems ?? 1;
-  console.log("totalItems: ", totalItems);
 
   const numberOfPages = Math.ceil(totalItems / Number(resultsPerPage));
-  console.log("numberOfPages: ", numberOfPages);
 
   const startIndex =
     activePage * Number(resultsPerPage) - Number(resultsPerPage);
-  console.log("startIndex: ", startIndex);
-
-  //
-  //
-  // const [numberOfPages, setNumberOfPages] = useState(0);
-  // const [startIndex, setStartIndex] = useState(0);
-
-  // useEffect(() => {
-  //   const fetchItemsData = async () => {
-  //     try {
-  //       localforage
-  //         .getItem<ResponseState["searchResults"]>("byblos-searchResults")
-  //         .then((value) => {
-  //           console.log("value from pagination: ", value);
-  //           if (value) {
-  //             setNumberOfPages(Math.ceil(value.totalItems / Number(resultsPerPage)));
-  //             setStartIndex(activePage * Number(resultsPerPage) - Number(resultsPerPage));
-  //           }
-  //         });
-  //     } catch (error) {
-  //       console.error(error);
-  //     } finally {
-  //       responseDispatch({
-  //         type: responseActions.setAll,
-  //         payload: { responseState },
-  //       });
-  //     }
-  //   };
-
-  //   fetchItemsData();
-  // }, []);
 
   //handles browser back and forward button page navigation
   useEffect(() => {
@@ -155,10 +120,6 @@ function MyPagination({
           "&"
         )}`;
 
-        console.log(
-          "startIndexAddedToFetchUrl from pagination useEffect: ",
-          startIndexAddedToFetchUrl
-        );
         try {
           const { data } = await axios.get(startIndexAddedToFetchUrl);
           responseState.activePage = activePage;
@@ -196,29 +157,12 @@ function MyPagination({
 
   async function handlePrevPageBttnClick() {
     try {
-      // localforage.getItem<ResponseState>("responseState").then((value) => {
-      //   if (value) {
-      //     if (value.activePage === 1) return;
-      //     console.log("pagination prevButton: ", value);
-      //     responseState.activePage = value.activePage - 1;
-      //     responseDispatch({
-      //       type: responseActions.setActivePage,
-      //       payload: { responseState },
-      //     });
-      //   }
-      // });
-
-      // localforage.setItem("responseState", responseState).then((_) => {
-      //   scrollTo(0, 0);
-      // });
-
       await localforage
         .getItem<ResponseState["activePage"]>("byblos-activePage")
         .then((value) => {
           if (value) {
             if (value === 1) return;
             responseState.activePage = value - 1;
-            console.log("pagination prevButton: ", responseState.activePage);
           }
         });
 
@@ -238,17 +182,6 @@ function MyPagination({
   }
 
   async function handleNextPageBttnClick() {
-    // event: MouseEvent<HTMLButtonElement, MouseEvent>,
-    // if (activePage === numberOfPages) return;
-    // responseState.activePage = activePage + 1;
-    // responseDispatch({
-    //   type: responseActions.setActivePage,
-    //   payload: { responseState },
-    // });
-
-    // //scroll to top of page
-    // window.scrollTo(0, 0);
-
     try {
       await localforage
         .getItem<ResponseState["activePage"]>("byblos-activePage")
@@ -256,7 +189,6 @@ function MyPagination({
           if (value) {
             if (value === numberOfPages) return;
             responseState.activePage = value + 1;
-            console.log("pagination nextButton: ", responseState.activePage);
           }
         });
 
@@ -288,10 +220,6 @@ function MyPagination({
     responseState.activePage = pageToJumpTo;
 
     try {
-      // localforage.setItem("responseState", responseState).then((_) => {
-      //   window.scrollTo(0, 0);
-      // });
-
       await localforage
         .setItem("byblos-activePage", responseState.activePage)
         .then((value) => {

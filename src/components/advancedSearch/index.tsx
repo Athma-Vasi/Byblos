@@ -254,7 +254,7 @@ function AdvancedSearch({
     const author = document.querySelector<HTMLInputElement>(
       "[data-textinput='author']"
     );
-    author === null ? null : (author.defaultValue = "robin hobb");
+    author === null ? null : (author.defaultValue = "lois mcmaster bujold");
     // const publisher = document.querySelector<HTMLInputElement>(
     //   "[data-textinput='publisher']",
     // );

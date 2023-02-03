@@ -18,7 +18,6 @@ import { Link, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import {
-  MdFavorite,
   MdOutlineFavorite,
   MdOutlineFavoriteBorder,
   MdOutlineWatchLater,
@@ -30,8 +29,10 @@ import {
   AllActions,
   AllDispatches,
   AllStates,
+  RatingAction,
   ResponseState,
   UserBookshelf,
+  UserBookshelfActions,
   VolumeWithCustomId,
 } from "../../types";
 import { insertCustomId } from "../../utils";
@@ -67,62 +68,257 @@ function DisplayGeneric({
     VolumeWithCustomId[]
   >([]);
 
+  const [tempLocalBookshelf, setTempLocalBookshelf] = useState<UserBookshelf[]>(
+    [
+      {
+        // sample data upon first initialization if no data is found in localforage
+        name: "Mirror Dance",
+        id: uuidv4(), // future actual ids are the server generated google books id
+        volume: localForageFallback[0], // will be undefined for this sample, all future volumes will not be undefined
+        rating: 5,
+        markRead: true,
+        favourite: true,
+        readLater: true,
+        dateAdded: new Date(),
+      },
+    ]
+  );
+
   const [modalOpened, setModalOpened] = useState(false);
   const [modalSrc, setModalSrc] = useState("");
   const [modalAlt, setModalAlt] = useState("");
 
-  const [rating, setRating] = useState(0);
-  const [isFavorite, setIsFavorite] = useState(false);
-  const [isRead, setIsRead] = useState(false);
-  const [isToRead, setIsToRead] = useState(false);
-  const [userRatedVolume, setUserRatedVolume] = useState<VolumeWithCustomId>(
-    //will be initialized as undefined and replaced with user selected volume
-    localForageFallback[0]
-  );
+  async function handleUserBookshelfAction(
+    kind: UserBookshelfActions,
+    localVolume: VolumeWithCustomId,
+    tempLocalBookshelf: UserBookshelf[],
+    value: RatingAction | boolean
+  ) {
+    const tempLocalBookshelfClone = structuredClone(tempLocalBookshelf);
 
-  console.log("rating", rating);
-  console.log("isFavorite", isFavorite);
-  console.log("isRead", isRead);
-  console.log("isToRead", isToRead);
-  console.log("userRatedVolume", userRatedVolume);
+    switch (kind) {
+      case "rating": {
+        const existingTempLocalBookshelfVolume = tempLocalBookshelfClone.find(
+          (bookshelfVolume) => bookshelfVolume.id === localVolume.id
+        );
 
-  useEffect(() => {
-    const storeUsersVolumeInBookshelf = async () => {
-      try {
-        const userBookshelf: UserBookshelf[] = (await localforage.getItem<
-          UserBookshelf[]
-        >("byblos-userBookshelf")) ?? [
-          {
-            name: "Mirror Dance",
-            volumeId: uuidv4(),
-            volume: localForageFallback[0],
-            rating: 5,
-            favorite: true,
-            markRead: true,
+        const idxOfExistingTempLocalBookshelfVolume =
+          tempLocalBookshelfClone.findIndex(
+            (bookshelfVolume) => bookshelfVolume.id === localVolume.id
+          );
+
+        if (existingTempLocalBookshelfVolume) {
+          existingTempLocalBookshelfVolume.rating = value as RatingAction;
+
+          tempLocalBookshelfClone.splice(
+            idxOfExistingTempLocalBookshelfVolume,
+            1,
+            existingTempLocalBookshelfVolume
+          );
+
+          setTempLocalBookshelf(tempLocalBookshelfClone);
+
+          await localforage.setItem<UserBookshelf[]>(
+            "byblos-userBookshelf",
+            tempLocalBookshelfClone
+          );
+        } else {
+          tempLocalBookshelfClone.push({
+            name: localVolume.volumeInfo.title,
+            id: localVolume.id,
+            volume: localVolume,
+            rating: value as RatingAction,
+            markRead: false,
+            favourite: false,
             readLater: false,
-            dateAdded: new Date().toISOString(),
-          },
-        ];
+            dateAdded: new Date(),
+          });
 
-        console.log("userBookshelf", userBookshelf);
-        console.log(
-          "dateAdded",
-          new Intl.DateTimeFormat("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "2-digit",
-          }).format(new Date(userBookshelf[0].dateAdded))
-        );
-      } catch (error) {
-        console.error(
-          "Error in displayGeneric storeUsersVolumeInBookshelf(): ",
-          error
-        );
+          setTempLocalBookshelf(tempLocalBookshelfClone);
+
+          await localforage.setItem<UserBookshelf[]>(
+            "byblos-userBookshelf",
+            tempLocalBookshelfClone
+          );
+
+          console.log(
+            "rating added to userBookshelf in localforage",
+            tempLocalBookshelfClone
+          );
+        }
+
+        break;
       }
-    };
 
-    storeUsersVolumeInBookshelf();
-  }, [rating, isFavorite, isRead, isToRead]);
+      case "markRead": {
+        console.log("value of markedRead inside switch: ", value);
+
+        const existingTempLocalBookshelfVolume = tempLocalBookshelfClone.find(
+          (bookshelfVolume) => bookshelfVolume.id === localVolume.id
+        );
+
+        const idxOfExistingTempLocalBookshelfVolume =
+          tempLocalBookshelfClone.findIndex(
+            (bookshelfVolume) => bookshelfVolume.id === localVolume.id
+          );
+
+        if (existingTempLocalBookshelfVolume) {
+          existingTempLocalBookshelfVolume.markRead = !value as boolean;
+
+          tempLocalBookshelfClone.splice(
+            idxOfExistingTempLocalBookshelfVolume,
+            1,
+            existingTempLocalBookshelfVolume
+          );
+
+          setTempLocalBookshelf(tempLocalBookshelfClone);
+
+          await localforage.setItem<UserBookshelf[]>(
+            "byblos-userBookshelf",
+            tempLocalBookshelfClone
+          );
+        } else {
+          tempLocalBookshelfClone.push({
+            name: localVolume.volumeInfo.title,
+            id: localVolume.id,
+            volume: localVolume,
+            rating: 0,
+            markRead: !value as boolean,
+            favourite: false,
+            readLater: false,
+            dateAdded: new Date(),
+          });
+
+          setTempLocalBookshelf(tempLocalBookshelfClone);
+
+          await localforage.setItem<UserBookshelf[]>(
+            "byblos-userBookshelf",
+            tempLocalBookshelfClone
+          );
+
+          console.log(
+            "markRead added to userBookshelf in localforage",
+            tempLocalBookshelfClone
+          );
+        }
+
+        break;
+      }
+
+      case "favourite": {
+        console.log("value of favourite inside switch: ", value);
+
+        const existingTempLocalBookshelfVolume = tempLocalBookshelfClone.find(
+          (bookshelfVolume) => bookshelfVolume.id === localVolume.id
+        );
+
+        const idxOfExistingTempLocalBookshelfVolume =
+          tempLocalBookshelfClone.findIndex(
+            (bookshelfVolume) => bookshelfVolume.id === localVolume.id
+          );
+
+        if (existingTempLocalBookshelfVolume) {
+          existingTempLocalBookshelfVolume.favourite = !value as boolean;
+
+          tempLocalBookshelfClone.splice(
+            idxOfExistingTempLocalBookshelfVolume,
+            1,
+            existingTempLocalBookshelfVolume
+          );
+
+          setTempLocalBookshelf(tempLocalBookshelfClone);
+
+          await localforage.setItem<UserBookshelf[]>(
+            "byblos-userBookshelf",
+            tempLocalBookshelfClone
+          );
+        } else {
+          tempLocalBookshelfClone.push({
+            name: localVolume.volumeInfo.title,
+            id: localVolume.id,
+            volume: localVolume,
+            rating: 0,
+            markRead: false,
+            favourite: !value as boolean,
+            readLater: false,
+            dateAdded: new Date(),
+          });
+
+          setTempLocalBookshelf(tempLocalBookshelfClone);
+
+          await localforage.setItem<UserBookshelf[]>(
+            "byblos-userBookshelf",
+            tempLocalBookshelfClone
+          );
+
+          console.log(
+            "favourite added to userBookshelf in localforage",
+            tempLocalBookshelfClone
+          );
+        }
+
+        break;
+      }
+
+      case "readLater": {
+        console.log("value of readLater inside switch: ", value);
+
+        const existingTempLocalBookshelfVolume = tempLocalBookshelfClone.find(
+          (bookshelfVolume) => bookshelfVolume.id === localVolume.id
+        );
+
+        const idxOfExistingTempLocalBookshelfVolume =
+          tempLocalBookshelfClone.findIndex(
+            (bookshelfVolume) => bookshelfVolume.id === localVolume.id
+          );
+
+        if (existingTempLocalBookshelfVolume) {
+          existingTempLocalBookshelfVolume.readLater = !value as boolean;
+
+          tempLocalBookshelfClone.splice(
+            idxOfExistingTempLocalBookshelfVolume,
+            1,
+            existingTempLocalBookshelfVolume
+          );
+
+          setTempLocalBookshelf(tempLocalBookshelfClone);
+
+          await localforage.setItem<UserBookshelf[]>(
+            "byblos-userBookshelf",
+            tempLocalBookshelfClone
+          );
+        } else {
+          tempLocalBookshelfClone.push({
+            name: localVolume.volumeInfo.title,
+            id: localVolume.id,
+            volume: localVolume,
+            rating: 0,
+            markRead: false,
+            favourite: false,
+            readLater: !value as boolean,
+            dateAdded: new Date(),
+          });
+
+          setTempLocalBookshelf(tempLocalBookshelfClone);
+
+          await localforage.setItem<UserBookshelf[]>(
+            "byblos-userBookshelf",
+            tempLocalBookshelfClone
+          );
+
+          console.log(
+            "readLater added to userBookshelf in localforage",
+            tempLocalBookshelfClone
+          );
+        }
+
+        break;
+      }
+
+      default:
+        break;
+    }
+  }
 
   useEffect(() => {
     const fetchLocalStorageFallback = async () => {
@@ -198,6 +394,44 @@ function DisplayGeneric({
       window.scrollTo(0, 0);
     }
   }
+
+  useEffect(() => {
+    (async function generateUserBookshelf() {
+      let initialUserBookshelf: UserBookshelf[] = [];
+      try {
+        initialUserBookshelf = await localforage
+          .getItem<UserBookshelf[]>("byblos-userBookshelf")
+          .then(
+            (value) =>
+              value ?? [
+                {
+                  // sample data upon first initialization if no data is found in localforage
+                  name: "Mirror Dance",
+                  id: uuidv4(), // future actual ids are the server generated google books id
+                  volume: localForageFallback[0], // will be undefined for this sample, all future volumes will not be undefined
+                  rating: 5,
+                  markRead: true,
+                  favourite: true,
+                  readLater: true,
+                  dateAdded: new Date(),
+                },
+              ]
+          );
+      } catch (error) {
+        console.error(
+          "Error in displayGeneric generateUserBookshelf(): ",
+          error
+        );
+      }
+      return initialUserBookshelf;
+    })().then((value) => {
+      //initial bookshelf value is set here
+      //tempLocalBookshelf's initial value is replaced upon initialization to avoid having to set null initially
+      setTempLocalBookshelf(value);
+
+      console.log("tempLocalBookshelf useEffect in displayGeneric", value);
+    });
+  }, []);
 
   return (
     <Fragment>
@@ -281,22 +515,35 @@ function DisplayGeneric({
                   <Popover.Dropdown>
                     <Text>Rate</Text>
                     <MyRating
-                      value={rating}
-                      onChange={(value) => {
-                        setRating(value);
-                        setUserRatedVolume(item);
-                      }}
+                      value={
+                        tempLocalBookshelf?.find((book) => book.id === item.id)
+                          ?.rating ?? 0
+                      }
+                      onChange={(value) =>
+                        handleUserBookshelfAction(
+                          "rating",
+                          item,
+                          tempLocalBookshelf,
+                          value
+                        )
+                      }
                     />
 
                     <Text>Favourite</Text>
                     <Button
                       variant="subtle"
                       onClick={() => {
-                        setIsFavorite((prev) => !prev);
-                        setUserRatedVolume(item);
+                        handleUserBookshelfAction(
+                          "favourite",
+                          item,
+                          tempLocalBookshelf,
+                          tempLocalBookshelf.find((book) => book.id === item.id)
+                            ?.favourite ?? false
+                        );
                       }}
                     >
-                      {isFavorite ? (
+                      {tempLocalBookshelf?.find((book) => book.id === item.id)
+                        ?.favourite ? (
                         <MdOutlineFavorite size={20} />
                       ) : (
                         <MdOutlineFavoriteBorder size={20} />
@@ -307,11 +554,17 @@ function DisplayGeneric({
                     <Button
                       variant="subtle"
                       onClick={() => {
-                        setIsToRead((prev) => !prev);
-                        setUserRatedVolume(item);
+                        handleUserBookshelfAction(
+                          "readLater",
+                          item,
+                          tempLocalBookshelf,
+                          tempLocalBookshelf.find((book) => book.id === item.id)
+                            ?.readLater ?? false
+                        );
                       }}
                     >
-                      {isToRead ? (
+                      {tempLocalBookshelf?.find((book) => book.id === item.id)
+                        ?.readLater ? (
                         <MdWatchLater size={20} />
                       ) : (
                         <MdOutlineWatchLater size={20} />
@@ -322,11 +575,17 @@ function DisplayGeneric({
                     <Button
                       variant="subtle"
                       onClick={() => {
-                        setIsRead(!isRead);
-                        setUserRatedVolume(item);
+                        handleUserBookshelfAction(
+                          "markRead",
+                          item,
+                          tempLocalBookshelf,
+                          tempLocalBookshelf.find((book) => book.id === item.id)
+                            ?.markRead ?? false
+                        );
                       }}
                     >
-                      {isRead ? (
+                      {tempLocalBookshelf?.find((book) => book.id === item.id)
+                        ?.markRead ? (
                         <IoMdCheckmarkCircle size={20} />
                       ) : (
                         <IoMdCheckmarkCircleOutline size={20} />

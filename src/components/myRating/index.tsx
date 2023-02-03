@@ -6,11 +6,17 @@ import { TbMoodSmile } from "react-icons/tb";
 import { TbMoodHappy } from "react-icons/tb";
 import { TbMoodCrazyHappy } from "react-icons/tb";
 import { TbMoodEmpty } from "react-icons/tb";
+import {
+  RatingAction,
+  UserBookshelf,
+  UserBookshelfActions,
+  VolumeWithCustomId,
+} from "../../types";
 
 type MyRatingProps = {
   children?: React.ReactNode;
   value: number;
-  onChange: React.Dispatch<React.SetStateAction<number>>;
+  onChange: (value: RatingAction) => Promise<void>;
 };
 
 function MyRating({ children, value, onChange }: MyRatingProps) {
