@@ -1,7 +1,10 @@
 import { Card, Grid, Space, Container, Text, Image } from "@mantine/core";
 import localforage from "localforage";
 import { useEffect, useState } from "react";
-import { AiOutlineAmazon, AiFillBook } from "react-icons/ai";
+import { AiOutlineAmazon, AiFillBook, AiOutlineGoogle } from "react-icons/ai";
+import { BiBookReader } from "react-icons/bi";
+import { IoReaderOutline } from "react-icons/io5";
+import { HiOutlineBookOpen } from "react-icons/hi2";
 import { useWindowSize } from "../../hooks/useWindowSize";
 import {
   AllActions,
@@ -172,6 +175,26 @@ function Overview({
     ? `https://www.chapters.indigo.ca/en-ca/books/product/${selectedVolume?.volumeInfo.industryIdentifiers[0].identifier}-item.html?s_campaign=Google_BookSearch_organic`
     : `https://www.chapters.indigo.ca/en-ca/books/product/${selectedVolumeForage?.volumeInfo.industryIdentifiers[0].identifier}-item.html?s_campaign=Google_BookSearch_organic`;
 
+  const googleBooksLink = selectedVolume
+    ? selectedVolume?.volumeInfo.canonicalVolumeLink
+    : selectedVolumeForage?.volumeInfo.canonicalVolumeLink;
+
+  const googleBooksPreview = selectedVolume
+    ? selectedVolume?.volumeInfo.previewLink
+    : selectedVolumeForage?.volumeInfo.previewLink;
+
+  const googleBooksEpub = selectedVolume
+    ? selectedVolume?.accessInfo?.epub?.isAvailable
+      ? selectedVolume?.accessInfo?.epub?.acsTokenLink
+      : "Unavailable"
+    : selectedVolumeForage?.accessInfo?.epub?.isAvailable
+    ? selectedVolumeForage?.accessInfo?.epub?.acsTokenLink
+    : "Unavailable";
+
+  const googleBooksWebReader = selectedVolume
+    ? selectedVolume?.accessInfo?.webReaderLink
+    : selectedVolumeForage?.accessInfo?.webReaderLink;
+
   return (
     <div>
       <Text align="start" size="lg">
@@ -263,6 +286,45 @@ function Overview({
                 <AiFillBook size={50} />
                 <Text>Chapters Indigo</Text>
                 <a href={chaptersLink}>Search Chapters Indigo</a>
+              </Container>
+
+              <Container>
+                <AiOutlineGoogle size={50} />
+                <Text>Google Books</Text>
+                <a href={googleBooksLink}>Search Google Books</a>
+              </Container>
+            </Card.Section>
+          </Grid.Col>
+        </Grid>
+      </Card>
+
+      <Space h="lg" />
+
+      <Text align="start" size="lg">
+        Previews
+      </Text>
+
+      <Card shadow="sm" radius="md" style={{ width: "100%" }}>
+        <Grid columns={width < 576 ? 1 : 2}>
+          <Grid.Col span={1}>
+            <Card.Section p={width < 576 ? "sm" : "lg"}>
+              <Text>{"Google Books (may require authorization)"}</Text>
+
+              <Container>
+                <BiBookReader size={50} />
+                <a href={googleBooksPreview}>View sample preview online</a>
+              </Container>
+
+              <Container>
+                <IoReaderOutline size={50} />
+                <a href={googleBooksWebReader}>
+                  View sample using Google's web reader
+                </a>
+              </Container>
+
+              <Container>
+                <HiOutlineBookOpen size={50} />
+                <a href={googleBooksEpub}>Download link to free epub sample</a>
               </Container>
             </Card.Section>
           </Grid.Col>

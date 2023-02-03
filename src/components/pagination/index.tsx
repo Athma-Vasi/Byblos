@@ -36,7 +36,7 @@ function MyPagination({
   const { searchTerm, searchResults, fetchUrl, activePage, resultsPerPage } =
     responseState;
 
-  const totalItems = searchResults?.totalItems ?? 0;
+  const totalItems = searchResults?.totalItems ?? 1;
   console.log("totalItems: ", totalItems);
 
   const numberOfPages = Math.ceil(totalItems / Number(resultsPerPage));

@@ -1,9 +1,13 @@
 import {
+  Button,
   Center,
   Flex,
   Grid,
   Highlight,
+  HoverCard,
   Image,
+  Popover,
+  Rating,
   Spoiler,
   Text,
   Title,
@@ -12,6 +16,12 @@ import localforage from "localforage";
 import { Fragment, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import {
+  MdFavorite,
+  MdOutlineFavoriteBorder,
+  MdOutlineWatchLater,
+} from "react-icons/md";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
 import {
@@ -23,6 +33,11 @@ import {
 } from "../../types";
 import { insertCustomId } from "../../utils";
 import { MyImageModal } from "../myImageModal";
+import {
+  IoCheckmarkDoneCircle,
+  IoCheckmarkDoneCircleOutline,
+} from "react-icons/io5";
+import { GrFavorite } from "react-icons/gr";
 
 type DisplayGenericProps = {
   children?: React.ReactNode;
@@ -156,7 +171,7 @@ function DisplayGeneric({
                 />
               </Center>
             </Grid.Col>
-            <Grid.Col span={width < 992 ? 7 : 8}>
+            <Grid.Col span={width < 992 ? 6 : 7}>
               <Title
                 order={3}
                 style={{ cursor: "pointer" }}
@@ -195,6 +210,32 @@ function DisplayGeneric({
                   {item.volumeInfo.description ?? "Description unavailable"}
                 </Text>
               </Spoiler>
+            </Grid.Col>
+
+            <Grid.Col span={1}>
+              <Center>
+                <Popover width={300} position="bottom" withArrow shadow="md">
+                  <Popover.Target>
+                    <Button variant="outline">
+                      <BsThreeDotsVertical size={20} />
+                    </Button>
+                  </Popover.Target>
+                  {/* ratings popover */}
+                  <Popover.Dropdown>
+                    <Text>Rate</Text>
+                    <Rating defaultValue={2} count={5} />
+
+                    <Text>Favourite</Text>
+                    <MdOutlineFavoriteBorder size={20} />
+
+                    <Text>Read later</Text>
+                    <MdOutlineWatchLater size={20} />
+
+                    <Text>Mark read</Text>
+                    <IoCheckmarkDoneCircleOutline size={20} />
+                  </Popover.Dropdown>
+                </Popover>
+              </Center>
             </Grid.Col>
           </Grid>
         ))}
