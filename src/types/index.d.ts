@@ -14,6 +14,17 @@ type ResponseState = {
   searchResults: null | ApiResponseVolume;
 };
 
+type UserBookshelf = {
+  name: string;
+  volumeId: string;
+  volume: VolumeWithCustomId;
+  rating: number;
+  favorite: boolean;
+  readLater: boolean;
+  markRead: boolean;
+  dateAdded: string;
+};
+
 type ResponseActions = {
   setSearchTerm: "setSearchTerm";
   setActivePage: "setActivePage";
@@ -197,6 +208,7 @@ export type {
   ResponseActions,
   ResponseDispatch,
   ResponseState,
+  UserBookshelf,
   Volume,
   WindowSize,
   VolumeWithCustomId,

@@ -19,8 +19,10 @@ import { useNavigate } from "react-router-dom";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import {
   MdFavorite,
+  MdOutlineFavorite,
   MdOutlineFavoriteBorder,
   MdOutlineWatchLater,
+  MdWatchLater,
 } from "react-icons/md";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
@@ -29,15 +31,18 @@ import {
   AllDispatches,
   AllStates,
   ResponseState,
+  UserBookshelf,
   VolumeWithCustomId,
 } from "../../types";
 import { insertCustomId } from "../../utils";
 import { MyImageModal } from "../myImageModal";
 import {
-  IoCheckmarkDoneCircle,
-  IoCheckmarkDoneCircleOutline,
-} from "react-icons/io5";
+  IoMdCheckmarkCircle,
+  IoMdCheckmarkCircleOutline,
+} from "react-icons/io";
 import { GrFavorite } from "react-icons/gr";
+import MyRating from "../myRating";
+import { v4 as uuidv4 } from "uuid";
 
 type DisplayGenericProps = {
   children?: React.ReactNode;
@@ -58,12 +63,66 @@ function DisplayGeneric({
   const navigate = useNavigate();
   const { volumeId, page } = useParams();
 
-  const [modalOpened, setModalOpened] = useState(false);
-  const [modalSrc, setModalSrc] = useState("");
-  const [modalAlt, setModalAlt] = useState("");
   const [localForageFallback, setLocalForageFallback] = useState<
     VolumeWithCustomId[]
   >([]);
+
+  const [modalOpened, setModalOpened] = useState(false);
+  const [modalSrc, setModalSrc] = useState("");
+  const [modalAlt, setModalAlt] = useState("");
+
+  const [rating, setRating] = useState(0);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [isRead, setIsRead] = useState(false);
+  const [isToRead, setIsToRead] = useState(false);
+  const [userRatedVolume, setUserRatedVolume] = useState<VolumeWithCustomId>(
+    //will be initialized as undefined and replaced with user selected volume
+    localForageFallback[0]
+  );
+
+  console.log("rating", rating);
+  console.log("isFavorite", isFavorite);
+  console.log("isRead", isRead);
+  console.log("isToRead", isToRead);
+  console.log("userRatedVolume", userRatedVolume);
+
+  useEffect(() => {
+    const storeUsersVolumeInBookshelf = async () => {
+      try {
+        const userBookshelf: UserBookshelf[] = (await localforage.getItem<
+          UserBookshelf[]
+        >("byblos-userBookshelf")) ?? [
+          {
+            name: "Mirror Dance",
+            volumeId: uuidv4(),
+            volume: localForageFallback[0],
+            rating: 5,
+            favorite: true,
+            markRead: true,
+            readLater: false,
+            dateAdded: new Date().toISOString(),
+          },
+        ];
+
+        console.log("userBookshelf", userBookshelf);
+        console.log(
+          "dateAdded",
+          new Intl.DateTimeFormat("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "2-digit",
+          }).format(new Date(userBookshelf[0].dateAdded))
+        );
+      } catch (error) {
+        console.error(
+          "Error in displayGeneric storeUsersVolumeInBookshelf(): ",
+          error
+        );
+      }
+    };
+
+    storeUsersVolumeInBookshelf();
+  }, [rating, isFavorite, isRead, isToRead]);
 
   useEffect(() => {
     const fetchLocalStorageFallback = async () => {
@@ -214,23 +273,65 @@ function DisplayGeneric({
               <Center>
                 <Popover width={300} position="bottom" withArrow shadow="md">
                   <Popover.Target>
-                    <Button variant="outline">
+                    <Button variant="subtle">
                       <BsThreeDotsVertical size={20} />
                     </Button>
                   </Popover.Target>
                   {/* ratings popover */}
                   <Popover.Dropdown>
                     <Text>Rate</Text>
-                    <Rating defaultValue={2} count={5} />
+                    <MyRating
+                      value={rating}
+                      onChange={(value) => {
+                        setRating(value);
+                        setUserRatedVolume(item);
+                      }}
+                    />
 
                     <Text>Favourite</Text>
-                    <MdOutlineFavoriteBorder size={20} />
+                    <Button
+                      variant="subtle"
+                      onClick={() => {
+                        setIsFavorite((prev) => !prev);
+                        setUserRatedVolume(item);
+                      }}
+                    >
+                      {isFavorite ? (
+                        <MdOutlineFavorite size={20} />
+                      ) : (
+                        <MdOutlineFavoriteBorder size={20} />
+                      )}
+                    </Button>
 
                     <Text>Read later</Text>
-                    <MdOutlineWatchLater size={20} />
+                    <Button
+                      variant="subtle"
+                      onClick={() => {
+                        setIsToRead((prev) => !prev);
+                        setUserRatedVolume(item);
+                      }}
+                    >
+                      {isToRead ? (
+                        <MdWatchLater size={20} />
+                      ) : (
+                        <MdOutlineWatchLater size={20} />
+                      )}
+                    </Button>
 
                     <Text>Mark read</Text>
-                    <IoCheckmarkDoneCircleOutline size={20} />
+                    <Button
+                      variant="subtle"
+                      onClick={() => {
+                        setIsRead(!isRead);
+                        setUserRatedVolume(item);
+                      }}
+                    >
+                      {isRead ? (
+                        <IoMdCheckmarkCircle size={20} />
+                      ) : (
+                        <IoMdCheckmarkCircleOutline size={20} />
+                      )}
+                    </Button>
                   </Popover.Dropdown>
                 </Popover>
               </Center>
