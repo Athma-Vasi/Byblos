@@ -115,7 +115,7 @@ function MyPagination({
           .then((value) => {
             if (value) {
               if (value === 1) return;
-              responseState.activePage = value - 1;
+              responseState.activePage = value + 1;
             }
           });
 
@@ -127,7 +127,7 @@ function MyPagination({
               payload: { responseState },
             });
             window.scrollTo(0, 0);
-            navigate(`${parentPath}${value}`);
+            navigate(`${parentPath}${value + 1}`);
           });
       } catch (error) {
         console.error(

@@ -37,13 +37,18 @@ function Overview({
   useEffect(() => {
     const fetchSelectedVolumeFromLocalForage = async () => {
       try {
-        localforage
+        await localforage
           .getItem<ResponseState["selectedVolume"]>("byblos-selectedVolume")
           .then((value) => {
             if (value) {
               setSelectedVolumeForage(value);
             }
           });
+
+        await localforage.setItem<ResponseState["selectedVolume"]>(
+          "byblos-selectedVolume",
+          selectedVolume
+        );
       } catch (error) {
         console.error(error);
       }
@@ -279,19 +284,25 @@ function Overview({
               <Container>
                 <AiOutlineAmazon size={50} />
                 <Text>Amazon.ca</Text>
-                <a href={amazonLink}>Search Amazon.ca</a>
+                <a href={amazonLink} target="_blank">
+                  Search Amazon.ca
+                </a>
               </Container>
 
               <Container>
                 <AiFillBook size={50} />
                 <Text>Chapters Indigo</Text>
-                <a href={chaptersLink}>Search Chapters Indigo</a>
+                <a href={chaptersLink} target="_blank">
+                  Search Chapters Indigo
+                </a>
               </Container>
 
               <Container>
                 <AiOutlineGoogle size={50} />
                 <Text>Google Books</Text>
-                <a href={googleBooksLink}>Search Google Books</a>
+                <a href={googleBooksLink} target="_blank">
+                  Search Google Books
+                </a>
               </Container>
             </Card.Section>
           </Grid.Col>
@@ -312,19 +323,23 @@ function Overview({
 
               <Container>
                 <BiBookReader size={50} />
-                <a href={googleBooksPreview}>View sample preview online</a>
+                <a href={googleBooksPreview} target="_blank">
+                  View sample preview online
+                </a>
               </Container>
 
               <Container>
                 <IoReaderOutline size={50} />
-                <a href={googleBooksWebReader}>
+                <a href={googleBooksWebReader} target="_blank">
                   View sample using Google's web reader
                 </a>
               </Container>
 
               <Container>
                 <HiOutlineBookOpen size={50} />
-                <a href={googleBooksEpub}>Download link to free epub sample</a>
+                <a href={googleBooksEpub} target="_blank">
+                  Download link to free epub sample
+                </a>
               </Container>
             </Card.Section>
           </Grid.Col>

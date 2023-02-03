@@ -44,16 +44,15 @@ function DisplayResults({
             }
           });
       } catch (error) {
-        console.error(error);
+        console.error(
+          "Error in displayResults useEffect  fetchLocalStorageFallback(): ",
+          error
+        );
       }
     };
 
     fetchLocalStorageFallback();
   }, [allStates.responseState.searchResults]);
-
-  const modifiedSearchResults = insertCustomId(
-    allStates.responseState.searchResults?.items ?? []
-  );
 
   return (
     <Fragment>
@@ -69,9 +68,6 @@ function DisplayResults({
         allStates={allStates}
         allActions={allActions}
         allDispatches={allDispatches}
-        // volumes={
-        //   modifiedSearchResults.length === 0 ? localForageFallback : modifiedSearchResults
-        // }
       />
       {Array.from({ length: 5 }).map((_, i) => (
         <Space key={i} h="lg" />
@@ -87,63 +83,3 @@ function DisplayResults({
 }
 
 export default DisplayResults;
-
-/**
- <MyImageModal
-        modalOpened={modalOpened}
-        setModalOpened={setModalOpened}
-        src={modalSrc}
-        alt={modalAlt}
-      />
-      <Flex gap="xl" direction="column">
-        {modifiedSearchResults.map((item) => (
-          <Grid key={item.customId} columns={9}>
-            <Grid.Col span={width < 992 ? 2 : 1}>
-              <Center>
-                <Image
-                  style={{ cursor: "pointer" }}
-                  src={item.volumeInfo.imageLinks?.thumbnail}
-                  alt={`thumbnail of ${
-                    item.volumeInfo.title ?? "unavailable"
-                  } book cover`}
-                  onClick={() => {
-                    setModalSrc(item.volumeInfo.imageLinks?.thumbnail ?? "");
-                    setModalAlt(item.volumeInfo.title);
-                    setModalOpened(true);
-                  }}
-                  withPlaceholder
-                  placeholder={<Text align="center">No image available</Text>}
-                />
-              </Center>
-            </Grid.Col>
-            <Grid.Col span={width < 992 ? 7 : 8}>
-              <Title
-                order={3}
-                style={{ cursor: "pointer" }}
-                onClick={() => {
-                  handleTitleClick(item);
-                }}
-              >
-                {item.volumeInfo.title}
-              </Title>
-              {item.volumeInfo.authors?.map((author) => (
-                <Text key={author} style={{ cursor: "pointer" }}>
-                  {author}
-                </Text>
-              ))}
-              <Text>
-                {new Date(item.volumeInfo.publishedDate).getFullYear().toString()}
-              </Text>
-              <Spoiler
-                maxHeight={100}
-                showLabel="Show more"
-                hideLabel="Hide"
-                transitionDuration={382}
-              >
-                <Text>{item.volumeInfo.description}</Text>
-              </Spoiler>
-            </Grid.Col>
-          </Grid>
-        ))}
-      </Flex>
- */

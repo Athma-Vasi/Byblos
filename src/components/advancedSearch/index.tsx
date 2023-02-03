@@ -266,12 +266,14 @@ function AdvancedSearch({
     findWithout === null ? null : (findWithout.defaultValue = "barrayar");
   
     */
-    const title = document.querySelector<HTMLInputElement>(
-      "[data-textinput='title']"
+    // const title = document.querySelector<HTMLInputElement>(
+    //   "[data-textinput='title']"
+    // );
+    // title === null ? null : (title.defaultValue = "The Uplift War ");
+    const author = document.querySelector<HTMLInputElement>(
+      "[data-textinput='author']"
     );
-    title === null ? null : (title.defaultValue = "March Upcountry");
-    // const author = document.querySelector<HTMLInputElement>("[data-textinput='author']");
-    // author === null ? null : (author.defaultValue = "lois mcmaster bujold");
+    author === null ? null : (author.defaultValue = "robin hobb");
     // const publisher = document.querySelector<HTMLInputElement>(
     //   "[data-textinput='publisher']",
     // );
