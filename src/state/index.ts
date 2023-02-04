@@ -27,7 +27,7 @@ function responseReducer(
   responseState: ResponseState,
   responseDispatch: ResponseDispatch
 ) {
-  const responseClone = structuredClone(responseState);
+  // const responseClone = structuredClone(responseState);
   const {
     payload: {
       responseState: {
@@ -45,60 +45,55 @@ function responseReducer(
 
   switch (responseDispatch.type) {
     case responseActions.setSearchTerm: {
-      responseClone.searchTerm = searchTerm;
-      return responseClone;
+      return { ...responseState, searchTerm: searchTerm };
     }
 
     case responseActions.setActivePage: {
-      responseClone.activePage = activePage;
-      return responseClone;
+      return { ...responseState, activePage: activePage };
     }
 
     case responseActions.setResultsPerPage: {
-      responseClone.resultsPerPage = resultsPerPage;
-      return responseClone;
+      return { ...responseState, resultsPerPage: resultsPerPage };
     }
 
     case responseActions.setSelectedVolume: {
-      responseClone.selectedVolume = selectedVolume;
-      return responseClone;
+      return { ...responseState, selectedVolume: selectedVolume };
     }
 
     case responseActions.setSelectedAuthor: {
-      responseClone.selectedAuthor = selectedAuthor;
-      return responseClone;
+      return { ...responseState, selectedAuthor: selectedAuthor };
     }
 
     case responseActions.setSelectedPublisher: {
-      responseClone.selectedPublisher = selectedPublisher;
-      return responseClone;
+      return { ...responseState, selectedPublisher: selectedPublisher };
     }
 
     case responseActions.setFetchUrl: {
-      responseClone.fetchUrl = fetchUrl;
-      return responseClone;
+      return { ...responseState, fetchUrl: fetchUrl };
     }
 
     case responseActions.setSearchResults: {
-      responseClone.searchResults = searchResults;
-      return responseClone;
+      return { ...responseState, searchResults: searchResults };
     }
 
     case responseActions.setAll: {
-      responseClone.searchTerm = searchTerm;
-      responseClone.activePage = activePage;
-      responseClone.fetchUrl = fetchUrl;
-      responseClone.selectedVolume = selectedVolume;
+      const responseClone = structuredClone(responseState);
 
+      responseClone.selectedVolume = selectedVolume;
       responseClone.selectedAuthor = selectedAuthor;
       responseClone.selectedPublisher = selectedPublisher;
-      responseClone.resultsPerPage = resultsPerPage;
+      responseClone.fetchUrl = fetchUrl;
+      responseClone.searchTerm = searchTerm;
+      responseClone.activePage = activePage;
       responseClone.searchResults = searchResults;
+      responseClone.resultsPerPage = resultsPerPage;
+
       return responseClone;
     }
 
-    default:
-      return responseClone;
+    default: {
+      return structuredClone(responseState);
+    }
   }
 }
 

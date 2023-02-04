@@ -61,40 +61,47 @@ function MyNavBar({
       );
 
       const userBookshelfClone = structuredClone(userBookshelf);
+
       console.log("userBookshelfClone", userBookshelfClone);
 
       //grab just the volumes from the userBookshelf
       const volumes = userBookshelfClone?.map((item) => item.volume);
-
-      //searchResults accepts an object in the shape of the google books api results typed as ApiResponseVolume
-      const userBookshelfApiResponse: ApiResponseVolume = {
-        kind: "books#bookshelf",
-        totalItems: volumes?.length ?? 0,
-        items: volumes ?? [],
-      };
-
-      if (userBookshelf) {
-        allStates.responseState.searchResults = userBookshelfApiResponse;
-        allStates.responseState.activePage = 1;
-        allStates.responseState.resultsPerPage = "40";
-
-        //rest are set to initial state
-        allStates.responseState.searchTerm = "";
-        allStates.responseState.fetchUrl = "";
-        allStates.responseState.selectedVolume = null;
-        allStates.responseState.selectedAuthor = "";
-        allStates.responseState.selectedPublisher = "";
-
-        allDispatches.responseDispatch({
-          type: allActions.responseActions.setAll,
-          payload: { responseState: allStates.responseState },
-        });
-
-        navigate("/home/displayBookshelf");
-      }
     } catch (error) {
       console.error("Error in handleBookshelfNavlinkClick(): ", error);
     }
+
+    //   //grab just the volumes from the userBookshelf
+    //   const volumes = userBookshelfClone?.map((item) => item.volume);
+
+    //   //searchResults accepts an object in the shape of the google books api results typed as ApiResponseVolume
+    //   const userBookshelfApiResponse: ApiResponseVolume = {
+    //     kind: "books#bookshelf",
+    //     totalItems: volumes?.length ?? 0,
+    //     items: volumes ?? [],
+    //   };
+
+    //   if (userBookshelf) {
+    //     allStates.responseState.searchResults = userBookshelfApiResponse;
+    //     allStates.responseState.activePage = 1;
+    //     allStates.responseState.resultsPerPage = "40";
+
+    //     //rest are set to initial state
+    //     allStates.responseState.searchTerm = "";
+    //     allStates.responseState.fetchUrl = "";
+    //     allStates.responseState.selectedVolume = null;
+    //     allStates.responseState.selectedAuthor = "";
+    //     allStates.responseState.selectedPublisher = "";
+
+    //     allDispatches.responseDispatch({
+    //       type: allActions.responseActions.setAll,
+    //       payload: { responseState: allStates.responseState },
+    //     });
+
+    //     navigate("/home/displayBookshelf");
+    //   }
+    // } catch (error) {
+    //   console.error("Error in handleBookshelfNavlinkClick(): ", error);
+    // }
   }
 
   async function handleFavouritesNavlinkClick(
@@ -108,55 +115,6 @@ function MyNavBar({
 
     //set opened to close the navbar
     setOpened(false);
-
-    //grab the userBookshelf from localforage and set it to state
-    try {
-      const userBookshelf = await localforage.getItem<UserBookshelf[]>(
-        "byblos-userBookshelf"
-      );
-
-      const userBookshelfClone = structuredClone(userBookshelf);
-      console.log("userBookshelfClone", userBookshelfClone);
-
-      //grab just the volumes that are favourited from the userBookshelf
-      const favVolumes = userBookshelfClone?.reduce(
-        (acc: VolumeWithCustomId[], curr: UserBookshelf) => {
-          curr.favourite && acc.push(curr.volume);
-
-          return acc;
-        },
-        []
-      );
-
-      //searchResults accepts an object in the shape of the google books api results typed as ApiResponseVolume
-      const userBookshelfApiResponse: ApiResponseVolume = {
-        kind: "books#bookshelf",
-        totalItems: favVolumes?.length ?? 0,
-        items: favVolumes ?? [],
-      };
-
-      if (userBookshelf) {
-        allStates.responseState.searchResults = userBookshelfApiResponse;
-        allStates.responseState.activePage = 1;
-        allStates.responseState.resultsPerPage = "40";
-
-        //rest are set to initial state
-        allStates.responseState.searchTerm = "";
-        allStates.responseState.fetchUrl = "";
-        allStates.responseState.selectedVolume = null;
-        allStates.responseState.selectedAuthor = "";
-        allStates.responseState.selectedPublisher = "";
-
-        allDispatches.responseDispatch({
-          type: allActions.responseActions.setAll,
-          payload: { responseState: allStates.responseState },
-        });
-
-        navigate("/home/displayFavourites");
-      }
-    } catch (error) {
-      console.error("Error in handleFavouritesNavlinkClick(): ", error);
-    }
   }
 
   async function handleMarkReadNavlinkClick(
@@ -170,55 +128,6 @@ function MyNavBar({
 
     //set opened to close the navbar
     setOpened(false);
-
-    //grab the userBookshelf from localforage and set it to state
-    try {
-      const userBookshelf = await localforage.getItem<UserBookshelf[]>(
-        "byblos-userBookshelf"
-      );
-
-      const userBookshelfClone = structuredClone(userBookshelf);
-      console.log("userBookshelfClone", userBookshelfClone);
-
-      //grab just the volumes that are read from the userBookshelf
-      const readVolumes = userBookshelfClone?.reduce(
-        (acc: VolumeWithCustomId[], curr: UserBookshelf) => {
-          curr.markRead && acc.push(curr.volume);
-
-          return acc;
-        },
-        []
-      );
-
-      //searchResults accepts an object in the shape of the google books api results typed as ApiResponseVolume
-      const userBookshelfApiResponse: ApiResponseVolume = {
-        kind: "books#bookshelf",
-        totalItems: readVolumes?.length ?? 0,
-        items: readVolumes ?? [],
-      };
-
-      if (userBookshelf) {
-        allStates.responseState.searchResults = userBookshelfApiResponse;
-        allStates.responseState.activePage = 1;
-        allStates.responseState.resultsPerPage = "40";
-
-        //rest are set to initial state
-        allStates.responseState.searchTerm = "";
-        allStates.responseState.fetchUrl = "";
-        allStates.responseState.selectedVolume = null;
-        allStates.responseState.selectedAuthor = "";
-        allStates.responseState.selectedPublisher = "";
-
-        allDispatches.responseDispatch({
-          type: allActions.responseActions.setAll,
-          payload: { responseState: allStates.responseState },
-        });
-
-        navigate("/home/displayMarkRead");
-      }
-    } catch (error) {
-      console.error("Error in handleMarkReadNavlinkClick(): ", error);
-    }
   }
 
   async function handleReadLaterNavlinkClick(
@@ -232,55 +141,6 @@ function MyNavBar({
 
     //set opened to close the navbar
     setOpened(false);
-
-    //grab the userBookshelf from localforage and set it to state
-    try {
-      const userBookshelf = await localforage.getItem<UserBookshelf[]>(
-        "byblos-userBookshelf"
-      );
-
-      const userBookshelfClone = structuredClone(userBookshelf);
-      console.log("userBookshelfClone", userBookshelfClone);
-
-      //grab just the volumes that are read from the userBookshelf
-      const readLaterVolumes = userBookshelfClone?.reduce(
-        (acc: VolumeWithCustomId[], curr: UserBookshelf) => {
-          curr.readLater && acc.push(curr.volume);
-
-          return acc;
-        },
-        []
-      );
-
-      //searchResults accepts an object in the shape of the google books api results typed as ApiResponseVolume
-      const userBookshelfApiResponse: ApiResponseVolume = {
-        kind: "books#bookshelf",
-        totalItems: readLaterVolumes?.length ?? 0,
-        items: readLaterVolumes ?? [],
-      };
-
-      if (userBookshelf) {
-        allStates.responseState.searchResults = userBookshelfApiResponse;
-        allStates.responseState.activePage = 1;
-        allStates.responseState.resultsPerPage = "40";
-
-        //rest are set to initial state
-        allStates.responseState.searchTerm = "";
-        allStates.responseState.fetchUrl = "";
-        allStates.responseState.selectedVolume = null;
-        allStates.responseState.selectedAuthor = "";
-        allStates.responseState.selectedPublisher = "";
-
-        allDispatches.responseDispatch({
-          type: allActions.responseActions.setAll,
-          payload: { responseState: allStates.responseState },
-        });
-
-        navigate("/home/displayReadLater");
-      }
-    } catch (error) {
-      console.error("Error in handleReadLaterNavlinkClick(): ", error);
-    }
   }
 
   async function handleRatedNavlinkClick(
@@ -294,55 +154,6 @@ function MyNavBar({
 
     //set opened to close the navbar
     setOpened(false);
-
-    //grab the userBookshelf from localforage and set it to state
-    try {
-      const userBookshelf = await localforage.getItem<UserBookshelf[]>(
-        "byblos-userBookshelf"
-      );
-
-      const userBookshelfClone = structuredClone(userBookshelf);
-      console.log("userBookshelfClone", userBookshelfClone);
-
-      //grab just the volumes that are rated from the userBookshelf
-      const ratedVolumes = userBookshelfClone?.reduce(
-        (acc: VolumeWithCustomId[], curr: UserBookshelf) => {
-          curr.rating && acc.push(curr.volume);
-
-          return acc;
-        },
-        []
-      );
-
-      //searchResults accepts an object in the shape of the google books api results typed as ApiResponseVolume
-      const userBookshelfApiResponse: ApiResponseVolume = {
-        kind: "books#bookshelf",
-        totalItems: ratedVolumes?.length ?? 0,
-        items: ratedVolumes ?? [],
-      };
-
-      if (userBookshelf) {
-        allStates.responseState.searchResults = userBookshelfApiResponse;
-        allStates.responseState.activePage = 1;
-        allStates.responseState.resultsPerPage = "40";
-
-        //rest are set to initial state
-        allStates.responseState.searchTerm = "";
-        allStates.responseState.fetchUrl = "";
-        allStates.responseState.selectedVolume = null;
-        allStates.responseState.selectedAuthor = "";
-        allStates.responseState.selectedPublisher = "";
-
-        allDispatches.responseDispatch({
-          type: allActions.responseActions.setAll,
-          payload: { responseState: allStates.responseState },
-        });
-
-        navigate("/home/displayRated");
-      }
-    } catch (error) {
-      console.error("Error in handleRatedNavlinkClick(): ", error);
-    }
   }
 
   return (
