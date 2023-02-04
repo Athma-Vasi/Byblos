@@ -31,7 +31,9 @@ function Search({
   const [searchTerm, setSearchTerm] = useState("");
   const { width = 0 } = useWindowSize();
 
-  async function handleEnterKeyInput(event: React.KeyboardEvent<HTMLInputElement>) {
+  async function handleEnterKeyInput(
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) {
     if (event.key === "Enter") {
       responseState.searchTerm = searchTerm;
       responseDispatch({
@@ -42,7 +44,7 @@ function Search({
       });
 
       const response = await fetch(
-        `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`,
+        `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`
       );
       const data: ApiResponseVolume = await response.json();
 
@@ -65,7 +67,9 @@ function Search({
         onChange={(event) => {
           setSearchTerm(event.currentTarget.value);
         }}
-        size={`${width < 576 ? "xs" : width < 768 ? "sm" : width < 992 ? "md" : "lg"}`}
+        size={`${
+          width < 576 ? "xs" : width < 768 ? "sm" : width < 992 ? "md" : "lg"
+        }`}
         rightSection={rightInputSection(searchTerm)}
         rightSectionWidth={searchTerm === "" ? 50 : 100}
         onKeyDown={handleEnterKeyInput}
@@ -81,7 +85,9 @@ function Search({
 export { Search };
 
 function rightInputSection(searchTerm: string) {
-  async function handleSearchIconClick(event: React.MouseEvent<SVGElement, MouseEvent>) {
+  async function handleSearchIconClick(
+    event: React.MouseEvent<SVGElement, MouseEvent>
+  ) {
     //
   }
 
@@ -91,18 +97,30 @@ function rightInputSection(searchTerm: string) {
         ""
       ) : (
         <RiCloseLine
-          style={{ color: "GrayText", transform: "scale(1.5)", cursor: "pointer" }}
+          style={{
+            color: "GrayText",
+            transform: "scale(1.5)",
+            cursor: "pointer",
+          }}
         />
       )}
       {searchTerm === "" ? (
         ""
       ) : (
-        <RxDividerVertical style={{ color: "GrayText", transform: "scale(1.5)" }} />
+        <RxDividerVertical
+          style={{ color: "GrayText", transform: "scale(1.5)" }}
+        />
       )}
       <CgSearch
-        style={{ color: "GrayText", transform: "scale(1.25)", cursor: "pointer" }}
+        style={{
+          color: "GrayText",
+          transform: "scale(1.25)",
+          cursor: "pointer",
+        }}
         onClick={handleSearchIconClick}
       />
     </Flex>
   );
 }
+
+export default Search;

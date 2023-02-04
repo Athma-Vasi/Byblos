@@ -82,7 +82,7 @@ type FormInputNames =
 type ApiResponseVolume = {
   kind: Kind;
   totalItems: number;
-  items: Volume[];
+  items: Volume[] | VolumeWithCustomId[];
 };
 
 interface Volume {

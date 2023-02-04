@@ -7,7 +7,9 @@ import { MyHeader } from "../header";
 import { MyNavBar } from "../navbar";
 import { Sidebar } from "../sidebar";
 import { AllActions, AllDispatches, AllStates, Volume } from "../../types";
-import { Search } from "../search";
+import React from "react";
+
+const Search = React.lazy(() => import("../search"));
 
 type HomeProps = {
   children?: React.ReactNode;
@@ -32,31 +34,28 @@ function Home({ children, allStates, allActions, allDispatches }: HomeProps) {
     e.returnValue = "";
   };
 
-  // useEffect(() => {
-  //   if (window.performance.navigation.type === 1) {
-  //     window.onbeforeunload = function () {
-  //       return true;
-  //     };
-  //     navigate("/");
-  //   }
-
-  //   return () => {
-  //     window.onbeforeunload = null;
-  //   };
-  // }, [window.performance.navigation.type]);
-
   return (
     <AppShell
       styles={{
         main: {
           background:
-            theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.colors.gray[0],
+            theme.colorScheme === "dark"
+              ? theme.colors.dark[8]
+              : theme.colors.gray[0],
         },
       }}
       padding="md"
       navbarOffsetBreakpoint="sm"
       asideOffsetBreakpoint="sm"
-      navbar={<MyNavBar opened={opened} />}
+      navbar={
+        <MyNavBar
+          setOpened={setOpened}
+          opened={opened}
+          allStates={allStates}
+          allActions={allActions}
+          allDispatches={allDispatches}
+        />
+      }
       aside={<Sidebar />}
       header={
         <MyHeader

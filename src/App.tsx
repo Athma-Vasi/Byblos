@@ -9,7 +9,11 @@ import { Home } from "./components/home";
 import MyLoader from "./components/myLoader";
 import { Welcome } from "./components/welcome";
 import { useExitPrompt } from "./hooks/useExitPrompt";
-import { initialResponseState, responseActions, responseReducer } from "./state";
+import {
+  initialResponseState,
+  responseActions,
+  responseReducer,
+} from "./state";
 import { ThemeProvider } from "./ThemeProvider";
 import { AllActions, AllDispatches } from "./types";
 
@@ -18,15 +22,23 @@ const DisplayVolume = React.lazy(() => import("./components/displayVolume"));
 const AdvancedSearch = React.lazy(() => import("./components/advancedSearch"));
 const Overview = React.lazy(() => import("./components/overview"));
 const OtherEditions = React.lazy(() => import("./components/otherEditions"));
-const PublisherCollection = React.lazy(() => import("./components/publisherCollection"));
-const AuthorCollection = React.lazy(() => import("./components/authorCollection"));
+const PublisherCollection = React.lazy(
+  () => import("./components/publisherCollection")
+);
+const AuthorCollection = React.lazy(
+  () => import("./components/authorCollection")
+);
+const DisplayBookshelf = React.lazy(
+  () => import("./components/displayBookshelf")
+);
+
 // const MyLoader = React.lazy(() => import("./components/myLoader"));
 // const ErrorFallback = React.lazy(() => import("./components/errorFallback"));
 
 export default function App() {
   const [responseState, responseDispatch] = useReducer(
     responseReducer,
-    initialResponseState,
+    initialResponseState
   );
 
   const allStates = {
@@ -48,7 +60,9 @@ export default function App() {
           <Route
             path="/"
             element={
-              <ErrorBoundary fallback={<ErrorFallback componentName="Byblos" />}>
+              <ErrorBoundary
+                fallback={<ErrorFallback componentName="Byblos" />}
+              >
                 <Suspense fallback={<MyLoader componentName="Byblos" />}>
                   <Welcome
                     allStates={allStates}
@@ -62,7 +76,9 @@ export default function App() {
             <Route
               index
               element={
-                <ErrorBoundary fallback={<ErrorFallback componentName="Byblos" />}>
+                <ErrorBoundary
+                  fallback={<ErrorFallback componentName="Byblos" />}
+                >
                   <Suspense fallback={<MyLoader componentName="Byblos" />}>
                     <Welcome
                       allStates={allStates}
@@ -77,7 +93,9 @@ export default function App() {
           <Route
             path="home"
             element={
-              <ErrorBoundary fallback={<ErrorFallback componentName="Home page" />}>
+              <ErrorBoundary
+                fallback={<ErrorFallback componentName="Home page" />}
+              >
                 <Suspense fallback={<MyLoader componentName="Home" />}>
                   <Home
                     allStates={allStates}
@@ -91,7 +109,9 @@ export default function App() {
             <Route
               index
               element={
-                <ErrorBoundary fallback={<ErrorFallback componentName="Home page" />}>
+                <ErrorBoundary
+                  fallback={<ErrorFallback componentName="Home page" />}
+                >
                   <Suspense fallback={<MyLoader componentName="Home" />}>
                     <Home
                       allStates={allStates}
@@ -107,9 +127,13 @@ export default function App() {
               path="advancedSearch"
               element={
                 <ErrorBoundary
-                  fallback={<ErrorFallback componentName="Advanced search page" />}
+                  fallback={
+                    <ErrorFallback componentName="Advanced search page" />
+                  }
                 >
-                  <Suspense fallback={<MyLoader componentName="Advanced Search" />}>
+                  <Suspense
+                    fallback={<MyLoader componentName="Advanced Search" />}
+                  >
                     <AdvancedSearch
                       allStates={allStates}
                       allActions={allActions}
@@ -121,12 +145,33 @@ export default function App() {
             />
 
             <Route
+              path="displayBookshelf"
+              element={
+                <ErrorBoundary
+                  fallback={<ErrorFallback componentName="Bookshelf page" />}
+                >
+                  <Suspense fallback={<MyLoader componentName="Bookshelf" />}>
+                    <DisplayBookshelf
+                      allStates={allStates}
+                      allActions={allActions}
+                      allDispatches={allDispatches}
+                    />
+                  </Suspense>
+                </ErrorBoundary>
+              }
+            ></Route>
+
+            <Route
               path="displayResults"
               element={
                 <ErrorBoundary
-                  fallback={<ErrorFallback componentName="search results page" />}
+                  fallback={
+                    <ErrorFallback componentName="search results page" />
+                  }
                 >
-                  <Suspense fallback={<MyLoader componentName="Search results" />}>
+                  <Suspense
+                    fallback={<MyLoader componentName="Search results" />}
+                  >
                     <DisplayResults
                       allStates={allStates}
                       allActions={allActions}
@@ -141,9 +186,13 @@ export default function App() {
                 index
                 element={
                   <ErrorBoundary
-                    fallback={<ErrorFallback componentName="search results page" />}
+                    fallback={
+                      <ErrorFallback componentName="search results page" />
+                    }
                   >
-                    <Suspense fallback={<MyLoader componentName="Search results" />}>
+                    <Suspense
+                      fallback={<MyLoader componentName="Search results" />}
+                    >
                       <DisplayResults
                         allStates={allStates}
                         allActions={allActions}
@@ -158,9 +207,13 @@ export default function App() {
                 path=":page"
                 element={
                   <ErrorBoundary
-                    fallback={<ErrorFallback componentName="search results page" />}
+                    fallback={
+                      <ErrorFallback componentName="search results page" />
+                    }
                   >
-                    <Suspense fallback={<MyLoader componentName="Search results" />}>
+                    <Suspense
+                      fallback={<MyLoader componentName="Search results" />}
+                    >
                       <DisplayResults
                         allStates={allStates}
                         allActions={allActions}
@@ -175,7 +228,9 @@ export default function App() {
             <Route
               path="displayVolume/:volumeId"
               element={
-                <ErrorBoundary fallback={<ErrorFallback componentName="volume page" />}>
+                <ErrorBoundary
+                  fallback={<ErrorFallback componentName="volume page" />}
+                >
                   <Suspense fallback={<MyLoader componentName="volume" />}>
                     <DisplayVolume
                       allStates={allStates}
@@ -190,7 +245,9 @@ export default function App() {
               <Route
                 index
                 element={
-                  <ErrorBoundary fallback={<ErrorFallback componentName="volume page" />}>
+                  <ErrorBoundary
+                    fallback={<ErrorFallback componentName="volume page" />}
+                  >
                     <Suspense fallback={<MyLoader componentName="Overview" />}>
                       <Overview
                         allStates={allStates}
@@ -223,9 +280,13 @@ export default function App() {
                 path="otherEditions"
                 element={
                   <ErrorBoundary
-                    fallback={<ErrorFallback componentName="Other editions page" />}
+                    fallback={
+                      <ErrorFallback componentName="Other editions page" />
+                    }
                   >
-                    <Suspense fallback={<MyLoader componentName="Other editions" />}>
+                    <Suspense
+                      fallback={<MyLoader componentName="Other editions" />}
+                    >
                       <OtherEditions
                         allStates={allStates}
                         allActions={allActions}
@@ -239,9 +300,13 @@ export default function App() {
                   index
                   element={
                     <ErrorBoundary
-                      fallback={<ErrorFallback componentName="Other editions page" />}
+                      fallback={
+                        <ErrorFallback componentName="Other editions page" />
+                      }
                     >
-                      <Suspense fallback={<MyLoader componentName="Other editions" />}>
+                      <Suspense
+                        fallback={<MyLoader componentName="Other editions" />}
+                      >
                         <OtherEditions
                           allStates={allStates}
                           allActions={allActions}
@@ -256,9 +321,13 @@ export default function App() {
                   path=":page"
                   element={
                     <ErrorBoundary
-                      fallback={<ErrorFallback componentName="Other editions page" />}
+                      fallback={
+                        <ErrorFallback componentName="Other editions page" />
+                      }
                     >
-                      <Suspense fallback={<MyLoader componentName="Other editions" />}>
+                      <Suspense
+                        fallback={<MyLoader componentName="Other editions" />}
+                      >
                         <OtherEditions
                           allStates={allStates}
                           allActions={allActions}
@@ -274,10 +343,14 @@ export default function App() {
                 path="publisherCollection"
                 element={
                   <ErrorBoundary
-                    fallback={<ErrorFallback componentName="Publisher collection page" />}
+                    fallback={
+                      <ErrorFallback componentName="Publisher collection page" />
+                    }
                   >
                     <Suspense
-                      fallback={<MyLoader componentName="Publisher collection" />}
+                      fallback={
+                        <MyLoader componentName="Publisher collection" />
+                      }
                     >
                       <PublisherCollection
                         allStates={allStates}
@@ -297,7 +370,9 @@ export default function App() {
                       }
                     >
                       <Suspense
-                        fallback={<MyLoader componentName="Publisher collection" />}
+                        fallback={
+                          <MyLoader componentName="Publisher collection" />
+                        }
                       >
                         <PublisherCollection
                           allStates={allStates}
@@ -318,7 +393,9 @@ export default function App() {
                       }
                     >
                       <Suspense
-                        fallback={<MyLoader componentName="Publisher collection" />}
+                        fallback={
+                          <MyLoader componentName="Publisher collection" />
+                        }
                       >
                         <PublisherCollection
                           allStates={allStates}
@@ -335,9 +412,13 @@ export default function App() {
                 path="authorCollection"
                 element={
                   <ErrorBoundary
-                    fallback={<ErrorFallback componentName="Author collection page" />}
+                    fallback={
+                      <ErrorFallback componentName="Author collection page" />
+                    }
                   >
-                    <Suspense fallback={<MyLoader componentName="Author collection" />}>
+                    <Suspense
+                      fallback={<MyLoader componentName="Author collection" />}
+                    >
                       <AuthorCollection
                         allStates={allStates}
                         allActions={allActions}
@@ -351,9 +432,15 @@ export default function App() {
                   index
                   element={
                     <ErrorBoundary
-                      fallback={<ErrorFallback componentName="Author collection page" />}
+                      fallback={
+                        <ErrorFallback componentName="Author collection page" />
+                      }
                     >
-                      <Suspense fallback={<MyLoader componentName="Author collection" />}>
+                      <Suspense
+                        fallback={
+                          <MyLoader componentName="Author collection" />
+                        }
+                      >
                         <AuthorCollection
                           allStates={allStates}
                           allActions={allActions}
@@ -368,9 +455,15 @@ export default function App() {
                   path=":page"
                   element={
                     <ErrorBoundary
-                      fallback={<ErrorFallback componentName="Author collection page" />}
+                      fallback={
+                        <ErrorFallback componentName="Author collection page" />
+                      }
                     >
-                      <Suspense fallback={<MyLoader componentName="Author collection" />}>
+                      <Suspense
+                        fallback={
+                          <MyLoader componentName="Author collection" />
+                        }
+                      >
                         <AuthorCollection
                           allStates={allStates}
                           allActions={allActions}

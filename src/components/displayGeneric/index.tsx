@@ -465,7 +465,6 @@ function DisplayGeneric({
             <Grid.Col span={width < 992 ? 6 : 7}>
               <Title
                 order={3}
-                style={{ cursor: "pointer" }}
                 onClick={() => {
                   handleTitleClick(item);
                 }}
