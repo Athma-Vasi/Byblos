@@ -80,6 +80,7 @@ function AdvancedSearch({
     try {
       await fetchSearchResults(searchStr);
 
+      //initializes localforage keys to initial responseState values for some, and fetched values for others
       await localforage.setItem(
         "activePage",
         allStates.responseState.activePage

@@ -64,50 +64,51 @@ function MyPagination({
               payload: { responseState },
             });
             window.scrollTo(0, 0);
-            navigate(`${parentPath}${value - 1}`);
+            navigate(`${parentPath}${value}`);
           });
       } catch (error) {
         console.error("Error in pagination browser back button click:", error);
       }
     };
 
-    const onForwardButtonEvent = async (event: PopStateEvent) => {
-      event.preventDefault();
+    // const onForwardButtonEvent = async (event: PopStateEvent) => {
+    //   event.preventDefault();
+    //   console.log("onForwardButtonEvent: ", event.state);
 
-      try {
-        await localforage
-          .getItem<ResponseState["activePage"]>("byblos-activePage")
-          .then((value) => {
-            if (value) {
-              if (value === 1) return;
-              responseState.activePage = value + 1;
-            }
-          });
+    //   try {
+    //     await localforage
+    //       .getItem<ResponseState["activePage"]>("byblos-activePage")
+    //       .then((value) => {
+    //         if (value) {
+    //           if (value === 1) return;
+    //           responseState.activePage = value + 1;
+    //         }
+    //       });
 
-        await localforage
-          .setItem("byblos-activePage", responseState.activePage)
-          .then((value) => {
-            responseDispatch({
-              type: responseActions.setActivePage,
-              payload: { responseState },
-            });
-            window.scrollTo(0, 0);
-            navigate(`${parentPath}${value + 1}`);
-          });
-      } catch (error) {
-        console.error(
-          "Error in pagination browser forward button click:",
-          error
-        );
-      }
-    };
+    //     await localforage
+    //       .setItem("byblos-activePage", responseState.activePage)
+    //       .then((value) => {
+    //         responseDispatch({
+    //           type: responseActions.setActivePage,
+    //           payload: { responseState },
+    //         });
+    //         window.scrollTo(0, 0);
+    //         navigate(`${parentPath}${value}`);
+    //       });
+    //   } catch (error) {
+    //     console.error(
+    //       "Error in pagination browser forward button click:",
+    //       error
+    //     );
+    //   }
+    // };
 
     window.addEventListener("popstate", onBackButtonEvent);
-    window.addEventListener("popstate", onForwardButtonEvent);
+    // window.addEventListener("popstate", onForwardButtonEvent);
 
     return () => {
       window.removeEventListener("popstate", onBackButtonEvent);
-      window.removeEventListener("popstate", onForwardButtonEvent);
+      // window.removeEventListener("popstate", onForwardButtonEvent);
     };
   }, []);
 

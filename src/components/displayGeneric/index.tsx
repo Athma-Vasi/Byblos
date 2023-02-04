@@ -44,6 +44,7 @@ import {
 import { GrFavorite } from "react-icons/gr";
 import MyRating from "../myRating";
 import { v4 as uuidv4 } from "uuid";
+import { defaultVolume } from "../localData";
 
 type DisplayGenericProps = {
   children?: React.ReactNode;
@@ -60,10 +61,6 @@ function DisplayGeneric({
   allActions,
   allDispatches,
 }: DisplayGenericProps) {
-  const { width = 0 } = useWindowSize();
-  const navigate = useNavigate();
-  const { volumeId, page } = useParams();
-
   const [localForageFallback, setLocalForageFallback] = useState<
     VolumeWithCustomId[]
   >([]);
@@ -74,7 +71,7 @@ function DisplayGeneric({
         // sample data upon first initialization if no data is found in localforage
         name: "Mirror Dance",
         id: uuidv4(), // future actual ids are the server generated google books id
-        volume: localForageFallback[0], // will be undefined for this sample, all future volumes will not be undefined
+        volume: defaultVolume, // will be undefined for this sample, all future volumes will not be undefined
         rating: 5,
         markRead: true,
         favourite: true,
@@ -87,6 +84,19 @@ function DisplayGeneric({
   const [modalOpened, setModalOpened] = useState(false);
   const [modalSrc, setModalSrc] = useState("");
   const [modalAlt, setModalAlt] = useState("");
+
+  const { width = 0 } = useWindowSize();
+  const navigate = useNavigate();
+  const { volumeId, page } = useParams();
+
+  console.log(
+    "allStates.responseState.searchResults?.items",
+    allStates.responseState.searchResults?.items
+  );
+
+  const modifiedSearchResults = insertCustomId(
+    allStates.responseState.searchResults?.items ?? localForageFallback
+  );
 
   async function handleUserBookshelfAction(
     kind: UserBookshelfActions,
@@ -345,10 +355,6 @@ function DisplayGeneric({
     fetchLocalStorageFallback();
   }, [allStates.responseState.activePage]);
 
-  const modifiedSearchResults = insertCustomId(
-    allStates.responseState.searchResults?.items ?? localForageFallback
-  );
-
   async function handleTitleClick(volume: VolumeWithCustomId) {
     allStates.responseState.activePage = 1;
     allStates.responseState.searchTerm = volume.volumeInfo.title;
@@ -408,7 +414,7 @@ function DisplayGeneric({
                   // sample data upon first initialization if no data is found in localforage
                   name: "Mirror Dance",
                   id: uuidv4(), // future actual ids are the server generated google books id
-                  volume: localForageFallback[0], // will be undefined for this sample, all future volumes will not be undefined
+                  volume: defaultVolume, // will be undefined for this sample, all future volumes will not be undefined
                   rating: 5,
                   markRead: true,
                   favourite: true,

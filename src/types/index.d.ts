@@ -11,7 +11,7 @@ type ResponseState = {
   selectedVolume: null | VolumeWithCustomId;
   selectedAuthor: string;
   selectedPublisher: string;
-  searchResults: null | ApiResponseVolume;
+  searchResults: null | ApiResponseVolume | ApiResponseUserBookshelf;
 };
 
 type UserBookshelf = {
@@ -26,6 +26,12 @@ type UserBookshelf = {
 };
 
 type UserBookshelfActions = "rating" | "favourite" | "readLater" | "markRead";
+
+type ApiResponseUserBookshelf = {
+  kind: Kind;
+  totalItems: number;
+  items: VolumeWithCustomId[];
+};
 
 type RatingAction = 1 | 2 | 3 | 4 | 5;
 
@@ -78,11 +84,13 @@ type FormInputNames =
   | "lccn"
   | "oclc";
 
+type VolumeWithCustomId = Volume & { customId: string };
+
 //below are the types for the Google Books Api Response
 type ApiResponseVolume = {
   kind: Kind;
   totalItems: number;
-  items: Volume[] | VolumeWithCustomId[];
+  items: Volume[];
 };
 
 interface Volume {
@@ -201,13 +209,12 @@ interface ReadingModes {
 }
 // above are the types for the Google Books Api Response
 
-type VolumeWithCustomId = Volume & { customId: string };
-
 export type {
   AllActions,
   AllDispatches,
   AllStates,
   ApiResponseVolume,
+  ApiResponseUserBookshelf,
   FormInputNames,
   RatingAction,
   ResponseActions,

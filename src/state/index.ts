@@ -27,7 +27,6 @@ function responseReducer(
   responseState: ResponseState,
   responseDispatch: ResponseDispatch
 ) {
-  // const responseClone = structuredClone(responseState);
   const {
     payload: {
       responseState: {
