@@ -55,8 +55,19 @@ function Overview({
           "byblos-selectedVolume",
           selectedVolume
         );
-      } catch (error) {
-        console.error(error);
+      } catch (error: any) {
+        const error_ = new Error(error, {
+          cause: "fetchSelectedVolumeFromLocalForage()",
+        });
+
+        console.group("Error in overview useEffect");
+        console.error("name: ", error_.name);
+        console.error("message: ", error_.message);
+        console.error("cause: ", error_.cause);
+        console.groupCollapsed("stack trace");
+        console.trace(error_);
+        console.error("detailed stack trace", error_.stack);
+        console.groupEnd();
       }
     };
 
@@ -120,17 +131,26 @@ function Overview({
               responseState.activePage = value - 1;
             }
           });
-      } catch (error) {
-        console.error("Error in pagination browser back button click:", error);
+      } catch (error: any) {
+        const error_ = new Error(error, {
+          cause: "onBackButtonEvent()",
+        });
+
+        console.group("Error in overview useEffect");
+        console.error("name: ", error_.name);
+        console.error("message: ", error_.message);
+        console.error("cause: ", error_.cause);
+        console.groupCollapsed("stack trace");
+        console.trace(error_);
+        console.error("detailed stack trace", error_.stack);
+        console.groupEnd();
       }
     };
 
     window.addEventListener("popstate", onBackButtonEvent);
-    // window.addEventListener("popstate", onForwardButtonEvent);
 
     return () => {
       window.removeEventListener("popstate", onBackButtonEvent);
-      // window.removeEventListener("popstate", onForwardButtonEvent);
     };
   }, []);
 

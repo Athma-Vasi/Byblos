@@ -126,11 +126,21 @@ function DisplayGeneric({
               "byblos-userBookshelf",
               tempLocalBookshelfClone
             );
-          } catch (error) {
-            console.error(
-              "error in setting userBookshelf: switch case 'rating', in localforage: ",
-              error
+          } catch (error: any) {
+            const error_ = new Error(error, {
+              cause: "switch case 'rating', in if block",
+            });
+
+            console.group(
+              "Error in setting userBookshelf: switch case 'rating', in localforage"
             );
+            console.error("name: ", error_.name);
+            console.error("message: ", error_.message);
+            console.error("cause: ", error_.cause);
+            console.groupCollapsed("stack trace");
+            console.trace(error_);
+            console.error("detailed stack trace", error_.stack);
+            console.groupEnd();
           }
         } else {
           tempLocalBookshelfClone.push({
@@ -151,25 +161,28 @@ function DisplayGeneric({
               "byblos-userBookshelf",
               tempLocalBookshelfClone
             );
-          } catch (error) {
-            console.error(
-              "error in setting userBookshelf: switch case 'rating', in localforage: ",
-              error
-            );
-          }
+          } catch (error: any) {
+            const error_ = new Error(error, {
+              cause: "switch case 'rating', in else block",
+            });
 
-          console.log(
-            "rating added to userBookshelf in localforage",
-            tempLocalBookshelfClone
-          );
+            console.group(
+              "Error in setting userBookshelf: switch case 'rating', in localforage"
+            );
+            console.error("name: ", error_.name);
+            console.error("message: ", error_.message);
+            console.error("cause: ", error_.cause);
+            console.groupCollapsed("stack trace");
+            console.trace(error_);
+            console.error("detailed stack trace", error_.stack);
+            console.groupEnd();
+          }
         }
 
         break;
       }
 
       case "markRead": {
-        console.log("value of markedRead inside switch: ", value);
-
         const existingTempLocalBookshelfVolume = tempLocalBookshelfClone.find(
           (bookshelfVolume) => bookshelfVolume.id === localVolume.id
         );
@@ -195,11 +208,21 @@ function DisplayGeneric({
               "byblos-userBookshelf",
               tempLocalBookshelfClone
             );
-          } catch (error) {
-            console.error(
-              "error in setting userBookshelf: switch case 'markRead', in localforage: ",
-              error
+          } catch (error: any) {
+            const error_ = new Error(error, {
+              cause: "switch case 'markRead', in if block",
+            });
+
+            console.group(
+              "Error in setting userBookshelf: switch case 'markRead', in localforage"
             );
+            console.error("name: ", error_.name);
+            console.error("message: ", error_.message);
+            console.error("cause: ", error_.cause);
+            console.groupCollapsed("stack trace");
+            console.trace(error_);
+            console.error("detailed stack trace", error_.stack);
+            console.groupEnd();
           }
         } else {
           tempLocalBookshelfClone.push({
@@ -220,25 +243,28 @@ function DisplayGeneric({
               "byblos-userBookshelf",
               tempLocalBookshelfClone
             );
-          } catch (error) {
-            console.error(
-              "error in setting userBookshelf: switch case 'markRead', in localforage: ",
-              error
-            );
-          }
+          } catch (error: any) {
+            const error_ = new Error(error, {
+              cause: "switch case 'markRead', in else block",
+            });
 
-          console.log(
-            "markRead added to userBookshelf in localforage",
-            tempLocalBookshelfClone
-          );
+            console.group(
+              "Error in setting userBookshelf: switch case 'markRead', in localforage"
+            );
+            console.error("name: ", error_.name);
+            console.error("message: ", error_.message);
+            console.error("cause: ", error_.cause);
+            console.groupCollapsed("stack trace");
+            console.trace(error_);
+            console.error("detailed stack trace", error_.stack);
+            console.groupEnd();
+          }
         }
 
         break;
       }
 
       case "favourite": {
-        console.log("value of favourite inside switch: ", value);
-
         const existingTempLocalBookshelfVolume = tempLocalBookshelfClone.find(
           (bookshelfVolume) => bookshelfVolume.id === localVolume.id
         );
@@ -264,11 +290,21 @@ function DisplayGeneric({
               "byblos-userBookshelf",
               tempLocalBookshelfClone
             );
-          } catch (error) {
-            console.error(
-              "error in setting userBookshelf: switch case 'favourite', in localforage: ",
-              error
+          } catch (error: any) {
+            const error_ = new Error(error, {
+              cause: "switch case 'favourite', in if block",
+            });
+
+            console.group(
+              "Error in setting userBookshelf: switch case 'favourite', in localforage"
             );
+            console.error("name: ", error_.name);
+            console.error("message: ", error_.message);
+            console.error("cause: ", error_.cause);
+            console.groupCollapsed("stack trace");
+            console.trace(error_);
+            console.error("detailed stack trace", error_.stack);
+            console.groupEnd();
           }
         } else {
           tempLocalBookshelfClone.push({
@@ -289,25 +325,28 @@ function DisplayGeneric({
               "byblos-userBookshelf",
               tempLocalBookshelfClone
             );
-          } catch (error) {
-            console.error(
-              "error in setting userBookshelf: switch case 'favourite', in localforage: ",
-              error
-            );
-          }
+          } catch (error: any) {
+            const error_ = new Error(error, {
+              cause: "switch case 'favourite', in else block",
+            });
 
-          console.log(
-            "favourite added to userBookshelf in localforage",
-            tempLocalBookshelfClone
-          );
+            console.group(
+              "Error in setting userBookshelf: switch case 'favourite', in localforage"
+            );
+            console.error("name: ", error_.name);
+            console.error("message: ", error_.message);
+            console.error("cause: ", error_.cause);
+            console.groupCollapsed("stack trace");
+            console.trace(error_);
+            console.error("detailed stack trace", error_.stack);
+            console.groupEnd();
+          }
         }
 
         break;
       }
 
       case "readLater": {
-        console.log("value of readLater inside switch: ", value);
-
         const existingTempLocalBookshelfVolume = tempLocalBookshelfClone.find(
           (bookshelfVolume) => bookshelfVolume.id === localVolume.id
         );
@@ -333,11 +372,21 @@ function DisplayGeneric({
               "byblos-userBookshelf",
               tempLocalBookshelfClone
             );
-          } catch (error) {
-            console.error(
-              "error in setting userBookshelf: switch case 'readLater', in localforage: ",
-              error
+          } catch (error: any) {
+            const error_ = new Error(error, {
+              cause: "switch case 'readLater', in if block",
+            });
+
+            console.group(
+              "Error in setting userBookshelf: switch case 'readLater', in localforage"
             );
+            console.error("name: ", error_.name);
+            console.error("message: ", error_.message);
+            console.error("cause: ", error_.cause);
+            console.groupCollapsed("stack trace");
+            console.trace(error_);
+            console.error("detailed stack trace", error_.stack);
+            console.groupEnd();
           }
         } else {
           tempLocalBookshelfClone.push({
@@ -358,17 +407,22 @@ function DisplayGeneric({
               "byblos-userBookshelf",
               tempLocalBookshelfClone
             );
-          } catch (error) {
-            console.error(
-              "error in setting userBookshelf: switch case 'readLater', in localforage: ",
-              error
-            );
-          }
+          } catch (error: any) {
+            const error_ = new Error(error, {
+              cause: "switch case 'readLater', in else block",
+            });
 
-          console.log(
-            "readLater added to userBookshelf in localforage",
-            tempLocalBookshelfClone
-          );
+            console.group(
+              "Error in setting userBookshelf: switch case 'readLater', in localforage"
+            );
+            console.error("name: ", error_.name);
+            console.error("message: ", error_.message);
+            console.error("cause: ", error_.cause);
+            console.groupCollapsed("stack trace");
+            console.trace(error_);
+            console.error("detailed stack trace", error_.stack);
+            console.groupEnd();
+          }
         }
 
         break;
@@ -401,11 +455,21 @@ function DisplayGeneric({
             navigate(
               `/home/displayResults/${allStates.responseState.activePage}`
             );
-          } catch (error) {
-            console.error(
-              "error in setting userBookshelf: switch case 'removeVolume', in localforage: ",
-              error
+          } catch (error: any) {
+            const error_ = new Error(error, {
+              cause: "switch case 'removeVolume', in if block",
+            });
+
+            console.group(
+              "Error in setting userBookshelf: switch case 'removeVolume', in localforage"
             );
+            console.error("name: ", error_.name);
+            console.error("message: ", error_.message);
+            console.error("cause: ", error_.cause);
+            console.groupCollapsed("stack trace");
+            console.trace(error_);
+            console.error("detailed stack trace", error_.stack);
+            console.groupEnd();
           }
         }
 
@@ -430,11 +494,21 @@ function DisplayGeneric({
           "localForageFallback useEffect in displayGeneric",
           localForageFallback
         );
-      } catch (error) {
-        console.error(
-          "Error in displayGeneric useEffect  fetchLocalStorageFallback(): ",
-          error
+      } catch (error: any) {
+        const error_ = new Error(error, {
+          cause: "useEffect in displayGeneric",
+        });
+
+        console.group(
+          "Error in displayGeneric useEffect fetchLocalStorageFallback(): "
         );
+        console.error("name: ", error_.name);
+        console.error("message: ", error_.message);
+        console.error("cause: ", error_.cause);
+        console.groupCollapsed("stack trace");
+        console.trace(error_);
+        console.error("detailed stack trace", error_.stack);
+        console.groupEnd();
       }
     };
 
@@ -492,8 +566,19 @@ function DisplayGeneric({
         "byblos-selectedPublisher",
         allStates.responseState.selectedPublisher
       );
-    } catch (error) {
-      console.error("Error in displayGeneric handleTitleClick(): ", error);
+    } catch (error: any) {
+      const error_ = new Error(error, {
+        cause: "handleTitleClick in displayGeneric",
+      });
+
+      console.group("Error setting data to localforage");
+      console.error("name: ", error_.name);
+      console.error("message: ", error_.message);
+      console.error("cause: ", error_.cause);
+      console.groupCollapsed("stack trace");
+      console.trace(error_);
+      console.error("detailed stack trace", error_.stack);
+      console.groupEnd();
     } finally {
       allDispatches.responseDispatch({
         type: allActions.responseActions.setAll,
@@ -531,11 +616,19 @@ function DisplayGeneric({
           "IIFE initialUserBookshelf useEffect in displayGeneric",
           initialUserBookshelf
         );
-      } catch (error) {
-        console.error(
-          "Error in displayGeneric generateUserBookshelf(): ",
-          error
-        );
+      } catch (error: any) {
+        const error_ = new Error(error, {
+          cause: "useEffect in displayGeneric",
+        });
+
+        console.group("Error in displayGeneric generateUserBookshelf()");
+        console.error("name: ", error_.name);
+        console.error("message: ", error_.message);
+        console.error("cause: ", error_.cause);
+        console.groupCollapsed("stack trace");
+        console.trace(error_);
+        console.error("detailed stack trace", error_.stack);
+        console.groupEnd();
       }
       return initialUserBookshelf;
     })().then((value) => {

@@ -76,11 +76,19 @@ function PublisherCollection({
             "byblos-activePage",
             allStates.responseState.activePage
           );
-        } catch (error) {
-          console.error(
-            "Error saving publisherCollection to localforage: ",
-            error
-          );
+        } catch (error: any) {
+          const error_ = new Error(error, {
+            cause: "inner try block inside fetchPublisherVolumes()",
+          });
+
+          console.group("Error in publisherCollection useEffect");
+          console.error("name: ", error_.name);
+          console.error("message: ", error_.message);
+          console.error("cause: ", error_.cause);
+          console.groupCollapsed("stack trace");
+          console.trace(error_);
+          console.error("detailed stack trace", error_.stack);
+          console.groupEnd();
         } finally {
           allDispatches.responseDispatch({
             type: allActions.responseActions.setAll,
@@ -89,8 +97,19 @@ function PublisherCollection({
 
           setPublisherCollection(itemsWithCustomId);
         }
-      } catch (error) {
-        console.error(error);
+      } catch (error: any) {
+        const error_ = new Error(error, {
+          cause: "outer try block inside fetchPublisherVolumes()",
+        });
+
+        console.group("Error in publisherCollection useEffect");
+        console.error("name: ", error_.name);
+        console.error("message: ", error_.message);
+        console.error("cause: ", error_.cause);
+        console.groupCollapsed("stack trace");
+        console.trace(error_);
+        console.error("detailed stack trace", error_.stack);
+        console.groupEnd();
       }
     };
 
@@ -154,17 +173,26 @@ function PublisherCollection({
               responseState.activePage = value - 1;
             }
           });
-      } catch (error) {
-        console.error("Error in pagination browser back button click:", error);
+      } catch (error: any) {
+        const error_ = new Error(error, {
+          cause: "onBackButtonEvent()",
+        });
+
+        console.group("Error in publisherCollection useEffect");
+        console.error("name: ", error_.name);
+        console.error("message: ", error_.message);
+        console.error("cause: ", error_.cause);
+        console.groupCollapsed("stack trace");
+        console.trace(error_);
+        console.error("detailed stack trace", error_.stack);
+        console.groupEnd();
       }
     };
 
     window.addEventListener("popstate", onBackButtonEvent);
-    // window.addEventListener("popstate", onForwardButtonEvent);
 
     return () => {
       window.removeEventListener("popstate", onBackButtonEvent);
-      // window.removeEventListener("popstate", onForwardButtonEvent);
     };
   }, []);
 

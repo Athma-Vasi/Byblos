@@ -109,55 +109,32 @@ function MyPagination({
             window.scrollTo(0, 0);
             navigate(`${parentPath}${value}`);
           });
-      } catch (error) {
-        console.error("Error in pagination browser back button click:", error);
+      } catch (error: any) {
+        const error_ = new Error(error, {
+          cause: "onBackButtonEvent()",
+        });
+
+        console.group("Error in pagination useEffect");
+        console.error("name: ", error_.name);
+        console.error("message: ", error_.message);
+        console.error("cause: ", error_.cause);
+        console.groupCollapsed("stack trace");
+        console.trace(error_);
+        console.error("detailed stack trace", error_.stack);
+        console.groupEnd();
       }
     };
 
-    // const onForwardButtonEvent = async (event: PopStateEvent) => {
-    //   event.preventDefault();
-    //   console.log("onForwardButtonEvent: ", event.state);
-
-    //   try {
-    //     await localforage
-    //       .getItem<ResponseState["activePage"]>("byblos-activePage")
-    //       .then((value) => {
-    //         if (value) {
-    //           if (value === 1) return;
-    //           responseState.activePage = value + 1;
-    //         }
-    //       });
-
-    //     await localforage
-    //       .setItem("byblos-activePage", responseState.activePage)
-    //       .then((value) => {
-    //         responseDispatch({
-    //           type: responseActions.setActivePage,
-    //           payload: { responseState },
-    //         });
-    //         window.scrollTo(0, 0);
-    //         navigate(`${parentPath}${value}`);
-    //       });
-    //   } catch (error) {
-    //     console.error(
-    //       "Error in pagination browser forward button click:",
-    //       error
-    //     );
-    //   }
-    // };
-
     window.addEventListener("popstate", onBackButtonEvent);
-    // window.addEventListener("popstate", onForwardButtonEvent);
 
     return () => {
       window.removeEventListener("popstate", onBackButtonEvent);
-      // window.removeEventListener("popstate", onForwardButtonEvent);
     };
   }, []);
 
   //this is only to be used when the page changes
   useEffect(() => {
-    if (searchTerm && fetchUrl && activePage > 0) {
+    if (searchTerm && fetchUrl) {
       const fetchUsingStartIndex = async () => {
         const [first, ...rest] = fetchUrl.split("&");
         const startIndexAddedToFetchUrl = `${first}&startIndex=${startIndex}&${rest.join(
@@ -181,10 +158,16 @@ function MyPagination({
             responseState.searchResults
           );
         } catch (error: any) {
-          console.error(
-            "Error in pagination useEffect - fetchUsingStartIndex():",
-            new Error(error, { cause: error })
-          );
+          const error_ = new Error(error, { cause: "fetchUsingStartIndex()" });
+
+          console.group("Error in pagination useEffect");
+          console.error("name: ", error_.name);
+          console.error("message: ", error_.message);
+          console.error("cause: ", error_.cause);
+          console.groupCollapsed("stack trace");
+          console.trace(error_);
+          console.error("detailed stack trace", error_.stack);
+          console.groupEnd();
         } finally {
           responseDispatch({
             type: responseActions.setAll,
@@ -239,8 +222,19 @@ function MyPagination({
           window.scrollTo(0, 0);
           navigate(`${parentPath}${value}`);
         });
-    } catch (error) {
-      console.error("Error in pagination prevBttnClick:", error);
+    } catch (error: any) {
+      const error_ = new Error(error, {
+        cause: "handlePrevPageBttnClick()",
+      });
+
+      console.group("Error in pagination useEffect");
+      console.error("name: ", error_.name);
+      console.error("message: ", error_.message);
+      console.error("cause: ", error_.cause);
+      console.groupCollapsed("stack trace");
+      console.trace(error_);
+      console.error("detailed stack trace", error_.stack);
+      console.groupEnd();
     }
   }
 
@@ -282,8 +276,19 @@ function MyPagination({
           window.scrollTo(0, 0);
           navigate(`${parentPath}${value}`);
         });
-    } catch (error) {
-      console.error("Error in pagination nextBttnClick:", error);
+    } catch (error: any) {
+      const error_ = new Error(error, {
+        cause: "handleNextPageBttnClick()",
+      });
+
+      console.group("Error in pagination useEffect");
+      console.error("name: ", error_.name);
+      console.error("message: ", error_.message);
+      console.error("cause: ", error_.cause);
+      console.groupCollapsed("stack trace");
+      console.trace(error_);
+      console.error("detailed stack trace", error_.stack);
+      console.groupEnd();
     }
   }
 
@@ -306,8 +311,19 @@ function MyPagination({
           window.scrollTo(0, 0);
           navigate(`${parentPath}${value}`);
         });
-    } catch (error) {
-      console.error("pagination jumpBttn error", error);
+    } catch (error: any) {
+      const error_ = new Error(error, {
+        cause: "handlePageJumpBttnClick()",
+      });
+
+      console.group("Error in pagination useEffect");
+      console.error("name: ", error_.name);
+      console.error("message: ", error_.message);
+      console.error("cause: ", error_.cause);
+      console.groupCollapsed("stack trace");
+      console.trace(error_);
+      console.error("detailed stack trace", error_.stack);
+      console.groupEnd();
     } finally {
       responseDispatch({
         type: responseActions.setActivePage,

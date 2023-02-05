@@ -115,8 +115,17 @@ function AdvancedSearch({
         "byblos-selectedVolume",
         allStates.responseState.selectedVolume
       );
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      const error_ = new Error(error, { cause: "fetchSearchResults()" });
+
+      console.group("Error in advancedSearch: handleSearchFormSubmit()");
+      console.error("name: ", error_.name);
+      console.error("message: ", error_.message);
+      console.error("cause: ", error_.cause);
+      console.groupCollapsed("stack trace");
+      console.trace(error_);
+      console.error("detailed stack trace", error_.stack);
+      console.groupEnd();
     } finally {
       responseDispatch({
         type: responseActions.setAll,
@@ -300,16 +309,16 @@ function AdvancedSearch({
 
       allStates.responseState.searchResults = data as ApiResponseVolume | null;
     } catch (error: any) {
-      if (error.response) {
-        // client received an error response (5xx, 4xx)
-        console.error("error.response: ", error.response);
-      } else if (error.request) {
-        // client never received a response, or request never left
-        console.error("error.request: ", error.request);
-      } else {
-        // anything else
-        console.error("error.message: ", error.message);
-      }
+      const error_ = new Error(error, { cause: "fetchSearchResults()" });
+
+      console.group("Error in advancedSearch");
+      console.error("name: ", error_.name);
+      console.error("message: ", error_.message);
+      console.error("cause: ", error_.cause);
+      console.groupCollapsed("stack trace");
+      console.trace(error_);
+      console.error("detailed stack trace", error_.stack);
+      console.groupEnd();
     }
   }
 

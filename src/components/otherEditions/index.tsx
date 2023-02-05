@@ -68,11 +68,6 @@ function OtherEditions({
         allStates.responseState.activePage = 1;
 
         try {
-          // await localforage.setItem<ResponseState["otherEditions"]>(
-          //   "byblos-otherEditions",
-          //   allStates.responseState.otherEditions
-          // );
-
           await localforage.setItem<ResponseState["searchResults"]>(
             "byblos-searchResults",
             allStates.responseState.searchResults
@@ -87,8 +82,19 @@ function OtherEditions({
             "byblos-activePage",
             allStates.responseState.activePage
           );
-        } catch (error) {
-          console.error("Error setting otherEditions to localforage ", error);
+        } catch (error: any) {
+          const error_ = new Error(error, {
+            cause: "inner try block inside fetchOtherEditions()",
+          });
+
+          console.group("Error in otherEditions useEffect");
+          console.error("name: ", error_.name);
+          console.error("message: ", error_.message);
+          console.error("cause: ", error_.cause);
+          console.groupCollapsed("stack trace");
+          console.trace(error_);
+          console.error("detailed stack trace", error_.stack);
+          console.groupEnd();
         } finally {
           allDispatches.responseDispatch({
             type: allActions.responseActions.setAll,
@@ -97,8 +103,19 @@ function OtherEditions({
 
           setOtherEditions(itemsWithCustomId);
         }
-      } catch (error) {
-        console.error("Error fetching other editions", error);
+      } catch (error: any) {
+        const error_ = new Error(error, {
+          cause: "outer try block inside fetchOtherEditions()",
+        });
+
+        console.group("Error in otherEditions useEffect");
+        console.error("name: ", error_.name);
+        console.error("message: ", error_.message);
+        console.error("cause: ", error_.cause);
+        console.groupCollapsed("stack trace");
+        console.trace(error_);
+        console.error("detailed stack trace", error_.stack);
+        console.groupEnd();
       }
     };
 
@@ -162,17 +179,26 @@ function OtherEditions({
               responseState.activePage = value - 1;
             }
           });
-      } catch (error) {
-        console.error("Error in pagination browser back button click:", error);
+      } catch (error: any) {
+        const error_ = new Error(error, {
+          cause: "onBackButtonEvent()",
+        });
+
+        console.group("Error in otherEditions useEffect");
+        console.error("name: ", error_.name);
+        console.error("message: ", error_.message);
+        console.error("cause: ", error_.cause);
+        console.groupCollapsed("stack trace");
+        console.trace(error_);
+        console.error("detailed stack trace", error_.stack);
+        console.groupEnd();
       }
     };
 
     window.addEventListener("popstate", onBackButtonEvent);
-    // window.addEventListener("popstate", onForwardButtonEvent);
 
     return () => {
       window.removeEventListener("popstate", onBackButtonEvent);
-      // window.removeEventListener("popstate", onForwardButtonEvent);
     };
   }, []);
 

@@ -324,8 +324,17 @@ function MyNavBar({
           break;
         }
       }
-    } catch (error) {
-      console.error("Error in handleChildNavlinksClick(): ", error);
+    } catch (error: any) {
+      const error_ = new Error(error, { cause: "handleChildNavlinksClick()" });
+
+      console.group("Error in navbar component");
+      console.error("name: ", error_.name);
+      console.error("message: ", error_.message);
+      console.error("cause: ", error_.cause);
+      console.groupCollapsed("stack trace");
+      console.trace(error_);
+      console.error('detailed stack', error_.stack)
+      console.groupEnd();
     }
   }
 
