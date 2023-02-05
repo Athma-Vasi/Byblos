@@ -3,6 +3,7 @@ type WindowSize = {
   height: number;
 };
 
+// ↓ responseState types
 type ResponseState = {
   searchTerm: string;
   activePage: number;
@@ -14,6 +15,76 @@ type ResponseState = {
   searchResults: null | ApiResponseVolume | ApiResponseUserBookshelf;
 };
 
+type ResponseActions = {
+  setSearchTerm: "setSearchTerm";
+  setActivePage: "setActivePage";
+  setFetchUrl: "setFetchUrl";
+  setSelectedVolume: "setSelectedVolume";
+  setSelectedAuthor: "setSelectedAuthor";
+  setSelectedPublisher: "setSelectedPublisher";
+  setResultsPerPage: "setResultsPerPage";
+  setSearchResults: "setSearchResults";
+  setAll: "setAll";
+};
+
+type ResponseDispatch = {
+  type: ResponseActions[keyof ResponseActions];
+  payload: {
+    responseState: ResponseState;
+  };
+};
+//↑ responseState types
+
+// ↓ historyState types
+type HistoryState = ResponseState[];
+
+type HistoryActions = {
+  pushHistory: "pushHistory";
+  popHistory: "popHistory";
+};
+
+type HistoryDispatch = {
+  type: HistoryActions[keyof HistoryActions];
+  payload: {
+    historyState: ResponseState;
+  };
+};
+// ↑ historyState types
+
+type AllStates = {
+  responseState: ResponseState;
+  historyState: HistoryState;
+};
+
+type AllDispatches = {
+  responseDispatch: React.Dispatch<ResponseDispatch>;
+  historyDispatch: React.Dispatch<HistoryDispatch>;
+};
+
+type AllActions = {
+  responseActions: ResponseActions;
+  historyActions: HistoryActions;
+};
+
+type FormInputNames =
+  | "find-allWords"
+  | "find-exactPhrase"
+  | "find-atLeastOne"
+  | "find-none"
+  | "resultsPerPage"
+  | "sortBy"
+  | "filter-downloadFormat"
+  | "filter-bookViews"
+  | "filter-printType"
+  | "title"
+  | "author"
+  | "publisher"
+  | "subject"
+  | "isbn"
+  | "lccn"
+  | "oclc";
+
+// ↓ Bookshelf types
 type UserBookshelf = {
   name: string;
   id: string;
@@ -39,59 +110,11 @@ type ApiResponseUserBookshelf = {
 };
 
 type RatingAction = 1 | 2 | 3 | 4 | 5;
-
-type ResponseActions = {
-  setSearchTerm: "setSearchTerm";
-  setActivePage: "setActivePage";
-  setFetchUrl: "setFetchUrl";
-  setSelectedVolume: "setSelectedVolume";
-  setSelectedAuthor: "setSelectedAuthor";
-  setSelectedPublisher: "setSelectedPublisher";
-  setResultsPerPage: "setResultsPerPage";
-  setSearchResults: "setSearchResults";
-  setAll: "setAll";
-};
-
-type ResponseDispatch = {
-  type: ResponseActions[keyof ResponseActions];
-  payload: {
-    responseState: ResponseState;
-  };
-};
-
-type AllStates = {
-  responseState: ResponseState;
-};
-
-type AllDispatches = {
-  responseDispatch: React.Dispatch<ResponseDispatch>;
-};
-
-type AllActions = {
-  responseActions: ResponseActions;
-};
-
-type FormInputNames =
-  | "find-allWords"
-  | "find-exactPhrase"
-  | "find-atLeastOne"
-  | "find-none"
-  | "resultsPerPage"
-  | "sortBy"
-  | "filter-downloadFormat"
-  | "filter-bookViews"
-  | "filter-printType"
-  | "title"
-  | "author"
-  | "publisher"
-  | "subject"
-  | "isbn"
-  | "lccn"
-  | "oclc";
+// ↑ bookshelf types
 
 type VolumeWithCustomId = Volume & { customId: string };
 
-//below are the types for the Google Books Api Response
+//↓ below are the types for the Google Books Api Response
 type ApiResponseVolume = {
   kind: Kind;
   totalItems: number;
@@ -212,7 +235,7 @@ interface ReadingModes {
   text: boolean;
   image: boolean;
 }
-// above are the types for the Google Books Api Response
+// ↑ above are the types for the Google Books Api Response
 
 export type {
   AllActions,
@@ -221,6 +244,9 @@ export type {
   ApiResponseVolume,
   ApiResponseUserBookshelf,
   FormInputNames,
+  HistoryActions,
+  HistoryDispatch,
+  HistoryState,
   RatingAction,
   ResponseActions,
   ResponseDispatch,

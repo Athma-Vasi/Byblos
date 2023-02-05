@@ -46,6 +46,9 @@ function MyNavBar({
     //set opened to close the navbar
     setOpened(false);
 
+    //navigate to top of page
+    window.scrollTo(0, 0);
+
     //first set all other navlinks to false to remove active state
     switch (navLinkKind) {
       case "bookshelf": {
@@ -107,6 +110,8 @@ function MyNavBar({
         break;
       }
     }
+
+    //remember the state of responseState before we change it so if the user goes back from the bookshelf page, we can restore the state
 
     //grab the userBookshelf from localforage
     try {

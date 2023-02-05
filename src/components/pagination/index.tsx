@@ -23,9 +23,9 @@ type MyPaginationProps = {
 
 function MyPagination({
   parentPath,
-  allStates: { responseState },
-  allActions: { responseActions },
-  allDispatches: { responseDispatch },
+  allStates: { responseState, historyState },
+  allActions: { responseActions, historyActions },
+  allDispatches: { responseDispatch, historyDispatch },
 }: MyPaginationProps) {
   const { page, volumeId } = useParams();
 
@@ -52,8 +52,49 @@ function MyPagination({
           .then((value) => {
             if (value) {
               if (value === 1) {
-                return;
+                // set response state to prev history state
+                const prevHistoryState = historyState.pop();
+                if (prevHistoryState) {
+                  responseState.activePage = prevHistoryState.activePage;
+                  responseState.searchResults = prevHistoryState.searchResults;
+                  responseState.fetchUrl = prevHistoryState.fetchUrl;
+                  responseState.selectedVolume =
+                    prevHistoryState.selectedVolume;
+                  responseState.selectedAuthor =
+                    prevHistoryState.selectedAuthor;
+                  responseState.selectedPublisher =
+                    prevHistoryState.selectedPublisher;
+
+                  responseDispatch({
+                    type: responseActions.setAll,
+                    payload: { responseState },
+                  });
+
+                  //remove the current state from history by popping the current responseState from the historyState stack
+                  historyDispatch({
+                    type: historyActions.popHistory,
+                    payload: {
+                      historyState: {
+                        searchTerm: responseState.searchTerm,
+                        activePage: responseState.activePage,
+                        fetchUrl: responseState.fetchUrl,
+                        selectedVolume: responseState.selectedVolume,
+                        selectedAuthor: responseState.selectedAuthor,
+                        selectedPublisher: responseState.selectedPublisher,
+                        resultsPerPage: responseState.resultsPerPage,
+                        searchResults: responseState.searchResults,
+                      },
+                    },
+                  });
+
+                  navigate(
+                    `/home/displayResults/${prevHistoryState.activePage}`
+                  );
+                }
+              } else if (value === 0) {
+                navigate(`/home/displayResults/1`);
               }
+              //activePage is not 1 and continue going back
               responseState.activePage = value - 1;
             }
           });
@@ -116,12 +157,14 @@ function MyPagination({
 
   //this is only to be used when the page changes
   useEffect(() => {
-    if (searchTerm && fetchUrl) {
+    if (searchTerm && fetchUrl && activePage > 0) {
       const fetchUsingStartIndex = async () => {
         const [first, ...rest] = fetchUrl.split("&");
         const startIndexAddedToFetchUrl = `${first}&startIndex=${startIndex}&${rest.join(
           "&"
         )}`;
+
+        console.log("startIndexAddedToFetchUrl: ", startIndexAddedToFetchUrl);
 
         try {
           const { data } = await axios.get(startIndexAddedToFetchUrl);
@@ -137,10 +180,10 @@ function MyPagination({
             "byblos-searchResults",
             responseState.searchResults
           );
-        } catch (error) {
+        } catch (error: any) {
           console.error(
             "Error in pagination useEffect - fetchUsingStartIndex():",
-            error
+            new Error(error, { cause: error })
           );
         } finally {
           responseDispatch({
@@ -159,6 +202,23 @@ function MyPagination({
   }, [responseState.activePage]);
 
   async function handlePrevPageBttnClick() {
+    //remove the current state from history by popping the current responseState from the historyState stack
+    historyDispatch({
+      type: historyActions.popHistory,
+      payload: {
+        historyState: {
+          searchTerm: responseState.searchTerm,
+          activePage: responseState.activePage,
+          fetchUrl: responseState.fetchUrl,
+          selectedVolume: responseState.selectedVolume,
+          selectedAuthor: responseState.selectedAuthor,
+          selectedPublisher: responseState.selectedPublisher,
+          resultsPerPage: responseState.resultsPerPage,
+          searchResults: responseState.searchResults,
+        },
+      },
+    });
+
     try {
       await localforage
         .getItem<ResponseState["activePage"]>("byblos-activePage")
@@ -185,6 +245,23 @@ function MyPagination({
   }
 
   async function handleNextPageBttnClick() {
+    //save the current state to history by pushing current responseState into the historyState stack
+    historyDispatch({
+      type: historyActions.pushHistory,
+      payload: {
+        historyState: {
+          searchTerm: responseState.searchTerm,
+          activePage: responseState.activePage,
+          fetchUrl: responseState.fetchUrl,
+          selectedVolume: responseState.selectedVolume,
+          selectedAuthor: responseState.selectedAuthor,
+          selectedPublisher: responseState.selectedPublisher,
+          resultsPerPage: responseState.resultsPerPage,
+          searchResults: responseState.searchResults,
+        },
+      },
+    });
+
     try {
       await localforage
         .getItem<ResponseState["activePage"]>("byblos-activePage")
@@ -244,29 +321,33 @@ function MyPagination({
       <Grid columns={3}>
         <Grid.Col span={1}>
           <Center>
-            <Button
-              disabled={activePage === 1}
-              onClick={handlePrevPageBttnClick}
-            >
-              Prev
-            </Button>
+            <Link to={`/home/displayResults/${responseState.activePage}`}>
+              <Button
+                disabled={activePage === 1}
+                onClick={handlePrevPageBttnClick}
+              >
+                Prev
+              </Button>
+            </Link>
           </Center>
         </Grid.Col>
         <Grid.Col span={1}>
           <Center style={{ width: "100%", height: "100%" }}>
             <Text>
-              Page: {activePage} of {numberOfPages}
+              Page: {activePage === 0 ? 1 : activePage} of {numberOfPages}
             </Text>
           </Center>
         </Grid.Col>
         <Grid.Col span={1}>
           <Center>
-            <Button
-              disabled={activePage === numberOfPages}
-              onClick={handleNextPageBttnClick}
-            >
-              Next
-            </Button>
+            <Link to={`/home/displayResults/${responseState.activePage}`}>
+              <Button
+                disabled={activePage === numberOfPages}
+                onClick={handleNextPageBttnClick}
+              >
+                Next
+              </Button>
+            </Link>
           </Center>
         </Grid.Col>
       </Grid>
@@ -291,7 +372,9 @@ function MyPagination({
                 px={width < 576 ? "sm" : "md"}
               />
 
-              <Button type="submit">Jump to</Button>
+              <Link to={`/home/displayResults/${responseState.activePage}`}>
+                <Button type="submit">Jump to</Button>
+              </Link>
             </Center>
           </Grid.Col>
 

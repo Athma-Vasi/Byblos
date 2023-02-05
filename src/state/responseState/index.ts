@@ -1,4 +1,4 @@
-import { ResponseActions, ResponseDispatch, ResponseState } from "../types";
+import { ResponseActions, ResponseDispatch, ResponseState } from "../../types";
 
 const initialResponseState: ResponseState = {
   searchTerm: "",
@@ -91,7 +91,7 @@ function responseReducer(
     }
 
     default: {
-      return structuredClone(responseState);
+      return responseState;
     }
   }
 }

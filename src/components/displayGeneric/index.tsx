@@ -62,24 +62,16 @@ function DisplayGeneric({
   allActions,
   allDispatches,
 }: DisplayGenericProps) {
+  const { responseState, historyState } = allStates;
+  const { responseDispatch, historyDispatch } = allDispatches;
+  const { responseActions, historyActions } = allActions;
+
   const [localForageFallback, setLocalForageFallback] = useState<
     VolumeWithCustomId[]
   >([]);
 
   const [tempLocalBookshelf, setTempLocalBookshelf] = useState<UserBookshelf[]>(
-    [
-      // {
-      //   // sample data upon first initialization if no data is found in localforage
-      //   name: "Mirror Dance",
-      //   id: uuidv4(), // future actual ids are the server generated google books id
-      //   volume: defaultVolume, // will be undefined for this sample, all future volumes will not be undefined
-      //   rating: 5,
-      //   markRead: true,
-      //   favourite: true,
-      //   readLater: true,
-      //   dateAdded: new Date(),
-      // },
-    ]
+    []
   );
 
   const [modalOpened, setModalOpened] = useState(false);
@@ -457,6 +449,23 @@ function DisplayGeneric({
       volume.volumeInfo.authors?.join(",") ?? "";
     allStates.responseState.selectedPublisher =
       volume.volumeInfo.publisher ?? "";
+
+    //save the current state to history by pushing current responseState into the historyState stack
+    historyDispatch({
+      type: historyActions.pushHistory,
+      payload: {
+        historyState: {
+          searchTerm: allStates.responseState.searchTerm,
+          activePage: allStates.responseState.activePage,
+          fetchUrl: allStates.responseState.fetchUrl,
+          selectedVolume: allStates.responseState.selectedVolume,
+          selectedAuthor: allStates.responseState.selectedAuthor,
+          selectedPublisher: allStates.responseState.selectedPublisher,
+          resultsPerPage: allStates.responseState.resultsPerPage,
+          searchResults: allStates.responseState.searchResults,
+        },
+      },
+    });
 
     try {
       await localforage.setItem<ResponseState["activePage"]>(

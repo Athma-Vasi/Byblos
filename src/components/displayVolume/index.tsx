@@ -1,5 +1,6 @@
 import { Flex, Menu, NavLink } from "@mantine/core";
-import React, { useState } from "react";
+import localforage from "localforage";
+import React, { useEffect, useState } from "react";
 import { BsPersonLinesFill } from "react-icons/bs";
 import { BsMenuButtonFill } from "react-icons/bs";
 import { GrOverview } from "react-icons/gr";
@@ -9,7 +10,14 @@ import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
-import { AllActions, AllDispatches, AllStates } from "../../types";
+import { historyActions } from "../../state/historyState";
+import { responseActions } from "../../state/responseState";
+import {
+  AllActions,
+  AllDispatches,
+  AllStates,
+  ResponseState,
+} from "../../types";
 
 type DisplayVolumeProps = {
   children?: React.ReactNode;
@@ -23,8 +31,12 @@ function DisplayVolume({
   allActions,
   allDispatches,
 }: DisplayVolumeProps) {
-  const { volumeId, page } = useParams();
+  const { responseState, historyState } = allStates;
+  const { responseDispatch, historyDispatch } = allDispatches;
+  const { responseActions, historyActions } = allActions;
+
   const navigate = useNavigate();
+  const { volumeId, page } = useParams();
   const { width = 0 } = useWindowSize();
 
   const {
@@ -101,6 +113,77 @@ function DisplayVolume({
       }
     }
   }
+
+  //handles browser back button click and is included here separately from the function inside pagination component's useEffect because the pagination component is not rendered here
+  useEffect(() => {
+    const onBackButtonEvent = async (event: PopStateEvent) => {
+      event.preventDefault();
+
+      try {
+        await localforage
+          .getItem<ResponseState["activePage"]>("byblos-activePage")
+          .then((value) => {
+            if (value) {
+              if (value === 1) {
+                // set response state to prev history state
+                const prevHistoryState = historyState.pop();
+                if (prevHistoryState) {
+                  responseState.activePage = prevHistoryState.activePage;
+                  responseState.searchResults = prevHistoryState.searchResults;
+                  responseState.fetchUrl = prevHistoryState.fetchUrl;
+                  responseState.selectedVolume =
+                    prevHistoryState.selectedVolume;
+                  responseState.selectedAuthor =
+                    prevHistoryState.selectedAuthor;
+                  responseState.selectedPublisher =
+                    prevHistoryState.selectedPublisher;
+
+                  responseDispatch({
+                    type: responseActions.setAll,
+                    payload: { responseState },
+                  });
+
+                  //remove the current state from history by popping the current responseState from the historyState stack
+                  historyDispatch({
+                    type: historyActions.popHistory,
+                    payload: {
+                      historyState: {
+                        searchTerm: responseState.searchTerm,
+                        activePage: responseState.activePage,
+                        fetchUrl: responseState.fetchUrl,
+                        selectedVolume: responseState.selectedVolume,
+                        selectedAuthor: responseState.selectedAuthor,
+                        selectedPublisher: responseState.selectedPublisher,
+                        resultsPerPage: responseState.resultsPerPage,
+                        searchResults: responseState.searchResults,
+                      },
+                    },
+                  });
+
+                  navigate(
+                    `/home/displayResults/${prevHistoryState.activePage}`
+                  );
+
+                  return;
+                }
+              }
+              //activePage is not 1 and continue going back
+              responseState.activePage = value - 1;
+            }
+          });
+      } catch (error) {
+        console.error("Error in pagination browser back button click:", error);
+      }
+    };
+
+    window.addEventListener("popstate", onBackButtonEvent);
+    // window.addEventListener("popstate", onForwardButtonEvent);
+
+    return () => {
+      window.removeEventListener("popstate", onBackButtonEvent);
+      // window.removeEventListener("popstate", onForwardButtonEvent);
+    };
+  }, []);
 
   return (
     <Flex direction="column" align="center" justify="center">

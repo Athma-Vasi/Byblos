@@ -10,10 +10,15 @@ import MyLoader from "./components/myLoader";
 import { Welcome } from "./components/welcome";
 import { useExitPrompt } from "./hooks/useExitPrompt";
 import {
+  historyActions,
+  historyReducer,
+  initialHistoryState,
+} from "./state/historyState";
+import {
   initialResponseState,
   responseActions,
   responseReducer,
-} from "./state";
+} from "./state/responseState";
 import { ThemeProvider } from "./ThemeProvider";
 import { AllActions, AllDispatches } from "./types";
 
@@ -29,25 +34,30 @@ const AuthorCollection = React.lazy(
   () => import("./components/authorCollection")
 );
 
-// const MyLoader = React.lazy(() => import("./components/myLoader"));
-// const ErrorFallback = React.lazy(() => import("./components/errorFallback"));
-
 export default function App() {
   const [responseState, responseDispatch] = useReducer(
     responseReducer,
     initialResponseState
   );
 
+  const [historyState, historyDispatch] = useReducer(
+    historyReducer,
+    initialHistoryState
+  );
+
   const allStates = {
     responseState,
+    historyState,
   };
 
   const allActions: AllActions = {
     responseActions,
+    historyActions,
   };
 
   const allDispatches: AllDispatches = {
     responseDispatch,
+    historyDispatch,
   };
 
   return (
