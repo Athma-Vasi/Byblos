@@ -25,7 +25,12 @@ type UserBookshelf = {
   dateAdded: Date;
 };
 
-type UserBookshelfActions = "rating" | "favourite" | "readLater" | "markRead";
+type UserBookshelfActions =
+  | "rating"
+  | "favourite"
+  | "readLater"
+  | "markRead"
+  | "removeVolume";
 
 type ApiResponseUserBookshelf = {
   kind: Kind;

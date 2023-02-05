@@ -23,6 +23,7 @@ import {
   MdOutlineWatchLater,
   MdWatchLater,
 } from "react-icons/md";
+import { HiOutlineDocumentRemove } from "react-icons/hi";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
 import {
@@ -128,10 +129,17 @@ function DisplayGeneric({
 
           setTempLocalBookshelf(tempLocalBookshelfClone);
 
-          await localforage.setItem<UserBookshelf[]>(
-            "byblos-userBookshelf",
-            tempLocalBookshelfClone
-          );
+          try {
+            await localforage.setItem<UserBookshelf[]>(
+              "byblos-userBookshelf",
+              tempLocalBookshelfClone
+            );
+          } catch (error) {
+            console.error(
+              "error in setting userBookshelf: switch case 'rating', in localforage: ",
+              error
+            );
+          }
         } else {
           tempLocalBookshelfClone.push({
             name: localVolume.volumeInfo.title,
@@ -146,10 +154,17 @@ function DisplayGeneric({
 
           setTempLocalBookshelf(tempLocalBookshelfClone);
 
-          await localforage.setItem<UserBookshelf[]>(
-            "byblos-userBookshelf",
-            tempLocalBookshelfClone
-          );
+          try {
+            await localforage.setItem<UserBookshelf[]>(
+              "byblos-userBookshelf",
+              tempLocalBookshelfClone
+            );
+          } catch (error) {
+            console.error(
+              "error in setting userBookshelf: switch case 'rating', in localforage: ",
+              error
+            );
+          }
 
           console.log(
             "rating added to userBookshelf in localforage",
@@ -183,10 +198,17 @@ function DisplayGeneric({
 
           setTempLocalBookshelf(tempLocalBookshelfClone);
 
-          await localforage.setItem<UserBookshelf[]>(
-            "byblos-userBookshelf",
-            tempLocalBookshelfClone
-          );
+          try {
+            await localforage.setItem<UserBookshelf[]>(
+              "byblos-userBookshelf",
+              tempLocalBookshelfClone
+            );
+          } catch (error) {
+            console.error(
+              "error in setting userBookshelf: switch case 'markRead', in localforage: ",
+              error
+            );
+          }
         } else {
           tempLocalBookshelfClone.push({
             name: localVolume.volumeInfo.title,
@@ -201,10 +223,17 @@ function DisplayGeneric({
 
           setTempLocalBookshelf(tempLocalBookshelfClone);
 
-          await localforage.setItem<UserBookshelf[]>(
-            "byblos-userBookshelf",
-            tempLocalBookshelfClone
-          );
+          try {
+            await localforage.setItem<UserBookshelf[]>(
+              "byblos-userBookshelf",
+              tempLocalBookshelfClone
+            );
+          } catch (error) {
+            console.error(
+              "error in setting userBookshelf: switch case 'markRead', in localforage: ",
+              error
+            );
+          }
 
           console.log(
             "markRead added to userBookshelf in localforage",
@@ -238,10 +267,17 @@ function DisplayGeneric({
 
           setTempLocalBookshelf(tempLocalBookshelfClone);
 
-          await localforage.setItem<UserBookshelf[]>(
-            "byblos-userBookshelf",
-            tempLocalBookshelfClone
-          );
+          try {
+            await localforage.setItem<UserBookshelf[]>(
+              "byblos-userBookshelf",
+              tempLocalBookshelfClone
+            );
+          } catch (error) {
+            console.error(
+              "error in setting userBookshelf: switch case 'favourite', in localforage: ",
+              error
+            );
+          }
         } else {
           tempLocalBookshelfClone.push({
             name: localVolume.volumeInfo.title,
@@ -256,10 +292,17 @@ function DisplayGeneric({
 
           setTempLocalBookshelf(tempLocalBookshelfClone);
 
-          await localforage.setItem<UserBookshelf[]>(
-            "byblos-userBookshelf",
-            tempLocalBookshelfClone
-          );
+          try {
+            await localforage.setItem<UserBookshelf[]>(
+              "byblos-userBookshelf",
+              tempLocalBookshelfClone
+            );
+          } catch (error) {
+            console.error(
+              "error in setting userBookshelf: switch case 'favourite', in localforage: ",
+              error
+            );
+          }
 
           console.log(
             "favourite added to userBookshelf in localforage",
@@ -293,10 +336,17 @@ function DisplayGeneric({
 
           setTempLocalBookshelf(tempLocalBookshelfClone);
 
-          await localforage.setItem<UserBookshelf[]>(
-            "byblos-userBookshelf",
-            tempLocalBookshelfClone
-          );
+          try {
+            await localforage.setItem<UserBookshelf[]>(
+              "byblos-userBookshelf",
+              tempLocalBookshelfClone
+            );
+          } catch (error) {
+            console.error(
+              "error in setting userBookshelf: switch case 'readLater', in localforage: ",
+              error
+            );
+          }
         } else {
           tempLocalBookshelfClone.push({
             name: localVolume.volumeInfo.title,
@@ -311,10 +361,17 @@ function DisplayGeneric({
 
           setTempLocalBookshelf(tempLocalBookshelfClone);
 
-          await localforage.setItem<UserBookshelf[]>(
-            "byblos-userBookshelf",
-            tempLocalBookshelfClone
-          );
+          try {
+            await localforage.setItem<UserBookshelf[]>(
+              "byblos-userBookshelf",
+              tempLocalBookshelfClone
+            );
+          } catch (error) {
+            console.error(
+              "error in setting userBookshelf: switch case 'readLater', in localforage: ",
+              error
+            );
+          }
 
           console.log(
             "readLater added to userBookshelf in localforage",
@@ -325,6 +382,39 @@ function DisplayGeneric({
         break;
       }
 
+      case "removeVolume": {
+        const existingTempLocalBookshelfVolume = tempLocalBookshelfClone.find(
+          (bookshelfVolume) => bookshelfVolume.id === localVolume.id
+        );
+
+        const idxOfExistingTempLocalBookshelfVolume =
+          tempLocalBookshelfClone.findIndex(
+            (bookshelfVolume) => bookshelfVolume.id === localVolume.id
+          );
+
+        if (existingTempLocalBookshelfVolume) {
+          tempLocalBookshelfClone.splice(
+            idxOfExistingTempLocalBookshelfVolume,
+            1
+          );
+
+          setTempLocalBookshelf(tempLocalBookshelfClone);
+
+          try {
+            await localforage.setItem<UserBookshelf[]>(
+              "byblos-userBookshelf",
+              tempLocalBookshelfClone
+            );
+          } catch (error) {
+            console.error(
+              "error in setting userBookshelf: switch case 'removeVolume', in localforage: ",
+              error
+            );
+          }
+        }
+
+        break;
+      }
       default:
         break;
     }
@@ -595,6 +685,26 @@ function DisplayGeneric({
                       ) : (
                         <IoMdCheckmarkCircleOutline size={20} />
                       )}
+                    </Button>
+
+                    <Text>Remove</Text>
+                    <Button
+                      variant="subtle"
+                      disabled={
+                        tempLocalBookshelf?.some((book) => book.id === item.id)
+                          ? false
+                          : true
+                      }
+                      onClick={() => {
+                        handleUserBookshelfAction(
+                          "removeVolume",
+                          item,
+                          tempLocalBookshelf,
+                          true
+                        );
+                      }}
+                    >
+                      <HiOutlineDocumentRemove size={20} />
                     </Button>
                   </Popover.Dropdown>
                 </Popover>

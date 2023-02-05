@@ -28,9 +28,6 @@ const PublisherCollection = React.lazy(
 const AuthorCollection = React.lazy(
   () => import("./components/authorCollection")
 );
-const DisplayBookshelf = React.lazy(
-  () => import("./components/displayBookshelf")
-);
 
 // const MyLoader = React.lazy(() => import("./components/myLoader"));
 // const ErrorFallback = React.lazy(() => import("./components/errorFallback"));
@@ -143,23 +140,6 @@ export default function App() {
                 </ErrorBoundary>
               }
             />
-
-            <Route
-              path="displayBookshelf"
-              element={
-                <ErrorBoundary
-                  fallback={<ErrorFallback componentName="Bookshelf page" />}
-                >
-                  <Suspense fallback={<MyLoader componentName="Bookshelf" />}>
-                    <DisplayBookshelf
-                      allStates={allStates}
-                      allActions={allActions}
-                      allDispatches={allDispatches}
-                    />
-                  </Suspense>
-                </ErrorBoundary>
-              }
-            ></Route>
 
             <Route
               path="displayResults"
