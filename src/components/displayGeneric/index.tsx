@@ -68,17 +68,17 @@ function DisplayGeneric({
 
   const [tempLocalBookshelf, setTempLocalBookshelf] = useState<UserBookshelf[]>(
     [
-      {
-        // sample data upon first initialization if no data is found in localforage
-        name: "Mirror Dance",
-        id: uuidv4(), // future actual ids are the server generated google books id
-        volume: defaultVolume, // will be undefined for this sample, all future volumes will not be undefined
-        rating: 5,
-        markRead: true,
-        favourite: true,
-        readLater: true,
-        dateAdded: new Date(),
-      },
+      // {
+      //   // sample data upon first initialization if no data is found in localforage
+      //   name: "Mirror Dance",
+      //   id: uuidv4(), // future actual ids are the server generated google books id
+      //   volume: defaultVolume, // will be undefined for this sample, all future volumes will not be undefined
+      //   rating: 5,
+      //   markRead: true,
+      //   favourite: true,
+      //   readLater: true,
+      //   dateAdded: new Date(),
+      // },
     ]
   );
 
@@ -405,6 +405,10 @@ function DisplayGeneric({
               "byblos-userBookshelf",
               tempLocalBookshelfClone
             );
+
+            navigate(
+              `/home/displayResults/${allStates.responseState.activePage}`
+            );
           } catch (error) {
             console.error(
               "error in setting userBookshelf: switch case 'removeVolume', in localforage: ",
@@ -513,6 +517,11 @@ function DisplayGeneric({
                 },
               ]
           );
+
+        console.log(
+          "IIFE initialUserBookshelf useEffect in displayGeneric",
+          initialUserBookshelf
+        );
       } catch (error) {
         console.error(
           "Error in displayGeneric generateUserBookshelf(): ",
@@ -538,180 +547,188 @@ function DisplayGeneric({
         alt={modalAlt}
       />
       <Flex gap="xl" direction="column">
-        {modifiedSearchResults.map((item) => (
-          <Grid key={item.customId} columns={9}>
-            <Grid.Col span={width < 992 ? 2 : 1}>
-              <Center>
-                <Image
-                  style={{ cursor: "pointer" }}
-                  src={item.volumeInfo.imageLinks?.thumbnail}
-                  alt={`thumbnail of ${
-                    item.volumeInfo.title ?? "unavailable"
-                  } book cover`}
+        {modifiedSearchResults.map((item) =>
+          item.id === "aZ0YkIU0HusC" ? null : (
+            <Grid key={item.customId} columns={9}>
+              <Grid.Col span={width < 992 ? 2 : 1}>
+                <Center>
+                  <Image
+                    style={{ cursor: "pointer" }}
+                    src={item.volumeInfo.imageLinks?.thumbnail}
+                    alt={`thumbnail of ${
+                      item.volumeInfo.title ?? "unavailable"
+                    } book cover`}
+                    onClick={() => {
+                      setModalSrc(item.volumeInfo.imageLinks?.thumbnail ?? "");
+                      setModalAlt(item.volumeInfo.title);
+                      setModalOpened(true);
+                    }}
+                    withPlaceholder
+                    placeholder={<Text align="center">No image available</Text>}
+                  />
+                </Center>
+              </Grid.Col>
+              <Grid.Col span={width < 992 ? 6 : 7}>
+                <Title
+                  order={3}
                   onClick={() => {
-                    setModalSrc(item.volumeInfo.imageLinks?.thumbnail ?? "");
-                    setModalAlt(item.volumeInfo.title);
-                    setModalOpened(true);
+                    handleTitleClick(item);
                   }}
-                  withPlaceholder
-                  placeholder={<Text align="center">No image available</Text>}
-                />
-              </Center>
-            </Grid.Col>
-            <Grid.Col span={width < 992 ? 6 : 7}>
-              <Title
-                order={3}
-                onClick={() => {
-                  handleTitleClick(item);
-                }}
-              >
-                <Link to={`/home/displayVolume/${item.customId}`}>
-                  {item.volumeInfo.title}
-                </Link>
-              </Title>
-              {item.volumeInfo.authors
-                ?.join(",:")
-                .split(":")
-                .map((author) => (
-                  <span key={author}>{author} </span>
-                ))}
-              <Text>
-                {Number.isNaN(
-                  new Date(item.volumeInfo.publishedDate)
-                    .getFullYear()
-                    .toString()
-                )
-                  ? "Date unavailable"
-                  : new Date(item.volumeInfo.publishedDate)
-                      .getFullYear()
-                      .toString()}
-              </Text>
-              <Spoiler
-                maxHeight={100}
-                showLabel="Show more"
-                hideLabel="Hide"
-                transitionDuration={382}
-              >
+                >
+                  <Link to={`/home/displayVolume/${item.customId}`}>
+                    {item.volumeInfo.title}
+                  </Link>
+                </Title>
+                {item.volumeInfo.authors
+                  ?.join(",:")
+                  .split(":")
+                  .map((author) => (
+                    <span key={author}>{author} </span>
+                  ))}
                 <Text>
-                  {item.volumeInfo.description ?? "Description unavailable"}
+                  {Number.isNaN(
+                    new Date(item.volumeInfo.publishedDate)
+                      .getFullYear()
+                      .toString()
+                  )
+                    ? "Date unavailable"
+                    : new Date(item.volumeInfo.publishedDate)
+                        .getFullYear()
+                        .toString()}
                 </Text>
-              </Spoiler>
-            </Grid.Col>
+                <Spoiler
+                  maxHeight={100}
+                  showLabel="Show more"
+                  hideLabel="Hide"
+                  transitionDuration={382}
+                >
+                  <Text>
+                    {item.volumeInfo.description ?? "Description unavailable"}
+                  </Text>
+                </Spoiler>
+              </Grid.Col>
 
-            <Grid.Col span={1}>
-              <Center>
-                <Popover width={300} position="bottom" withArrow shadow="md">
-                  <Popover.Target>
-                    <Button variant="subtle">
-                      <BsThreeDotsVertical size={20} />
-                    </Button>
-                  </Popover.Target>
-                  {/* ratings popover */}
-                  <Popover.Dropdown>
-                    <Text>Rate</Text>
-                    <MyRating
-                      value={
-                        tempLocalBookshelf?.find((book) => book.id === item.id)
-                          ?.rating ?? 0
-                      }
-                      onChange={(value) =>
-                        handleUserBookshelfAction(
-                          "rating",
-                          item,
-                          tempLocalBookshelf,
-                          value
-                        )
-                      }
-                    />
+              <Grid.Col span={1}>
+                <Center>
+                  <Popover width={300} position="bottom" withArrow shadow="md">
+                    <Popover.Target>
+                      <Button variant="subtle">
+                        <BsThreeDotsVertical size={20} />
+                      </Button>
+                    </Popover.Target>
+                    {/* ratings popover */}
+                    <Popover.Dropdown>
+                      <Text>Rate</Text>
+                      <MyRating
+                        value={
+                          tempLocalBookshelf?.find(
+                            (book) => book.id === item.id
+                          )?.rating ?? 0
+                        }
+                        onChange={(value) =>
+                          handleUserBookshelfAction(
+                            "rating",
+                            item,
+                            tempLocalBookshelf,
+                            value
+                          )
+                        }
+                      />
 
-                    <Text>Favourite</Text>
-                    <Button
-                      variant="subtle"
-                      onClick={() => {
-                        handleUserBookshelfAction(
-                          "favourite",
-                          item,
-                          tempLocalBookshelf,
-                          tempLocalBookshelf.find((book) => book.id === item.id)
-                            ?.favourite ?? false
-                        );
-                      }}
-                    >
-                      {tempLocalBookshelf?.find((book) => book.id === item.id)
-                        ?.favourite ? (
-                        <MdOutlineFavorite size={20} />
-                      ) : (
-                        <MdOutlineFavoriteBorder size={20} />
-                      )}
-                    </Button>
+                      <Text>Favourite</Text>
+                      <Button
+                        variant="subtle"
+                        onClick={() => {
+                          handleUserBookshelfAction(
+                            "favourite",
+                            item,
+                            tempLocalBookshelf,
+                            tempLocalBookshelf.find(
+                              (book) => book.id === item.id
+                            )?.favourite ?? false
+                          );
+                        }}
+                      >
+                        {tempLocalBookshelf?.find((book) => book.id === item.id)
+                          ?.favourite ? (
+                          <MdOutlineFavorite size={20} />
+                        ) : (
+                          <MdOutlineFavoriteBorder size={20} />
+                        )}
+                      </Button>
 
-                    <Text>Read later</Text>
-                    <Button
-                      variant="subtle"
-                      onClick={() => {
-                        handleUserBookshelfAction(
-                          "readLater",
-                          item,
-                          tempLocalBookshelf,
-                          tempLocalBookshelf.find((book) => book.id === item.id)
-                            ?.readLater ?? false
-                        );
-                      }}
-                    >
-                      {tempLocalBookshelf?.find((book) => book.id === item.id)
-                        ?.readLater ? (
-                        <MdWatchLater size={20} />
-                      ) : (
-                        <MdOutlineWatchLater size={20} />
-                      )}
-                    </Button>
+                      <Text>Read later</Text>
+                      <Button
+                        variant="subtle"
+                        onClick={() => {
+                          handleUserBookshelfAction(
+                            "readLater",
+                            item,
+                            tempLocalBookshelf,
+                            tempLocalBookshelf.find(
+                              (book) => book.id === item.id
+                            )?.readLater ?? false
+                          );
+                        }}
+                      >
+                        {tempLocalBookshelf?.find((book) => book.id === item.id)
+                          ?.readLater ? (
+                          <MdWatchLater size={20} />
+                        ) : (
+                          <MdOutlineWatchLater size={20} />
+                        )}
+                      </Button>
 
-                    <Text>Mark read</Text>
-                    <Button
-                      variant="subtle"
-                      onClick={() => {
-                        handleUserBookshelfAction(
-                          "markRead",
-                          item,
-                          tempLocalBookshelf,
-                          tempLocalBookshelf.find((book) => book.id === item.id)
-                            ?.markRead ?? false
-                        );
-                      }}
-                    >
-                      {tempLocalBookshelf?.find((book) => book.id === item.id)
-                        ?.markRead ? (
-                        <IoMdCheckmarkCircle size={20} />
-                      ) : (
-                        <IoMdCheckmarkCircleOutline size={20} />
-                      )}
-                    </Button>
+                      <Text>Mark read</Text>
+                      <Button
+                        variant="subtle"
+                        onClick={() => {
+                          handleUserBookshelfAction(
+                            "markRead",
+                            item,
+                            tempLocalBookshelf,
+                            tempLocalBookshelf.find(
+                              (book) => book.id === item.id
+                            )?.markRead ?? false
+                          );
+                        }}
+                      >
+                        {tempLocalBookshelf?.find((book) => book.id === item.id)
+                          ?.markRead ? (
+                          <IoMdCheckmarkCircle size={20} />
+                        ) : (
+                          <IoMdCheckmarkCircleOutline size={20} />
+                        )}
+                      </Button>
 
-                    <Text>Remove</Text>
-                    <Button
-                      variant="subtle"
-                      disabled={
-                        tempLocalBookshelf?.some((book) => book.id === item.id)
-                          ? false
-                          : true
-                      }
-                      onClick={() => {
-                        handleUserBookshelfAction(
-                          "removeVolume",
-                          item,
-                          tempLocalBookshelf,
-                          true
-                        );
-                      }}
-                    >
-                      <HiOutlineDocumentRemove size={20} />
-                    </Button>
-                  </Popover.Dropdown>
-                </Popover>
-              </Center>
-            </Grid.Col>
-          </Grid>
-        ))}
+                      <Text>Remove</Text>
+                      <Button
+                        variant="subtle"
+                        disabled={
+                          tempLocalBookshelf?.some(
+                            (book) => book.id === item.id
+                          )
+                            ? false
+                            : true
+                        }
+                        onClick={() => {
+                          handleUserBookshelfAction(
+                            "removeVolume",
+                            item,
+                            tempLocalBookshelf,
+                            true
+                          );
+                        }}
+                      >
+                        <HiOutlineDocumentRemove size={20} />
+                      </Button>
+                    </Popover.Dropdown>
+                  </Popover>
+                </Center>
+              </Grid.Col>
+            </Grid>
+          )
+        )}
       </Flex>
     </Fragment>
   );

@@ -51,7 +51,9 @@ function MyPagination({
           .getItem<ResponseState["activePage"]>("byblos-activePage")
           .then((value) => {
             if (value) {
-              if (value === 1) return;
+              if (value === 1) {
+                return;
+              }
               responseState.activePage = value - 1;
             }
           });

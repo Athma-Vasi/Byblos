@@ -343,58 +343,68 @@ function MyNavBar({
       >
         <Space h="sm" />
 
-        <NavLink
-          label="Bookshelf"
-          icon={<GiBookshelf size={20} />}
-          active={bookshelfNavlinkActive}
-          rightSection={<TbChevronRight size={20} />}
-          onClick={() => handleChildNavlinksClick("bookshelf")}
-          variant="subtle"
-        />
+        <Link to={`/home/displayResults/${allStates.responseState.activePage}`}>
+          <NavLink
+            label="Bookshelf"
+            icon={<GiBookshelf size={20} />}
+            active={bookshelfNavlinkActive}
+            rightSection={<TbChevronRight size={20} />}
+            onClick={() => handleChildNavlinksClick("bookshelf")}
+            variant="subtle"
+          />
+        </Link>
 
         <Space h="sm" />
 
-        <NavLink
-          label="Favourites"
-          icon={<RiHomeHeartLine size={20} />}
-          active={favouritesNavlinkActive}
-          rightSection={<TbChevronRight size={20} />}
-          onClick={() => handleChildNavlinksClick("favourites")}
-          variant="subtle"
-        />
+        <Link to={`/home/displayResults/${allStates.responseState.activePage}`}>
+          <NavLink
+            label="Favourites"
+            icon={<RiHomeHeartLine size={20} />}
+            active={favouritesNavlinkActive}
+            rightSection={<TbChevronRight size={20} />}
+            onClick={() => handleChildNavlinksClick("favourites")}
+            variant="subtle"
+          />
+        </Link>
 
         <Space h="sm" />
 
-        <NavLink
-          label="Rated"
-          icon={<GiStarsStack size={20} />}
-          active={ratedNavlinkActive}
-          rightSection={<TbChevronRight size={20} />}
-          onClick={() => handleChildNavlinksClick("rated")}
-          variant="subtle"
-        />
+        <Link to={`/home/displayResults/${allStates.responseState.activePage}`}>
+          <NavLink
+            label="Rated"
+            icon={<GiStarsStack size={20} />}
+            active={ratedNavlinkActive}
+            rightSection={<TbChevronRight size={20} />}
+            onClick={() => handleChildNavlinksClick("rated")}
+            variant="subtle"
+          />
+        </Link>
 
         <Space h="sm" />
 
-        <NavLink
-          label="Finished reading"
-          icon={<GiBlackBook size={20} />}
-          active={markReadNavlinkActive}
-          rightSection={<TbChevronRight size={20} />}
-          onClick={() => handleChildNavlinksClick("markRead")}
-          variant="subtle"
-        />
+        <Link to={`/home/displayResults/${allStates.responseState.activePage}`}>
+          <NavLink
+            label="Finished reading"
+            icon={<GiBlackBook size={20} />}
+            active={markReadNavlinkActive}
+            rightSection={<TbChevronRight size={20} />}
+            onClick={() => handleChildNavlinksClick("markRead")}
+            variant="subtle"
+          />
+        </Link>
 
         <Space h="sm" />
 
-        <NavLink
-          label="Want to read"
-          icon={<RiHealthBookFill size={20} />}
-          active={readLaterNavlinkActive}
-          rightSection={<TbChevronRight size={20} />}
-          onClick={() => handleChildNavlinksClick("readLater")}
-          variant="subtle"
-        />
+        <Link to={`/home/displayResults/${allStates.responseState.activePage}`}>
+          <NavLink
+            label="Want to read"
+            icon={<RiHealthBookFill size={20} />}
+            active={readLaterNavlinkActive}
+            rightSection={<TbChevronRight size={20} />}
+            onClick={() => handleChildNavlinksClick("readLater")}
+            variant="subtle"
+          />
+        </Link>
       </NavLink>
     </Navbar>
   );
