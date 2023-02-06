@@ -153,7 +153,7 @@ function Search({
           historyActions,
           historyDispatch
         )}
-        rightSectionWidth={searchTerm === "" ? 50 : 100}
+        rightSectionWidth={100}
         onKeyDown={handleEnterKeyInput}
         data-textinput="search"
       />

@@ -1,4 +1,4 @@
-import { Flex, Menu, NavLink } from "@mantine/core";
+import { Flex, Menu, NavLink, Space } from "@mantine/core";
 import localforage from "localforage";
 import React, { useEffect, useState } from "react";
 import { BsPersonLinesFill } from "react-icons/bs";
@@ -277,6 +277,8 @@ function DisplayVolume({
           </Flex>
         </Menu.Dropdown>
       </Menu>
+
+      <Space h="xl" />
 
       <Outlet />
     </Flex>

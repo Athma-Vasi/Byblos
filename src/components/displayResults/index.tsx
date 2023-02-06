@@ -64,13 +64,17 @@ function DisplayResults({
 
   return (
     <Fragment>
+      {Array.from({ length: 3 }).map((_, i) => (
+        <Space key={i} h="xs" />
+      ))}
+
       <Search
         allStates={allStates}
         allActions={allActions}
         allDispatches={allDispatches}
       />
       {Array.from({ length: 5 }).map((_, i) => (
-        <Space key={i} h="lg" />
+        <Space key={i} h="xs" />
       ))}
       <DisplayGeneric
         allStates={allStates}

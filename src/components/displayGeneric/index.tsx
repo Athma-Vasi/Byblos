@@ -691,13 +691,12 @@ function DisplayGeneric({
                     onClick={() => {
                       handleTitleClick(item);
                     }}
+                    style={{ paddingBottom: "3px" }}
                   >
                     <Link to={`/home/displayVolume/${item.customId}`}>
                       {item.volumeInfo.title}
                     </Link>
                   </Title>
-
-                  <Space h="xs" />
 
                   {item.volumeInfo.authors
                     ?.join(",:")
@@ -706,9 +705,7 @@ function DisplayGeneric({
                       <span key={author}>{author} </span>
                     ))}
 
-                  <Space h="xs" />
-
-                  <Text>
+                  <Text style={{ padding: "3px" }}>
                     {Number.isNaN(
                       new Date(item.volumeInfo.publishedDate)
                         .getFullYear()
@@ -720,10 +717,8 @@ function DisplayGeneric({
                           .toString()}
                   </Text>
 
-                  <Space h="xs" />
-
                   <Spoiler
-                    maxHeight={96}
+                    maxHeight={100}
                     showLabel="Show more"
                     hideLabel="Hide"
                     transitionDuration={382}
@@ -860,6 +855,7 @@ function DisplayGeneric({
           )
         )}
       </Flex>
+      <Space h="xl" />
     </Fragment>
   );
 }
