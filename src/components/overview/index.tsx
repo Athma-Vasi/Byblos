@@ -426,14 +426,14 @@ function Overview({
               </Container>
 
               <Container>
-                <IoReaderOutline size={50} />
+                <HiOutlineBookOpen size={50} />
                 <a href={googleBooksWebReader} target="_blank">
                   View sample using Google's web reader
                 </a>
               </Container>
 
               <Container>
-                <HiOutlineBookOpen size={50} />
+                <IoReaderOutline size={50} />
                 <a href={googleBooksEpub} target="_blank">
                   Download link to free epub sample
                 </a>

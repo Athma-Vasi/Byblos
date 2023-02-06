@@ -1,9 +1,11 @@
 import { Flex, Text, TextInput } from "@mantine/core";
-import { useState } from "react";
+import axios from "axios";
+import localforage from "localforage";
+import React, { useState } from "react";
 import { CgSearch } from "react-icons/cg";
 import { RiCloseLine } from "react-icons/ri";
 import { RxDividerVertical } from "react-icons/rx";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
 import {
@@ -11,57 +13,128 @@ import {
   AllDispatches,
   AllStates,
   ApiResponseVolume,
+  HistoryActions,
+  HistoryDispatch,
+  HistoryState,
+  ResponseActions,
+  ResponseDispatch,
+  ResponseState,
   Volume,
 } from "../../types";
 
-///////
 type SearchProps = {
   children?: React.ReactNode;
   allStates: AllStates;
   allActions: AllActions;
   allDispatches: AllDispatches;
 };
-///////
 
 function Search({
-  allStates: { responseState },
-  allActions: { responseActions },
-  allDispatches: { responseDispatch },
+  allStates: { responseState, historyState },
+  allActions: { responseActions, historyActions },
+  allDispatches: { responseDispatch, historyDispatch },
 }: SearchProps) {
   const [searchTerm, setSearchTerm] = useState("");
+
   const { width = 0 } = useWindowSize();
+  const navigate = useNavigate();
 
   async function handleEnterKeyInput(
     event: React.KeyboardEvent<HTMLInputElement>
   ) {
     if (event.key === "Enter") {
-      responseState.searchTerm = searchTerm;
-      responseDispatch({
-        type: responseActions.setSearchTerm,
-        payload: {
-          responseState,
-        },
-      });
+      console.log("searchTerm", searchTerm);
 
-      const response = await fetch(
-        `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`
-      );
-      const data: ApiResponseVolume = await response.json();
+      try {
+        const fetchUrlFromGenericSearch = `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
+        const { data } = await axios.get(fetchUrlFromGenericSearch);
 
-      responseState.searchResults = data;
-      responseDispatch({
-        type: responseActions.setSearchResults,
-        payload: {
-          responseState,
-        },
-      });
+        responseState.searchTerm = searchTerm;
+        responseState.searchResults = data as ApiResponseVolume;
+        responseState.activePage = 1;
+        responseState.fetchUrl = fetchUrlFromGenericSearch;
 
-      console.log(responseState.searchResults);
+        //initializes localforage keys to initial responseState values for some, and fetched values for others
+        await localforage.setItem(
+          "byblos-activePage",
+          responseState.activePage
+        );
+
+        await localforage.setItem("byblos-fetchUrl", fetchUrlFromGenericSearch);
+
+        await localforage.setItem(
+          "byblos-resultsPerPage",
+          responseState.resultsPerPage
+        );
+
+        await localforage.setItem(
+          "byblos-searchResults",
+          data as ApiResponseVolume
+        );
+
+        await localforage.setItem(
+          "byblos-searchTerm",
+          responseState.searchTerm
+        );
+        await localforage.setItem(
+          "byblos-selectedAuthor",
+          responseState.selectedAuthor
+        );
+        await localforage.setItem(
+          "byblos-selectedPublisher",
+          responseState.selectedPublisher
+        );
+        await localforage.setItem(
+          "byblos-selectedVolume",
+          responseState.selectedVolume
+        );
+        responseDispatch({
+          type: responseActions.setAll,
+          payload: { responseState },
+        });
+
+        navigate(`/home/displayResults/${responseState.activePage}`);
+      } catch (error: any) {
+        const error_ = new Error(error, {
+          cause: "handleEnterKeyInput()",
+        });
+
+        console.group("Error in search eventHandler");
+        console.error("name: ", error_.name);
+        console.error("message: ", error_.message);
+        console.error("cause: ", error_.cause);
+        console.groupCollapsed("stack trace");
+        console.trace(error_);
+        console.error("detailed stack trace", error_.stack);
+        console.groupEnd();
+      } finally {
+        //save the current state to history by pushing current responseState into the historyState stack
+        historyDispatch({
+          type: historyActions.pushHistory,
+          payload: {
+            historyState: {
+              searchTerm: responseState.searchTerm,
+              activePage: responseState.activePage,
+              fetchUrl: responseState.fetchUrl,
+              selectedVolume: responseState.selectedVolume,
+              selectedAuthor: responseState.selectedAuthor,
+              selectedPublisher: responseState.selectedPublisher,
+              resultsPerPage: responseState.resultsPerPage,
+              searchResults: responseState.searchResults,
+            },
+          },
+        });
+      }
     }
   }
 
   return (
-    <Flex gap="md" justify="flex-end">
+    <Flex
+      gap="md"
+      justify="center"
+      align="center"
+      style={{ outline: "2px solid GrayText", width: "100%" }}
+    >
       <TextInput
         value={searchTerm}
         onChange={(event) => {
@@ -70,7 +143,16 @@ function Search({
         size={`${
           width < 576 ? "xs" : width < 768 ? "sm" : width < 992 ? "md" : "lg"
         }`}
-        rightSection={rightInputSection(searchTerm)}
+        rightSection={rightInputSection(
+          searchTerm,
+          setSearchTerm,
+          responseState,
+          responseDispatch,
+          responseActions,
+          historyState,
+          historyActions,
+          historyDispatch
+        )}
         rightSectionWidth={searchTerm === "" ? 50 : 100}
         onKeyDown={handleEnterKeyInput}
         data-textinput="search"
@@ -84,11 +166,94 @@ function Search({
 
 export { Search };
 
-function rightInputSection(searchTerm: string) {
+function rightInputSection(
+  searchTerm: string,
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>,
+  responseState: ResponseState,
+  responseDispatch: React.Dispatch<ResponseDispatch>,
+  responseActions: ResponseActions,
+  historyState: HistoryState,
+  historyActions: HistoryActions,
+  historyDispatch: React.Dispatch<HistoryDispatch>
+) {
+  const navigate = useNavigate();
   async function handleSearchIconClick(
     event: React.MouseEvent<SVGElement, MouseEvent>
   ) {
-    //
+    try {
+      const fetchUrlFromGenericSearch = `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
+      const { data } = await axios.get(fetchUrlFromGenericSearch);
+
+      responseState.searchTerm = searchTerm;
+      responseState.searchResults = data as ApiResponseVolume;
+      responseState.activePage = 1;
+      responseState.fetchUrl = fetchUrlFromGenericSearch;
+
+      //initializes localforage keys to initial responseState values for some, and fetched values for others
+      await localforage.setItem("byblos-activePage", responseState.activePage);
+
+      await localforage.setItem("byblos-fetchUrl", fetchUrlFromGenericSearch);
+
+      await localforage.setItem(
+        "byblos-resultsPerPage",
+        responseState.resultsPerPage
+      );
+
+      await localforage.setItem(
+        "byblos-searchResults",
+        data as ApiResponseVolume
+      );
+
+      await localforage.setItem("byblos-searchTerm", responseState.searchTerm);
+      await localforage.setItem(
+        "byblos-selectedAuthor",
+        responseState.selectedAuthor
+      );
+      await localforage.setItem(
+        "byblos-selectedPublisher",
+        responseState.selectedPublisher
+      );
+      await localforage.setItem(
+        "byblos-selectedVolume",
+        responseState.selectedVolume
+      );
+      responseDispatch({
+        type: responseActions.setAll,
+        payload: { responseState },
+      });
+
+      navigate(`/home/displayResults/${responseState.activePage}`);
+    } catch (error: any) {
+      const error_ = new Error(error, {
+        cause: "handleEnterKeyInput()",
+      });
+
+      console.group("Error in search eventHandler");
+      console.error("name: ", error_.name);
+      console.error("message: ", error_.message);
+      console.error("cause: ", error_.cause);
+      console.groupCollapsed("stack trace");
+      console.trace(error_);
+      console.error("detailed stack trace", error_.stack);
+      console.groupEnd();
+    } finally {
+      //save the current state to history by pushing current responseState into the historyState stack
+      historyDispatch({
+        type: historyActions.pushHistory,
+        payload: {
+          historyState: {
+            searchTerm: responseState.searchTerm,
+            activePage: responseState.activePage,
+            fetchUrl: responseState.fetchUrl,
+            selectedVolume: responseState.selectedVolume,
+            selectedAuthor: responseState.selectedAuthor,
+            selectedPublisher: responseState.selectedPublisher,
+            resultsPerPage: responseState.resultsPerPage,
+            searchResults: responseState.searchResults,
+          },
+        },
+      });
+    }
   }
 
   return (
@@ -101,6 +266,9 @@ function rightInputSection(searchTerm: string) {
             color: "GrayText",
             transform: "scale(1.5)",
             cursor: "pointer",
+          }}
+          onClick={() => {
+            setSearchTerm("");
           }}
         />
       )}

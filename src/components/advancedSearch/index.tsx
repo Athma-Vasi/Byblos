@@ -82,7 +82,7 @@ function AdvancedSearch({
 
       //initializes localforage keys to initial responseState values for some, and fetched values for others
       await localforage.setItem(
-        "activePage",
+        "byblos-activePage",
         allStates.responseState.activePage
       );
 
