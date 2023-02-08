@@ -15,7 +15,6 @@ import {
 } from "../../types";
 import { insertCustomId } from "../../utils";
 import DisplayGeneric from "../displayGeneric";
-import { MyPagination } from "../pagination";
 
 type PublisherCollectionProps = {
   children?: React.ReactNode;
@@ -59,7 +58,6 @@ function PublisherCollection({
         // allStates.responseState.publisherCollection = itemsWithCustomId;
         allStates.responseState.searchResults = data;
         allStates.responseState.fetchUrl = fetchUrlWithPublisher;
-        allStates.responseState.activePage = 1;
 
         try {
           await localforage.setItem(
@@ -70,11 +68,6 @@ function PublisherCollection({
           await localforage.setItem(
             "byblos-fetchUrl",
             allStates.responseState.fetchUrl
-          );
-
-          await localforage.setItem(
-            "byblos-activePage",
-            allStates.responseState.activePage
           );
         } catch (error: any) {
           const error_ = new Error(error, {
@@ -120,73 +113,6 @@ function PublisherCollection({
   useEffect(() => {
     const onBackButtonEvent = async (event: PopStateEvent) => {
       event.preventDefault();
-
-      try {
-        await localforage
-          .getItem<ResponseState["activePage"]>("byblos-activePage")
-          .then((value) => {
-            if (value) {
-              if (value === 1) {
-                // set response state to prev history state
-                const prevHistoryState = historyState.pop();
-                if (prevHistoryState) {
-                  responseState.activePage = prevHistoryState.activePage;
-                  responseState.searchResults = prevHistoryState.searchResults;
-                  responseState.fetchUrl = prevHistoryState.fetchUrl;
-                  responseState.selectedVolume =
-                    prevHistoryState.selectedVolume;
-                  responseState.selectedAuthor =
-                    prevHistoryState.selectedAuthor;
-                  responseState.selectedPublisher =
-                    prevHistoryState.selectedPublisher;
-
-                  responseDispatch({
-                    type: responseActions.setAll,
-                    payload: { responseState },
-                  });
-
-                  //remove the current state from history by popping the current responseState from the historyState stack
-                  historyDispatch({
-                    type: historyActions.popHistory,
-                    payload: {
-                      historyState: {
-                        searchTerm: responseState.searchTerm,
-                        activePage: responseState.activePage,
-                        fetchUrl: responseState.fetchUrl,
-                        selectedVolume: responseState.selectedVolume,
-                        selectedAuthor: responseState.selectedAuthor,
-                        selectedPublisher: responseState.selectedPublisher,
-                        resultsPerPage: responseState.resultsPerPage,
-                        searchResults: responseState.searchResults,
-                      },
-                    },
-                  });
-
-                  navigate(
-                    `/home/displayResults/${prevHistoryState.activePage}`
-                  );
-
-                  return;
-                }
-              }
-              //activePage is not 1 and continue going back
-              responseState.activePage = value - 1;
-            }
-          });
-      } catch (error: any) {
-        const error_ = new Error(error, {
-          cause: "onBackButtonEvent()",
-        });
-
-        console.group("Error in publisherCollection useEffect");
-        console.error("name: ", error_.name);
-        console.error("message: ", error_.message);
-        console.error("cause: ", error_.cause);
-        console.groupCollapsed("stack trace");
-        console.trace(error_);
-        console.error("detailed stack trace", error_.stack);
-        console.groupEnd();
-      }
     };
 
     window.addEventListener("popstate", onBackButtonEvent);
@@ -227,13 +153,6 @@ function PublisherCollection({
           />
         </Suspense>
       </ErrorBoundary>
-
-      <MyPagination
-        parentPath={`/home/displayVolume/${volumeId}/publisherCollection/`}
-        allStates={allStates}
-        allActions={allActions}
-        allDispatches={allDispatches}
-      />
     </Fragment>
   );
 }

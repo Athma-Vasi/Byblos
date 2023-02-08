@@ -6,9 +6,7 @@ type WindowSize = {
 // ↓ responseState types
 type ResponseState = {
   searchTerm: string;
-  activePage: number;
   fetchUrl: string;
-  resultsPerPage: string;
   selectedVolume: null | VolumeWithCustomId;
   selectedAuthor: string;
   selectedPublisher: string;
@@ -17,12 +15,10 @@ type ResponseState = {
 
 type ResponseActions = {
   setSearchTerm: "setSearchTerm";
-  setActivePage: "setActivePage";
   setFetchUrl: "setFetchUrl";
   setSelectedVolume: "setSelectedVolume";
   setSelectedAuthor: "setSelectedAuthor";
   setSelectedPublisher: "setSelectedPublisher";
-  setResultsPerPage: "setResultsPerPage";
   setSearchResults: "setSearchResults";
   setAll: "setAll";
 };
@@ -71,7 +67,6 @@ type FormInputNames =
   | "find-exactPhrase"
   | "find-atLeastOne"
   | "find-none"
-  | "resultsPerPage"
   | "sortBy"
   | "filter-downloadFormat"
   | "filter-bookViews"

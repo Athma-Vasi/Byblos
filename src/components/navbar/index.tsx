@@ -195,7 +195,7 @@ function MyNavBar({
 
           if (userBookshelf) {
             allStates.responseState.searchResults = userBookshelfApiResponse;
-            allStates.responseState.activePage = 1;
+
             allStates.responseState.resultsPerPage = "40";
 
             //rest are set to initial state
@@ -238,7 +238,7 @@ function MyNavBar({
 
           if (userBookshelf) {
             allStates.responseState.searchResults = ratedVolumesApiResponse;
-            allStates.responseState.activePage = 1;
+
             allStates.responseState.resultsPerPage = "40";
 
             //rest are set to initial state
@@ -279,7 +279,7 @@ function MyNavBar({
 
           if (userBookshelf) {
             allStates.responseState.searchResults = favouriteVolumesApiResponse;
-            allStates.responseState.activePage = 1;
+
             allStates.responseState.resultsPerPage = "40";
 
             //rest are set to initial state
@@ -320,7 +320,7 @@ function MyNavBar({
 
           if (userBookshelf) {
             allStates.responseState.searchResults = markReadVolumesApiResponse;
-            allStates.responseState.activePage = 1;
+
             allStates.responseState.resultsPerPage = "40";
 
             //rest are set to initial state
@@ -361,7 +361,7 @@ function MyNavBar({
 
           if (userBookshelf) {
             allStates.responseState.searchResults = readLaterVolumesApiResponse;
-            allStates.responseState.activePage = 1;
+
             allStates.responseState.resultsPerPage = "40";
 
             //rest are set to initial state
@@ -416,7 +416,7 @@ function MyNavBar({
       >
         <Space h="sm" />
 
-        <Link to={`/home/displayResults/${allStates.responseState.activePage}`}>
+        <Link to={`/home/displayResults/1`}>
           <NavLink
             label="Bookshelf"
             icon={<GiBookshelf size={20} />}
@@ -430,7 +430,7 @@ function MyNavBar({
 
         <Space h="sm" />
 
-        <Link to={`/home/displayResults/${allStates.responseState.activePage}`}>
+        <Link to={`/home/displayResults/1`}>
           <NavLink
             label="Favourites"
             icon={<RiHomeHeartLine size={20} />}
@@ -444,7 +444,7 @@ function MyNavBar({
 
         <Space h="sm" />
 
-        <Link to={`/home/displayResults/${allStates.responseState.activePage}`}>
+        <Link to={`/home/displayResults/1`}>
           <NavLink
             label="Rated"
             icon={<GiStarsStack size={20} />}
@@ -458,7 +458,7 @@ function MyNavBar({
 
         <Space h="sm" />
 
-        <Link to={`/home/displayResults/${allStates.responseState.activePage}`}>
+        <Link to={`/home/displayResults/1`}>
           <NavLink
             label="Finished reading"
             icon={<GiBlackBook size={20} />}
@@ -472,7 +472,7 @@ function MyNavBar({
 
         <Space h="sm" />
 
-        <Link to={`/home/displayResults/${allStates.responseState.activePage}`}>
+        <Link to={`/home/displayResults/1`}>
           <NavLink
             label="Want to read"
             icon={<RiHealthBookFill size={20} />}

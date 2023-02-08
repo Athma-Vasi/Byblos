@@ -1,7 +1,12 @@
 import localforage from "localforage";
 import { v4 as uuidV4 } from "uuid";
 
-import { ApiResponseVolume, ResponseState, VolumeWithCustomId } from "../types";
+import {
+  ApiResponseVolume,
+  FormInputNames,
+  ResponseState,
+  VolumeWithCustomId,
+} from "../types";
 
 function insertCustomId(
   items: ApiResponseVolume["items"]
@@ -20,6 +25,100 @@ function insertCustomId(
 
     return clone as VolumeWithCustomId;
   });
+}
+
+function populateSearchTermForFetch(formDataMap: Map<FormInputNames, string>) {
+  const searchStrWithAllWords = `${
+    formDataMap.get("find-allWords") === ""
+      ? ""
+      : "+" + formDataMap.get("find-allWords")?.split(" ").join("+")
+  }`;
+
+  const searchStrWithExactPhrase = `${
+    formDataMap.get("find-exactPhrase") === ""
+      ? ""
+      : `"${formDataMap.get("find-exactPhrase")}"`
+  }`;
+
+  const searchStrWithAtLeastOneWord = `${
+    formDataMap.get("find-atLeastOne") === ""
+      ? ""
+      : formDataMap.get("find-atLeastOne")?.split(" ").join("|")
+  }`;
+
+  const searchStrWithWithoutWords = `${
+    formDataMap.get("find-none") === ""
+      ? ""
+      : `-${formDataMap.get("find-none")?.split(" ").join(" -")}`
+  }`;
+
+  const searchStrCondensedComesFirst = `${searchStrWithAllWords}${searchStrWithExactPhrase}${searchStrWithAtLeastOneWord}${searchStrWithWithoutWords}`;
+
+  const searchStrWithTitle = `${
+    formDataMap.get("title") === ""
+      ? ""
+      : `+intitle:${formDataMap.get("title")}`
+  }`;
+
+  const searchStrWithAuthor = `${
+    formDataMap.get("author") === ""
+      ? ""
+      : `+inauthor:${formDataMap.get("author")}`
+  }`;
+
+  const searchStrWithPublisher = `${
+    formDataMap.get("publisher") === ""
+      ? ""
+      : `+inpublisher:${formDataMap.get("publisher")}`
+  }`;
+
+  const searchStrWithIsbn = `${
+    formDataMap.get("isbn") === "" ? "" : `+isbn:${formDataMap.get("isbn")}`
+  }`;
+
+  const searchStrWithSubject = `${
+    formDataMap.get("subject") === ""
+      ? ""
+      : `+subject:${formDataMap.get("subject")}`
+  }`;
+
+  const searchStrWithLccn = `${
+    formDataMap.get("lccn") === "" ? "" : `+lccn:${formDataMap.get("lccn")}`
+  }`;
+
+  const searchStrWithOclc = `${
+    formDataMap.get("oclc") === "" ? "" : `+oclc:${formDataMap.get("oclc")}`
+  }`;
+
+  const searchStrWithAllCategories = `${searchStrWithTitle}${searchStrWithAuthor}${searchStrWithPublisher}${searchStrWithIsbn}${searchStrWithSubject}${searchStrWithLccn}${searchStrWithOclc}`;
+
+  const searchStrWithDownloadFormat = `${
+    formDataMap.get("filter-downloadFormat") === "" ? "" : "&download="
+  }${formDataMap.get("filter-downloadFormat")}`;
+
+  const searchStrWithViewability = `${
+    formDataMap.get("filter-bookViews") === "" ? "" : "&filter="
+  }${formDataMap.get("filter-bookViews")}`;
+
+  const searchStrWithPrintType = `${
+    formDataMap.get("filter-printType") === "" ? "" : "&printType="
+  }${formDataMap.get("filter-printType")}`;
+
+  const searchStrWithResultsPerPage = `${
+    formDataMap.get("resultsPerPage") === "10"
+      ? ""
+      : `&maxResults=${formDataMap.get("resultsPerPage")}`
+  }`;
+
+  const searchStrWithSortBy = `${
+    formDataMap.get("sortBy") === "relevance"
+      ? ""
+      : `&orderBy=${formDataMap.get("sortBy")}`
+  }`;
+
+  const searchStrFinal = `${searchStrCondensedComesFirst}${searchStrWithAllCategories}${searchStrWithDownloadFormat}${searchStrWithViewability}${searchStrWithResultsPerPage}${searchStrWithSortBy}${searchStrWithPrintType}`;
+
+  return searchStrFinal;
 }
 
 function getLanguageFromCode(code: string) {
@@ -280,4 +379,4 @@ function getLanguageFromCode(code: string) {
   return languageTable.get(code) ?? code;
 }
 
-export { getLanguageFromCode, insertCustomId };
+export { getLanguageFromCode, insertCustomId, populateSearchTermForFetch };

@@ -1,6 +1,6 @@
 import { Flex, Grid, Image, Space, Title } from "@mantine/core";
 import React from "react";
-import main_welcome_logo from "../../assets/library_magnifying_glass_logo.avif";
+import logo_transparent from "../../../src/assets/logo/logo_transparent.png";
 import { useWindowSize } from "../../hooks/useWindowSize";
 
 import { AllActions, AllDispatches, AllStates } from "../../types";
@@ -27,16 +27,10 @@ function Welcome({
       justify="center"
       style={{ outline: "2px solid GrayText" }}
     >
-      <Flex direction="row" align="center" justify="center">
-        <Title order={1} data-cy="welcome-title" size="4rem">
-          Byblos
-        </Title>
-      </Flex>
-
       <Grid columns={7}>
         <Grid.Col span={2}></Grid.Col>
         <Grid.Col span={3}>
-          <Image src={main_welcome_logo} alt="Byblos logo" radius="md" />
+          <Image src={logo_transparent} alt="Byblos logo" radius="md" />
         </Grid.Col>
         <Grid.Col span={2}></Grid.Col>
       </Grid>
@@ -44,7 +38,6 @@ function Welcome({
       {Array.from({ length: 3 }).map((_, i) => (
         <Space key={i} h="sm" />
       ))}
-
       <Search
         allStates={allStates}
         allActions={allActions}

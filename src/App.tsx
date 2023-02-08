@@ -1,4 +1,5 @@
 import { LoadingOverlay, Text } from "@mantine/core";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React, { Suspense, useEffect } from "react";
 import { useReducer } from "react";
 import { ErrorBoundary } from "react-error-boundary";
@@ -59,6 +60,8 @@ export default function App() {
     responseDispatch,
     historyDispatch,
   };
+
+  const queryClient = new QueryClient();
 
   return (
     <ThemeProvider>
@@ -129,7 +132,6 @@ export default function App() {
                 </ErrorBoundary>
               }
             />
-
             <Route
               path="advancedSearch"
               element={
@@ -150,7 +152,6 @@ export default function App() {
                 </ErrorBoundary>
               }
             />
-
             <Route
               path="displayResults"
               element={
@@ -192,7 +193,6 @@ export default function App() {
                   </ErrorBoundary>
                 }
               />
-
               <Route
                 path=":page"
                 element={
@@ -214,7 +214,6 @@ export default function App() {
                 }
               ></Route>
             </Route>
-
             <Route
               path="displayVolume/:volumeId"
               element={
@@ -248,7 +247,6 @@ export default function App() {
                   </ErrorBoundary>
                 }
               ></Route>
-
               <Route
                 path="overview"
                 element={
@@ -265,7 +263,6 @@ export default function App() {
                   </ErrorBoundary>
                 }
               ></Route>
-
               <Route
                 path="otherEditions"
                 element={
@@ -306,7 +303,6 @@ export default function App() {
                     </ErrorBoundary>
                   }
                 ></Route>
-
                 <Route
                   path=":page"
                   element={
@@ -328,7 +324,6 @@ export default function App() {
                   }
                 ></Route>
               </Route>
-
               <Route
                 path="publisherCollection"
                 element={
@@ -373,7 +368,6 @@ export default function App() {
                     </ErrorBoundary>
                   }
                 ></Route>
-
                 <Route
                   path=":page"
                   element={
@@ -397,7 +391,6 @@ export default function App() {
                   }
                 ></Route>
               </Route>
-
               <Route
                 path="authorCollection"
                 element={
@@ -440,7 +433,6 @@ export default function App() {
                     </ErrorBoundary>
                   }
                 ></Route>
-
                 <Route
                   path=":page"
                   element={

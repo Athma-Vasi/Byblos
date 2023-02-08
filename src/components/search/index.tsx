@@ -51,14 +51,9 @@ function Search({
 
         responseState.searchTerm = searchTerm;
         responseState.searchResults = data as ApiResponseVolume;
-        responseState.activePage = 1;
         responseState.fetchUrl = fetchUrlFromGenericSearch;
 
         //initializes localforage keys to initial responseState values for some, and fetched values for others
-        await localforage.setItem(
-          "byblos-activePage",
-          responseState.activePage
-        );
 
         await localforage.setItem("byblos-fetchUrl", fetchUrlFromGenericSearch);
 
@@ -93,7 +88,7 @@ function Search({
           payload: { responseState },
         });
 
-        navigate(`/home/displayResults/${responseState.activePage}`);
+        navigate(`/home/displayResults/1`);
       } catch (error: any) {
         const error_ = new Error(error, {
           cause: "handleEnterKeyInput()",
@@ -114,7 +109,6 @@ function Search({
           payload: {
             historyState: {
               searchTerm: responseState.searchTerm,
-              activePage: responseState.activePage,
               fetchUrl: responseState.fetchUrl,
               selectedVolume: responseState.selectedVolume,
               selectedAuthor: responseState.selectedAuthor,
@@ -186,11 +180,9 @@ function rightInputSection(
 
       responseState.searchTerm = searchTerm;
       responseState.searchResults = data as ApiResponseVolume;
-      responseState.activePage = 1;
       responseState.fetchUrl = fetchUrlFromGenericSearch;
 
       //initializes localforage keys to initial responseState values for some, and fetched values for others
-      await localforage.setItem("byblos-activePage", responseState.activePage);
 
       await localforage.setItem("byblos-fetchUrl", fetchUrlFromGenericSearch);
 
@@ -222,7 +214,7 @@ function rightInputSection(
         payload: { responseState },
       });
 
-      navigate(`/home/displayResults/${responseState.activePage}`);
+      navigate(`/home/displayResults/1`);
     } catch (error: any) {
       const error_ = new Error(error, {
         cause: "handleEnterKeyInput()",
@@ -243,7 +235,6 @@ function rightInputSection(
         payload: {
           historyState: {
             searchTerm: responseState.searchTerm,
-            activePage: responseState.activePage,
             fetchUrl: responseState.fetchUrl,
             selectedVolume: responseState.selectedVolume,
             selectedAuthor: responseState.selectedAuthor,

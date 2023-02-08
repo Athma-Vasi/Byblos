@@ -450,9 +450,7 @@ function DisplayGeneric({
               tempLocalBookshelfClone
             );
 
-            navigate(
-              `/home/displayResults/${allStates.responseState.activePage}`
-            );
+            navigate(`/home/displayResults/1`);
           } catch (error: any) {
             const error_ = new Error(error, {
               cause: "switch case 'removeVolume', in if block",
@@ -506,10 +504,9 @@ function DisplayGeneric({
     };
 
     fetchLocalStorageFallback();
-  }, [allStates.responseState.activePage]);
+  }, []);
 
   async function handleTitleClick(volume: VolumeWithCustomId) {
-    allStates.responseState.activePage = 1;
     allStates.responseState.searchTerm = volume.volumeInfo.title;
     allStates.responseState.selectedVolume = volume;
     allStates.responseState.selectedAuthor =
@@ -523,7 +520,6 @@ function DisplayGeneric({
       payload: {
         historyState: {
           searchTerm: allStates.responseState.searchTerm,
-          activePage: allStates.responseState.activePage,
           fetchUrl: allStates.responseState.fetchUrl,
           selectedVolume: allStates.responseState.selectedVolume,
           selectedAuthor: allStates.responseState.selectedAuthor,
@@ -535,11 +531,6 @@ function DisplayGeneric({
     });
 
     try {
-      await localforage.setItem<ResponseState["activePage"]>(
-        "byblos-activePage",
-        allStates.responseState.activePage
-      );
-
       await localforage.setItem<ResponseState["searchTerm"]>(
         "byblos-searchTerm",
         allStates.responseState.searchTerm

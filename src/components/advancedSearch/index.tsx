@@ -62,10 +62,10 @@ function AdvancedSearch({
       new Map()
     );
 
-    // set resultsPerPage to state
-    allStates.responseState.resultsPerPage = formDataMap.get(
-      "resultsPerPage"
-    ) as string;
+    // // set resultsPerPage to state
+    // allStates.responseState.resultsPerPage = formDataMap.get(
+    //   "resultsPerPage"
+    // ) as string;
 
     const searchStr = populateSearchTermForFetch(formDataMap);
     //set searchTerm to state
@@ -78,23 +78,21 @@ function AdvancedSearch({
     );
 
     try {
-      await fetchSearchResults(searchStr);
+      const data = await fetchSearchResults(searchStr);
 
       //initializes localforage keys to initial responseState values for some, and fetched values for others
-      await localforage.setItem(
-        "byblos-activePage",
-        allStates.responseState.activePage
-      );
+
+      allStates.responseState.searchResults = data as ApiResponseVolume | null;
 
       await localforage.setItem(
         "byblos-fetchUrl",
         allStates.responseState.fetchUrl
       );
 
-      await localforage.setItem(
-        "byblos-resultsPerPage",
-        allStates.responseState.resultsPerPage
-      );
+      // await localforage.setItem(
+      //   "byblos-resultsPerPage",
+      //   allStates.responseState.resultsPerPage
+      // );
       await localforage.setItem(
         "byblos-searchResults",
         allStates.responseState.searchResults
@@ -134,7 +132,7 @@ function AdvancedSearch({
         },
       });
 
-      navigate(`/home/displayResults/${allStates.responseState.activePage}`);
+      navigate(`/home/displayResults/1`);
     }
   }
 
@@ -217,19 +215,19 @@ function AdvancedSearch({
       formDataMap.get("filter-printType") === "" ? "" : "&printType="
     }${formDataMap.get("filter-printType")}`;
 
-    const searchStrWithResultsPerPage = `${
-      formDataMap.get("resultsPerPage") === "10"
-        ? ""
-        : `&maxResults=${formDataMap.get("resultsPerPage")}`
-    }`;
+    // const searchStrWithResultsPerPage = `${
+    //   formDataMap.get("resultsPerPage") === "10"
+    //     ? ""
+    //     : `&maxResults=${formDataMap.get("resultsPerPage")}`
+    // }`;
 
     const searchStrWithSortBy = `${
-      formDataMap.get("sortBy") === "relevance"
+      formDataMap.get("sortBy") === "Relevance"
         ? ""
         : `&orderBy=${formDataMap.get("sortBy")}`
     }`;
 
-    const searchStrFinal = `${searchStrCondensedComesFirst}${searchStrWithAllCategories}${searchStrWithDownloadFormat}${searchStrWithViewability}${searchStrWithResultsPerPage}${searchStrWithSortBy}${searchStrWithPrintType}`;
+    const searchStrFinal = `${searchStrCondensedComesFirst}${searchStrWithAllCategories}${searchStrWithDownloadFormat}${searchStrWithViewability}${searchStrWithSortBy}${searchStrWithPrintType}`;
 
     return searchStrFinal;
   }
@@ -304,10 +302,7 @@ function AdvancedSearch({
         `https://www.googleapis.com/books/v1/volumes?q=${searchString}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`
       );
 
-      // set the state of the search results
-      //the response state dispatch is centralized inside the async function handleSearchFormSubmit to avoid multiple rerenders
-
-      allStates.responseState.searchResults = data as ApiResponseVolume | null;
+      return data as ApiResponseVolume;
     } catch (error: any) {
       const error_ = new Error(error, { cause: "fetchSearchResults()" });
 
@@ -326,7 +321,11 @@ function AdvancedSearch({
     <div>
       <form action="#" method="GET" onSubmit={handleSearchFormSubmit}>
         {/* search term specificity modifiers */}
-        <Grid columns={width < 576 ? 1 : 4} p={width < 576 ? "sm" : "md"}>
+        <Grid
+          columns={width < 576 ? 1 : 4}
+          p={width < 576 ? "sm" : "md"}
+          align="center"
+        >
           <Grid.Col span={1}>
             <Center style={{ width: "100%", height: "100%" }}>
               <Text>Find results</Text>
@@ -346,6 +345,7 @@ function AdvancedSearch({
             >
               <Grid
                 columns={width < 576 ? 1 : 2}
+                align="center"
                 style={{ outline: "2px solid GrayText" }}
                 py={width < 576 ? "sm" : "md"}
               >
@@ -364,6 +364,7 @@ function AdvancedSearch({
               </Grid>
               <Grid
                 columns={width < 576 ? 1 : 2}
+                align="center"
                 style={{ outline: "2px solid GrayText" }}
                 py={width < 576 ? "sm" : "md"}
               >
@@ -382,6 +383,7 @@ function AdvancedSearch({
               </Grid>
               <Grid
                 columns={width < 576 ? 1 : 2}
+                align="center"
                 style={{ outline: "2px solid GrayText" }}
                 py={width < 576 ? "sm" : "md"}
               >
@@ -400,6 +402,7 @@ function AdvancedSearch({
               </Grid>
               <Grid
                 columns={width < 576 ? 1 : 2}
+                align="center"
                 style={{ outline: "2px solid GrayText" }}
                 py={width < 576 ? "sm" : "md"}
               >
@@ -419,38 +422,24 @@ function AdvancedSearch({
               {/* search results amount per page modifier */}
               <Grid
                 columns={width < 576 ? 2 : 4}
+                align="center"
                 style={{ outline: "2px solid GrayText" }}
                 py={width < 576 ? "sm" : "md"}
               >
-                <Grid.Col span={width < 576 ? 1 : 2}>
-                  {width > 576 ? (
-                    <NativeSelect
-                      data={["10", "20", "30", "40"]}
-                      label="Results per page"
-                      name="resultsPerPage"
-                      data-nativeselect="resultsPerPage"
-                    />
-                  ) : (
-                    <Flex
-                      justify="flex-start"
-                      align="center"
-                      style={{ outline: "2px solid GrayText" }}
-                    >
-                      <NativeSelect
-                        data={["10", "20", "30", "40"]}
-                        label="Results per page"
-                        name="resultsPerPage"
-                        data-nativeselect="resultsPerPage"
-                      />
-                    </Flex>
-                  )}
+                <Grid.Col
+                  span={width < 576 ? 1 : 2}
+                  style={{ outline: "1px solid GrayText" }}
+                >
+                  <Flex style={{ outline: "1px solid GrayText" }}>
+                    <Text>Sort by</Text>
+                  </Flex>
                 </Grid.Col>
 
                 <Grid.Col span={width < 576 ? 1 : 2}>
                   {width > 576 ? (
                     <NativeSelect
-                      data={["relevance", "newest"]}
-                      label="Sort by"
+                      data={["Relevance", "Newest"]}
+                      // label="Sort by"
                       name="sortBy"
                       data-nativeselect="sortBy"
                     />
@@ -461,7 +450,7 @@ function AdvancedSearch({
                       style={{ outline: "2px solid GrayText" }}
                     >
                       <NativeSelect
-                        data={["relevance", "newest"]}
+                        data={["Relevance", "Newest"]}
                         label="Sort by"
                         name="sortBy"
                         data-nativeselect="sortBy"
@@ -474,7 +463,11 @@ function AdvancedSearch({
           </Grid.Col>
         </Grid>
         {/* download format section */}
-        <Grid columns={width < 576 ? 1 : 4} p={width < 576 ? "sm" : "md"}>
+        <Grid
+          columns={width < 576 ? 1 : 4}
+          p={width < 576 ? "sm" : "md"}
+          align="center"
+        >
           {/* download format heading */}
           <Grid.Col span={1}>
             <Center style={{ width: "100%", height: "100%" }}>
@@ -543,6 +536,7 @@ function AdvancedSearch({
           columns={width < 576 ? 1 : 4}
           style={{ outline: "2px solid GrayText" }}
           p={width < 576 ? "sm" : "md"}
+          align="center"
         >
           {/* search book views  heading */}
           <Grid.Col span={1}>
@@ -690,7 +684,11 @@ function AdvancedSearch({
         </Grid>
         {/*  */}
         {/* content section modifiers */}
-        <Grid columns={width < 576 ? 1 : 4} p={width < 576 ? "sm" : "md"}>
+        <Grid
+          columns={width < 576 ? 1 : 4}
+          p={width < 576 ? "sm" : "md"}
+          align="center"
+        >
           {/* content section heading */}
           <Grid.Col span={1}>
             <Center style={{ width: "100%", height: "100%" }}>
@@ -773,7 +771,11 @@ function AdvancedSearch({
         </Grid>
 
         {/* title section modifier */}
-        <Grid columns={width < 576 ? 1 : 4} p={width < 576 ? "sm" : "md"}>
+        <Grid
+          columns={width < 576 ? 1 : 4}
+          p={width < 576 ? "sm" : "md"}
+          align="center"
+        >
           {/* title section heading */}
           <Grid.Col span={1}>
             <Center style={{ width: "100%", height: "100%" }}>
@@ -816,7 +818,11 @@ function AdvancedSearch({
         </Grid>
 
         {/* author section modifier */}
-        <Grid columns={width < 576 ? 1 : 4} p={width < 576 ? "sm" : "md"}>
+        <Grid
+          columns={width < 576 ? 1 : 4}
+          p={width < 576 ? "sm" : "md"}
+          align="center"
+        >
           {/* author section heading */}
           <Grid.Col span={1}>
             <Center style={{ width: "100%", height: "100%" }}>
@@ -863,7 +869,11 @@ function AdvancedSearch({
         </Grid>
 
         {/* publisher section modifier */}
-        <Grid columns={width < 576 ? 1 : 4} p={width < 576 ? "sm" : "md"}>
+        <Grid
+          columns={width < 576 ? 1 : 4}
+          p={width < 576 ? "sm" : "md"}
+          align="center"
+        >
           {/* publisher section heading */}
           <Grid.Col span={1}>
             <Center style={{ width: "100%", height: "100%" }}>
@@ -910,7 +920,11 @@ function AdvancedSearch({
         </Grid>
 
         {/* category section modifier */}
-        <Grid columns={width < 576 ? 1 : 4} p={width < 576 ? "sm" : "md"}>
+        <Grid
+          columns={width < 576 ? 1 : 4}
+          p={width < 576 ? "sm" : "md"}
+          align="center"
+        >
           {/* category section heading */}
           <Grid.Col span={1}>
             <Center style={{ width: "100%", height: "100%" }}>
@@ -957,7 +971,11 @@ function AdvancedSearch({
         </Grid>
 
         {/* isbn section modifier */}
-        <Grid columns={width < 576 ? 1 : 4} p={width < 576 ? "sm" : "md"}>
+        <Grid
+          columns={width < 576 ? 1 : 4}
+          p={width < 576 ? "sm" : "md"}
+          align="center"
+        >
           {/* isbn section heading */}
           <Grid.Col span={1}>
             <Center style={{ width: "100%", height: "100%" }}>
@@ -1000,7 +1018,11 @@ function AdvancedSearch({
         </Grid>
 
         {/* lccn section modifier */}
-        <Grid columns={width < 576 ? 1 : 4} p={width < 576 ? "sm" : "md"}>
+        <Grid
+          columns={width < 576 ? 1 : 4}
+          p={width < 576 ? "sm" : "md"}
+          align="center"
+        >
           {/* lccn section heading */}
           <Grid.Col span={1}>
             <Center style={{ width: "100%", height: "100%" }}>
@@ -1043,7 +1065,11 @@ function AdvancedSearch({
         </Grid>
 
         {/* oclc section modifier */}
-        <Grid columns={width < 576 ? 1 : 4} p={width < 576 ? "sm" : "md"}>
+        <Grid
+          columns={width < 576 ? 1 : 4}
+          p={width < 576 ? "sm" : "md"}
+          align="center"
+        >
           {/* oclc section heading */}
           <Grid.Col span={1}>
             <Center style={{ width: "100%", height: "100%" }}>
@@ -1086,7 +1112,11 @@ function AdvancedSearch({
         </Grid>
 
         {/* submit button */}
-        <Grid columns={width < 576 ? 1 : 4} p={width < 576 ? "sm" : "md"}>
+        <Grid
+          columns={width < 576 ? 1 : 4}
+          p={width < 576 ? "sm" : "md"}
+          align="center"
+        >
           {/* empty div for alignment */}
           <Grid.Col span={1}>
             <Center style={{ width: "100%", height: "100%" }}>

@@ -7,7 +7,6 @@ import {
 const initialHistoryState: HistoryState = [
   {
     searchTerm: "",
-    activePage: 1,
     fetchUrl: "",
     selectedVolume: null,
     selectedAuthor: "",
@@ -34,7 +33,6 @@ function historyReducer(
         selectedPublisher,
         fetchUrl,
         searchTerm,
-        activePage,
         searchResults,
         resultsPerPage,
       },
@@ -51,7 +49,6 @@ function historyReducer(
           selectedPublisher,
           fetchUrl,
           searchTerm,
-          activePage,
           searchResults,
           resultsPerPage,
         },
