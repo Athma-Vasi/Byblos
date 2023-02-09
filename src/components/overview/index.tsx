@@ -376,7 +376,7 @@ function Overview({
           </a>
         </Flex>
 
-        <Space h="lg" />
+        <Space h="sm" />
 
         <Flex direction="row" justify="space-between" align="center">
           <Flex
@@ -398,7 +398,7 @@ function Overview({
           </a>
         </Flex>
 
-        <Space h="lg" />
+        <Space h="sm" />
 
         <Flex direction="row" justify="space-between" align="center">
           <Flex
@@ -422,6 +422,7 @@ function Overview({
       </Card>
 
       <Space h="lg" />
+      <Space h="lg" />
 
       <Text align="start" size="lg">
         Previews
@@ -430,10 +431,20 @@ function Overview({
       <Card shadow="sm" radius="md" style={{ width: "100%" }}>
         <Text>{"Google Books (may require authorization)"}</Text>
 
-        <Space h="lg" />
+        <Space h="sm" />
 
         <Flex direction="row" justify="space-between" align="center">
-          <BiBookReader size={50} />
+          <Flex
+            direction="row"
+            justify="start"
+            align="center"
+            style={{ outline: "1px solid GrayText" }}
+          >
+            <BiBookReader size={50} />
+            <Space w="xl" />
+            <Text>Sample preview</Text>
+          </Flex>
+
           <a href={googleBooksPreview} target="_blank">
             <Button variant="outline" radius="xl">
               View sample preview online
@@ -441,8 +452,20 @@ function Overview({
           </a>
         </Flex>
 
+        <Space h="sm" />
+
         <Flex direction="row" justify="space-between" align="center">
-          <HiOutlineBookOpen size={50} />
+          <Flex
+            direction="row"
+            justify="start"
+            align="center"
+            style={{ outline: "1px solid GrayText" }}
+          >
+            <HiOutlineBookOpen size={50} />
+            <Space w="xl" />
+            <Text>Web reader</Text>
+          </Flex>
+
           <a href={googleBooksWebReader} target="_blank">
             <Button variant="outline" radius="xl">
               View sample using Google's web reader
@@ -450,12 +473,20 @@ function Overview({
           </a>
         </Flex>
 
-        {/* <IoReaderOutline size={50} />
-        <a href={googleBooksEpub} target="_blank">
-          Download link to free epub sample
-        </a> */}
+        <Space h="sm" />
+
         <Flex direction="row" justify="space-between" align="center">
-          <IoReaderOutline size={50} />
+          <Flex
+            direction="row"
+            justify="start"
+            align="center"
+            style={{ outline: "1px solid GrayText" }}
+          >
+            <IoReaderOutline size={50} />
+            <Space w="xl" />
+            <Text>Epub sample</Text>
+          </Flex>
+
           <a href={googleBooksEpub} target="_blank">
             <Button variant="outline" radius="xl">
               Free epub sample download

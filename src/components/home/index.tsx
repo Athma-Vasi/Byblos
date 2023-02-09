@@ -113,7 +113,7 @@ function Home({ children, allStates, allActions, allDispatches }: HomeProps) {
         }
       } catch (error: any) {
         const error_ = new Error(error, {
-          cause: "handleOnBackButonEvent",
+          cause: "handleOnBackButonEvent()",
         });
 
         console.group("Error in home useEffect");

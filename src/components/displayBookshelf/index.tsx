@@ -682,7 +682,7 @@ function DisplayBookshelf({
               radius="md"
               withBorder
               key={item.customId}
-              style={{ height: "325px" }}
+              style={{ minHeight: "300px" }}
             >
               <Grid key={item.customId} columns={9}>
                 <Grid.Col span={width < 992 ? 2 : 1}>
@@ -737,7 +737,7 @@ function DisplayBookshelf({
                       <span key={author}>{author} </span>
                     ))}
 
-                  <Text style={{ padding: "3px" }}>
+                  <Text style={{ paddingTop: "3px", paddingBottom: "3px" }}>
                     {Number.isNaN(
                       new Date(item.volumeInfo.publishedDate)
                         .getFullYear()
@@ -750,7 +750,7 @@ function DisplayBookshelf({
                   </Text>
 
                   <Spoiler
-                    maxHeight={172}
+                    maxHeight={150}
                     showLabel="Show more"
                     hideLabel="Hide"
                     transitionDuration={382}
@@ -764,7 +764,7 @@ function DisplayBookshelf({
                   <Center>
                     <Popover
                       width={300}
-                      position="bottom"
+                      position="left-start"
                       withArrow
                       shadow="md"
                     >
