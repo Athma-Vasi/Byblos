@@ -196,8 +196,6 @@ function MyNavBar({
           if (userBookshelf) {
             allStates.responseState.searchResults = userBookshelfApiResponse;
 
-            allStates.responseState.resultsPerPage = "40";
-
             //rest are set to initial state
             allStates.responseState.searchTerm = "";
             allStates.responseState.fetchUrl = "";
@@ -239,8 +237,6 @@ function MyNavBar({
           if (userBookshelf) {
             allStates.responseState.searchResults = ratedVolumesApiResponse;
 
-            allStates.responseState.resultsPerPage = "40";
-
             //rest are set to initial state
             allStates.responseState.searchTerm = "";
             allStates.responseState.fetchUrl = "";
@@ -279,8 +275,6 @@ function MyNavBar({
 
           if (userBookshelf) {
             allStates.responseState.searchResults = favouriteVolumesApiResponse;
-
-            allStates.responseState.resultsPerPage = "40";
 
             //rest are set to initial state
             allStates.responseState.searchTerm = "";
@@ -321,8 +315,6 @@ function MyNavBar({
           if (userBookshelf) {
             allStates.responseState.searchResults = markReadVolumesApiResponse;
 
-            allStates.responseState.resultsPerPage = "40";
-
             //rest are set to initial state
             allStates.responseState.searchTerm = "";
             allStates.responseState.fetchUrl = "";
@@ -361,8 +353,6 @@ function MyNavBar({
 
           if (userBookshelf) {
             allStates.responseState.searchResults = readLaterVolumesApiResponse;
-
-            allStates.responseState.resultsPerPage = "40";
 
             //rest are set to initial state
             allStates.responseState.searchTerm = "";

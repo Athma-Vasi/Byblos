@@ -29,13 +29,32 @@ function Overview({
   allActions,
   allDispatches,
 }: OverviewProps) {
-  const { responseState, historyState } = allStates;
-  const { responseDispatch, historyDispatch } = allDispatches;
-  const { responseActions, historyActions } = allActions;
-  const selectedVolume = allStates.responseState.selectedVolume;
+  const {
+    responseState: {
+      fetchUrl,
+      searchTerm,
+      searchResults,
+      selectedVolume,
+      selectedAuthor,
+      selectedPublisher,
+    },
+  } = allStates;
+  const { responseDispatch } = allDispatches;
+  const {
+    responseActions: {
+      setFetchUrl,
+      setSearchTerm,
+      setSearchResults,
+      setSelectedVolume,
+      setSelectedAuthor,
+      setSelectedPublisher,
+    },
+  } = allActions;
 
   const navigate = useNavigate();
   const { width = 0 } = useWindowSize();
+
+  console.log("selectedVolume from overview", selectedVolume);
 
   const [selectedVolumeForage, setSelectedVolumeForage] =
     useState<VolumeWithCustomId | null>(null);
@@ -51,10 +70,7 @@ function Overview({
             }
           });
 
-        await localforage.setItem<ResponseState["selectedVolume"]>(
-          "byblos-selectedVolume",
-          selectedVolume
-        );
+        console.log("selectedVolumeForage from overview", selectedVolumeForage);
       } catch (error: any) {
         const error_ = new Error(error, {
           cause: "fetchSelectedVolumeFromLocalForage()",
@@ -74,19 +90,6 @@ function Overview({
     fetchSelectedVolumeFromLocalForage();
   }, []);
 
-  //handles browser back button click and is included here separately from the function inside pagination component's useEffect because the pagination component is not rendered here
-  useEffect(() => {
-    const onBackButtonEvent = async (event: PopStateEvent) => {
-      event.preventDefault();
-    };
-
-    window.addEventListener("popstate", onBackButtonEvent);
-
-    return () => {
-      window.removeEventListener("popstate", onBackButtonEvent);
-    };
-  }, []);
-
   const imageSrc =
     selectedVolume?.volumeInfo.imageLinks?.thumbnail ??
     selectedVolumeForage?.volumeInfo.imageLinks?.thumbnail ??
@@ -100,27 +103,27 @@ function Overview({
     : "thumbnail unavailable";
 
   const industryIdentifiers = selectedVolume
-    ? selectedVolume?.volumeInfo.industryIdentifiers?.map((id) => (
-        <Text key={id.identifier}>
-          {id.type.includes("ISBN")
-            ? `${id.type.split("_").join("-")}`
+    ? selectedVolume?.volumeInfo?.industryIdentifiers?.map((id) => (
+        <Text key={id?.identifier}>
+          {id?.type?.includes("ISBN")
+            ? `${id?.type?.split("_").join("-")}`
             : "Other"}
           :{" "}
-          {id.identifier.toLowerCase().includes(":")
-            ? id.identifier.split(":")[1]
-            : id.identifier.toLowerCase()}
+          {id?.identifier?.toLowerCase().includes(":")
+            ? id?.identifier?.split(":")[1]
+            : id?.identifier?.toLowerCase()}
           <Space h="xs" />
         </Text>
       ))
-    : selectedVolumeForage?.volumeInfo.industryIdentifiers?.map((id) => (
-        <Text key={id.identifier}>
-          {id.type.includes("ISBN")
-            ? `${id.type.split("_").join("-")}`
+    : selectedVolumeForage?.volumeInfo?.industryIdentifiers?.map((id) => (
+        <Text key={id?.identifier}>
+          {id?.type?.includes("ISBN")
+            ? `${id?.type?.split("_").join("-")}`
             : "Other"}
           :{" "}
-          {id.identifier.toLowerCase().includes(":")
-            ? id.identifier.split(":")[1]
-            : id.identifier.toLowerCase()}
+          {id?.identifier?.toLowerCase().includes(":")
+            ? id?.identifier?.split(":")[1]
+            : id?.identifier?.toLowerCase()}
           <Space h="xs" />
         </Text>
       ));
@@ -203,12 +206,12 @@ function Overview({
         .slice(1)}` ?? "Unavailable";
 
   const amazonLink = selectedVolume
-    ? `https://www.amazon.ca/gp/search?index=books&keywords=${selectedVolume?.volumeInfo.industryIdentifiers[0].identifier}`
-    : `https://www.amazon.ca/gp/search?index=books&keywords=${selectedVolumeForage?.volumeInfo.industryIdentifiers[0].identifier}`;
+    ? `https://www.amazon.ca/gp/search?index=books&keywords=${selectedVolume?.volumeInfo?.industryIdentifiers?.[0]?.identifier}`
+    : `https://www.amazon.ca/gp/search?index=books&keywords=${selectedVolumeForage?.volumeInfo?.industryIdentifiers?.[0]?.identifier}`;
 
   const chaptersLink = selectedVolume
-    ? `https://www.chapters.indigo.ca/en-ca/books/product/${selectedVolume?.volumeInfo.industryIdentifiers[0].identifier}-item.html?s_campaign=Google_BookSearch_organic`
-    : `https://www.chapters.indigo.ca/en-ca/books/product/${selectedVolumeForage?.volumeInfo.industryIdentifiers[0].identifier}-item.html?s_campaign=Google_BookSearch_organic`;
+    ? `https://www.chapters.indigo.ca/en-ca/books/product/${selectedVolume?.volumeInfo?.industryIdentifiers?.[0]?.identifier}-item.html?s_campaign=Google_BookSearch_organic`
+    : `https://www.chapters.indigo.ca/en-ca/books/product/${selectedVolumeForage?.volumeInfo?.industryIdentifiers?.[0]?.identifier}-item.html?s_campaign=Google_BookSearch_organic`;
 
   const googleBooksLink = selectedVolume
     ? selectedVolume?.volumeInfo.canonicalVolumeLink

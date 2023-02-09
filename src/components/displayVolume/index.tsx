@@ -10,12 +10,12 @@ import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
-import { historyActions } from "../../state/historyState";
 import { responseActions } from "../../state/responseState";
 import {
   AllActions,
   AllDispatches,
   AllStates,
+  HistoryState,
   ResponseState,
 } from "../../types";
 
@@ -31,17 +31,34 @@ function DisplayVolume({
   allActions,
   allDispatches,
 }: DisplayVolumeProps) {
-  const { responseState, historyState } = allStates;
-  const { responseDispatch, historyDispatch } = allDispatches;
-  const { responseActions, historyActions } = allActions;
+  let {
+    responseState: {
+      fetchUrl,
+      startIndex,
+      searchTerm,
+      searchResults,
+      selectedVolume,
+      selectedAuthor,
+      selectedPublisher,
+    },
+  } = allStates;
+  let { responseDispatch } = allDispatches;
+  let {
+    responseActions: {
+      setFetchUrl,
+      setStartIndex,
+      setSearchTerm,
+      setSearchResults,
+      setSelectedVolume,
+      setSelectedAuthor,
+      setSelectedPublisher,
+    },
+  } = allActions;
 
   const navigate = useNavigate();
   const { volumeId, page } = useParams();
   const { width = 0 } = useWindowSize();
 
-  const {
-    responseState: { selectedVolume, selectedAuthor },
-  } = allStates;
   const [navLinkActive, setNavLinkActive] = useState({
     menu: false,
     overview: true,
@@ -51,7 +68,41 @@ function DisplayVolume({
   });
   const [menuOpened, setMenuOpened] = useState(false);
 
-  function handleNavLinkActiveClick(label: string) {
+  async function handleNavLinkActiveClick(label: string) {
+    //set history state
+    try {
+      const historyStateLocalForage = (await localforage.getItem<HistoryState>(
+        "byblos-historyState"
+      )) ?? [
+        {
+          fetchUrl,
+          startIndex,
+          searchTerm,
+          searchResults,
+          selectedVolume,
+          selectedAuthor,
+          selectedPublisher,
+        },
+      ];
+
+      historyStateLocalForage.push({
+        fetchUrl,
+        startIndex,
+        searchTerm,
+        searchResults,
+        selectedVolume,
+        selectedAuthor,
+        selectedPublisher,
+      });
+
+      await localforage.setItem<HistoryState>(
+        "byblos-historyState",
+        historyStateLocalForage
+      );
+    } catch (error) {
+      console.log("error: ", error);
+    }
+
     switch (label) {
       case "Menu": {
         setNavLinkActive({

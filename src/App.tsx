@@ -9,12 +9,7 @@ import ErrorFallback from "./components/errorFallback";
 import { Home } from "./components/home";
 import MyLoader from "./components/myLoader";
 import { Welcome } from "./components/welcome";
-import { useExitPrompt } from "./hooks/useExitPrompt";
-import {
-  historyActions,
-  historyReducer,
-  initialHistoryState,
-} from "./state/historyState";
+
 import {
   initialResponseState,
   responseActions,
@@ -41,24 +36,16 @@ export default function App() {
     initialResponseState
   );
 
-  const [historyState, historyDispatch] = useReducer(
-    historyReducer,
-    initialHistoryState
-  );
-
   const allStates = {
     responseState,
-    historyState,
   };
 
   const allActions: AllActions = {
     responseActions,
-    historyActions,
   };
 
   const allDispatches: AllDispatches = {
     responseDispatch,
-    historyDispatch,
   };
 
   const queryClient = new QueryClient();

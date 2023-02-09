@@ -32,9 +32,9 @@ function OtherEditions({
   allActions,
   allDispatches,
 }: OtherEditionsProps) {
-  const { responseState, historyState } = allStates;
-  const { responseDispatch, historyDispatch } = allDispatches;
-  const { responseActions, historyActions } = allActions;
+  const { responseState } = allStates;
+  const { responseDispatch } = allDispatches;
+  const { responseActions } = allActions;
 
   const {
     responseState: { selectedVolume, selectedAuthor },

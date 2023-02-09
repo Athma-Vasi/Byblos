@@ -7,6 +7,7 @@ type WindowSize = {
 type ResponseState = {
   searchTerm: string;
   fetchUrl: string;
+  startIndex: number;
   selectedVolume: null | VolumeWithCustomId;
   selectedAuthor: string;
   selectedPublisher: string;
@@ -16,6 +17,7 @@ type ResponseState = {
 type ResponseActions = {
   setSearchTerm: "setSearchTerm";
   setFetchUrl: "setFetchUrl";
+  setStartIndex: "setStartIndex";
   setSelectedVolume: "setSelectedVolume";
   setSelectedAuthor: "setSelectedAuthor";
   setSelectedPublisher: "setSelectedPublisher";
@@ -31,35 +33,18 @@ type ResponseDispatch = {
 };
 //↑ responseState types
 
-// ↓ historyState types
 type HistoryState = ResponseState[];
-
-type HistoryActions = {
-  pushHistory: "pushHistory";
-  popHistory: "popHistory";
-};
-
-type HistoryDispatch = {
-  type: HistoryActions[keyof HistoryActions];
-  payload: {
-    historyState: ResponseState;
-  };
-};
-// ↑ historyState types
 
 type AllStates = {
   responseState: ResponseState;
-  historyState: HistoryState;
 };
 
 type AllDispatches = {
   responseDispatch: React.Dispatch<ResponseDispatch>;
-  historyDispatch: React.Dispatch<HistoryDispatch>;
 };
 
 type AllActions = {
   responseActions: ResponseActions;
-  historyActions: HistoryActions;
 };
 
 type FormInputNames =
@@ -239,8 +224,6 @@ export type {
   ApiResponseVolume,
   ApiResponseUserBookshelf,
   FormInputNames,
-  HistoryActions,
-  HistoryDispatch,
   HistoryState,
   RatingAction,
   ResponseActions,

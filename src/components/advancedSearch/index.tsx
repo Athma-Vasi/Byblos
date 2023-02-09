@@ -62,11 +62,6 @@ function AdvancedSearch({
       new Map()
     );
 
-    // // set resultsPerPage to state
-    // allStates.responseState.resultsPerPage = formDataMap.get(
-    //   "resultsPerPage"
-    // ) as string;
-
     const searchStr = populateSearchTermForFetch(formDataMap);
     //set searchTerm to state
     allStates.responseState.searchTerm = searchStr;
@@ -88,18 +83,17 @@ function AdvancedSearch({
         "byblos-fetchUrl",
         allStates.responseState.fetchUrl
       );
-
-      // await localforage.setItem(
-      //   "byblos-resultsPerPage",
-      //   allStates.responseState.resultsPerPage
-      // );
       await localforage.setItem(
-        "byblos-searchResults",
-        allStates.responseState.searchResults
+        "byblos-startIndex",
+        allStates.responseState.startIndex
       );
       await localforage.setItem(
         "byblos-searchTerm",
         allStates.responseState.searchTerm
+      );
+      await localforage.setItem(
+        "byblos-searchResults",
+        allStates.responseState.searchResults
       );
       await localforage.setItem(
         "byblos-selectedAuthor",
@@ -215,11 +209,7 @@ function AdvancedSearch({
       formDataMap.get("filter-printType") === "" ? "" : "&printType="
     }${formDataMap.get("filter-printType")}`;
 
-    // const searchStrWithResultsPerPage = `${
-    //   formDataMap.get("resultsPerPage") === "10"
-    //     ? ""
-    //     : `&maxResults=${formDataMap.get("resultsPerPage")}`
-    // }`;
+    const searchStrWithResultsPerPage = `&maxResults=40`;
 
     const searchStrWithSortBy = `${
       formDataMap.get("sortBy") === "Relevance"
@@ -227,7 +217,7 @@ function AdvancedSearch({
         : `&orderBy=${formDataMap.get("sortBy")}`
     }`;
 
-    const searchStrFinal = `${searchStrCondensedComesFirst}${searchStrWithAllCategories}${searchStrWithDownloadFormat}${searchStrWithViewability}${searchStrWithSortBy}${searchStrWithPrintType}`;
+    const searchStrFinal = `${searchStrCondensedComesFirst}${searchStrWithAllCategories}${searchStrWithDownloadFormat}${searchStrWithViewability}${searchStrWithResultsPerPage}${searchStrWithSortBy}${searchStrWithPrintType}`;
 
     return searchStrFinal;
   }

@@ -6,8 +6,16 @@ import { MyFooter } from "../footer";
 import { MyHeader } from "../header";
 import { MyNavBar } from "../navbar";
 import { Sidebar } from "../sidebar";
-import { AllActions, AllDispatches, AllStates, Volume } from "../../types";
+import {
+  AllActions,
+  AllDispatches,
+  AllStates,
+  HistoryState,
+  Volume,
+} from "../../types";
 import React from "react";
+import localforage from "localforage";
+import { responseActions } from "../../state/responseState";
 
 const Search = React.lazy(() => import("../search"));
 
@@ -19,20 +27,108 @@ type HomeProps = {
 };
 
 function Home({ children, allStates, allActions, allDispatches }: HomeProps) {
+  let {
+    responseState: {
+      fetchUrl,
+      startIndex,
+      searchTerm,
+      searchResults,
+      selectedVolume,
+      selectedAuthor,
+      selectedPublisher,
+    },
+  } = allStates;
+  let { responseDispatch } = allDispatches;
+  let {
+    responseActions: {
+      setFetchUrl,
+      setStartIndex,
+      setSearchTerm,
+      setSearchResults,
+      setSelectedVolume,
+      setSelectedAuthor,
+      setSelectedPublisher,
+    },
+  } = allActions;
+
   const theme = useMantineTheme();
   const navigate = useNavigate();
   const [opened, setOpened] = useState(false);
 
   useEffect(() => {
+    const alertUser = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = "";
+    };
+
     window.addEventListener("beforeunload", alertUser);
     return () => {
       window.removeEventListener("beforeunload", alertUser);
     };
   }, []);
-  const alertUser = (e: BeforeUnloadEvent) => {
-    e.preventDefault();
-    e.returnValue = "";
-  };
+
+  useEffect(() => {
+    const onBackButtonEvent = async (event: PopStateEvent) => {
+      event.preventDefault();
+      try {
+        const historyStateLocalForage = await localforage.getItem<HistoryState>(
+          "byblos-historyState"
+        );
+
+        const latestHistoryState =
+          historyStateLocalForage?.[historyStateLocalForage.length - 1];
+
+        console.log("latestHistoryState", latestHistoryState);
+
+        historyStateLocalForage?.pop();
+
+        await localforage.setItem(
+          "byblos-historyState",
+          historyStateLocalForage
+        );
+
+        if (historyStateLocalForage) {
+          responseDispatch({
+            type: responseActions.setAll,
+            payload: {
+              responseState: {
+                fetchUrl: latestHistoryState?.fetchUrl ?? fetchUrl,
+                startIndex: latestHistoryState?.startIndex ?? startIndex,
+                searchTerm: latestHistoryState?.searchTerm ?? searchTerm,
+                searchResults:
+                  latestHistoryState?.searchResults ?? searchResults,
+                selectedVolume:
+                  latestHistoryState?.selectedVolume ?? selectedVolume,
+                selectedAuthor:
+                  latestHistoryState?.selectedAuthor ?? selectedAuthor,
+                selectedPublisher:
+                  latestHistoryState?.selectedPublisher ?? selectedPublisher,
+              },
+            },
+          });
+        }
+      } catch (error: any) {
+        const error_ = new Error(error, {
+          cause: "handleOnBackButonEvent",
+        });
+
+        console.group("Error in home useEffect");
+        console.error("name: ", error_.name);
+        console.error("message: ", error_.message);
+        console.error("cause: ", error_.cause);
+        console.groupCollapsed("stack trace");
+        console.trace(error_);
+        console.error("detailed stack trace", error_.stack);
+        console.groupEnd();
+      }
+    };
+
+    window.addEventListener("popstate", onBackButtonEvent);
+
+    return () => {
+      window.removeEventListener("popstate", onBackButtonEvent);
+    };
+  }, []);
 
   return (
     <AppShell

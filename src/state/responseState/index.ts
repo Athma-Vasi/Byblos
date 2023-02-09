@@ -1,21 +1,23 @@
 import { ResponseActions, ResponseDispatch, ResponseState } from "../../types";
 
 const initialResponseState: ResponseState = {
-  searchTerm: "",
   fetchUrl: "",
+  startIndex: 0,
+  searchTerm: "",
+  searchResults: null,
   selectedVolume: null,
   selectedAuthor: "",
   selectedPublisher: "",
-  searchResults: null,
 };
 
 const responseActions: ResponseActions = {
-  setSearchTerm: "setSearchTerm",
   setFetchUrl: "setFetchUrl",
+  setStartIndex: "setStartIndex",
+  setSearchTerm: "setSearchTerm",
+  setSearchResults: "setSearchResults",
   setSelectedVolume: "setSelectedVolume",
   setSelectedAuthor: "setSelectedAuthor",
   setSelectedPublisher: "setSelectedPublisher",
-  setSearchResults: "setSearchResults",
   setAll: "setAll",
 };
 
@@ -26,19 +28,32 @@ function responseReducer(
   const {
     payload: {
       responseState: {
+        fetchUrl,
+        startIndex,
+        searchTerm,
+        searchResults,
         selectedVolume,
         selectedAuthor,
         selectedPublisher,
-        fetchUrl,
-        searchTerm,
-        searchResults,
       },
     },
   } = responseDispatch;
 
   switch (responseDispatch.type) {
+    case responseActions.setFetchUrl: {
+      return { ...responseState, fetchUrl: fetchUrl };
+    }
+
+    case responseActions.setStartIndex: {
+      return { ...responseState, startIndex: startIndex };
+    }
+
     case responseActions.setSearchTerm: {
       return { ...responseState, searchTerm: searchTerm };
+    }
+
+    case responseActions.setSearchResults: {
+      return { ...responseState, searchResults: searchResults };
     }
 
     case responseActions.setSelectedVolume: {
@@ -53,23 +68,16 @@ function responseReducer(
       return { ...responseState, selectedPublisher: selectedPublisher };
     }
 
-    case responseActions.setFetchUrl: {
-      return { ...responseState, fetchUrl: fetchUrl };
-    }
-
-    case responseActions.setSearchResults: {
-      return { ...responseState, searchResults: searchResults };
-    }
-
     case responseActions.setAll: {
       const responseClone = structuredClone(responseState);
 
+      responseClone.fetchUrl = fetchUrl;
+      responseClone.startIndex = startIndex;
+      responseClone.searchTerm = searchTerm;
+      responseClone.searchResults = searchResults;
       responseClone.selectedVolume = selectedVolume;
       responseClone.selectedAuthor = selectedAuthor;
       responseClone.selectedPublisher = selectedPublisher;
-      responseClone.fetchUrl = fetchUrl;
-      responseClone.searchTerm = searchTerm;
-      responseClone.searchResults = searchResults;
 
       return responseClone;
     }

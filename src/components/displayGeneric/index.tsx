@@ -33,6 +33,7 @@ import {
   AllActions,
   AllDispatches,
   AllStates,
+  HistoryState,
   RatingAction,
   ResponseState,
   UserBookshelf,
@@ -65,9 +66,29 @@ function DisplayGeneric({
   allActions,
   allDispatches,
 }: DisplayGenericProps) {
-  const { responseState, historyState } = allStates;
-  const { responseDispatch, historyDispatch } = allDispatches;
-  const { responseActions, historyActions } = allActions;
+  let {
+    responseState: {
+      fetchUrl,
+      startIndex,
+      searchTerm,
+      searchResults,
+      selectedVolume,
+      selectedAuthor,
+      selectedPublisher,
+    },
+  } = allStates;
+  let { responseDispatch } = allDispatches;
+  let {
+    responseActions: {
+      setFetchUrl,
+      setStartIndex,
+      setSearchTerm,
+      setSearchResults,
+      setSelectedVolume,
+      setSelectedAuthor,
+      setSelectedPublisher,
+    },
+  } = allActions;
 
   const [localForageFallback, setLocalForageFallback] = useState<
     VolumeWithCustomId[]
@@ -86,7 +107,7 @@ function DisplayGeneric({
   const { volumeId, page } = useParams();
 
   const modifiedSearchResults = insertCustomId(
-    allStates.responseState.searchResults?.items ?? localForageFallback
+    searchResults?.items ?? localForageFallback
   );
 
   async function handleUserBookshelfAction(
@@ -507,48 +528,61 @@ function DisplayGeneric({
   }, []);
 
   async function handleTitleClick(volume: VolumeWithCustomId) {
-    allStates.responseState.searchTerm = volume.volumeInfo.title;
-    allStates.responseState.selectedVolume = volume;
-    allStates.responseState.selectedAuthor =
-      volume.volumeInfo.authors?.join(",") ?? "";
-    allStates.responseState.selectedPublisher =
-      volume.volumeInfo.publisher ?? "";
+    searchTerm = volume.volumeInfo.title;
+    selectedVolume = volume;
+    selectedAuthor = volume.volumeInfo.authors?.join(",") ?? "";
+    selectedPublisher = volume.volumeInfo.publisher ?? "";
 
-    //save the current state to history by pushing current responseState into the historyState stack
-    historyDispatch({
-      type: historyActions.pushHistory,
-      payload: {
-        historyState: {
-          searchTerm: allStates.responseState.searchTerm,
-          fetchUrl: allStates.responseState.fetchUrl,
-          selectedVolume: allStates.responseState.selectedVolume,
-          selectedAuthor: allStates.responseState.selectedAuthor,
-          selectedPublisher: allStates.responseState.selectedPublisher,
-          resultsPerPage: allStates.responseState.resultsPerPage,
-          searchResults: allStates.responseState.searchResults,
-        },
-      },
-    });
+    console.log("selectedVolume from displayGeneric: ", selectedVolume);
 
     try {
       await localforage.setItem<ResponseState["searchTerm"]>(
         "byblos-searchTerm",
-        allStates.responseState.searchTerm
+        searchTerm
       );
 
       await localforage.setItem<ResponseState["selectedVolume"]>(
         "byblos-selectedVolume",
-        allStates.responseState.selectedVolume
+        selectedVolume
       );
 
       await localforage.setItem<ResponseState["selectedAuthor"]>(
         "byblos-selectedAuthor",
-        allStates.responseState.selectedAuthor
+        selectedAuthor
       );
 
       await localforage.setItem<ResponseState["selectedPublisher"]>(
         "byblos-selectedPublisher",
-        allStates.responseState.selectedPublisher
+        selectedPublisher
+      );
+
+      const historyStateLocalForage = (await localforage.getItem<HistoryState>(
+        "byblos-historyState"
+      )) ?? [
+        {
+          fetchUrl,
+          startIndex,
+          searchTerm,
+          searchResults,
+          selectedVolume,
+          selectedAuthor,
+          selectedPublisher,
+        },
+      ];
+
+      historyStateLocalForage.push({
+        fetchUrl,
+        startIndex,
+        searchTerm,
+        searchResults,
+        selectedVolume,
+        selectedAuthor,
+        selectedPublisher,
+      });
+
+      await localforage.setItem<HistoryState>(
+        "byblos-historyState",
+        historyStateLocalForage
       );
     } catch (error: any) {
       const error_ = new Error(error, {
@@ -564,9 +598,19 @@ function DisplayGeneric({
       console.error("detailed stack trace", error_.stack);
       console.groupEnd();
     } finally {
-      allDispatches.responseDispatch({
+      responseDispatch({
         type: allActions.responseActions.setAll,
-        payload: { responseState: allStates.responseState },
+        payload: {
+          responseState: {
+            fetchUrl,
+            startIndex,
+            searchTerm,
+            searchResults,
+            selectedVolume,
+            selectedAuthor,
+            selectedPublisher,
+          },
+        },
       });
 
       window.scrollTo(0, 0);
