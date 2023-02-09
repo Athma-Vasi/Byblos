@@ -1,14 +1,17 @@
 import { LoadingOverlay, Text } from "@mantine/core";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import React, { Suspense, useEffect } from "react";
+import localforage from "localforage";
+import React, { Suspense, useEffect, useState } from "react";
 import { useReducer } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 
 import ErrorFallback from "./components/errorFallback";
 import { Home } from "./components/home";
+import { defaultVolume } from "./components/localData";
 import MyLoader from "./components/myLoader";
 import { Welcome } from "./components/welcome";
+import { v4 as uuidv4 } from "uuid";
 
 import {
   initialResponseState,
@@ -16,10 +19,13 @@ import {
   responseReducer,
 } from "./state/responseState";
 import { ThemeProvider } from "./ThemeProvider";
-import { AllActions, AllDispatches } from "./types";
+import { AllActions, AllDispatches, UserBookshelf } from "./types";
 
 const DisplayResults = React.lazy(() => import("./components/displayResults"));
 const DisplayVolume = React.lazy(() => import("./components/displayVolume"));
+const DisplayBookshelf = React.lazy(
+  () => import("./components/displayBookshelf")
+);
 const AdvancedSearch = React.lazy(() => import("./components/advancedSearch"));
 const Overview = React.lazy(() => import("./components/overview"));
 const OtherEditions = React.lazy(() => import("./components/otherEditions"));
@@ -47,8 +53,6 @@ export default function App() {
   const allDispatches: AllDispatches = {
     responseDispatch,
   };
-
-  const queryClient = new QueryClient();
 
   return (
     <ThemeProvider>
@@ -139,6 +143,24 @@ export default function App() {
                 </ErrorBoundary>
               }
             />
+
+            <Route
+              path="displayBookshelf"
+              element={
+                <ErrorBoundary
+                  fallback={<ErrorFallback componentName="bookshelf page" />}
+                >
+                  <Suspense fallback={<MyLoader componentName="Bookshelf" />}>
+                    <DisplayBookshelf
+                      allStates={allStates}
+                      allActions={allActions}
+                      allDispatches={allDispatches}
+                    />
+                  </Suspense>
+                </ErrorBoundary>
+              }
+            ></Route>
+
             <Route
               path="displayResults"
               element={

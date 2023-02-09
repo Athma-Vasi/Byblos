@@ -276,15 +276,7 @@ function Overview({
 
       <Card shadow="sm" radius="md" style={{ width: "100%" }}>
         <Grid columns={width < 576 ? 1 : 3}>
-          <Grid.Col
-            span={1}
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              outline: "2px solid GrayText",
-            }}
-          >
+          <Grid.Col span={1}>
             <Image
               width={width < 576 ? "50%" : "75%"}
               src={imageSrc}
@@ -438,6 +430,8 @@ function Overview({
       <Card shadow="sm" radius="md" style={{ width: "100%" }}>
         <Text>{"Google Books (may require authorization)"}</Text>
 
+        <Space h="lg" />
+
         <Flex direction="row" justify="space-between" align="center">
           <BiBookReader size={50} />
           <a href={googleBooksPreview} target="_blank">
@@ -464,7 +458,7 @@ function Overview({
           <IoReaderOutline size={50} />
           <a href={googleBooksEpub} target="_blank">
             <Button variant="outline" radius="xl">
-              Download link to free epub sample
+              Free epub sample download
             </Button>
           </a>
         </Flex>

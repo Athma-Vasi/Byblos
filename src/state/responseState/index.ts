@@ -8,6 +8,7 @@ const initialResponseState: ResponseState = {
   selectedVolume: null,
   selectedAuthor: "",
   selectedPublisher: "",
+  bookshelfVolumes: null,
 };
 
 const responseActions: ResponseActions = {
@@ -18,6 +19,7 @@ const responseActions: ResponseActions = {
   setSelectedVolume: "setSelectedVolume",
   setSelectedAuthor: "setSelectedAuthor",
   setSelectedPublisher: "setSelectedPublisher",
+  setBookshelfVolumes: "setBookshelfVolumes",
   setAll: "setAll",
 };
 
@@ -35,6 +37,7 @@ function responseReducer(
         selectedVolume,
         selectedAuthor,
         selectedPublisher,
+        bookshelfVolumes,
       },
     },
   } = responseDispatch;
@@ -68,6 +71,10 @@ function responseReducer(
       return { ...responseState, selectedPublisher: selectedPublisher };
     }
 
+    case responseActions.setBookshelfVolumes: {
+      return { ...responseState, bookshelfVolumes: bookshelfVolumes };
+    }
+
     case responseActions.setAll: {
       const responseClone = structuredClone(responseState);
 
@@ -78,6 +85,7 @@ function responseReducer(
       responseClone.selectedVolume = selectedVolume;
       responseClone.selectedAuthor = selectedAuthor;
       responseClone.selectedPublisher = selectedPublisher;
+      responseClone.bookshelfVolumes = bookshelfVolumes;
 
       return responseClone;
     }

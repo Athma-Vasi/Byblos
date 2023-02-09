@@ -15,7 +15,6 @@ import {
 } from "../../types";
 import { insertCustomId } from "../../utils";
 import DisplayGeneric from "../displayGeneric";
-import InfiniteResults from "../infiniteResults";
 import { Search } from "../search";
 
 type DisplayResultsProps = {
@@ -40,6 +39,7 @@ function DisplayResults({
       selectedVolume,
       selectedAuthor,
       selectedPublisher,
+      bookshelfVolumes,
     },
   } = allStates;
   let { responseDispatch } = allDispatches;
@@ -52,6 +52,7 @@ function DisplayResults({
       setSelectedVolume,
       setSelectedAuthor,
       setSelectedPublisher,
+      setBookshelfVolumes,
     },
   } = allActions;
 
@@ -110,6 +111,7 @@ function DisplayResults({
                   selectedVolume: selectedVolume,
                   selectedAuthor: selectedAuthor,
                   selectedPublisher: selectedPublisher,
+                  bookshelfVolumes,
                 },
               },
             });

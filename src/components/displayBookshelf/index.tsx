@@ -5,67 +5,60 @@ import {
   Container,
   Flex,
   Grid,
-  Highlight,
-  HoverCard,
-  Image,
   Popover,
-  Rating,
   Space,
   Spoiler,
-  Text,
   Title,
+  Text,
+  Image,
 } from "@mantine/core";
 import localforage from "localforage";
-import { Fragment, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import {
-  MdOutlineFavorite,
-  MdOutlineFavoriteBorder,
-  MdOutlineWatchLater,
-  MdWatchLater,
-} from "react-icons/md";
-import { HiOutlineDocumentRemove } from "react-icons/hi";
-
+import React, { Fragment, useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useWindowSize } from "../../hooks/useWindowSize";
+import { v4 as uuidv4 } from "uuid";
 import {
+  AllStates,
   AllActions,
   AllDispatches,
-  AllStates,
-  HistoryState,
-  RatingAction,
-  ResponseState,
-  UserBookshelf,
-  UserBookshelfActions,
   VolumeWithCustomId,
+  UserBookshelf,
+  RatingAction,
+  UserBookshelfActions,
+  HistoryState,
+  ResponseState,
 } from "../../types";
 import { insertCustomId } from "../../utils";
-import { MyImageModal } from "../myImageModal";
+import DisplayGeneric from "../displayGeneric";
+import { defaultVolume } from "../localData";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { HiOutlineDocumentRemove } from "react-icons/hi";
 import {
   IoMdCheckmarkCircle,
   IoMdCheckmarkCircleOutline,
 } from "react-icons/io";
-import { GrFavorite } from "react-icons/gr";
+import {
+  MdOutlineFavorite,
+  MdOutlineFavoriteBorder,
+  MdWatchLater,
+  MdOutlineWatchLater,
+} from "react-icons/md";
+import { MyImageModal } from "../myImageModal";
 import MyRating from "../myRating";
-import { v4 as uuidv4 } from "uuid";
-import { defaultVolume } from "../localData";
 
-type DisplayGenericProps = {
+type DisplayBookshelfProps = {
   children?: React.ReactNode;
   allStates: AllStates;
   allActions: AllActions;
   allDispatches: AllDispatches;
-  // volumes: VolumeWithCustomId[];
 };
 
-function DisplayGeneric({
+function DisplayBookshelf({
   children,
-  // volumes,
   allStates,
   allActions,
   allDispatches,
-}: DisplayGenericProps) {
+}: DisplayBookshelfProps) {
   let {
     responseState: {
       fetchUrl,
@@ -93,7 +86,7 @@ function DisplayGeneric({
   } = allActions;
 
   const [localForageFallback, setLocalForageFallback] = useState<
-    VolumeWithCustomId[]
+    UserBookshelf[]
   >([]);
 
   const [tempLocalBookshelf, setTempLocalBookshelf] = useState<UserBookshelf[]>(
@@ -108,9 +101,7 @@ function DisplayGeneric({
   const navigate = useNavigate();
   const { volumeId, page } = useParams();
 
-  const modifiedSearchResults = insertCustomId(
-    searchResults?.items ?? localForageFallback
-  );
+  // const modifiedSearchResults = insertCustomId(volumes ?? localForageFallback);
 
   async function handleUserBookshelfAction(
     kind: UserBookshelfActions,
@@ -153,7 +144,7 @@ function DisplayGeneric({
             });
 
             console.group(
-              "Error in setting userBookshelf: switch case 'rating', in localforage"
+              "Error in setting userBookshelf in displayBookshelf: switch case 'rating', in localforage"
             );
             console.error("name: ", error_.name);
             console.error("message: ", error_.message);
@@ -188,7 +179,7 @@ function DisplayGeneric({
             });
 
             console.group(
-              "Error in setting userBookshelf: switch case 'rating', in localforage"
+              "Error in setting userBookshelf in displayBookshelf: switch case 'rating', in localforage"
             );
             console.error("name: ", error_.name);
             console.error("message: ", error_.message);
@@ -235,7 +226,7 @@ function DisplayGeneric({
             });
 
             console.group(
-              "Error in setting userBookshelf: switch case 'markRead', in localforage"
+              "Error in setting userBookshelf in displayBookshelf: switch case 'markRead', in localforage"
             );
             console.error("name: ", error_.name);
             console.error("message: ", error_.message);
@@ -270,7 +261,7 @@ function DisplayGeneric({
             });
 
             console.group(
-              "Error in setting userBookshelf: switch case 'markRead', in localforage"
+              "Error in setting userBookshelf in displayBookshelf: switch case 'markRead', in localforage"
             );
             console.error("name: ", error_.name);
             console.error("message: ", error_.message);
@@ -317,7 +308,7 @@ function DisplayGeneric({
             });
 
             console.group(
-              "Error in setting userBookshelf: switch case 'favourite', in localforage"
+              "Error in setting userBookshelf in displayBookshelf: switch case 'favourite', in localforage"
             );
             console.error("name: ", error_.name);
             console.error("message: ", error_.message);
@@ -352,7 +343,7 @@ function DisplayGeneric({
             });
 
             console.group(
-              "Error in setting userBookshelf: switch case 'favourite', in localforage"
+              "Error in setting userBookshelf in displayBookshelf: switch case 'favourite', in localforage"
             );
             console.error("name: ", error_.name);
             console.error("message: ", error_.message);
@@ -399,7 +390,7 @@ function DisplayGeneric({
             });
 
             console.group(
-              "Error in setting userBookshelf: switch case 'readLater', in localforage"
+              "Error in setting userBookshelf in displayBookshelf: switch case 'readLater', in localforage"
             );
             console.error("name: ", error_.name);
             console.error("message: ", error_.message);
@@ -434,7 +425,7 @@ function DisplayGeneric({
             });
 
             console.group(
-              "Error in setting userBookshelf: switch case 'readLater', in localforage"
+              "Error in setting userBookshelf in displayBookshelf: switch case 'readLater', in localforage"
             );
             console.error("name: ", error_.name);
             console.error("message: ", error_.message);
@@ -480,7 +471,7 @@ function DisplayGeneric({
             });
 
             console.group(
-              "Error in setting userBookshelf: switch case 'removeVolume', in localforage"
+              "Error in setting userBookshelf in displayBookshelf: switch case 'removeVolume', in localforage"
             );
             console.error("name: ", error_.name);
             console.error("message: ", error_.message);
@@ -502,20 +493,18 @@ function DisplayGeneric({
   useEffect(() => {
     const fetchLocalStorageFallback = async () => {
       try {
-        const value = await localforage.getItem<ResponseState["searchResults"]>(
-          "byblos-searchResults"
+        const value = await localforage.getItem<UserBookshelf[]>(
+          "byblos-userBookshelf"
         );
         if (value) {
-          setLocalForageFallback(insertCustomId(value?.items ?? []));
+          setLocalForageFallback(value);
         }
       } catch (error: any) {
         const error_ = new Error(error, {
-          cause: "useEffect in displayGeneric",
+          cause: "fetchLocalStorageFallback()",
         });
 
-        console.group(
-          "Error in displayGeneric useEffect fetchLocalStorageFallback(): "
-        );
+        console.group("Error in displayBookshelf useEffect");
         console.error("name: ", error_.name);
         console.error("message: ", error_.message);
         console.error("cause: ", error_.cause);
@@ -535,7 +524,7 @@ function DisplayGeneric({
     selectedAuthor = volume.volumeInfo.authors?.join(",") ?? "";
     selectedPublisher = volume.volumeInfo.publisher ?? "";
 
-    console.log("selectedVolume from displayGeneric: ", selectedVolume);
+    console.log("selectedVolume from userBookshelf: ", selectedVolume);
 
     try {
       await localforage.setItem<ResponseState["searchTerm"]>(
@@ -590,10 +579,10 @@ function DisplayGeneric({
       );
     } catch (error: any) {
       const error_ = new Error(error, {
-        cause: "handleTitleClick in displayGeneric",
+        cause: "handleTitleClick()",
       });
 
-      console.group("Error setting data to localforage");
+      console.group("Error in displayBookshelf useEffect");
       console.error("name: ", error_.name);
       console.error("message: ", error_.message);
       console.error("cause: ", error_.cause);
@@ -665,7 +654,9 @@ function DisplayGeneric({
       setTempLocalBookshelf(value);
     });
   }, []);
-
+  //
+  //
+  //
   return (
     <Fragment>
       <MyImageModal
@@ -675,14 +666,14 @@ function DisplayGeneric({
         alt={modalAlt}
       />
       <Flex gap="xl" direction="column">
-        {modifiedSearchResults.length === 1 ? (
+        {bookshelfVolumes?.length === 1 ? (
           <Container>
             <Card shadow="sm" p="md" radius="md" withBorder>
               <Text>There are no volumes here (｡•́︿•̀｡) </Text>
             </Card>
           </Container>
         ) : null}
-        {modifiedSearchResults.map((item) =>
+        {bookshelfVolumes?.map((item) =>
           // prevents default volume from being rendered
           item.id === "aZ0YkIU0HusC" ? null : (
             <Card
@@ -707,9 +698,9 @@ function DisplayGeneric({
                   >
                     <Image
                       style={{ cursor: "pointer" }}
-                      src={item.volumeInfo.imageLinks?.thumbnail}
+                      src={item.volumeInfo?.imageLinks?.thumbnail}
                       alt={`thumbnail of ${
-                        item.volumeInfo.title ?? "unavailable"
+                        item.volumeInfo?.title ?? "unavailable"
                       } book cover`}
                       onClick={() => {
                         setModalSrc(
@@ -957,4 +948,4 @@ function DisplayGeneric({
   );
 }
 
-export default DisplayGeneric;
+export default DisplayBookshelf;

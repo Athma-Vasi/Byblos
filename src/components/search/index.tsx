@@ -13,8 +13,6 @@ import {
   AllDispatches,
   AllStates,
   ApiResponseVolume,
-  HistoryActions,
-  HistoryDispatch,
   HistoryState,
   ResponseActions,
   ResponseDispatch,
@@ -30,9 +28,9 @@ type SearchProps = {
 };
 
 function Search({
-  allStates: { responseState, historyState },
-  allActions: { responseActions, historyActions },
-  allDispatches: { responseDispatch, historyDispatch },
+  allStates: { responseState },
+  allActions: { responseActions },
+  allDispatches: { responseDispatch },
 }: SearchProps) {
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -46,7 +44,7 @@ function Search({
       console.log("searchTerm", searchTerm);
 
       try {
-        const fetchUrlFromGenericSearch = `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
+        const fetchUrlFromGenericSearch = `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40&startIndex=0&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
         const { data } = await axios.get(fetchUrlFromGenericSearch);
 
         responseState.searchTerm = searchTerm;
@@ -56,20 +54,17 @@ function Search({
         //initializes localforage keys to initial responseState values for some, and fetched values for others
 
         await localforage.setItem("byblos-fetchUrl", fetchUrlFromGenericSearch);
-
         await localforage.setItem(
-          "byblos-resultsPerPage",
-          responseState.resultsPerPage
+          "byblos-searchTerm",
+          responseState.searchTerm
         );
-
         await localforage.setItem(
           "byblos-searchResults",
           data as ApiResponseVolume
         );
-
         await localforage.setItem(
-          "byblos-searchTerm",
-          responseState.searchTerm
+          "byblos-selectedVolume",
+          responseState.selectedVolume
         );
         await localforage.setItem(
           "byblos-selectedAuthor",
@@ -78,10 +73,6 @@ function Search({
         await localforage.setItem(
           "byblos-selectedPublisher",
           responseState.selectedPublisher
-        );
-        await localforage.setItem(
-          "byblos-selectedVolume",
-          responseState.selectedVolume
         );
         responseDispatch({
           type: responseActions.setAll,
@@ -102,22 +93,6 @@ function Search({
         console.trace(error_);
         console.error("detailed stack trace", error_.stack);
         console.groupEnd();
-      } finally {
-        //save the current state to history by pushing current responseState into the historyState stack
-        historyDispatch({
-          type: historyActions.pushHistory,
-          payload: {
-            historyState: {
-              searchTerm: responseState.searchTerm,
-              fetchUrl: responseState.fetchUrl,
-              selectedVolume: responseState.selectedVolume,
-              selectedAuthor: responseState.selectedAuthor,
-              selectedPublisher: responseState.selectedPublisher,
-              resultsPerPage: responseState.resultsPerPage,
-              searchResults: responseState.searchResults,
-            },
-          },
-        });
       }
     }
   }
@@ -142,10 +117,7 @@ function Search({
           setSearchTerm,
           responseState,
           responseDispatch,
-          responseActions,
-          historyState,
-          historyActions,
-          historyDispatch
+          responseActions
         )}
         rightSectionWidth={100}
         onKeyDown={handleEnterKeyInput}
@@ -165,17 +137,14 @@ function rightInputSection(
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>,
   responseState: ResponseState,
   responseDispatch: React.Dispatch<ResponseDispatch>,
-  responseActions: ResponseActions,
-  historyState: HistoryState,
-  historyActions: HistoryActions,
-  historyDispatch: React.Dispatch<HistoryDispatch>
+  responseActions: ResponseActions
 ) {
   const navigate = useNavigate();
   async function handleSearchIconClick(
     event: React.MouseEvent<SVGElement, MouseEvent>
   ) {
     try {
-      const fetchUrlFromGenericSearch = `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
+      const fetchUrlFromGenericSearch = `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40&startIndex=0&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
       const { data } = await axios.get(fetchUrlFromGenericSearch);
 
       responseState.searchTerm = searchTerm;
@@ -185,18 +154,16 @@ function rightInputSection(
       //initializes localforage keys to initial responseState values for some, and fetched values for others
 
       await localforage.setItem("byblos-fetchUrl", fetchUrlFromGenericSearch);
-
-      await localforage.setItem(
-        "byblos-resultsPerPage",
-        responseState.resultsPerPage
-      );
-
+      await localforage.setItem("byblos-startIndex", 0);
+      await localforage.setItem("byblos-searchTerm", responseState.searchTerm);
       await localforage.setItem(
         "byblos-searchResults",
         data as ApiResponseVolume
       );
-
-      await localforage.setItem("byblos-searchTerm", responseState.searchTerm);
+      await localforage.setItem(
+        "byblos-selectedVolume",
+        responseState.selectedVolume
+      );
       await localforage.setItem(
         "byblos-selectedAuthor",
         responseState.selectedAuthor
@@ -204,10 +171,6 @@ function rightInputSection(
       await localforage.setItem(
         "byblos-selectedPublisher",
         responseState.selectedPublisher
-      );
-      await localforage.setItem(
-        "byblos-selectedVolume",
-        responseState.selectedVolume
       );
       responseDispatch({
         type: responseActions.setAll,
@@ -228,22 +191,6 @@ function rightInputSection(
       console.trace(error_);
       console.error("detailed stack trace", error_.stack);
       console.groupEnd();
-    } finally {
-      //save the current state to history by pushing current responseState into the historyState stack
-      historyDispatch({
-        type: historyActions.pushHistory,
-        payload: {
-          historyState: {
-            searchTerm: responseState.searchTerm,
-            fetchUrl: responseState.fetchUrl,
-            selectedVolume: responseState.selectedVolume,
-            selectedAuthor: responseState.selectedAuthor,
-            selectedPublisher: responseState.selectedPublisher,
-            resultsPerPage: responseState.resultsPerPage,
-            searchResults: responseState.searchResults,
-          },
-        },
-      });
     }
   }
 

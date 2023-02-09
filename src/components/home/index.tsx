@@ -36,6 +36,7 @@ function Home({ children, allStates, allActions, allDispatches }: HomeProps) {
       selectedVolume,
       selectedAuthor,
       selectedPublisher,
+      bookshelfVolumes,
     },
   } = allStates;
   let { responseDispatch } = allDispatches;
@@ -48,6 +49,7 @@ function Home({ children, allStates, allActions, allDispatches }: HomeProps) {
       setSelectedVolume,
       setSelectedAuthor,
       setSelectedPublisher,
+      setBookshelfVolumes,
     },
   } = allActions;
 
@@ -103,6 +105,8 @@ function Home({ children, allStates, allActions, allDispatches }: HomeProps) {
                   latestHistoryState?.selectedAuthor ?? selectedAuthor,
                 selectedPublisher:
                   latestHistoryState?.selectedPublisher ?? selectedPublisher,
+                bookshelfVolumes:
+                  latestHistoryState?.bookshelfVolumes ?? bookshelfVolumes,
               },
             },
           });

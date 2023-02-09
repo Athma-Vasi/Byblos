@@ -11,7 +11,8 @@ type ResponseState = {
   selectedVolume: null | VolumeWithCustomId;
   selectedAuthor: string;
   selectedPublisher: string;
-  searchResults: null | ApiResponseVolume | ApiResponseUserBookshelf;
+  searchResults: null | ApiResponseVolume;
+  bookshelfVolumes: null | VolumeWithCustomId[];
 };
 
 type ResponseActions = {
@@ -22,6 +23,7 @@ type ResponseActions = {
   setSelectedAuthor: "setSelectedAuthor";
   setSelectedPublisher: "setSelectedPublisher";
   setSearchResults: "setSearchResults";
+  setBookshelfVolumes: "setBookshelfVolumes";
   setAll: "setAll";
 };
 

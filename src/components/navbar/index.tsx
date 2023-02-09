@@ -40,6 +40,30 @@ function MyNavBar({
   const [readLaterNavlinkActive, setReadLaterNavlinkActive] = useState(false);
   const [ratedNavlinkActive, setRatedNavlinkActive] = useState(false);
 
+  let {
+    responseState: {
+      fetchUrl,
+      startIndex,
+      searchTerm,
+      searchResults,
+      selectedVolume,
+      selectedAuthor,
+      selectedPublisher,
+    },
+  } = allStates;
+  let { responseDispatch } = allDispatches;
+  let {
+    responseActions: {
+      setFetchUrl,
+      setStartIndex,
+      setSearchTerm,
+      setSearchResults,
+      setSelectedVolume,
+      setSelectedAuthor,
+      setSelectedPublisher,
+    },
+  } = allActions;
+
   const navigate = useNavigate();
 
   async function handleParentNavlinkClick() {
@@ -186,33 +210,7 @@ function MyNavBar({
           //grab just the volumes from the userBookshelf
           const volumes = userBookshelfClone?.map((item) => item.volume);
 
-          //searchResults accepts an object in the shape of the google books api results typed as ApiResponseVolume, except it has a custom id inserted into each volume (for rendering purposes only)
-          const userBookshelfApiResponse: ApiResponseUserBookshelf = {
-            kind: "books#bookshelf",
-            totalItems: volumes?.length ?? 0,
-            items: volumes ?? [],
-          };
-
-          if (userBookshelf) {
-            allStates.responseState.searchResults = userBookshelfApiResponse;
-
-            //rest are set to initial state
-            allStates.responseState.searchTerm = "";
-            allStates.responseState.fetchUrl = "";
-            allStates.responseState.selectedVolume = null;
-            allStates.responseState.selectedAuthor = "";
-            allStates.responseState.selectedPublisher = "";
-
-            allDispatches.responseDispatch({
-              type: allActions.responseActions.setAll,
-              payload: { responseState: allStates.responseState },
-            });
-
-            console.log("bookshelf", userBookshelfApiResponse);
-
-            // navigate("/home/displayBookshelf");
-          }
-
+          // navigate("/home/displayBookshelf");
           break;
         }
 

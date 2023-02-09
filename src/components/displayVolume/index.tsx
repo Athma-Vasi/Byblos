@@ -40,6 +40,7 @@ function DisplayVolume({
       selectedVolume,
       selectedAuthor,
       selectedPublisher,
+      bookshelfVolumes,
     },
   } = allStates;
   let { responseDispatch } = allDispatches;
@@ -52,6 +53,7 @@ function DisplayVolume({
       setSelectedVolume,
       setSelectedAuthor,
       setSelectedPublisher,
+      setBookshelfVolumes,
     },
   } = allActions;
 
@@ -82,6 +84,7 @@ function DisplayVolume({
           selectedVolume,
           selectedAuthor,
           selectedPublisher,
+          bookshelfVolumes,
         },
       ];
 
@@ -93,6 +96,7 @@ function DisplayVolume({
         selectedVolume,
         selectedAuthor,
         selectedPublisher,
+        bookshelfVolumes,
       });
 
       await localforage.setItem<HistoryState>(
