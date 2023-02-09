@@ -49,6 +49,7 @@ function MyNavBar({
       selectedVolume,
       selectedAuthor,
       selectedPublisher,
+      bookshelfVolumes,
     },
   } = allStates;
   let { responseDispatch } = allDispatches;
@@ -61,6 +62,7 @@ function MyNavBar({
       setSelectedVolume,
       setSelectedAuthor,
       setSelectedPublisher,
+      setBookshelfVolumes,
     },
   } = allActions;
 
@@ -210,7 +212,24 @@ function MyNavBar({
           //grab just the volumes from the userBookshelf
           const volumes = userBookshelfClone?.map((item) => item.volume);
 
+          responseDispatch({
+            type: setBookshelfVolumes,
+            payload: {
+              responseState: {
+                fetchUrl,
+                startIndex,
+                searchTerm,
+                searchResults,
+                selectedVolume,
+                selectedAuthor,
+                selectedPublisher,
+                bookshelfVolumes: volumes ?? [],
+              },
+            },
+          });
+
           // navigate("/home/displayBookshelf");
+
           break;
         }
 
@@ -225,30 +244,21 @@ function MyNavBar({
             []
           );
 
-          //searchResults accepts an object in the shape of the google books api results typed as ApiResponseVolume
-          const ratedVolumesApiResponse: ApiResponseUserBookshelf = {
-            kind: "books#volumes",
-            totalItems: ratedVolumes?.length ?? 0,
-            items: ratedVolumes ?? [],
-          };
-
-          if (userBookshelf) {
-            allStates.responseState.searchResults = ratedVolumesApiResponse;
-
-            //rest are set to initial state
-            allStates.responseState.searchTerm = "";
-            allStates.responseState.fetchUrl = "";
-            allStates.responseState.selectedVolume = null;
-            allStates.responseState.selectedAuthor = "";
-            allStates.responseState.selectedPublisher = "";
-
-            allDispatches.responseDispatch({
-              type: allActions.responseActions.setAll,
-              payload: { responseState: allStates.responseState },
-            });
-
-            // navigate("/home/displayBookshelf");
-          }
+          responseDispatch({
+            type: setBookshelfVolumes,
+            payload: {
+              responseState: {
+                fetchUrl,
+                startIndex,
+                searchTerm,
+                searchResults,
+                selectedVolume,
+                selectedAuthor,
+                selectedPublisher,
+                bookshelfVolumes: ratedVolumes ?? [],
+              },
+            },
+          });
 
           break;
         }
@@ -264,30 +274,21 @@ function MyNavBar({
             []
           );
 
-          //searchResults accepts an object in the shape of the google books api results typed as ApiResponseVolume
-          const favouriteVolumesApiResponse: ApiResponseUserBookshelf = {
-            kind: "books#volumes",
-            totalItems: favouriteVolumes?.length ?? 0,
-            items: favouriteVolumes ?? [],
-          };
-
-          if (userBookshelf) {
-            allStates.responseState.searchResults = favouriteVolumesApiResponse;
-
-            //rest are set to initial state
-            allStates.responseState.searchTerm = "";
-            allStates.responseState.fetchUrl = "";
-            allStates.responseState.selectedVolume = null;
-            allStates.responseState.selectedAuthor = "";
-            allStates.responseState.selectedPublisher = "";
-
-            allDispatches.responseDispatch({
-              type: allActions.responseActions.setAll,
-              payload: { responseState: allStates.responseState },
-            });
-
-            // navigate("/home/displayBookshelf");
-          }
+          responseDispatch({
+            type: setBookshelfVolumes,
+            payload: {
+              responseState: {
+                fetchUrl,
+                startIndex,
+                searchTerm,
+                searchResults,
+                selectedVolume,
+                selectedAuthor,
+                selectedPublisher,
+                bookshelfVolumes: favouriteVolumes ?? [],
+              },
+            },
+          });
 
           break;
         }
@@ -303,30 +304,21 @@ function MyNavBar({
             []
           );
 
-          //searchResults accepts an object in the shape of the google books api results typed as ApiResponseVolume
-          const markReadVolumesApiResponse: ApiResponseUserBookshelf = {
-            kind: "books#volumes",
-            totalItems: markReadVolumes?.length ?? 0,
-            items: markReadVolumes ?? [],
-          };
-
-          if (userBookshelf) {
-            allStates.responseState.searchResults = markReadVolumesApiResponse;
-
-            //rest are set to initial state
-            allStates.responseState.searchTerm = "";
-            allStates.responseState.fetchUrl = "";
-            allStates.responseState.selectedVolume = null;
-            allStates.responseState.selectedAuthor = "";
-            allStates.responseState.selectedPublisher = "";
-
-            allDispatches.responseDispatch({
-              type: allActions.responseActions.setAll,
-              payload: { responseState: allStates.responseState },
-            });
-
-            // navigate("/home/displayBookshelf");
-          }
+          responseDispatch({
+            type: setBookshelfVolumes,
+            payload: {
+              responseState: {
+                fetchUrl,
+                startIndex,
+                searchTerm,
+                searchResults,
+                selectedVolume,
+                selectedAuthor,
+                selectedPublisher,
+                bookshelfVolumes: markReadVolumes ?? [],
+              },
+            },
+          });
 
           break;
         }
@@ -342,30 +334,21 @@ function MyNavBar({
             []
           );
 
-          //searchResults accepts an object in the shape of the google books api results typed as ApiResponseVolume
-          const readLaterVolumesApiResponse: ApiResponseUserBookshelf = {
-            kind: "books#volumes",
-            totalItems: readLaterVolumes?.length ?? 0,
-            items: readLaterVolumes ?? [],
-          };
-
-          if (userBookshelf) {
-            allStates.responseState.searchResults = readLaterVolumesApiResponse;
-
-            //rest are set to initial state
-            allStates.responseState.searchTerm = "";
-            allStates.responseState.fetchUrl = "";
-            allStates.responseState.selectedVolume = null;
-            allStates.responseState.selectedAuthor = "";
-            allStates.responseState.selectedPublisher = "";
-
-            allDispatches.responseDispatch({
-              type: allActions.responseActions.setAll,
-              payload: { responseState: allStates.responseState },
-            });
-
-            // navigate("/home/displayBookshelf");
-          }
+          responseDispatch({
+            type: setBookshelfVolumes,
+            payload: {
+              responseState: {
+                fetchUrl,
+                startIndex,
+                searchTerm,
+                searchResults,
+                selectedVolume,
+                selectedAuthor,
+                selectedPublisher,
+                bookshelfVolumes: readLaterVolumes ?? [],
+              },
+            },
+          });
 
           break;
         }
@@ -404,7 +387,7 @@ function MyNavBar({
       >
         <Space h="sm" />
 
-        <Link to={`/home/displayResults/1`}>
+        <Link to={`/home/displayBookshelf`}>
           <NavLink
             label="Bookshelf"
             icon={<GiBookshelf size={20} />}
@@ -418,7 +401,7 @@ function MyNavBar({
 
         <Space h="sm" />
 
-        <Link to={`/home/displayResults/1`}>
+        <Link to={`/home/displayBookshelf`}>
           <NavLink
             label="Favourites"
             icon={<RiHomeHeartLine size={20} />}
@@ -432,7 +415,7 @@ function MyNavBar({
 
         <Space h="sm" />
 
-        <Link to={`/home/displayResults/1`}>
+        <Link to={`/home/displayBookshelf`}>
           <NavLink
             label="Rated"
             icon={<GiStarsStack size={20} />}
@@ -446,7 +429,7 @@ function MyNavBar({
 
         <Space h="sm" />
 
-        <Link to={`/home/displayResults/1`}>
+        <Link to={`/home/displayBookshelf`}>
           <NavLink
             label="Finished reading"
             icon={<GiBlackBook size={20} />}
@@ -460,7 +443,7 @@ function MyNavBar({
 
         <Space h="sm" />
 
-        <Link to={`/home/displayResults/1`}>
+        <Link to={`/home/displayBookshelf`}>
           <NavLink
             label="Want to read"
             icon={<RiHealthBookFill size={20} />}

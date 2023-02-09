@@ -464,7 +464,7 @@ function DisplayBookshelf({
               tempLocalBookshelfClone
             );
 
-            navigate(`/home/displayResults/1`);
+            // navigate(`/home/displayBookshelf`);
           } catch (error: any) {
             const error_ = new Error(error, {
               cause: "switch case 'removeVolume', in if block",
