@@ -1,4 +1,13 @@
-import { Card, Grid, Space, Container, Text, Image } from "@mantine/core";
+import {
+  Card,
+  Grid,
+  Space,
+  Container,
+  Text,
+  Image,
+  Flex,
+  Button,
+} from "@mantine/core";
 import localforage from "localforage";
 import { useEffect, useState } from "react";
 import { AiOutlineAmazon, AiFillBook, AiOutlineGoogle } from "react-icons/ai";
@@ -206,12 +215,38 @@ function Overview({
         .slice(1)}` ?? "Unavailable";
 
   const amazonLink = selectedVolume
-    ? `https://www.amazon.ca/gp/search?index=books&keywords=${selectedVolume?.volumeInfo?.industryIdentifiers?.[0]?.identifier}`
-    : `https://www.amazon.ca/gp/search?index=books&keywords=${selectedVolumeForage?.volumeInfo?.industryIdentifiers?.[0]?.identifier}`;
+    ? `https://www.amazon.ca/gp/search?index=books&keywords=${
+        selectedVolume?.volumeInfo?.industryIdentifiers?.[0]?.identifier.includes(
+          "ISBN"
+        )
+          ? selectedVolume?.volumeInfo?.industryIdentifiers?.[0]?.identifier
+          : selectedVolume?.volumeInfo.title
+      }`
+    : `https://www.amazon.ca/gp/search?index=books&keywords=${
+        selectedVolumeForage?.volumeInfo?.industryIdentifiers?.[0]?.identifier.includes(
+          "ISBN"
+        )
+          ? selectedVolumeForage?.volumeInfo?.industryIdentifiers?.[0]
+              ?.identifier
+          : selectedVolumeForage?.volumeInfo.title
+      }`;
 
   const chaptersLink = selectedVolume
-    ? `https://www.chapters.indigo.ca/en-ca/books/product/${selectedVolume?.volumeInfo?.industryIdentifiers?.[0]?.identifier}-item.html?s_campaign=Google_BookSearch_organic`
-    : `https://www.chapters.indigo.ca/en-ca/books/product/${selectedVolumeForage?.volumeInfo?.industryIdentifiers?.[0]?.identifier}-item.html?s_campaign=Google_BookSearch_organic`;
+    ? `https://www.chapters.indigo.ca/en-ca/books/product/${
+        selectedVolume?.volumeInfo?.industryIdentifiers?.[0]?.identifier.includes(
+          "ISBN"
+        )
+          ? selectedVolume?.volumeInfo?.industryIdentifiers?.[0]?.identifier
+          : selectedVolume?.volumeInfo.title
+      }-item.html?s_campaign=Google_BookSearch_organic`
+    : `https://www.chapters.indigo.ca/en-ca/books/product/${
+        selectedVolumeForage?.volumeInfo?.industryIdentifiers?.[0]?.identifier.includes(
+          "ISBN"
+        )
+          ? selectedVolumeForage?.volumeInfo?.industryIdentifiers?.[0]
+              ?.identifier
+          : selectedVolumeForage?.volumeInfo.title
+      }-item.html?s_campaign=Google_BookSearch_organic`;
 
   const googleBooksLink = selectedVolume
     ? selectedVolume?.volumeInfo.canonicalVolumeLink
@@ -241,64 +276,82 @@ function Overview({
 
       <Card shadow="sm" radius="md" style={{ width: "100%" }}>
         <Grid columns={width < 576 ? 1 : 3}>
-          <Grid.Col span={1}>
-            <Card.Section p={width < 576 ? "sm" : "lg"}>
-              <Image
-                width={width < 576 ? "50%" : "75%"}
-                src={imageSrc}
-                alt={imageAlt}
-              />
-            </Card.Section>
+          <Grid.Col
+            span={1}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              outline: "2px solid GrayText",
+            }}
+          >
+            <Image
+              width={width < 576 ? "50%" : "75%"}
+              src={imageSrc}
+              alt={imageAlt}
+              radius="xs"
+            />
           </Grid.Col>
 
           <Grid.Col span={1}>
-            <Card.Section p={width < 576 ? "sm" : "lg"}>
-              {industryIdentifiers}
-              <Text>
-                Published: {publishedDate}
-                <Space h="xs" />
-              </Text>
-              <Text>
-                Publisher: {publisher}
-                <Space h="xs" />
-              </Text>
-              <Text>
-                Pages: {pageCount}
-                <Space h="xs" />
-              </Text>
-              <Text>
-                Author: {authors}
-                <Space h="xs" />
-              </Text>
-            </Card.Section>
+            <Grid columns={width < 576 ? 2 : 1}>
+              <Grid.Col span={1}>
+                {industryIdentifiers}
+                <Text>
+                  Published: {publishedDate}
+                  <Space h="xs" />
+                </Text>
+              </Grid.Col>
+
+              <Grid.Col span={1}>
+                <Text>
+                  Publisher: {publisher}
+                  <Space h="xs" />
+                </Text>
+                <Text>
+                  Pages: {pageCount}
+                  <Space h="xs" />
+                </Text>
+                <Text>
+                  Author: {authors}
+                  <Space h="xs" />
+                </Text>
+              </Grid.Col>
+            </Grid>
           </Grid.Col>
+
           <Grid.Col span={1}>
-            <Card.Section p={width < 576 ? "sm" : "lg"}>
-              <Text>
-                Print type: {printType}
-                <Space h="xs" />
-              </Text>
-              <Text>
-                Categories: {categories}
-                <Space h="xs" />
-              </Text>
-              <Text>
-                Language: {language}
-                <Space h="xs" />
-              </Text>
-              <Text>
-                Average rating: {averageRating}
-                <Space h="xs" />
-              </Text>
-              <Text>
-                Ratings count: {ratingsCount}
-                <Space h="xs" />
-              </Text>
-              <Text>
-                Maturity rating: {maturityRating}
-                <Space h="xs" />
-              </Text>
-            </Card.Section>
+            <Grid columns={width < 576 ? 2 : 1}>
+              <Grid.Col span={1}>
+                <Text>
+                  Print type: {printType}
+                  <Space h="xs" />
+                </Text>
+                <Text>
+                  Categories: {categories}
+                  <Space h="xs" />
+                </Text>
+                <Text>
+                  Language: {language}
+                  <Space h="xs" />
+                </Text>
+              </Grid.Col>
+
+              <Grid.Col span={1}>
+                <Text>
+                  Average rating: {averageRating}
+                  <Space h="xs" />
+                </Text>
+                <Text>
+                  Ratings count: {ratingsCount}
+                  <Space h="xs" />
+                </Text>
+                <Text>
+                  Maturity rating: {maturityRating}
+                  <Space h="xs" />
+                </Text>
+              </Grid.Col>
+            </Grid>
           </Grid.Col>
         </Grid>
       </Card>
@@ -311,35 +364,69 @@ function Overview({
       </Text>
 
       <Card shadow="sm" radius="md" style={{ width: "100%" }}>
-        <Grid columns={width < 576 ? 1 : 2}>
-          <Grid.Col span={1}>
-            <Card.Section p={width < 576 ? "sm" : "lg"}>
-              <Container>
-                <AiOutlineAmazon size={50} />
-                <Text>Amazon.ca</Text>
-                <a href={amazonLink} target="_blank">
-                  Search Amazon.ca
-                </a>
-              </Container>
+        <Flex direction="row" justify="space-between" align="center">
+          <Flex
+            direction="row"
+            justify="start"
+            align="center"
+            style={{ outline: "1px solid GrayText" }}
+          >
+            <AiOutlineAmazon size={50} />
+            <Space w="xl" />
+            <Text>Amazon.ca</Text>
+          </Flex>
 
-              <Container>
-                <AiFillBook size={50} />
-                <Text>Chapters Indigo</Text>
-                <a href={chaptersLink} target="_blank">
-                  Search Chapters Indigo
-                </a>
-              </Container>
+          <a href={amazonLink} target="_blank">
+            <Button variant="outline" radius="lg">
+              {" "}
+              Search Amazon.ca
+            </Button>
+          </a>
+        </Flex>
 
-              <Container>
-                <AiOutlineGoogle size={50} />
-                <Text>Google Books</Text>
-                <a href={googleBooksLink} target="_blank">
-                  Search Google Books
-                </a>
-              </Container>
-            </Card.Section>
-          </Grid.Col>
-        </Grid>
+        <Space h="lg" />
+
+        <Flex direction="row" justify="space-between" align="center">
+          <Flex
+            direction="row"
+            justify="start"
+            align="center"
+            style={{ outline: "1px solid GrayText" }}
+          >
+            <AiFillBook size={50} />
+            <Space w="xl" />
+            <Text>Chapters Indigo</Text>
+          </Flex>
+
+          <a href={chaptersLink} target="_blank">
+            <Button variant="outline" radius="lg">
+              {" "}
+              Search Chapters Indigo
+            </Button>
+          </a>
+        </Flex>
+
+        <Space h="lg" />
+
+        <Flex direction="row" justify="space-between" align="center">
+          <Flex
+            direction="row"
+            justify="start"
+            align="center"
+            style={{ outline: "1px solid GrayText" }}
+          >
+            <AiOutlineGoogle size={50} />
+            <Space w="xl" />
+            <Text>Google Books</Text>
+          </Flex>
+
+          <a href={googleBooksLink} target="_blank">
+            <Button variant="outline" radius="lg">
+              {" "}
+              Search Google Books
+            </Button>
+          </a>
+        </Flex>
       </Card>
 
       <Space h="lg" />
@@ -349,34 +436,38 @@ function Overview({
       </Text>
 
       <Card shadow="sm" radius="md" style={{ width: "100%" }}>
-        <Grid columns={width < 576 ? 1 : 2}>
-          <Grid.Col span={1}>
-            <Card.Section p={width < 576 ? "sm" : "lg"}>
-              <Text>{"Google Books (may require authorization)"}</Text>
+        <Text>{"Google Books (may require authorization)"}</Text>
 
-              <Container>
-                <BiBookReader size={50} />
-                <a href={googleBooksPreview} target="_blank">
-                  View sample preview online
-                </a>
-              </Container>
+        <Flex direction="row" justify="space-between" align="center">
+          <BiBookReader size={50} />
+          <a href={googleBooksPreview} target="_blank">
+            <Button variant="outline" radius="xl">
+              View sample preview online
+            </Button>
+          </a>
+        </Flex>
 
-              <Container>
-                <HiOutlineBookOpen size={50} />
-                <a href={googleBooksWebReader} target="_blank">
-                  View sample using Google's web reader
-                </a>
-              </Container>
+        <Flex direction="row" justify="space-between" align="center">
+          <HiOutlineBookOpen size={50} />
+          <a href={googleBooksWebReader} target="_blank">
+            <Button variant="outline" radius="xl">
+              View sample using Google's web reader
+            </Button>
+          </a>
+        </Flex>
 
-              <Container>
-                <IoReaderOutline size={50} />
-                <a href={googleBooksEpub} target="_blank">
-                  Download link to free epub sample
-                </a>
-              </Container>
-            </Card.Section>
-          </Grid.Col>
-        </Grid>
+        {/* <IoReaderOutline size={50} />
+        <a href={googleBooksEpub} target="_blank">
+          Download link to free epub sample
+        </a> */}
+        <Flex direction="row" justify="space-between" align="center">
+          <IoReaderOutline size={50} />
+          <a href={googleBooksEpub} target="_blank">
+            <Button variant="outline" radius="xl">
+              Download link to free epub sample
+            </Button>
+          </a>
+        </Flex>
       </Card>
     </div>
   );
