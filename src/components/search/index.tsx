@@ -1,4 +1,4 @@
-import { Flex, Text, TextInput } from "@mantine/core";
+import { Flex, FocusTrap, Text, TextInput } from "@mantine/core";
 import axios from "axios";
 import localforage from "localforage";
 import React, { useState } from "react";
@@ -122,6 +122,7 @@ function Search({
         rightSectionWidth={100}
         onKeyDown={handleEnterKeyInput}
         data-textinput="search"
+        data-autofocus
       />
       <Link to={`/home/advancedSearch`}>
         <Text>Advanced Search</Text>

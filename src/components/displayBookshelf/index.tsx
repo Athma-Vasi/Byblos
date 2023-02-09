@@ -101,7 +101,9 @@ function DisplayBookshelf({
   const navigate = useNavigate();
   const { volumeId, page } = useParams();
 
-  // const modifiedSearchResults = insertCustomId(volumes ?? localForageFallback);
+  const definedBookshelfVolumes =
+    bookshelfVolumes ??
+    localForageFallback.map((bookshelfVolume) => bookshelfVolume.volume);
 
   async function handleUserBookshelfAction(
     kind: UserBookshelfActions,
@@ -666,14 +668,14 @@ function DisplayBookshelf({
         alt={modalAlt}
       />
       <Flex gap="xl" direction="column">
-        {bookshelfVolumes?.length === 1 ? (
+        {definedBookshelfVolumes?.length < 2 ? (
           <Container>
             <Card shadow="sm" p="md" radius="md" withBorder>
               <Text>There are no volumes here (｡•́︿•̀｡) </Text>
             </Card>
           </Container>
         ) : null}
-        {bookshelfVolumes?.map((item) =>
+        {definedBookshelfVolumes?.map((item) =>
           // prevents default volume from being rendered
           item.id === "aZ0YkIU0HusC" ? null : (
             <Card

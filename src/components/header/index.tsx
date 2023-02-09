@@ -5,6 +5,7 @@ import {
   Grid,
   Header,
   MediaQuery,
+  Space,
   Title,
   useMantineTheme,
 } from "@mantine/core";
@@ -34,14 +35,14 @@ function MyHeader({
   const theme = useMantineTheme();
 
   async function handleClearLocalStorageBttnClick(
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) {
     localforage.clear();
   }
 
   return (
     <Header height={{ base: 75, md: 100 }} p="md">
-      <Grid columns={4}>
+      <Grid columns={6}>
         <MediaQuery largerThan="sm" styles={{ display: "none" }}>
           <Grid.Col span={1}>
             <Burger
@@ -49,19 +50,29 @@ function MyHeader({
               onClick={() => setOpened((o) => !o)}
               size="sm"
               color={theme.colors.gray[6]}
-              mr="xl"
+              mr="sm"
             />
           </Grid.Col>
         </MediaQuery>
 
-        <Grid.Col span={2}>
+        <Grid.Col span={1}>
           <Link to={"/"}>
             <Title order={1}>Byblos</Title>
           </Link>
         </Grid.Col>
 
+        <Grid.Col span={3}>
+          <Search
+            allStates={allStates}
+            allActions={allActions}
+            allDispatches={allDispatches}
+          />
+        </Grid.Col>
+
         <Grid.Col span={1}>
-          <Button onClick={handleClearLocalStorageBttnClick}>Clear Local Storage</Button>
+          <Button onClick={handleClearLocalStorageBttnClick}>
+            Clear Local Storage
+          </Button>
         </Grid.Col>
       </Grid>
     </Header>

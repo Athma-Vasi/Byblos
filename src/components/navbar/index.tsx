@@ -69,61 +69,7 @@ function MyNavBar({
   const navigate = useNavigate();
 
   async function handleParentNavlinkClick() {
-    //set parent navlink to active
     setparentNavlinkActive((prev) => !prev);
-
-    // //grabs userBookshelf from localforage and disables child links if there are no corresponding entries
-
-    // const userBookshelf = await localforage.getItem<UserBookshelf[]>(
-    //   "byblos-userBookshelf"
-    // );
-
-    // if (userBookshelf) {
-    //   const userBookshelf_ = userBookshelf as UserBookshelf[];
-
-    //   const userBookshelfFavourites = userBookshelf_.filter(
-    //     (userBookshelf) => userBookshelf.favourite === true
-    //   );
-    //   console.log("userBookshelfFavourites", userBookshelfFavourites);
-
-    //   const userBookshelfMarkRead = userBookshelf_.filter(
-    //     (userBookshelf) => userBookshelf.markRead === true
-    //   );
-    //   console.log("userBookshelfMarkRead", userBookshelfMarkRead);
-
-    //   const userBookshelfReadLater = userBookshelf_.filter(
-    //     (userBookshelf) => userBookshelf.readLater === true
-    //   );
-    //   console.log("userBookshelfReadLater", userBookshelfReadLater);
-
-    //   const userBookshelfRated = userBookshelf_.filter(
-    //     (userBookshelf) => userBookshelf.rating !== 0
-    //   );
-    //   console.log("userBookshelfRated", userBookshelfRated);
-
-    //   //because there is a sample volume always present
-    //   if (userBookshelfFavourites.length === 1) {
-    //     const favouritesNavlink = document.querySelector<HTMLElement>(
-    //       "[data-cy='navlink-favourites']"
-    //     );
-    //     favouritesNavlink?.setAttribute("disabled", "true");
-    //   }
-
-    //   if (userBookshelfMarkRead.length === 1) {
-    //     const markReadNavlink = document.querySelector<HTMLElement>(
-    //       "[data-cy='navlink-markRead']"
-    //     );
-    //     markReadNavlink?.setAttribute("disabled", "true");
-    //   }
-
-    //   if (userBookshelfReadLater.length === 1) {
-    //     setReadLaterNavlinkActive(false);
-    //   }
-
-    //   if (userBookshelfRated.length === 1) {
-    //     setRatedNavlinkActive(false);
-    //   }
-    // }
   }
 
   async function handleChildNavlinksClick(navLinkKind: string) {
@@ -227,8 +173,6 @@ function MyNavBar({
               },
             },
           });
-
-          // navigate("/home/displayBookshelf");
 
           break;
         }

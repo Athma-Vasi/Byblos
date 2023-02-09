@@ -53,6 +53,7 @@ function DisplayResults({
       setSelectedAuthor,
       setSelectedPublisher,
       setBookshelfVolumes,
+      setAll,
     },
   } = allActions;
 
@@ -96,25 +97,27 @@ function DisplayResults({
               }&maxResults=40&startIndex=0&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`
           );
           if (!ignore) {
-            searchResults?.items?.push(...data.items);
-            responseDispatch({
-              type: "setAll",
-              payload: {
-                responseState: {
-                  fetchUrl: fetchUrl_,
-                  startIndex: currStartIdx,
-                  searchTerm: searchTerm_,
-                  searchResults: {
-                    ...data,
-                    items: searchResults?.items,
+            if (data.items) {
+              searchResults?.items?.push(...data?.items);
+              responseDispatch({
+                type: setAll,
+                payload: {
+                  responseState: {
+                    fetchUrl: fetchUrl_,
+                    startIndex: currStartIdx,
+                    searchTerm: searchTerm_,
+                    searchResults: {
+                      ...data,
+                      items: searchResults?.items,
+                    },
+                    selectedVolume: selectedVolume,
+                    selectedAuthor: selectedAuthor,
+                    selectedPublisher: selectedPublisher,
+                    bookshelfVolumes,
                   },
-                  selectedVolume: selectedVolume,
-                  selectedAuthor: selectedAuthor,
-                  selectedPublisher: selectedPublisher,
-                  bookshelfVolumes,
                 },
-              },
-            });
+              });
+            }
           }
         } catch (error: any) {
           const error_ = new Error(error, {
@@ -147,11 +150,6 @@ function DisplayResults({
         <Space key={i} h="xs" />
       ))}
 
-      <Search
-        allStates={allStates}
-        allActions={allActions}
-        allDispatches={allDispatches}
-      />
       {Array.from({ length: 5 }).map((_, i) => (
         <Space key={i} h="xs" />
       ))}
@@ -164,7 +162,7 @@ function DisplayResults({
         <Space key={i} h="lg" />
       ))}
 
-      <h4 ref={ref}> {`Header inside viewport ${inView}`}</h4>
+      <div ref={ref}></div>
     </div>
   );
 }

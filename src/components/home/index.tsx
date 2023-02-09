@@ -5,7 +5,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { MyFooter } from "../footer";
 import { MyHeader } from "../header";
 import { MyNavBar } from "../navbar";
-import { Sidebar } from "../sidebar";
+
 import {
   AllActions,
   AllDispatches,
@@ -156,7 +156,6 @@ function Home({ children, allStates, allActions, allDispatches }: HomeProps) {
           allDispatches={allDispatches}
         />
       }
-      aside={<Sidebar />}
       header={
         <MyHeader
           opened={opened}
