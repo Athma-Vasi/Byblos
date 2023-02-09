@@ -76,7 +76,7 @@ function AuthorCollection({
           allStates.responseState.selectedAuthor
         }+inauthor:${selectedVolume?.volumeInfo.authors.join(
           ","
-        )}&maxResults=40&startIndex=0&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
+        )}&maxResults=40&startIndex=${startIndex}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
 
         console.log("fetchUrlWithAuthor :", fetchUrlWithAuthor);
 

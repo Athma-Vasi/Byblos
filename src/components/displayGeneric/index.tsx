@@ -530,6 +530,7 @@ function DisplayGeneric({
   }, []);
 
   async function handleTitleClick(volume: VolumeWithCustomId) {
+    startIndex = 0;
     searchTerm = volume.volumeInfo.title;
     selectedVolume = volume;
     selectedAuthor = volume.volumeInfo.authors?.join(",") ?? "";
@@ -538,6 +539,11 @@ function DisplayGeneric({
     console.log("selectedVolume from displayGeneric: ", selectedVolume);
 
     try {
+      await localforage.setItem<ResponseState["startIndex"]>(
+        "byblos-startIndex",
+        startIndex
+      );
+
       await localforage.setItem<ResponseState["searchTerm"]>(
         "byblos-searchTerm",
         searchTerm
@@ -675,7 +681,7 @@ function DisplayGeneric({
         alt={modalAlt}
       />
       <Flex gap="xl" direction="column">
-        {modifiedSearchResults.length === 1 ? (
+        {modifiedSearchResults.length === 0 ? (
           <Container>
             <Card shadow="sm" p="md" radius="md" withBorder>
               <Text>There are no volumes here (｡•́︿•̀｡) </Text>

@@ -521,6 +521,7 @@ function DisplayBookshelf({
   }, []);
 
   async function handleTitleClick(volume: VolumeWithCustomId) {
+    startIndex = 0;
     searchTerm = volume.volumeInfo.title;
     selectedVolume = volume;
     selectedAuthor = volume.volumeInfo.authors?.join(",") ?? "";
@@ -529,6 +530,11 @@ function DisplayBookshelf({
     console.log("selectedVolume from userBookshelf: ", selectedVolume);
 
     try {
+      await localforage.setItem<ResponseState["startIndex"]>(
+        "byblos-startIndex",
+        startIndex
+      );
+
       await localforage.setItem<ResponseState["searchTerm"]>(
         "byblos-searchTerm",
         searchTerm

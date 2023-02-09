@@ -81,7 +81,7 @@ function OtherEditions({
             otherEditions[0].volumeInfo.title
           }+inauthor:${
             selectedAuthor ?? otherEditions[0].volumeInfo.authors[0]
-          }&maxResults=40&startIndex=0&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
+          }&maxResults=40&startIndex=${startIndex}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
 
         console.log("fetchUrlWithName from otherEditions", fetchUrlWithName);
 

@@ -270,12 +270,13 @@ function Overview({
 
   return (
     <div>
+      <Space h="xs" />
       <Text align="start" size="lg">
         About this edition
       </Text>
 
       <Card shadow="sm" radius="md" style={{ width: "100%" }}>
-        <Grid columns={width < 576 ? 1 : 3}>
+        <Grid columns={width < 576 ? 1 : 3} align="center">
           <Grid.Col span={1}>
             <Image
               width={width < 576 ? "50%" : "75%"}
@@ -357,12 +358,7 @@ function Overview({
 
       <Card shadow="sm" radius="md" style={{ width: "100%" }}>
         <Flex direction="row" justify="space-between" align="center">
-          <Flex
-            direction="row"
-            justify="start"
-            align="center"
-            style={{ outline: "1px solid GrayText" }}
-          >
+          <Flex direction="row" justify="start" align="center">
             <AiOutlineAmazon size={50} />
             <Space w="xl" />
             <Text>Amazon.ca</Text>
@@ -379,12 +375,7 @@ function Overview({
         <Space h="sm" />
 
         <Flex direction="row" justify="space-between" align="center">
-          <Flex
-            direction="row"
-            justify="start"
-            align="center"
-            style={{ outline: "1px solid GrayText" }}
-          >
+          <Flex direction="row" justify="start" align="center">
             <AiFillBook size={50} />
             <Space w="xl" />
             <Text>Chapters Indigo</Text>
@@ -401,12 +392,7 @@ function Overview({
         <Space h="sm" />
 
         <Flex direction="row" justify="space-between" align="center">
-          <Flex
-            direction="row"
-            justify="start"
-            align="center"
-            style={{ outline: "1px solid GrayText" }}
-          >
+          <Flex direction="row" justify="start" align="center">
             <AiOutlineGoogle size={50} />
             <Space w="xl" />
             <Text>Google Books</Text>
@@ -434,12 +420,7 @@ function Overview({
         <Space h="sm" />
 
         <Flex direction="row" justify="space-between" align="center">
-          <Flex
-            direction="row"
-            justify="start"
-            align="center"
-            style={{ outline: "1px solid GrayText" }}
-          >
+          <Flex direction="row" justify="start" align="center">
             <BiBookReader size={50} />
             <Space w="xl" />
             <Text>Sample preview</Text>
@@ -455,12 +436,7 @@ function Overview({
         <Space h="sm" />
 
         <Flex direction="row" justify="space-between" align="center">
-          <Flex
-            direction="row"
-            justify="start"
-            align="center"
-            style={{ outline: "1px solid GrayText" }}
-          >
+          <Flex direction="row" justify="start" align="center">
             <HiOutlineBookOpen size={50} />
             <Space w="xl" />
             <Text>Web reader</Text>
@@ -476,12 +452,7 @@ function Overview({
         <Space h="sm" />
 
         <Flex direction="row" justify="space-between" align="center">
-          <Flex
-            direction="row"
-            justify="start"
-            align="center"
-            style={{ outline: "1px solid GrayText" }}
-          >
+          <Flex direction="row" justify="start" align="center">
             <IoReaderOutline size={50} />
             <Space w="xl" />
             <Text>Epub sample</Text>

@@ -47,6 +47,7 @@ function Search({
         const fetchUrlFromGenericSearch = `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40&startIndex=0&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
         const { data } = await axios.get(fetchUrlFromGenericSearch);
 
+        responseState.startIndex = 0;
         responseState.searchTerm = searchTerm;
         responseState.searchResults = data as ApiResponseVolume;
         responseState.fetchUrl = fetchUrlFromGenericSearch;
