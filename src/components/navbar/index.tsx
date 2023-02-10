@@ -8,6 +8,7 @@ import {
   AllActions,
   AllDispatches,
   AllStates,
+  HistoryState,
   UserBookshelf,
   VolumeWithCustomId,
 } from "../../types";
@@ -66,6 +67,55 @@ function MyNavBar({
 
   async function handleParentNavlinkClick() {
     setparentNavlinkActive((prev) => !prev);
+
+    //history state is updated whenever the user clicks on a navlink
+    //the history state is an array of objects, each object representing the state of the app at a particular point in time
+    //mainly used for the back button so the user does not see results of currently selected volume when they click the back button
+    try {
+      const historyStateLocalForage = (await localforage.getItem<HistoryState>(
+        "byblos-historyState"
+      )) ?? [
+        {
+          fetchUrl,
+          startIndex,
+          searchTerm,
+          searchResults,
+          selectedVolume,
+          selectedAuthor,
+          selectedPublisher,
+          bookshelfVolumes,
+        },
+      ];
+
+      historyStateLocalForage.push({
+        fetchUrl,
+        startIndex,
+        searchTerm,
+        searchResults,
+        selectedVolume,
+        selectedAuthor,
+        selectedPublisher,
+        bookshelfVolumes,
+      });
+
+      await localforage.setItem<HistoryState>(
+        "byblos-historyState",
+        historyStateLocalForage
+      );
+    } catch (error: any) {
+      const error_ = new Error(error, {
+        cause: "handleParentNavlinkClick()",
+      });
+
+      console.group("Error in navbar eventHandler");
+      console.error("name: ", error_.name);
+      console.error("message: ", error_.message);
+      console.error("cause: ", error_.cause);
+      console.groupCollapsed("stack trace");
+      console.trace(error_);
+      console.error("detailed stack trace", error_.stack);
+      console.groupEnd();
+    }
   }
 
   async function handleChildNavlinksClick(navLinkKind: string) {

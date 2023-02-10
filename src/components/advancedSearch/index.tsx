@@ -951,10 +951,7 @@ function AdvancedSearch({
           </Grid.Col>
 
           {/* oclc section body */}
-          <Grid.Col
-            span={width < 576 ? 1 : 3}
-            style={{ border: "1px solid GrayText", borderRadius: "5px" }}
-          >
+          <Grid.Col span={width < 576 ? 1 : 3}>
             <Grid
               columns={width < 576 ? 1 : 3}
               py={width < 576 ? "sm" : "md"}
