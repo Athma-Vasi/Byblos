@@ -94,12 +94,7 @@ function Search({
   }
 
   return (
-    <Flex
-      gap="md"
-      justify="center"
-      align="center"
-      style={{ outline: "2px solid GrayText", width: "100%" }}
-    >
+    <Flex gap="md" justify="center" align="center">
       <TextInput
         value={searchTerm}
         onChange={(event) => {
