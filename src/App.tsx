@@ -19,7 +19,7 @@ import {
   themeActions,
   themeReducer,
 } from "./state/themeState";
-import { ThemeProvider } from "./ThemeProvider";
+import { ThemeProvider } from "../src/components/themeProvider";
 import { AllActions, AllDispatches } from "./types";
 
 const DisplayResults = React.lazy(() => import("./components/displayResults"));
@@ -64,7 +64,7 @@ export default function App() {
   };
 
   return (
-    <ThemeProvider>
+    <ThemeProvider allStates={allStates}>
       <BrowserRouter>
         <Routes>
           <Route

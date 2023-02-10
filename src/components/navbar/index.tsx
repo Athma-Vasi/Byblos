@@ -484,6 +484,8 @@ function MyNavBar({
         </Link>
       </NavLink>
 
+      <Space h="sm" />
+
       <NavLink
         label="Clear storage"
         icon={<RiDeleteBin6Line size={20} />}

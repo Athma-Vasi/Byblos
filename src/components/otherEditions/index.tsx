@@ -54,7 +54,7 @@ function OtherEditions({
   } = allStates;
   let { responseDispatch } = allDispatches;
   let {
-    responseActions: { setAll },
+    responseActions: { setFetchUrl, setSearchResults, setAll },
   } = allActions;
 
   useEffect(() => {
@@ -79,12 +79,12 @@ function OtherEditions({
         try {
           await localforage.setItem<ResponseState["searchResults"]>(
             "byblos-searchResults",
-            allStates.responseState.searchResults
+            searchResults
           );
 
           await localforage.setItem<ResponseState["fetchUrl"]>(
             "byblos-fetchUrl",
-            allStates.responseState.fetchUrl
+            fetchUrl
           );
         } catch (error: any) {
           const error_ = new Error(error, {
@@ -101,7 +101,23 @@ function OtherEditions({
           console.groupEnd();
         } finally {
           responseDispatch({
-            type: setAll,
+            type: setFetchUrl,
+            payload: {
+              responseState: {
+                fetchUrl,
+                startIndex,
+                searchTerm,
+                searchResults,
+                selectedVolume,
+                selectedAuthor,
+                selectedPublisher,
+                bookshelfVolumes,
+              },
+            },
+          });
+
+          responseDispatch({
+            type: setSearchResults,
             payload: {
               responseState: {
                 fetchUrl,

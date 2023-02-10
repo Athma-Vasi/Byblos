@@ -52,7 +52,7 @@ function AuthorCollection({
   } = allStates;
   let { responseDispatch } = allDispatches;
   let {
-    responseActions: { setAll },
+    responseActions: { setFetchUrl, setSearchResults, setAll },
   } = allActions;
 
   useEffect(() => {
@@ -88,7 +88,23 @@ function AuthorCollection({
           console.groupEnd();
         } finally {
           responseDispatch({
-            type: setAll,
+            type: setFetchUrl,
+            payload: {
+              responseState: {
+                fetchUrl,
+                startIndex,
+                searchTerm,
+                searchResults,
+                selectedVolume,
+                selectedAuthor,
+                selectedPublisher,
+                bookshelfVolumes,
+              },
+            },
+          });
+
+          responseDispatch({
+            type: setSearchResults,
             payload: {
               responseState: {
                 fetchUrl,

@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { BsPersonLinesFill } from "react-icons/bs";
 import { BsMenuButtonFill } from "react-icons/bs";
 import { GrOverview } from "react-icons/gr";
+import { HiOutlineViewGrid } from "react-icons/hi";
 import { MdOutlinePublish } from "react-icons/md";
 import { VscUngroupByRefType } from "react-icons/vsc";
 import { Outlet, useParams } from "react-router-dom";
@@ -53,7 +54,7 @@ function DisplayVolume({ allStates }: DisplayVolumeProps) {
   async function handleNavLinkActiveClick(label: string) {
     //set history state
     //used to retrieve history state when user clicks browser back button as
-    //stateful data is lost when user clicks browser back button
+    //stateful data is lost when component unmounts
     try {
       const historyStateLocalForage = (await localforage.getItem<HistoryState>(
         "byblos-historyState"
@@ -192,7 +193,7 @@ function DisplayVolume({ allStates }: DisplayVolumeProps) {
                   active={navLinkActive.overview}
                   label="Overview"
                   variant="subtle"
-                  icon={<GrOverview size={20} />}
+                  icon={<HiOutlineViewGrid size={20} />}
                   onClick={() => handleNavLinkActiveClick("Overview")}
                 />
               </Link>

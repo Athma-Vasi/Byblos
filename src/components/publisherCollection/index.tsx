@@ -52,7 +52,7 @@ function PublisherCollection({
   } = allStates;
   const { responseDispatch } = allDispatches;
   let {
-    responseActions: { setAll },
+    responseActions: { setFetchUrl, setSearchResults, setAll },
   } = allActions;
 
   useEffect(() => {
@@ -68,15 +68,9 @@ function PublisherCollection({
         fetchUrl = fetchUrlWithPublisher;
 
         try {
-          await localforage.setItem(
-            "byblos-searchResults",
-            allStates.responseState.searchResults
-          );
+          await localforage.setItem("byblos-searchResults", searchResults);
 
-          await localforage.setItem(
-            "byblos-fetchUrl",
-            allStates.responseState.fetchUrl
-          );
+          await localforage.setItem("byblos-fetchUrl", fetchUrl);
         } catch (error: any) {
           const error_ = new Error(error, {
             cause: "inner try block inside fetchPublisherVolumes()",
@@ -92,7 +86,23 @@ function PublisherCollection({
           console.groupEnd();
         } finally {
           responseDispatch({
-            type: setAll,
+            type: setFetchUrl,
+            payload: {
+              responseState: {
+                fetchUrl,
+                startIndex,
+                searchTerm,
+                searchResults,
+                selectedVolume,
+                selectedAuthor,
+                selectedPublisher,
+                bookshelfVolumes,
+              },
+            },
+          });
+
+          responseDispatch({
+            type: setSearchResults,
             payload: {
               responseState: {
                 fetchUrl,
