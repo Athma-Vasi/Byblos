@@ -222,10 +222,10 @@ function MyNavBar({
         case "rated": {
           //grab just the rated volumes from the userBookshelf
           const ratedVolumes = userBookshelfClone?.reduce(
-            (acc: VolumeWithCustomId[], item: UserBookshelf) => {
-              item.rating && acc.push(item.volume);
+            (volumes: VolumeWithCustomId[], item: UserBookshelf) => {
+              item.rating && volumes.push(item.volume);
 
-              return acc;
+              return volumes;
             },
             []
           );
@@ -252,10 +252,10 @@ function MyNavBar({
         case "favourites": {
           //grab just the favourited volumes from the userBookshelf
           const favouriteVolumes = userBookshelfClone?.reduce(
-            (acc: VolumeWithCustomId[], item: UserBookshelf) => {
-              item.favourite && acc.push(item.volume);
+            (volumes: VolumeWithCustomId[], item: UserBookshelf) => {
+              item.favourite && volumes.push(item.volume);
 
-              return acc;
+              return volumes;
             },
             []
           );
@@ -282,10 +282,10 @@ function MyNavBar({
         case "markRead": {
           //grab just the marked read volumes from the userBookshelf
           const markReadVolumes = userBookshelfClone?.reduce(
-            (acc: VolumeWithCustomId[], item: UserBookshelf) => {
-              item.markRead && acc.push(item.volume);
+            (volumes: VolumeWithCustomId[], item: UserBookshelf) => {
+              item.markRead && volumes.push(item.volume);
 
-              return acc;
+              return volumes;
             },
             []
           );
@@ -312,10 +312,10 @@ function MyNavBar({
         case "readLater": {
           //grab just the readLater volumes from the userBookshelf
           const readLaterVolumes = userBookshelfClone?.reduce(
-            (acc: VolumeWithCustomId[], item: UserBookshelf) => {
-              item.readLater && acc.push(item.volume);
+            (volumes: VolumeWithCustomId[], item: UserBookshelf) => {
+              item.readLater && volumes.push(item.volume);
 
-              return acc;
+              return volumes;
             },
             []
           );

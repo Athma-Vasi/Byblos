@@ -29,7 +29,7 @@ import {
   ResponseState,
 } from "../../types";
 
-import { defaultVolume } from "../localData";
+import { defaultVolume } from "../../localData";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { HiOutlineDocumentRemove } from "react-icons/hi";
 import {

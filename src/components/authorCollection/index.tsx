@@ -209,9 +209,7 @@ function AuthorCollection({
         fallback={
           <Text>
             {`Unable to display other volumes ${
-              "of" + selectedAuthor ??
-              authorCollection[0]?.volumeInfo.authors[0] ??
-              ""
+              selectedAuthor ?? authorCollection[0]?.volumeInfo.authors[0] ?? ""
             }`}
           </Text>
         }
@@ -220,7 +218,7 @@ function AuthorCollection({
           fallback={
             <Text>
               {`Loading other volumes ${
-                "of" + selectedAuthor ??
+                selectedAuthor ??
                 authorCollection[0]?.volumeInfo.authors[0] ??
                 ""
               }`}

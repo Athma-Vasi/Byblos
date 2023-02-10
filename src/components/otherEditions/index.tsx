@@ -223,14 +223,14 @@ function OtherEditions({
       <ErrorBoundary
         fallback={
           <Text>{`Unable to display other editions ${
-            "of" + selectedVolume ?? otherEditions[0]?.volumeInfo.title ?? ""
+            selectedVolume ?? otherEditions[0]?.volumeInfo.title ?? ""
           }`}</Text>
         }
       >
         <Suspense
           fallback={
             <Text>{`Loading other editions ${
-              "of" + selectedVolume ?? otherEditions[0]?.volumeInfo.title ?? ""
+              selectedVolume ?? otherEditions[0]?.volumeInfo.title ?? ""
             }`}</Text>
           }
         >

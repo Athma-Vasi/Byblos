@@ -214,9 +214,7 @@ function PublisherCollection({
         fallback={
           <Text>
             {`Unable to display other editions ${
-              "of" + selectedVolume ??
-              publisherCollection[0]?.volumeInfo.title ??
-              ""
+              selectedVolume ?? publisherCollection[0]?.volumeInfo.title ?? ""
             }`}
           </Text>
         }
@@ -225,9 +223,7 @@ function PublisherCollection({
           fallback={
             <Text>
               {`Loading other editions ${
-                "of" + selectedVolume ??
-                publisherCollection[0]?.volumeInfo.title ??
-                ""
+                selectedVolume ?? publisherCollection[0]?.volumeInfo.title ?? ""
               }`}
             </Text>
           }

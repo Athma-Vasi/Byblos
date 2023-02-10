@@ -25,6 +25,7 @@ type OverviewProps = {
 function Overview({ allStates }: OverviewProps) {
   const { width = 0 } = useWindowSize();
 
+  //used as backup if selectedVolume is null
   const [selectedVolumeForage, setSelectedVolumeForage] =
     useState<VolumeWithCustomId | null>(null);
 
@@ -61,6 +62,9 @@ function Overview({ allStates }: OverviewProps) {
     fetchSelectedVolumeFromLocalForage();
   }, []);
 
+  /**
+   * logic inside jsx is moved outside to make it more readable. selectedVolume from responseState is used first, if it is null, then selectedVolume from localforage is used.
+   */
   const imageSrc =
     selectedVolume?.volumeInfo.imageLinks?.thumbnail ??
     selectedVolumeForage?.volumeInfo.imageLinks?.thumbnail ??

@@ -1,4 +1,4 @@
-import { VolumeWithCustomId } from "../../types";
+import { VolumeWithCustomId } from "../types";
 
 const defaultVolume: VolumeWithCustomId = {
   kind: "books#volume",

@@ -44,7 +44,7 @@ import {
 } from "react-icons/io";
 import MyRating from "../myRating";
 import { v4 as uuidv4 } from "uuid";
-import { defaultVolume } from "../localData";
+import { defaultVolume } from "../../localData";
 
 type DisplayGenericProps = {
   children?: React.ReactNode;
