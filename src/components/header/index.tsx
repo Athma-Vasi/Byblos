@@ -89,7 +89,9 @@ function MyHeader({
 
         <Grid.Col span={2}>
           <Switch
-            label={allStates.themeState.theme}
+            label={`${allStates.themeState.theme[0].toUpperCase()}${allStates.themeState.theme.slice(
+              1
+            )}`}
             onChange={handleThemeSwitchClick}
           />
         </Grid.Col>

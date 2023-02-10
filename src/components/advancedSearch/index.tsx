@@ -7,8 +7,10 @@ import {
   HoverCard,
   NativeSelect,
   Radio,
+  Space,
   Text,
   TextInput,
+  Title,
 } from "@mantine/core";
 import axios from "axios";
 import localforage from "localforage";
@@ -231,9 +233,12 @@ function AdvancedSearch({
           align="center"
         >
           <Grid.Col span={1}>
-            <Center style={{ width: "100%", height: "100%" }}>
-              <Text>Find results</Text>
-            </Center>
+            <Flex
+              align="center"
+              justify={width < 576 ? "flex-start" : "center"}
+            >
+              <Title order={4}>Find results</Title>
+            </Flex>
           </Grid.Col>
 
           {/* contains label and inputs */}
@@ -316,40 +321,54 @@ function AdvancedSearch({
                   />
                 </Grid.Col>
               </Grid>
-              {/* search results amount per page modifier */}
-              <Grid
-                columns={width < 576 ? 2 : 4}
-                align="center"
-                py={width < 576 ? "sm" : "md"}
-              >
-                <Grid.Col span={width < 576 ? 1 : 2}>
-                  <Flex>
-                    <Text>Sort by</Text>
-                  </Flex>
-                </Grid.Col>
-                <Grid.Col span={width < 576 ? 1 : 2}>
-                  {width > 576 ? (
-                    <NativeSelect
-                      data={["Relevance", "Newest"]}
-                      // label="Sort by"
-                      name="sortBy"
-                      data-nativeselect="sortBy"
-                    />
-                  ) : (
-                    <Flex justify="flex-start" align="center">
-                      <NativeSelect
-                        data={["Relevance", "Newest"]}
-                        label="Sort by"
-                        name="sortBy"
-                        data-nativeselect="sortBy"
-                      />
-                    </Flex>
-                  )}
-                </Grid.Col>
-              </Grid>
             </Flex>
           </Grid.Col>
         </Grid>
+
+        {Array.from({ length: 3 }).map((_, i) => (
+          <Space key={i} h="md" />
+        ))}
+
+        {/* search results amount per page modifier */}
+        <Grid
+          columns={width < 576 ? 1 : 4}
+          p={width < 576 ? "sm" : "md"}
+          align="center"
+        >
+          <Grid.Col span={1}>
+            <Flex
+              align="center"
+              justify={width < 576 ? "flex-start" : "center"}
+            >
+              <Title order={4}>Sort by</Title>
+            </Flex>
+          </Grid.Col>
+
+          <Grid.Col span={width < 576 ? 1 : 1}>
+            {width > 576 ? (
+              <NativeSelect
+                data={["Relevance", "Newest"]}
+                // label="Sort by"
+                name="sortBy"
+                data-nativeselect="sortBy"
+              />
+            ) : (
+              <Flex justify="flex-start" align="center">
+                <NativeSelect
+                  data={["Relevance", "Newest"]}
+                  // label="Sort by"
+                  name="sortBy"
+                  data-nativeselect="sortBy"
+                />
+              </Flex>
+            )}
+          </Grid.Col>
+        </Grid>
+
+        {Array.from({ length: 3 }).map((_, i) => (
+          <Space key={i} h="md" />
+        ))}
+
         {/* download format section */}
         <Grid
           columns={width < 576 ? 1 : 4}
@@ -358,9 +377,12 @@ function AdvancedSearch({
         >
           {/* download format heading */}
           <Grid.Col span={1}>
-            <Center style={{ width: "100%", height: "100%" }}>
-              <Text>Download format</Text>
-            </Center>
+            <Flex
+              align="center"
+              justify={width < 576 ? "flex-start" : "center"}
+            >
+              <Title order={4}>Download format</Title>
+            </Flex>
           </Grid.Col>
           {/* download format body */}
           <Grid.Col span={width < 576 ? 1 : 3}>
@@ -413,7 +435,10 @@ function AdvancedSearch({
           </Grid.Col>
         </Grid>
 
-        {/*  */}
+        {Array.from({ length: 3 }).map((_, i) => (
+          <Space key={i} h="md" />
+        ))}
+
         {/* search book views section: partial, full, e-books(paid, full)*/}
         <Grid
           columns={width < 576 ? 1 : 4}
@@ -422,9 +447,12 @@ function AdvancedSearch({
         >
           {/* search book views  heading */}
           <Grid.Col span={1}>
-            <Center style={{ width: "100%", height: "100%" }}>
-              <Text>Search</Text>
-            </Center>
+            <Flex
+              align="center"
+              justify={width < 576 ? "flex-start" : "center"}
+            >
+              <Title order={4}>Search</Title>
+            </Flex>
           </Grid.Col>
 
           {/* search book views section body */}
@@ -559,7 +587,11 @@ function AdvancedSearch({
             </Radio.Group>
           </Grid.Col>
         </Grid>
-        {/*  */}
+
+        {Array.from({ length: 3 }).map((_, i) => (
+          <Space key={i} h="md" />
+        ))}
+
         {/* content section modifiers */}
         <Grid
           columns={width < 576 ? 1 : 4}
@@ -568,9 +600,12 @@ function AdvancedSearch({
         >
           {/* content section heading */}
           <Grid.Col span={1}>
-            <Center style={{ width: "100%", height: "100%" }}>
-              <Text>Content</Text>
-            </Center>
+            <Flex
+              align="center"
+              justify={width < 576 ? "flex-start" : "center"}
+            >
+              <Title order={4}>Content</Title>
+            </Flex>
           </Grid.Col>
 
           {/* print type section body */}
@@ -643,6 +678,10 @@ function AdvancedSearch({
           </Grid.Col>
         </Grid>
 
+        {Array.from({ length: 3 }).map((_, i) => (
+          <Space key={i} h="md" />
+        ))}
+
         {/* title section modifier */}
         <Grid
           columns={width < 576 ? 1 : 4}
@@ -651,9 +690,12 @@ function AdvancedSearch({
         >
           {/* title section heading */}
           <Grid.Col span={1}>
-            <Center style={{ width: "100%", height: "100%" }}>
-              <Text>Title</Text>
-            </Center>
+            <Flex
+              align="center"
+              justify={width < 576 ? "flex-start" : "center"}
+            >
+              <Title order={4}>Title</Title>
+            </Flex>
           </Grid.Col>
 
           {/* title section body */}
@@ -690,6 +732,10 @@ function AdvancedSearch({
           </Grid.Col>
         </Grid>
 
+        {Array.from({ length: 3 }).map((_, i) => (
+          <Space key={i} h="md" />
+        ))}
+
         {/* author section modifier */}
         <Grid
           columns={width < 576 ? 1 : 4}
@@ -698,9 +744,12 @@ function AdvancedSearch({
         >
           {/* author section heading */}
           <Grid.Col span={1}>
-            <Center style={{ width: "100%", height: "100%" }}>
-              <Text>Author</Text>
-            </Center>
+            <Flex
+              align="center"
+              justify={width < 576 ? "flex-start" : "center"}
+            >
+              <Title order={4}>Author</Title>
+            </Flex>
           </Grid.Col>
 
           {/* author section body */}
@@ -741,6 +790,10 @@ function AdvancedSearch({
           </Grid.Col>
         </Grid>
 
+        {Array.from({ length: 3 }).map((_, i) => (
+          <Space key={i} h="md" />
+        ))}
+
         {/* publisher section modifier */}
         <Grid
           columns={width < 576 ? 1 : 4}
@@ -749,9 +802,12 @@ function AdvancedSearch({
         >
           {/* publisher section heading */}
           <Grid.Col span={1}>
-            <Center style={{ width: "100%", height: "100%" }}>
-              <Text>Publisher</Text>
-            </Center>
+            <Flex
+              align="center"
+              justify={width < 576 ? "flex-start" : "center"}
+            >
+              <Title order={4}>Publisher</Title>
+            </Flex>
           </Grid.Col>
 
           {/* publisher section body */}
@@ -792,6 +848,10 @@ function AdvancedSearch({
           </Grid.Col>
         </Grid>
 
+        {Array.from({ length: 3 }).map((_, i) => (
+          <Space key={i} h="md" />
+        ))}
+
         {/* category section modifier */}
         <Grid
           columns={width < 576 ? 1 : 4}
@@ -800,9 +860,12 @@ function AdvancedSearch({
         >
           {/* category section heading */}
           <Grid.Col span={1}>
-            <Center style={{ width: "100%", height: "100%" }}>
-              <Text>Category</Text>
-            </Center>
+            <Flex
+              align="center"
+              justify={width < 576 ? "flex-start" : "center"}
+            >
+              <Title order={4}>Category</Title>
+            </Flex>
           </Grid.Col>
 
           {/* category section body */}
@@ -843,6 +906,10 @@ function AdvancedSearch({
           </Grid.Col>
         </Grid>
 
+        {Array.from({ length: 3 }).map((_, i) => (
+          <Space key={i} h="md" />
+        ))}
+
         {/* isbn section modifier */}
         <Grid
           columns={width < 576 ? 1 : 4}
@@ -851,9 +918,12 @@ function AdvancedSearch({
         >
           {/* isbn section heading */}
           <Grid.Col span={1}>
-            <Center style={{ width: "100%", height: "100%" }}>
-              <Text>ISBN</Text>
-            </Center>
+            <Flex
+              align="center"
+              justify={width < 576 ? "flex-start" : "center"}
+            >
+              <Title order={4}>ISBN</Title>
+            </Flex>
           </Grid.Col>
 
           {/* isbn section body */}
@@ -890,6 +960,10 @@ function AdvancedSearch({
           </Grid.Col>
         </Grid>
 
+        {Array.from({ length: 3 }).map((_, i) => (
+          <Space key={i} h="md" />
+        ))}
+
         {/* lccn section modifier */}
         <Grid
           columns={width < 576 ? 1 : 4}
@@ -898,9 +972,12 @@ function AdvancedSearch({
         >
           {/* lccn section heading */}
           <Grid.Col span={1}>
-            <Center style={{ width: "100%", height: "100%" }}>
-              <Text>LCCN</Text>
-            </Center>
+            <Flex
+              align="center"
+              justify={width < 576 ? "flex-start" : "center"}
+            >
+              <Title order={4}>LCCN</Title>
+            </Flex>
           </Grid.Col>
 
           {/* lccn section body */}
@@ -937,6 +1014,10 @@ function AdvancedSearch({
           </Grid.Col>
         </Grid>
 
+        {Array.from({ length: 3 }).map((_, i) => (
+          <Space key={i} h="md" />
+        ))}
+
         {/* oclc section modifier */}
         <Grid
           columns={width < 576 ? 1 : 4}
@@ -945,9 +1026,12 @@ function AdvancedSearch({
         >
           {/* oclc section heading */}
           <Grid.Col span={1}>
-            <Center style={{ width: "100%", height: "100%" }}>
-              <Text>OCLC</Text>
-            </Center>
+            <Flex
+              align="center"
+              justify={width < 576 ? "flex-start" : "center"}
+            >
+              <Title order={4}>OCLC</Title>
+            </Flex>
           </Grid.Col>
 
           {/* oclc section body */}
