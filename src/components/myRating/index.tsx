@@ -22,7 +22,7 @@ type MyRatingProps = {
 function MyRating({ children, value, onChange }: MyRatingProps) {
   const getEmptyIcon = (value: number) => {
     const defaultProps = {
-      size: 24,
+      size: 26,
       color: "gray",
     };
     switch (value) {
@@ -43,7 +43,7 @@ function MyRating({ children, value, onChange }: MyRatingProps) {
 
   const getFullIcon = (value: number) => {
     const defaultProps = {
-      size: 24,
+      size: 26,
     };
     const theme = useMantineTheme();
 

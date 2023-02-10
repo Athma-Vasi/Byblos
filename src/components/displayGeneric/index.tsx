@@ -24,6 +24,7 @@ import {
 } from "react-icons/md";
 import { HiOutlineDocumentRemove } from "react-icons/hi";
 
+
 import { useWindowSize } from "../../hooks/useWindowSize";
 import {
   AllActions,
@@ -834,6 +835,7 @@ function DisplayGeneric({
                             <Text>Favourite</Text>
                             <Button
                               variant="subtle"
+                              radius="lg"
                               onClick={() => {
                                 handleUserBookshelfAction(
                                   "favourite",
@@ -866,6 +868,7 @@ function DisplayGeneric({
                             <Text>Read later</Text>
                             <Button
                               variant="subtle"
+                              radius="lg"
                               onClick={() => {
                                 handleUserBookshelfAction(
                                   "readLater",
@@ -898,6 +901,7 @@ function DisplayGeneric({
                             <Text>Mark read</Text>
                             <Button
                               variant="subtle"
+                              radius="lg"
                               onClick={() => {
                                 handleUserBookshelfAction(
                                   "markRead",
@@ -930,6 +934,7 @@ function DisplayGeneric({
                             <Text>Remove</Text>
                             <Button
                               variant="subtle"
+                              radius="lg"
                               disabled={
                                 tempLocalBookshelf?.some(
                                   (book) => book.id === item.id

@@ -2,9 +2,8 @@ import { Card, Grid, Space, Text, Image, Flex, Button } from "@mantine/core";
 import localforage from "localforage";
 import { useEffect, useState } from "react";
 import { AiOutlineAmazon, AiFillBook, AiOutlineGoogle } from "react-icons/ai";
-import { BiBookReader } from "react-icons/bi";
-import { IoReaderOutline } from "react-icons/io5";
-import { HiOutlineBookOpen } from "react-icons/hi2";
+import { FcKindle } from "react-icons/fc";
+import { CgEreader, CgSearch } from "react-icons/cg";
 import { useWindowSize } from "../../hooks/useWindowSize";
 import {
   AllActions,
@@ -14,6 +13,7 @@ import {
   VolumeWithCustomId,
 } from "../../types";
 import { getLanguageFromCode } from "../../utils";
+import { VscOpenPreview } from "react-icons/vsc";
 
 type OverviewProps = {
   children?: React.ReactNode;
@@ -326,13 +326,17 @@ function Overview({ allStates }: OverviewProps) {
       <Card shadow="sm" radius="md" style={{ width: "100%" }}>
         <Flex direction="row" justify="space-between" align="center">
           <Flex direction="row" justify="start" align="center">
-            <AiOutlineAmazon size={50} />
+            <AiOutlineAmazon size={40} />
             <Space w="xl" />
             <Text>Amazon.ca</Text>
           </Flex>
 
           <a href={amazonLink} target="_blank">
-            <Button variant="outline" radius="lg">
+            <Button
+              variant="outline"
+              radius="lg"
+              leftIcon={<CgSearch size={18} />}
+            >
               {" "}
               Search Amazon.ca
             </Button>
@@ -343,13 +347,17 @@ function Overview({ allStates }: OverviewProps) {
 
         <Flex direction="row" justify="space-between" align="center">
           <Flex direction="row" justify="start" align="center">
-            <AiFillBook size={50} />
+            <AiFillBook size={40} />
             <Space w="xl" />
             <Text>Chapters Indigo</Text>
           </Flex>
 
           <a href={chaptersLink} target="_blank">
-            <Button variant="outline" radius="lg">
+            <Button
+              variant="outline"
+              radius="lg"
+              leftIcon={<CgSearch size={18} />}
+            >
               {" "}
               Search Chapters Indigo
             </Button>
@@ -360,13 +368,17 @@ function Overview({ allStates }: OverviewProps) {
 
         <Flex direction="row" justify="space-between" align="center">
           <Flex direction="row" justify="start" align="center">
-            <AiOutlineGoogle size={50} />
+            <AiOutlineGoogle size={40} />
             <Space w="xl" />
             <Text>Google Books</Text>
           </Flex>
 
           <a href={googleBooksLink} target="_blank">
-            <Button variant="outline" radius="lg">
+            <Button
+              variant="outline"
+              radius="lg"
+              leftIcon={<CgSearch size={18} />}
+            >
               {" "}
               Search Google Books
             </Button>
@@ -388,7 +400,7 @@ function Overview({ allStates }: OverviewProps) {
 
         <Flex direction="row" justify="space-between" align="center">
           <Flex direction="row" justify="start" align="center">
-            <BiBookReader size={50} />
+            <VscOpenPreview size={40} />
             <Space w="xl" />
             <Text>Sample preview</Text>
           </Flex>
@@ -404,7 +416,7 @@ function Overview({ allStates }: OverviewProps) {
 
         <Flex direction="row" justify="space-between" align="center">
           <Flex direction="row" justify="start" align="center">
-            <HiOutlineBookOpen size={50} />
+            <CgEreader size={40} />
             <Space w="xl" />
             <Text>Web reader</Text>
           </Flex>
@@ -420,7 +432,7 @@ function Overview({ allStates }: OverviewProps) {
 
         <Flex direction="row" justify="space-between" align="center">
           <Flex direction="row" justify="start" align="center">
-            <IoReaderOutline size={50} />
+            <FcKindle size={40} />
             <Space w="xl" />
             <Text>Epub sample</Text>
           </Flex>

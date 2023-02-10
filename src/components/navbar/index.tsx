@@ -1,9 +1,13 @@
-import { Navbar, NavLink, Space } from "@mantine/core";
+import { Button, Navbar, NavLink, Space } from "@mantine/core";
 import { useState } from "react";
 import { TbChevronsRight, TbChevronRight } from "react-icons/tb";
 import { BsBookshelf } from "react-icons/bs";
 import { GiBlackBook, GiBookshelf, GiStarsStack } from "react-icons/gi";
-import { RiHealthBookFill, RiHomeHeartLine } from "react-icons/ri";
+import {
+  RiDeleteBin6Line,
+  RiHealthBookFill,
+  RiHomeHeartLine,
+} from "react-icons/ri";
 import {
   AllActions,
   AllDispatches,
@@ -353,6 +357,45 @@ function MyNavBar({
     }
   }
 
+  async function handleClearStorageNavlinkClick(
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) {
+    const userDecision = window.confirm(
+      `Are you sure you want to clear your bookshelf from this device? This action cannot be undone.`
+    );
+
+    try {
+      if (!userDecision) return;
+
+      //remove responseState localforage items
+      await localforage.removeItem("byblos-fetchUrl");
+      await localforage.removeItem("byblos-startIndex");
+      await localforage.removeItem("byblos-searchTerm");
+      await localforage.removeItem("byblos-searchResults");
+      await localforage.removeItem("byblos-selectedVolume");
+      await localforage.removeItem("byblos-selectedAuthor");
+      await localforage.removeItem("byblos-selectedPublisher");
+      await localforage.removeItem("byblos-bookshelfVolumes");
+
+      //remove userBookshelf and historyState localforage items
+      await localforage.removeItem("byblos-userBookshelf");
+      await localforage.removeItem("byblos-historyState");
+    } catch (error: any) {
+      const error_ = new Error(error, {
+        cause: "handleClearStorageNavlinkClick()",
+      });
+
+      console.group("Error in navbar eventHandler");
+      console.error("name: ", error_.name);
+      console.error("message: ", error_.message);
+      console.error("cause: ", error_.cause);
+      console.groupCollapsed("stack trace");
+      console.trace(error_);
+      console.error("detailed stack", error_.stack);
+      console.groupEnd();
+    }
+  }
+
   return (
     <Navbar
       p="md"
@@ -440,6 +483,12 @@ function MyNavBar({
           />
         </Link>
       </NavLink>
+
+      <NavLink
+        label="Clear storage"
+        icon={<RiDeleteBin6Line size={20} />}
+        onClick={handleClearStorageNavlinkClick}
+      />
     </Navbar>
   );
 }

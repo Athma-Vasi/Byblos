@@ -123,6 +123,8 @@ function getLanguageFromCode(code: string) {
   function outputLanguageTable() {
     //copy pasted from http://www.lingoes.net/en/translator/langcode.htm
     //converted to string literal and then into a map object for easier look up
+    //used in the overview section when displaying the language of volume
+
     const langCodesStr = `af	Afrikaans
     af-ZA	Afrikaans (South Africa)
     ar	Arabic
@@ -364,16 +366,19 @@ function getLanguageFromCode(code: string) {
     zu-ZA	Zulu (South Africa)`;
 
     //returns a map object with code as key and language as value
-    return langCodesStr.split("\n").reduce((acc: Map<string, string>, line) => {
-      const [code, language] = line.split("\t");
-      acc.set(code.trim(), language.trim());
+    return langCodesStr
+      .split("\n")
+      .reduce((langTable: Map<string, string>, line) => {
+        const [code, ...rest] = line.split("\t");
+        langTable.set(code.trim(), rest.join(" ").trim());
 
-      return acc;
-    }, new Map());
+        return langTable;
+      }, new Map());
   }
 
-  const languageTable = outputLanguageTable();
+  const languageTable: Map<string, string> = outputLanguageTable();
 
+  //returns the language name for the code from the table, else returns the code
   return languageTable.get(code) ?? code;
 }
 
