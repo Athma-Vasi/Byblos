@@ -188,7 +188,10 @@ function DisplayVolume({ allStates }: DisplayVolumeProps) {
           <Menu.Label>Navigate to</Menu.Label>
           <Flex direction={width < 576 ? "column" : "row"}>
             <Menu.Item>
-              <Link to={`/home/displayVolume/${volumeId}/overview`}>
+              <Link
+                to={`/home/displayVolume/${volumeId}/overview`}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
                 <NavLink
                   active={navLinkActive.overview}
                   label="Overview"
@@ -200,7 +203,10 @@ function DisplayVolume({ allStates }: DisplayVolumeProps) {
             </Menu.Item>
 
             <Menu.Item>
-              <Link to={`/home/displayVolume/${volumeId}/otherEditions/1`}>
+              <Link
+                to={`/home/displayVolume/${volumeId}/otherEditions/1`}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
                 <NavLink
                   active={navLinkActive.otherEditions}
                   label="Other editions"
@@ -214,6 +220,7 @@ function DisplayVolume({ allStates }: DisplayVolumeProps) {
             <Menu.Item>
               <Link
                 to={`/home/displayVolume/${volumeId}/publisherCollection/1`}
+                style={{ textDecoration: "none", color: "inherit" }}
               >
                 <NavLink
                   active={navLinkActive.publisherCollection}
@@ -228,7 +235,10 @@ function DisplayVolume({ allStates }: DisplayVolumeProps) {
             </Menu.Item>
 
             <Menu.Item>
-              <Link to={`/home/displayVolume/${volumeId}/authorCollection/1`}>
+              <Link
+                to={`/home/displayVolume/${volumeId}/authorCollection/1`}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
                 <NavLink
                   active={navLinkActive.authorCollection}
                   label="Author collection"

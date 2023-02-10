@@ -24,7 +24,6 @@ import {
 } from "react-icons/md";
 import { HiOutlineDocumentRemove } from "react-icons/hi";
 
-
 import { useWindowSize } from "../../hooks/useWindowSize";
 import {
   AllActions,
@@ -740,7 +739,10 @@ function DisplayGeneric({
                     }}
                     style={{ paddingBottom: "3px" }}
                   >
-                    <Link to={`/home/displayVolume/${item.customId}`}>
+                    <Link
+                      to={`/home/displayVolume/${item.customId}`}
+                      style={{ textDecoration: "none", color: "inherit" }}
+                    >
                       {item.volumeInfo.title}
                     </Link>
                   </Title>
@@ -786,7 +788,7 @@ function DisplayGeneric({
                       shadow="md"
                     >
                       <Popover.Target>
-                        <Button variant="subtle">
+                        <Button variant="subtle" radius="lg">
                           <BsThreeDotsVertical size={20} />
                         </Button>
                       </Popover.Target>
@@ -806,7 +808,7 @@ function DisplayGeneric({
                               width: "100%",
                             }}
                           >
-                            <Text>Rate</Text>
+                            <Title order={5}>Rate</Title>
                             <MyRating
                               value={
                                 tempLocalBookshelf?.find(
@@ -832,7 +834,7 @@ function DisplayGeneric({
                               width: "100%",
                             }}
                           >
-                            <Text>Favourite</Text>
+                            <Title order={5}>Favourite</Title>
                             <Button
                               variant="subtle"
                               radius="lg"
@@ -865,7 +867,7 @@ function DisplayGeneric({
                               width: "100%",
                             }}
                           >
-                            <Text>Read later</Text>
+                            <Title order={5}>Read later</Title>
                             <Button
                               variant="subtle"
                               radius="lg"
@@ -898,7 +900,7 @@ function DisplayGeneric({
                               width: "100%",
                             }}
                           >
-                            <Text>Mark read</Text>
+                            <Title order={5}>Mark read</Title>
                             <Button
                               variant="subtle"
                               radius="lg"
@@ -931,7 +933,7 @@ function DisplayGeneric({
                               width: "100%",
                             }}
                           >
-                            <Text>Remove</Text>
+                            <Title order={5}>Remove</Title>
                             <Button
                               variant="subtle"
                               radius="lg"

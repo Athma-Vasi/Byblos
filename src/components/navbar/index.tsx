@@ -415,7 +415,10 @@ function MyNavBar({
       >
         <Space h="sm" />
 
-        <Link to={`/home/displayBookshelf`}>
+        <Link
+          to={`/home/displayBookshelf`}
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
           <NavLink
             label="Bookshelf"
             icon={<GiBookshelf size={20} />}
@@ -429,7 +432,10 @@ function MyNavBar({
 
         <Space h="sm" />
 
-        <Link to={`/home/displayBookshelf`}>
+        <Link
+          to={`/home/displayBookshelf`}
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
           <NavLink
             label="Favourites"
             icon={<RiHomeHeartLine size={20} />}
@@ -443,7 +449,10 @@ function MyNavBar({
 
         <Space h="sm" />
 
-        <Link to={`/home/displayBookshelf`}>
+        <Link
+          to={`/home/displayBookshelf`}
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
           <NavLink
             label="Rated"
             icon={<GiStarsStack size={20} />}
@@ -457,7 +466,10 @@ function MyNavBar({
 
         <Space h="sm" />
 
-        <Link to={`/home/displayBookshelf`}>
+        <Link
+          to={`/home/displayBookshelf`}
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
           <NavLink
             label="Finished reading"
             icon={<GiBlackBook size={20} />}
@@ -471,7 +483,10 @@ function MyNavBar({
 
         <Space h="sm" />
 
-        <Link to={`/home/displayBookshelf`}>
+        <Link
+          to={`/home/displayBookshelf`}
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
           <NavLink
             label="Want to read"
             icon={<RiHealthBookFill size={20} />}

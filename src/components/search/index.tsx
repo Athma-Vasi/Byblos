@@ -115,7 +115,10 @@ function Search({
         data-textinput="search"
         data-autofocus
       />
-      <Link to={`/home/advancedSearch`}>
+      <Link
+        to={`/home/advancedSearch`}
+        style={{ textDecoration: "none", color: "inherit" }}
+      >
         <Text>Advanced Search</Text>
       </Link>
     </Flex>
