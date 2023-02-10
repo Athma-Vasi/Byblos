@@ -99,7 +99,7 @@ function Overview({ allStates }: OverviewProps) {
         </Text>
       ));
 
-  const publishedDate = selectedVolume
+  let publishedDate = selectedVolume
     ? Number.isNaN(
         new Date(selectedVolume?.volumeInfo?.publishedDate ?? "").getFullYear()
       )
@@ -116,6 +116,7 @@ function Overview({ allStates }: OverviewProps) {
     : new Date(selectedVolumeForage?.volumeInfo?.publishedDate ?? "")
         .getFullYear()
         .toString();
+  publishedDate = publishedDate === "NaN" ? "Unavailable" : publishedDate;
 
   const publisher = selectedVolume
     ? selectedVolume?.volumeInfo.publisher ?? "Unavailable"

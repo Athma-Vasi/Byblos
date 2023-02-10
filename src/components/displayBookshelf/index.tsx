@@ -756,7 +756,9 @@ function DisplayBookshelf({
                       ? "Date unavailable"
                       : new Date(item.volumeInfo.publishedDate)
                           .getFullYear()
-                          .toString()}
+                          .toString() === "NaN"
+                      ? "Date unavailable"
+                      : new Date(item.volumeInfo.publishedDate).getFullYear()}
                   </Text>
 
                   <Spoiler
