@@ -103,7 +103,7 @@ type ApiResponseVolume = {
   items: Volume[];
 };
 
-interface Volume {
+type Volume = {
   kind: Kind;
   id: string;
   etag: string;
@@ -112,9 +112,9 @@ interface Volume {
   saleInfo: SaleInfo;
   accessInfo: AccessInfo;
   searchInfo?: SearchInfo;
-}
+};
 
-interface AccessInfo {
+type AccessInfo = {
   country: string;
   viewability: string;
   embeddable: boolean;
@@ -125,12 +125,12 @@ interface AccessInfo {
   webReaderLink: string;
   accessViewStatus: string;
   quoteSharingAllowed: boolean;
-}
+};
 
-interface Epub {
+type Epub = {
   isAvailable: boolean;
   acsTokenLink?: string;
-}
+};
 
 type Kind =
   | "books#volume"
@@ -138,7 +138,7 @@ type Kind =
   | "books#bookshelves"
   | "books#bookshelf";
 
-interface SaleInfo {
+type SaleInfo = {
   country: string;
   saleability: Saleability;
   isEbook: boolean;
@@ -146,32 +146,32 @@ interface SaleInfo {
   retailPrice?: SaleInfoListPrice;
   buyLink?: string;
   offers?: Offer[];
-}
+};
 
-interface SaleInfoListPrice {
+type SaleInfoListPrice = {
   amount: number;
   currencyCode: string;
-}
+};
 
-interface Offer {
+type Offer = {
   finskyOfferType: number;
   listPrice: OfferListPrice;
   retailPrice: OfferListPrice;
   giftable: boolean;
-}
+};
 
-interface OfferListPrice {
+type OfferListPrice = {
   amountInMicros: number;
   currencyCode: string;
-}
+};
 
 type Saleability = "NOT_FOR_SALE" | "FOR_SALE" | string;
 
-interface SearchInfo {
+type SearchInfo = {
   textSnippet: string;
-}
+};
 
-interface VolumeInfo {
+type VolumeInfo = {
   title: string;
   authors: string[];
   publishedDate: string;
@@ -194,29 +194,29 @@ interface VolumeInfo {
   canonicalVolumeLink: string;
   publisher?: string;
   subtitle?: string;
-}
+};
 
-interface ImageLinks {
+type ImageLinks = {
   smallThumbnail: string;
   thumbnail: string;
-}
+};
 
-interface IndustryIdentifier {
+type IndustryIdentifier = {
   type: Type;
   identifier: string;
-}
+};
 
 type Type = "OTHER" | "ISBN_10" | "ISBN_13" | "ISSN" | "UUID";
 
-interface PanelizationSummary {
+type PanelizationSummary = {
   containsEpubBubbles: boolean;
   containsImageBubbles: boolean;
-}
+};
 
-interface ReadingModes {
+type ReadingModes = {
   text: boolean;
   image: boolean;
-}
+};
 // ↑ above are the types for the Google Books Api Response
 
 export type {
