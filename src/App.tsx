@@ -14,6 +14,11 @@ import {
   responseActions,
   responseReducer,
 } from "./state/responseState";
+import {
+  initialThemeState,
+  themeActions,
+  themeReducer,
+} from "./state/themeState";
 import { ThemeProvider } from "./ThemeProvider";
 import { AllActions, AllDispatches } from "./types";
 
@@ -38,16 +43,24 @@ export default function App() {
     initialResponseState
   );
 
+  const [themeState, themeDispatch] = useReducer(
+    themeReducer,
+    initialThemeState
+  );
+
   const allStates = {
     responseState,
+    themeState,
   };
 
   const allActions: AllActions = {
     responseActions,
+    themeActions,
   };
 
   const allDispatches: AllDispatches = {
     responseDispatch,
+    themeDispatch,
   };
 
   return (

@@ -4,6 +4,7 @@ import {
   Grid,
   Header,
   MediaQuery,
+  Switch,
   Title,
   useMantineTheme,
 } from "@mantine/core";
@@ -46,7 +47,7 @@ function MyHeader({
           </Grid.Col>
         </MediaQuery>
 
-        <Grid.Col span={2}>
+        <Grid.Col span={1}>
           <Link to={"/"}>
             <Title order={1}>Byblos</Title>
           </Link>
@@ -58,6 +59,10 @@ function MyHeader({
             allActions={allActions}
             allDispatches={allDispatches}
           />
+        </Grid.Col>
+
+        <Grid.Col span={1}>
+          <Switch label="theme" />
         </Grid.Col>
       </Grid>
     </Header>

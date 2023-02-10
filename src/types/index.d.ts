@@ -35,18 +35,39 @@ type ResponseDispatch = {
 };
 //↑ responseState types
 
+// ↓ themeState types
+type ThemeState = {
+  theme: "light" | "dark";
+};
+
+type ThemeActions = {
+  setLightTheme: "setLightTheme";
+  setDarkTheme: "setDarkTheme";
+};
+
+type ThemeDispatch = {
+  type: ThemeActions[keyof ThemeActions];
+  payload: {
+    themeState: ThemeState;
+  };
+};
+//↑ themeState types
+
 type HistoryState = ResponseState[];
 
 type AllStates = {
   responseState: ResponseState;
+  themeState: ThemeState;
 };
 
 type AllDispatches = {
   responseDispatch: React.Dispatch<ResponseDispatch>;
+  themeDispatch: React.Dispatch<ThemeDispatch>;
 };
 
 type AllActions = {
   responseActions: ResponseActions;
+  themeActions: ThemeActions;
 };
 
 type FormInputNames =
@@ -231,6 +252,9 @@ export type {
   ResponseActions,
   ResponseDispatch,
   ResponseState,
+  ThemeActions,
+  ThemeDispatch,
+  ThemeState,
   UserBookshelf,
   UserBookshelfActions,
   Volume,
