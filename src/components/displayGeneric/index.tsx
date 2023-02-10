@@ -5,11 +5,8 @@ import {
   Container,
   Flex,
   Grid,
-  Highlight,
-  HoverCard,
   Image,
   Popover,
-  Rating,
   Space,
   Spoiler,
   Text,
@@ -18,7 +15,6 @@ import {
 import localforage from "localforage";
 import { Fragment, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import {
   MdOutlineFavorite,
@@ -46,7 +42,6 @@ import {
   IoMdCheckmarkCircle,
   IoMdCheckmarkCircleOutline,
 } from "react-icons/io";
-import { GrFavorite } from "react-icons/gr";
 import MyRating from "../myRating";
 import { v4 as uuidv4 } from "uuid";
 import { defaultVolume } from "../localData";
@@ -56,16 +51,28 @@ type DisplayGenericProps = {
   allStates: AllStates;
   allActions: AllActions;
   allDispatches: AllDispatches;
-  // volumes: VolumeWithCustomId[];
 };
 
 function DisplayGeneric({
-  children,
-  // volumes,
   allStates,
   allActions,
   allDispatches,
 }: DisplayGenericProps) {
+  const [localForageFallback, setLocalForageFallback] = useState<
+    VolumeWithCustomId[]
+  >([]);
+
+  const [tempLocalBookshelf, setTempLocalBookshelf] = useState<UserBookshelf[]>(
+    []
+  );
+
+  const [modalOpened, setModalOpened] = useState(false);
+  const [modalSrc, setModalSrc] = useState("");
+  const [modalAlt, setModalAlt] = useState("");
+
+  const { width = 0 } = useWindowSize();
+  const { volumeId, page } = useParams();
+
   let {
     responseState: {
       fetchUrl,
@@ -80,37 +87,18 @@ function DisplayGeneric({
   } = allStates;
   let { responseDispatch } = allDispatches;
   let {
-    responseActions: {
-      setFetchUrl,
-      setStartIndex,
-      setSearchTerm,
-      setSearchResults,
-      setSelectedVolume,
-      setSelectedAuthor,
-      setSelectedPublisher,
-      setBookshelfVolumes,
-    },
+    responseActions: { setAll },
   } = allActions;
 
-  const [localForageFallback, setLocalForageFallback] = useState<
-    VolumeWithCustomId[]
-  >([]);
-
-  const [tempLocalBookshelf, setTempLocalBookshelf] = useState<UserBookshelf[]>(
-    []
-  );
-
-  const [modalOpened, setModalOpened] = useState(false);
-  const [modalSrc, setModalSrc] = useState("");
-  const [modalAlt, setModalAlt] = useState("");
-
-  const { width = 0 } = useWindowSize();
-  const navigate = useNavigate();
-  const { volumeId, page } = useParams();
-
+  //inserts custom id into searchResults for rendering as google api id may
+  //not be unique
   const modifiedSearchResults = insertCustomId(
     searchResults?.items ?? localForageFallback
   );
+
+  /**
+   * much of the functionality of this component is similar to that of displayBookshelf plus the infinite scroll
+   */
 
   async function handleUserBookshelfAction(
     kind: UserBookshelfActions,
@@ -118,7 +106,15 @@ function DisplayGeneric({
     tempLocalBookshelf: UserBookshelf[],
     value: RatingAction | boolean
   ) {
+    //tempLocalBookshelf is used to manage state of user actions of the volumes
+    //in the bookshelf before they are saved to localforage
+    //also used to display the correct icon state of the volume
     const tempLocalBookshelfClone = structuredClone(tempLocalBookshelf);
+
+    //logic inside switch cases are similar
+    //1. check if volume is already in tempLocalBookshelf state
+    //2. if true, update the state and store in localforage
+    //3. else false, add the volume to tempLocalBookshelf state and store in localforage
 
     switch (kind) {
       case "rating": {
@@ -472,8 +468,6 @@ function DisplayGeneric({
               "byblos-userBookshelf",
               tempLocalBookshelfClone
             );
-
-            // navigate(`/home/displayResults/1`);
           } catch (error: any) {
             const error_ = new Error(error, {
               cause: "switch case 'removeVolume', in if block",
@@ -499,6 +493,7 @@ function DisplayGeneric({
     }
   }
 
+  //fallback used when state passed from searchResults is undefined
   useEffect(() => {
     const fetchLocalStorageFallback = async () => {
       try {
@@ -510,12 +505,10 @@ function DisplayGeneric({
         }
       } catch (error: any) {
         const error_ = new Error(error, {
-          cause: "useEffect in displayGeneric",
+          cause: "fetchLocalStorageFallback()",
         });
 
-        console.group(
-          "Error in displayGeneric useEffect fetchLocalStorageFallback(): "
-        );
+        console.group("Error in displayGeneric useEffect");
         console.error("name: ", error_.name);
         console.error("message: ", error_.message);
         console.error("cause: ", error_.cause);
@@ -530,14 +523,14 @@ function DisplayGeneric({
   }, []);
 
   async function handleTitleClick(volume: VolumeWithCustomId) {
+    //response state values are updated
     startIndex = 0;
     searchTerm = volume.volumeInfo.title;
     selectedVolume = volume;
     selectedAuthor = volume.volumeInfo.authors?.join(",") ?? "";
     selectedPublisher = volume.volumeInfo.publisher ?? "";
 
-    console.log("selectedVolume from displayGeneric: ", selectedVolume);
-
+    //localforage values are updated with the new response state values
     try {
       await localforage.setItem<ResponseState["startIndex"]>(
         "byblos-startIndex",
@@ -564,6 +557,9 @@ function DisplayGeneric({
         selectedPublisher
       );
 
+      //history state is updated whenever a title is clicked
+      //the history state is an array of objects, each object representing the state of the app at a particular point in time
+      //mainly used for the back button so the user does not see results of currently selected volume when they click the back button
       const historyStateLocalForage = (await localforage.getItem<HistoryState>(
         "byblos-historyState"
       )) ?? [
@@ -596,10 +592,10 @@ function DisplayGeneric({
       );
     } catch (error: any) {
       const error_ = new Error(error, {
-        cause: "handleTitleClick in displayGeneric",
+        cause: "handleTitleClick()",
       });
 
-      console.group("Error setting data to localforage");
+      console.group("Error in displayGeneric eventHandler");
       console.error("name: ", error_.name);
       console.error("message: ", error_.message);
       console.error("cause: ", error_.cause);
@@ -609,7 +605,7 @@ function DisplayGeneric({
       console.groupEnd();
     } finally {
       responseDispatch({
-        type: allActions.responseActions.setAll,
+        type: setAll,
         payload: {
           responseState: {
             fetchUrl,
@@ -629,6 +625,8 @@ function DisplayGeneric({
   }
 
   useEffect(() => {
+    //IIFE to generate userBookshelf[] if it does not exist in localforage
+    //and to set the tempLocalBookshelf state to the userBookshelf[]
     (async function generateUserBookshelf() {
       let initialUserBookshelf: UserBookshelf[] = [];
       try {
@@ -639,6 +637,7 @@ function DisplayGeneric({
               value ?? [
                 {
                   // sample data upon first initialization if no data is found in localforage
+                  //user does not see this volume rendered
                   name: "Mirror Dance",
                   id: uuidv4(), // future actual ids are the server generated google books id
                   volume: defaultVolume, // will be undefined for this sample, all future volumes will not be undefined
@@ -652,10 +651,10 @@ function DisplayGeneric({
           );
       } catch (error: any) {
         const error_ = new Error(error, {
-          cause: "useEffect in displayGeneric",
+          cause: "generateUserBookshelf()",
         });
 
-        console.group("Error in displayGeneric generateUserBookshelf()");
+        console.group("Error in displayGeneric useEffect");
         console.error("name: ", error_.name);
         console.error("message: ", error_.message);
         console.error("cause: ", error_.cause);

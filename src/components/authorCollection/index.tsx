@@ -4,9 +4,8 @@ import localforage from "localforage";
 import { Fragment, Suspense, useEffect, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { useInView } from "react-intersection-observer";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-import { useWindowSize } from "../../hooks/useWindowSize";
 import {
   AllActions,
   AllDispatches,
@@ -26,7 +25,6 @@ type AuthorCollectionProps = {
 };
 
 function AuthorCollection({
-  children,
   allStates,
   allActions,
   allDispatches,
@@ -35,10 +33,8 @@ function AuthorCollection({
     VolumeWithCustomId[]
   >([]);
 
-  const navigate = useNavigate();
-  const { width = 0 } = useWindowSize();
   const { volumeId } = useParams();
-  const { ref, inView, entry } = useInView({
+  const { ref, inView } = useInView({
     threshold: 0,
   });
 
@@ -56,37 +52,22 @@ function AuthorCollection({
   } = allStates;
   let { responseDispatch } = allDispatches;
   let {
-    responseActions: {
-      setFetchUrl,
-      setStartIndex,
-      setSearchTerm,
-      setSearchResults,
-      setSelectedVolume,
-      setSelectedAuthor,
-      setSelectedPublisher,
-      setBookshelfVolumes,
-      setAll,
-    },
+    responseActions: { setAll },
   } = allActions;
 
   useEffect(() => {
     const fetchAuthorCollection = async () => {
       try {
-        const fetchUrlWithAuthor = `https://www.googleapis.com/books/v1/volumes?q=${
-          allStates.responseState.selectedAuthor
-        }+inauthor:${selectedVolume?.volumeInfo.authors.join(
+        const fetchUrlWithAuthor = `https://www.googleapis.com/books/v1/volumes?q=${selectedAuthor}+inauthor:${selectedVolume?.volumeInfo.authors.join(
           ","
         )}&maxResults=40&startIndex=${startIndex}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
-
-        console.log("fetchUrlWithAuthor :", fetchUrlWithAuthor);
 
         const { data } = await axios.get(fetchUrlWithAuthor);
 
         const itemsWithCustomId = insertCustomId(data.items ?? []);
 
-        // allStates.responseState.authorCollection = itemsWithCustomId;
-        allStates.responseState.searchResults = data;
-        allStates.responseState.fetchUrl = fetchUrlWithAuthor;
+        searchResults = data;
+        fetchUrl = fetchUrlWithAuthor;
 
         try {
           await localforage.setItem("byblos-searchResults", data);
@@ -106,9 +87,20 @@ function AuthorCollection({
           console.error("detailed stack trace", error_.stack);
           console.groupEnd();
         } finally {
-          allDispatches.responseDispatch({
-            type: allActions.responseActions.setAll,
-            payload: { responseState: allStates.responseState },
+          responseDispatch({
+            type: setAll,
+            payload: {
+              responseState: {
+                fetchUrl,
+                startIndex,
+                searchTerm,
+                searchResults,
+                selectedVolume,
+                selectedAuthor,
+                selectedPublisher,
+                bookshelfVolumes,
+              },
+            },
           });
           setAuthorCollection(itemsWithCustomId);
         }
@@ -131,6 +123,7 @@ function AuthorCollection({
     fetchAuthorCollection();
   }, []);
 
+  //fetches more results when the user scrolls to the bottom of the page
   useEffect(() => {
     let ignore = false;
 
@@ -144,8 +137,6 @@ function AuthorCollection({
             .getItem<HistoryState>("byblos-historyState")
             .then((value) => value?.at(-1)?.searchTerm ?? ""));
 
-        console.log("searchTerm: ", searchTerm_);
-
         const fetchUrl_ =
           fetchUrl !== ""
             ? fetchUrl.split("&startIndex=")[0] + `&startIndex=${currStartIdx}`
@@ -157,7 +148,6 @@ function AuthorCollection({
                     `&startIndex=${currStartIdx}`
                 );
 
-        console.log("fetchUrl: ", fetchUrl_);
         try {
           const { data } = await axios.get(
             fetchUrl_ ??
@@ -193,7 +183,7 @@ function AuthorCollection({
             cause: "fetchMoreResults()",
           });
 
-          console.group("Error in displayResults useEffect");
+          console.group("Error in authorCollection useEffect");
           console.error("name: ", error_.name);
           console.error("message: ", error_.message);
           console.error("cause: ", error_.cause);
@@ -218,8 +208,8 @@ function AuthorCollection({
       <ErrorBoundary
         fallback={
           <Text>
-            {`Unable to display other volumes of ${
-              allStates.responseState.selectedAuthor ??
+            {`Unable to display other volumes ${
+              "of" + selectedAuthor ??
               authorCollection[0]?.volumeInfo.authors[0] ??
               ""
             }`}
@@ -229,8 +219,8 @@ function AuthorCollection({
         <Suspense
           fallback={
             <Text>
-              {`Loading other volumes of ${
-                allStates.responseState.selectedAuthor ??
+              {`Loading other volumes ${
+                "of" + selectedAuthor ??
                 authorCollection[0]?.volumeInfo.authors[0] ??
                 ""
               }`}

@@ -28,6 +28,8 @@ function insertCustomId(
 }
 
 function populateSearchTermForFetch(formDataMap: Map<FormInputNames, string>) {
+  // this function is used to create the search string for the fetch request
+  // from the form data map object
   const searchStrWithAllWords = `${
     formDataMap.get("find-allWords") === ""
       ? ""
@@ -104,11 +106,7 @@ function populateSearchTermForFetch(formDataMap: Map<FormInputNames, string>) {
     formDataMap.get("filter-printType") === "" ? "" : "&printType="
   }${formDataMap.get("filter-printType")}`;
 
-  const searchStrWithResultsPerPage = `${
-    formDataMap.get("resultsPerPage") === "10"
-      ? ""
-      : `&maxResults=${formDataMap.get("resultsPerPage")}`
-  }`;
+  const searchStrWithResultsPerPage = `&maxResults=40`;
 
   const searchStrWithSortBy = `${
     formDataMap.get("sortBy") === "relevance"

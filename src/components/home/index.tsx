@@ -70,6 +70,13 @@ function Home({ children, allStates, allActions, allDispatches }: HomeProps) {
   }, []);
 
   useEffect(() => {
+    // crude implementation of the browser history state to fetch the correct
+    // state upon browser back button click as component state is not persisted
+    // whenever user clicks on a title, current state of the app is saved
+    // as an array of responsState objects in localforage
+    // whenever user clicks on the browser back button, the last state is
+    // retrieved from localforage and set as the current state and is popped
+
     const onBackButtonEvent = async (event: PopStateEvent) => {
       event.preventDefault();
       try {
@@ -79,8 +86,6 @@ function Home({ children, allStates, allActions, allDispatches }: HomeProps) {
 
         const latestHistoryState =
           historyStateLocalForage?.[historyStateLocalForage.length - 1];
-
-        console.log("latestHistoryState", latestHistoryState);
 
         historyStateLocalForage?.pop();
 

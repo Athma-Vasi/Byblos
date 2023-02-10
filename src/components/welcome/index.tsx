@@ -13,12 +13,7 @@ type WelcomeProps = {
   allDispatches: AllDispatches;
 };
 
-function Welcome({
-  children,
-  allStates,
-  allActions,
-  allDispatches,
-}: WelcomeProps) {
+function Welcome({ allStates, allActions, allDispatches }: WelcomeProps) {
   const { width = 0 } = useWindowSize();
   return (
     <Flex

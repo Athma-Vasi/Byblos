@@ -4,9 +4,8 @@ import localforage from "localforage";
 import { Fragment, Suspense, useEffect, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { useInView } from "react-intersection-observer";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-import { useWindowSize } from "../../hooks/useWindowSize";
 import {
   AllActions,
   AllDispatches,
@@ -26,7 +25,6 @@ type PublisherCollectionProps = {
 };
 
 function PublisherCollection({
-  children,
   allStates,
   allActions,
   allDispatches,
@@ -35,10 +33,8 @@ function PublisherCollection({
     VolumeWithCustomId[]
   >([]);
 
-  const navigate = useNavigate();
   const { volumeId } = useParams();
-  const { width = 0 } = useWindowSize();
-  const { ref, inView, entry } = useInView({
+  const { ref, inView } = useInView({
     threshold: 0,
   });
 
@@ -56,33 +52,20 @@ function PublisherCollection({
   } = allStates;
   const { responseDispatch } = allDispatches;
   let {
-    responseActions: {
-      setFetchUrl,
-      setStartIndex,
-      setSearchTerm,
-      setSearchResults,
-      setSelectedVolume,
-      setSelectedAuthor,
-      setSelectedPublisher,
-      setBookshelfVolumes,
-      setAll,
-    },
+    responseActions: { setAll },
   } = allActions;
 
   useEffect(() => {
     const fetchPublisherVolumes = async () => {
       try {
-        const fetchUrlWithPublisher = `https://www.googleapis.com/books/v1/volumes?q=${allStates.responseState.selectedAuthor}+inpublisher:${selectedVolume?.volumeInfo.publisher}&maxResults=40&startIndex=${startIndex}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
-
-        console.log("fetchUrlWithPublisher: ", fetchUrlWithPublisher);
+        const fetchUrlWithPublisher = `https://www.googleapis.com/books/v1/volumes?q=${selectedAuthor}+inpublisher:${selectedVolume?.volumeInfo.publisher}&maxResults=40&startIndex=${startIndex}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
 
         const { data } = await axios.get(fetchUrlWithPublisher);
 
         const itemsWithCustomId = insertCustomId(data.items ?? []);
 
-        // allStates.responseState.publisherCollection = itemsWithCustomId;
-        allStates.responseState.searchResults = data;
-        allStates.responseState.fetchUrl = fetchUrlWithPublisher;
+        searchResults = data;
+        fetchUrl = fetchUrlWithPublisher;
 
         try {
           await localforage.setItem(
@@ -108,9 +91,20 @@ function PublisherCollection({
           console.error("detailed stack trace", error_.stack);
           console.groupEnd();
         } finally {
-          allDispatches.responseDispatch({
-            type: allActions.responseActions.setAll,
-            payload: { responseState: allStates.responseState },
+          responseDispatch({
+            type: setAll,
+            payload: {
+              responseState: {
+                fetchUrl,
+                startIndex,
+                searchTerm,
+                searchResults,
+                selectedVolume,
+                selectedAuthor,
+                selectedPublisher,
+                bookshelfVolumes,
+              },
+            },
           });
 
           setPublisherCollection(itemsWithCustomId);
@@ -134,6 +128,7 @@ function PublisherCollection({
     fetchPublisherVolumes();
   }, []);
 
+  //fetches more results when the user scrolls to the bottom of the page
   useEffect(() => {
     let ignore = false;
 
@@ -147,8 +142,6 @@ function PublisherCollection({
             .getItem<HistoryState>("byblos-historyState")
             .then((value) => value?.at(-1)?.searchTerm ?? ""));
 
-        console.log("searchTerm: ", searchTerm_);
-
         const fetchUrl_ =
           fetchUrl !== ""
             ? fetchUrl.split("&startIndex=")[0] + `&startIndex=${currStartIdx}`
@@ -160,7 +153,6 @@ function PublisherCollection({
                     `&startIndex=${currStartIdx}`
                 );
 
-        console.log("fetchUrl: ", fetchUrl_);
         try {
           const { data } = await axios.get(
             fetchUrl_ ??
@@ -196,7 +188,7 @@ function PublisherCollection({
             cause: "fetchMoreResults()",
           });
 
-          console.group("Error in displayResults useEffect");
+          console.group("Error in publisherCollection useEffect");
           console.error("name: ", error_.name);
           console.error("message: ", error_.message);
           console.error("cause: ", error_.cause);
@@ -221,8 +213,8 @@ function PublisherCollection({
       <ErrorBoundary
         fallback={
           <Text>
-            {`Unable to display other editions of ${
-              allStates.responseState.selectedVolume ??
+            {`Unable to display other editions ${
+              "of" + selectedVolume ??
               publisherCollection[0]?.volumeInfo.title ??
               ""
             }`}
@@ -232,8 +224,8 @@ function PublisherCollection({
         <Suspense
           fallback={
             <Text>
-              {`Loading other editions of ${
-                allStates.responseState.selectedVolume ??
+              {`Loading other editions ${
+                "of" + selectedVolume ??
                 publisherCollection[0]?.volumeInfo.title ??
                 ""
               }`}

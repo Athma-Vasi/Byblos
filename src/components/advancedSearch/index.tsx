@@ -13,7 +13,7 @@ import {
 import axios from "axios";
 import localforage from "localforage";
 import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
 import {
@@ -23,6 +23,7 @@ import {
   ApiResponseVolume,
   FormInputNames,
 } from "../../types";
+import { populateSearchTermForFetch } from "../../utils";
 
 type AdvancedSearchProps = {
   children?: React.ReactNode;
@@ -33,11 +34,28 @@ type AdvancedSearchProps = {
 
 function AdvancedSearch({
   allStates,
-  allActions: { responseActions },
-  allDispatches: { responseDispatch },
+  allActions,
+  allDispatches,
 }: AdvancedSearchProps) {
   const { width = 0 } = useWindowSize();
   const navigate = useNavigate();
+
+  let {
+    responseState: {
+      fetchUrl,
+      startIndex,
+      searchTerm,
+      searchResults,
+      selectedVolume,
+      selectedAuthor,
+      selectedPublisher,
+      bookshelfVolumes,
+    },
+  } = allStates;
+  let {
+    responseActions: { setAll },
+  } = allActions;
+  let { responseDispatch } = allDispatches;
 
   useEffect(() => {
     // selects the default radio buttons on page load because passing checked={true} does not work
@@ -64,10 +82,9 @@ function AdvancedSearch({
     );
 
     const searchStr = populateSearchTermForFetch(formDataMap);
-    //set searchTerm to state
-    allStates.responseState.searchTerm = searchStr;
-    //set fetchUrl
-    allStates.responseState.fetchUrl = `https://www.googleapis.com/books/v1/volumes?q=${searchStr}&maxResults=40&startIndex=0&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
+
+    searchTerm = searchStr;
+    fetchUrl = `https://www.googleapis.com/books/v1/volumes?q=${searchStr}&maxResults=40&startIndex=0&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
 
     console.log(
       `https://www.googleapis.com/books/v1/volumes?q=${searchStr}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`
@@ -77,37 +94,15 @@ function AdvancedSearch({
       const data = await fetchSearchResults(searchStr);
 
       //initializes localforage keys to initial responseState values for some, and fetched values for others
+      searchResults = data as ApiResponseVolume | null;
 
-      allStates.responseState.searchResults = data as ApiResponseVolume | null;
-
-      await localforage.setItem(
-        "byblos-fetchUrl",
-        allStates.responseState.fetchUrl
-      );
-      await localforage.setItem(
-        "byblos-startIndex",
-        allStates.responseState.startIndex
-      );
-      await localforage.setItem(
-        "byblos-searchTerm",
-        allStates.responseState.searchTerm
-      );
-      await localforage.setItem(
-        "byblos-searchResults",
-        allStates.responseState.searchResults
-      );
-      await localforage.setItem(
-        "byblos-selectedAuthor",
-        allStates.responseState.selectedAuthor
-      );
-      await localforage.setItem(
-        "byblos-selectedPublisher",
-        allStates.responseState.selectedPublisher
-      );
-      await localforage.setItem(
-        "byblos-selectedVolume",
-        allStates.responseState.selectedVolume
-      );
+      await localforage.setItem("byblos-fetchUrl", fetchUrl);
+      await localforage.setItem("byblos-startIndex", startIndex);
+      await localforage.setItem("byblos-searchTerm", searchTerm);
+      await localforage.setItem("byblos-searchResults", searchResults);
+      await localforage.setItem("byblos-selectedAuthor", selectedAuthor);
+      await localforage.setItem("byblos-selectedPublisher", selectedPublisher);
+      await localforage.setItem("byblos-selectedVolume", selectedVolume);
     } catch (error: any) {
       const error_ = new Error(error, { cause: "fetchSearchResults()" });
 
@@ -121,107 +116,24 @@ function AdvancedSearch({
       console.groupEnd();
     } finally {
       responseDispatch({
-        type: responseActions.setAll,
+        type: setAll,
         payload: {
-          responseState: allStates.responseState,
+          responseState: {
+            fetchUrl,
+            startIndex,
+            searchTerm,
+            searchResults,
+            selectedVolume,
+            selectedAuthor,
+            selectedPublisher,
+            bookshelfVolumes,
+          },
         },
       });
 
       window.scrollTo(0, 0);
       navigate(`/home/displayResults/1`);
     }
-  }
-
-  function populateSearchTermForFetch(
-    formDataMap: Map<FormInputNames, string>
-  ) {
-    const searchStrWithAllWords = `${
-      formDataMap.get("find-allWords") === ""
-        ? ""
-        : "+" + formDataMap.get("find-allWords")?.split(" ").join("+")
-    }`;
-
-    const searchStrWithExactPhrase = `${
-      formDataMap.get("find-exactPhrase") === ""
-        ? ""
-        : `"${formDataMap.get("find-exactPhrase")}"`
-    }`;
-
-    const searchStrWithAtLeastOneWord = `${
-      formDataMap.get("find-atLeastOne") === ""
-        ? ""
-        : formDataMap.get("find-atLeastOne")?.split(" ").join("|")
-    }`;
-
-    const searchStrWithWithoutWords = `${
-      formDataMap.get("find-none") === ""
-        ? ""
-        : `-${formDataMap.get("find-none")?.split(" ").join(" -")}`
-    }`;
-
-    const searchStrCondensedComesFirst = `${searchStrWithAllWords}${searchStrWithExactPhrase}${searchStrWithAtLeastOneWord}${searchStrWithWithoutWords}`;
-
-    const searchStrWithTitle = `${
-      formDataMap.get("title") === ""
-        ? ""
-        : `+intitle:${formDataMap.get("title")}`
-    }`;
-
-    const searchStrWithAuthor = `${
-      formDataMap.get("author") === ""
-        ? ""
-        : `+inauthor:${formDataMap.get("author")}`
-    }`;
-
-    const searchStrWithPublisher = `${
-      formDataMap.get("publisher") === ""
-        ? ""
-        : `+inpublisher:${formDataMap.get("publisher")}`
-    }`;
-
-    const searchStrWithIsbn = `${
-      formDataMap.get("isbn") === "" ? "" : `+isbn:${formDataMap.get("isbn")}`
-    }`;
-
-    const searchStrWithSubject = `${
-      formDataMap.get("subject") === ""
-        ? ""
-        : `+subject:${formDataMap.get("subject")}`
-    }`;
-
-    const searchStrWithLccn = `${
-      formDataMap.get("lccn") === "" ? "" : `+lccn:${formDataMap.get("lccn")}`
-    }`;
-
-    const searchStrWithOclc = `${
-      formDataMap.get("oclc") === "" ? "" : `+oclc:${formDataMap.get("oclc")}`
-    }`;
-
-    const searchStrWithAllCategories = `${searchStrWithTitle}${searchStrWithAuthor}${searchStrWithPublisher}${searchStrWithIsbn}${searchStrWithSubject}${searchStrWithLccn}${searchStrWithOclc}`;
-
-    const searchStrWithDownloadFormat = `${
-      formDataMap.get("filter-downloadFormat") === "" ? "" : "&download="
-    }${formDataMap.get("filter-downloadFormat")}`;
-
-    const searchStrWithViewability = `${
-      formDataMap.get("filter-bookViews") === "" ? "" : "&filter="
-    }${formDataMap.get("filter-bookViews")}`;
-
-    const searchStrWithPrintType = `${
-      formDataMap.get("filter-printType") === "" ? "" : "&printType="
-    }${formDataMap.get("filter-printType")}`;
-
-    const searchStrWithResultsPerPage = `&maxResults=40`;
-
-    const searchStrWithSortBy = `${
-      formDataMap.get("sortBy") === "Relevance"
-        ? ""
-        : `&orderBy=${formDataMap.get("sortBy")}`
-    }`;
-
-    const searchStrFinal = `${searchStrCondensedComesFirst}${searchStrWithAllCategories}${searchStrWithDownloadFormat}${searchStrWithViewability}${searchStrWithResultsPerPage}${searchStrWithSortBy}${searchStrWithPrintType}`;
-
-    return searchStrFinal;
   }
 
   function populateInputsForTesting() {

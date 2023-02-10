@@ -1,4 +1,4 @@
-import { Navbar, NavLink, Space, Text } from "@mantine/core";
+import { Navbar, NavLink, Space } from "@mantine/core";
 import { useState } from "react";
 import { TbChevronsRight, TbChevronRight } from "react-icons/tb";
 import { BsBookshelf } from "react-icons/bs";
@@ -8,13 +8,11 @@ import {
   AllActions,
   AllDispatches,
   AllStates,
-  ApiResponseUserBookshelf,
-  ApiResponseVolume,
   UserBookshelf,
   VolumeWithCustomId,
 } from "../../types";
 import localforage from "localforage";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 type MyNavBarProps = {
   children?: React.ReactNode;
@@ -26,7 +24,6 @@ type MyNavBarProps = {
 };
 
 function MyNavBar({
-  children,
   opened,
   setOpened,
   allStates,
@@ -63,10 +60,9 @@ function MyNavBar({
       setSelectedAuthor,
       setSelectedPublisher,
       setBookshelfVolumes,
+      setAll,
     },
   } = allActions;
-
-  const navigate = useNavigate();
 
   async function handleParentNavlinkClick() {
     setparentNavlinkActive((prev) => !prev);
@@ -141,21 +137,17 @@ function MyNavBar({
       }
     }
 
-    //remember the state of responseState before we change it so if the user goes back from the bookshelf page, we can restore the state
-
-    //grab the userBookshelf from localforage
     try {
+      //grab the userBookshelf from localforage
       const userBookshelf = await localforage.getItem<UserBookshelf[]>(
         "byblos-userBookshelf"
       );
 
       const userBookshelfClone = structuredClone(userBookshelf);
 
-      console.log("userBookshelfClone", userBookshelfClone);
-
       switch (navLinkKind) {
         case "bookshelf": {
-          //grab just the volumes from the userBookshelf
+          //grab all the volumes from the userBookshelf
           const volumes = userBookshelfClone?.map((item) => item.volume);
 
           responseDispatch({
@@ -178,7 +170,7 @@ function MyNavBar({
         }
 
         case "rated": {
-          //grab just the volumes from the userBookshelf
+          //grab just the rated volumes from the userBookshelf
           const ratedVolumes = userBookshelfClone?.reduce(
             (acc: VolumeWithCustomId[], item: UserBookshelf) => {
               item.rating && acc.push(item.volume);
@@ -208,7 +200,7 @@ function MyNavBar({
         }
 
         case "favourites": {
-          //grab just the volumes from the userBookshelf
+          //grab just the favourited volumes from the userBookshelf
           const favouriteVolumes = userBookshelfClone?.reduce(
             (acc: VolumeWithCustomId[], item: UserBookshelf) => {
               item.favourite && acc.push(item.volume);
@@ -238,7 +230,7 @@ function MyNavBar({
         }
 
         case "markRead": {
-          //grab just the volumes from the userBookshelf
+          //grab just the marked read volumes from the userBookshelf
           const markReadVolumes = userBookshelfClone?.reduce(
             (acc: VolumeWithCustomId[], item: UserBookshelf) => {
               item.markRead && acc.push(item.volume);
@@ -268,7 +260,7 @@ function MyNavBar({
         }
 
         case "readLater": {
-          //grab just the volumes from the userBookshelf
+          //grab just the readLater volumes from the userBookshelf
           const readLaterVolumes = userBookshelfClone?.reduce(
             (acc: VolumeWithCustomId[], item: UserBookshelf) => {
               item.readLater && acc.push(item.volume);
@@ -321,7 +313,6 @@ function MyNavBar({
       <NavLink
         label="My Library"
         active={parentNavlinkActive}
-        // description="My selected volumes"
         onClick={handleParentNavlinkClick}
         icon={<BsBookshelf size={20} />}
         rightSection={<TbChevronsRight size={20} />}

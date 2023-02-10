@@ -1,13 +1,4 @@
-import {
-  Card,
-  Grid,
-  Space,
-  Container,
-  Text,
-  Image,
-  Flex,
-  Button,
-} from "@mantine/core";
+import { Card, Grid, Space, Text, Image, Flex, Button } from "@mantine/core";
 import localforage from "localforage";
 import { useEffect, useState } from "react";
 import { AiOutlineAmazon, AiFillBook, AiOutlineGoogle } from "react-icons/ai";
@@ -23,7 +14,6 @@ import {
   VolumeWithCustomId,
 } from "../../types";
 import { getLanguageFromCode } from "../../utils";
-import { useNavigate } from "react-router-dom";
 
 type OverviewProps = {
   children?: React.ReactNode;
@@ -32,41 +22,15 @@ type OverviewProps = {
   allDispatches: AllDispatches;
 };
 
-function Overview({
-  children,
-  allStates,
-  allActions,
-  allDispatches,
-}: OverviewProps) {
-  const {
-    responseState: {
-      fetchUrl,
-      searchTerm,
-      searchResults,
-      selectedVolume,
-      selectedAuthor,
-      selectedPublisher,
-    },
-  } = allStates;
-  const { responseDispatch } = allDispatches;
-  const {
-    responseActions: {
-      setFetchUrl,
-      setSearchTerm,
-      setSearchResults,
-      setSelectedVolume,
-      setSelectedAuthor,
-      setSelectedPublisher,
-    },
-  } = allActions;
-
-  const navigate = useNavigate();
+function Overview({ allStates }: OverviewProps) {
   const { width = 0 } = useWindowSize();
-
-  console.log("selectedVolume from overview", selectedVolume);
 
   const [selectedVolumeForage, setSelectedVolumeForage] =
     useState<VolumeWithCustomId | null>(null);
+
+  const {
+    responseState: { selectedVolume },
+  } = allStates;
 
   useEffect(() => {
     const fetchSelectedVolumeFromLocalForage = async () => {
@@ -78,8 +42,6 @@ function Overview({
               setSelectedVolumeForage(value);
             }
           });
-
-        console.log("selectedVolumeForage from overview", selectedVolumeForage);
       } catch (error: any) {
         const error_ = new Error(error, {
           cause: "fetchSelectedVolumeFromLocalForage()",

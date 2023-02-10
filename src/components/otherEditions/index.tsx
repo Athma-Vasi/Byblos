@@ -2,12 +2,11 @@ import { Text, Title } from "@mantine/core";
 import axios from "axios";
 import localforage from "localforage";
 import React, { Suspense } from "react";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { useInView } from "react-intersection-observer";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { useWindowSize } from "../../hooks/useWindowSize";
 import {
   AllActions,
   AllDispatches,
@@ -17,7 +16,6 @@ import {
   VolumeWithCustomId,
 } from "../../types";
 import { insertCustomId } from "../../utils";
-import { MyImageModal } from "../myImageModal";
 
 const DisplayGeneric = React.lazy(() => import("../displayGeneric"));
 
@@ -29,7 +27,6 @@ type OtherEditionsProps = {
 };
 
 function OtherEditions({
-  children,
   allStates,
   allActions,
   allDispatches,
@@ -39,8 +36,7 @@ function OtherEditions({
   const { volumeId, page } = useParams();
   const navigate = useNavigate();
 
-  const { width = 0 } = useWindowSize();
-  const { ref, inView, entry } = useInView({
+  const { ref, inView } = useInView({
     threshold: 0,
   });
 
@@ -58,17 +54,7 @@ function OtherEditions({
   } = allStates;
   let { responseDispatch } = allDispatches;
   let {
-    responseActions: {
-      setFetchUrl,
-      setStartIndex,
-      setSearchTerm,
-      setSearchResults,
-      setSelectedVolume,
-      setSelectedAuthor,
-      setSelectedPublisher,
-      setBookshelfVolumes,
-      setAll,
-    },
+    responseActions: { setAll },
   } = allActions;
 
   useEffect(() => {
@@ -83,15 +69,12 @@ function OtherEditions({
             selectedAuthor ?? otherEditions[0].volumeInfo.authors[0]
           }&maxResults=40&startIndex=${startIndex}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
 
-        console.log("fetchUrlWithName from otherEditions", fetchUrlWithName);
-
         const { data } = await axios.get(fetchUrlWithName);
 
         const itemsWithCustomId = insertCustomId(data.items ?? []);
 
-        // allStates.responseState.otherEditions = itemsWithCustomId;
-        allStates.responseState.searchResults = data;
-        allStates.responseState.fetchUrl = fetchUrlWithName;
+        searchResults = data;
+        fetchUrl = fetchUrlWithName;
 
         try {
           await localforage.setItem<ResponseState["searchResults"]>(
@@ -117,9 +100,20 @@ function OtherEditions({
           console.error("detailed stack trace", error_.stack);
           console.groupEnd();
         } finally {
-          allDispatches.responseDispatch({
-            type: allActions.responseActions.setAll,
-            payload: { responseState: allStates.responseState },
+          responseDispatch({
+            type: setAll,
+            payload: {
+              responseState: {
+                fetchUrl,
+                startIndex,
+                searchTerm,
+                searchResults,
+                selectedVolume,
+                selectedAuthor,
+                selectedPublisher,
+                bookshelfVolumes,
+              },
+            },
           });
 
           setOtherEditions(itemsWithCustomId);
@@ -143,6 +137,7 @@ function OtherEditions({
     fetchOtherEditions();
   }, []);
 
+  //fetches more results when the user scrolls to the bottom of the page
   useEffect(() => {
     let ignore = false;
 
@@ -156,8 +151,6 @@ function OtherEditions({
             .getItem<HistoryState>("byblos-historyState")
             .then((value) => value?.at(-1)?.searchTerm ?? ""));
 
-        console.log("searchTerm: ", searchTerm_);
-
         const fetchUrl_ =
           fetchUrl !== ""
             ? fetchUrl.split("&startIndex=")[0] + `&startIndex=${currStartIdx}`
@@ -169,7 +162,6 @@ function OtherEditions({
                     `&startIndex=${currStartIdx}`
                 );
 
-        console.log("fetchUrl: ", fetchUrl_);
         try {
           const { data } = await axios.get(
             fetchUrl_ ??
@@ -205,7 +197,7 @@ function OtherEditions({
             cause: "fetchMoreResults()",
           });
 
-          console.group("Error in displayResults useEffect");
+          console.group("Error in otherEditions useEffect");
           console.error("name: ", error_.name);
           console.error("message: ", error_.message);
           console.error("cause: ", error_.cause);
@@ -229,9 +221,19 @@ function OtherEditions({
     <div>
       <Title order={3}>Other editions</Title>
       <ErrorBoundary
-        fallback={<Text>{`Unable to display other editions`}</Text>}
+        fallback={
+          <Text>{`Unable to display other editions ${
+            "of" + selectedVolume ?? otherEditions[0]?.volumeInfo.title ?? ""
+          }`}</Text>
+        }
       >
-        <Suspense fallback={<Text>{`Loading other editions`}</Text>}>
+        <Suspense
+          fallback={
+            <Text>{`Loading other editions ${
+              "of" + selectedVolume ?? otherEditions[0]?.volumeInfo.title ?? ""
+            }`}</Text>
+          }
+        >
           <DisplayGeneric
             allStates={allStates}
             allActions={allActions}

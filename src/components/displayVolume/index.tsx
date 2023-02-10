@@ -1,22 +1,20 @@
 import { Flex, Menu, NavLink, Space } from "@mantine/core";
 import localforage from "localforage";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { BsPersonLinesFill } from "react-icons/bs";
 import { BsMenuButtonFill } from "react-icons/bs";
 import { GrOverview } from "react-icons/gr";
 import { MdOutlinePublish } from "react-icons/md";
 import { VscUngroupByRefType } from "react-icons/vsc";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
-import { responseActions } from "../../state/responseState";
 import {
   AllActions,
   AllDispatches,
   AllStates,
   HistoryState,
-  ResponseState,
 } from "../../types";
 
 type DisplayVolumeProps = {
@@ -26,11 +24,7 @@ type DisplayVolumeProps = {
   allDispatches: AllDispatches;
 };
 
-function DisplayVolume({
-  allStates,
-  allActions,
-  allDispatches,
-}: DisplayVolumeProps) {
+function DisplayVolume({ allStates }: DisplayVolumeProps) {
   let {
     responseState: {
       fetchUrl,
@@ -43,21 +37,7 @@ function DisplayVolume({
       bookshelfVolumes,
     },
   } = allStates;
-  let { responseDispatch } = allDispatches;
-  let {
-    responseActions: {
-      setFetchUrl,
-      setStartIndex,
-      setSearchTerm,
-      setSearchResults,
-      setSelectedVolume,
-      setSelectedAuthor,
-      setSelectedPublisher,
-      setBookshelfVolumes,
-    },
-  } = allActions;
 
-  const navigate = useNavigate();
   const { volumeId, page } = useParams();
   const { width = 0 } = useWindowSize();
 
@@ -72,6 +52,8 @@ function DisplayVolume({
 
   async function handleNavLinkActiveClick(label: string) {
     //set history state
+    //used to retrieve history state when user clicks browser back button as
+    //stateful data is lost when user clicks browser back button
     try {
       const historyStateLocalForage = (await localforage.getItem<HistoryState>(
         "byblos-historyState"
@@ -103,8 +85,19 @@ function DisplayVolume({
         "byblos-historyState",
         historyStateLocalForage
       );
-    } catch (error) {
-      console.log("error: ", error);
+    } catch (error: any) {
+      const error_ = new Error(error, {
+        cause: "handleNavLinkActiveClick()",
+      });
+
+      console.group("Error in displayVolume eventHandler");
+      console.error("name: ", error_.name);
+      console.error("message: ", error_.message);
+      console.error("cause: ", error_.cause);
+      console.groupCollapsed("stack trace");
+      console.trace(error_);
+      console.error("detailed stack trace", error_.stack);
+      console.groupEnd();
     }
 
     switch (label) {
@@ -169,23 +162,9 @@ function DisplayVolume({
     }
   }
 
-  //handles browser back button click and is included here separately from the function inside pagination component's useEffect because the pagination component is not rendered here
-  useEffect(() => {
-    const onBackButtonEvent = async (event: PopStateEvent) => {
-      event.preventDefault();
-    };
-
-    window.addEventListener("popstate", onBackButtonEvent);
-
-    return () => {
-      window.removeEventListener("popstate", onBackButtonEvent);
-    };
-  }, []);
-
   return (
     <Flex direction="column" align="center" justify="center">
       {/* Nav links */}
-
       <Menu
         position="bottom-start"
         transition={width < 576 ? "slide-left" : "slide-down"}

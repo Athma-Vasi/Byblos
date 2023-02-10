@@ -1,17 +1,13 @@
-import { LoadingOverlay, Text } from "@mantine/core";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import localforage from "localforage";
-import React, { Suspense, useEffect, useState } from "react";
+import { Text } from "@mantine/core";
+import React, { Suspense } from "react";
 import { useReducer } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import ErrorFallback from "./components/errorFallback";
 import { Home } from "./components/home";
-import { defaultVolume } from "./components/localData";
 import MyLoader from "./components/myLoader";
 import { Welcome } from "./components/welcome";
-import { v4 as uuidv4 } from "uuid";
 
 import {
   initialResponseState,
@@ -19,7 +15,7 @@ import {
   responseReducer,
 } from "./state/responseState";
 import { ThemeProvider } from "./ThemeProvider";
-import { AllActions, AllDispatches, UserBookshelf } from "./types";
+import { AllActions, AllDispatches } from "./types";
 
 const DisplayResults = React.lazy(() => import("./components/displayResults"));
 const DisplayVolume = React.lazy(() => import("./components/displayVolume"));

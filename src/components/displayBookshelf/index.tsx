@@ -14,7 +14,7 @@ import {
 } from "@mantine/core";
 import localforage from "localforage";
 import React, { Fragment, useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useWindowSize } from "../../hooks/useWindowSize";
 import { v4 as uuidv4 } from "uuid";
 import {
@@ -28,8 +28,7 @@ import {
   HistoryState,
   ResponseState,
 } from "../../types";
-import { insertCustomId } from "../../utils";
-import DisplayGeneric from "../displayGeneric";
+
 import { defaultVolume } from "../localData";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { HiOutlineDocumentRemove } from "react-icons/hi";
@@ -54,37 +53,10 @@ type DisplayBookshelfProps = {
 };
 
 function DisplayBookshelf({
-  children,
   allStates,
   allActions,
   allDispatches,
 }: DisplayBookshelfProps) {
-  let {
-    responseState: {
-      fetchUrl,
-      startIndex,
-      searchTerm,
-      searchResults,
-      selectedVolume,
-      selectedAuthor,
-      selectedPublisher,
-      bookshelfVolumes,
-    },
-  } = allStates;
-  let { responseDispatch } = allDispatches;
-  let {
-    responseActions: {
-      setFetchUrl,
-      setStartIndex,
-      setSearchTerm,
-      setSearchResults,
-      setSelectedVolume,
-      setSelectedAuthor,
-      setSelectedPublisher,
-      setBookshelfVolumes,
-    },
-  } = allActions;
-
   const [localForageFallback, setLocalForageFallback] = useState<
     UserBookshelf[]
   >([]);
@@ -98,12 +70,30 @@ function DisplayBookshelf({
   const [modalAlt, setModalAlt] = useState("");
 
   const { width = 0 } = useWindowSize();
-  const navigate = useNavigate();
   const { volumeId, page } = useParams();
 
+  let {
+    responseState: {
+      fetchUrl,
+      startIndex,
+      searchTerm,
+      searchResults,
+      selectedVolume,
+      selectedAuthor,
+      selectedPublisher,
+      bookshelfVolumes,
+    },
+  } = allStates;
+  let { responseDispatch } = allDispatches;
+
+  //localforage fallback is to always have some volumes to display
   const definedBookshelfVolumes =
     bookshelfVolumes ??
     localForageFallback.map((bookshelfVolume) => bookshelfVolume.volume);
+
+  /**
+   * much of the functionality of this component is similar to that of displayGeneric minus the infinite scroll
+   */
 
   async function handleUserBookshelfAction(
     kind: UserBookshelfActions,
@@ -111,8 +101,15 @@ function DisplayBookshelf({
     tempLocalBookshelf: UserBookshelf[],
     value: RatingAction | boolean
   ) {
+    //tempLocalBookshelf is used to manage state of user actions of the volumes
+    //in the bookshelf before they are saved to localforage
+    //also used to display the correct icon state of the volume
     const tempLocalBookshelfClone = structuredClone(tempLocalBookshelf);
 
+    //logic inside switch cases are similar
+    //1. check if volume is already in tempLocalBookshelf state
+    //2. if true, update the state and store in localforage
+    //3. else false, add the volume to tempLocalBookshelf state and store in localforage
     switch (kind) {
       case "rating": {
         const existingTempLocalBookshelfVolume = tempLocalBookshelfClone.find(
@@ -491,7 +488,7 @@ function DisplayBookshelf({
         break;
     }
   }
-
+  //fallback used when state passed from searchResults is undefined
   useEffect(() => {
     const fetchLocalStorageFallback = async () => {
       try {
@@ -521,13 +518,12 @@ function DisplayBookshelf({
   }, []);
 
   async function handleTitleClick(volume: VolumeWithCustomId) {
+    //response state values are updated
     startIndex = 0;
     searchTerm = volume.volumeInfo.title;
     selectedVolume = volume;
     selectedAuthor = volume.volumeInfo.authors?.join(",") ?? "";
     selectedPublisher = volume.volumeInfo.publisher ?? "";
-
-    console.log("selectedVolume from userBookshelf: ", selectedVolume);
 
     try {
       await localforage.setItem<ResponseState["startIndex"]>(
@@ -555,6 +551,9 @@ function DisplayBookshelf({
         selectedPublisher
       );
 
+      //history state is updated whenever a title is clicked
+      //the history state is an array of objects, each object representing the state of the app at a particular point in time
+      //mainly used for the back button so the user does not see results of currently selected volume when they click the back button
       const historyStateLocalForage = (await localforage.getItem<HistoryState>(
         "byblos-historyState"
       )) ?? [
@@ -620,6 +619,8 @@ function DisplayBookshelf({
   }
 
   useEffect(() => {
+    //IIFE to generate userBookshelf[] if it does not exist in localforage
+    //and to set the tempLocalBookshelf state to the userBookshelf[]
     (async function generateUserBookshelf() {
       let initialUserBookshelf: UserBookshelf[] = [];
       try {
@@ -630,6 +631,7 @@ function DisplayBookshelf({
               value ?? [
                 {
                   // sample data upon first initialization if no data is found in localforage
+                  //user does not see this volume rendered
                   name: "Mirror Dance",
                   id: uuidv4(), // future actual ids are the server generated google books id
                   volume: defaultVolume, // will be undefined for this sample, all future volumes will not be undefined

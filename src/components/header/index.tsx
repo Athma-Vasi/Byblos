@@ -1,11 +1,9 @@
 import {
   Burger,
   Button,
-  Flex,
   Grid,
   Header,
   MediaQuery,
-  Space,
   Title,
   useMantineTheme,
 } from "@mantine/core";
@@ -25,7 +23,6 @@ type MyHeaderProps = {
 };
 
 function MyHeader({
-  children,
   opened,
   setOpened,
   allStates,
@@ -42,7 +39,7 @@ function MyHeader({
 
   return (
     <Header height={{ base: 75, md: 100 }} p="md">
-      <Grid columns={6}>
+      <Grid columns={6} align="center">
         <MediaQuery largerThan="sm" styles={{ display: "none" }}>
           <Grid.Col span={1}>
             <Burger

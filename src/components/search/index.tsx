@@ -1,11 +1,11 @@
-import { Flex, FocusTrap, Text, TextInput } from "@mantine/core";
+import { Flex, Text, TextInput } from "@mantine/core";
 import axios from "axios";
 import localforage from "localforage";
 import React, { useState } from "react";
 import { CgSearch } from "react-icons/cg";
 import { RiCloseLine } from "react-icons/ri";
 import { RxDividerVertical } from "react-icons/rx";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
 import {
@@ -13,11 +13,9 @@ import {
   AllDispatches,
   AllStates,
   ApiResponseVolume,
-  HistoryState,
   ResponseActions,
   ResponseDispatch,
   ResponseState,
-  Volume,
 } from "../../types";
 
 type SearchProps = {
@@ -41,8 +39,6 @@ function Search({
     event: React.KeyboardEvent<HTMLInputElement>
   ) {
     if (event.key === "Enter") {
-      console.log("searchTerm", searchTerm);
-
       try {
         const fetchUrlFromGenericSearch = `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40&startIndex=0&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
         const { data } = await axios.get(fetchUrlFromGenericSearch);
@@ -53,7 +49,6 @@ function Search({
         responseState.fetchUrl = fetchUrlFromGenericSearch;
 
         //initializes localforage keys to initial responseState values for some, and fetched values for others
-
         await localforage.setItem("byblos-fetchUrl", fetchUrlFromGenericSearch);
         await localforage.setItem(
           "byblos-searchTerm",
@@ -149,12 +144,12 @@ function rightInputSection(
       const fetchUrlFromGenericSearch = `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40&startIndex=0&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
       const { data } = await axios.get(fetchUrlFromGenericSearch);
 
+      responseState.startIndex = 0;
       responseState.searchTerm = searchTerm;
       responseState.searchResults = data as ApiResponseVolume;
       responseState.fetchUrl = fetchUrlFromGenericSearch;
 
       //initializes localforage keys to initial responseState values for some, and fetched values for others
-
       await localforage.setItem("byblos-fetchUrl", fetchUrlFromGenericSearch);
       await localforage.setItem("byblos-startIndex", 0);
       await localforage.setItem("byblos-searchTerm", responseState.searchTerm);
@@ -182,10 +177,10 @@ function rightInputSection(
       navigate(`/home/displayResults/1`);
     } catch (error: any) {
       const error_ = new Error(error, {
-        cause: "handleEnterKeyInput()",
+        cause: "handleSearchIconClick()",
       });
 
-      console.group("Error in search eventHandler");
+      console.group("Error in search rightInputSection() eventHandler");
       console.error("name: ", error_.name);
       console.error("message: ", error_.message);
       console.error("cause: ", error_.cause);
