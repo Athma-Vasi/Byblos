@@ -171,6 +171,9 @@ function AuthorCollection({
                 searchTerm_ ?? ""
               }&maxResults=40&startIndex=0&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`
           );
+
+          console.log("fetchUrl from authorCollection", fetchUrl_);
+
           if (!ignore) {
             if (data.items) {
               searchResults?.items?.push(...data?.items);

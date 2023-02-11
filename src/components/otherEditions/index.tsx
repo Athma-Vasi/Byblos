@@ -178,6 +178,8 @@ function OtherEditions({
                     `&startIndex=${currStartIdx}`
                 );
 
+        console.log("fetchUrl from otherEditions", fetchUrl_);
+
         try {
           const { data } = await axios.get(
             fetchUrl_ ??
@@ -185,6 +187,7 @@ function OtherEditions({
                 searchTerm_ ?? ""
               }&maxResults=40&startIndex=0&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`
           );
+
           if (!ignore) {
             if (data.items) {
               searchResults?.items?.push(...data?.items);

@@ -327,7 +327,7 @@ function Overview({ allStates }: OverviewProps) {
         radius="xs"
       />
 
-      <Space h="sm" />
+      <Space h="lg" />
 
       {industryIdentifiers}
       <Text>

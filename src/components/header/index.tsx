@@ -218,7 +218,10 @@ function MyHeader({
                 <RiSearchEyeLine
                   size={22}
                   style={{ color: "GrayText" }}
-                  onClick={() => setPopoverOpened((open) => !open)}
+                  onClick={() => {
+                    setPopoverOpened((open) => !open);
+                    window.scrollTo(0, 0);
+                  }}
                 />
               </Link>
             </Flex>
@@ -227,8 +230,6 @@ function MyHeader({
       </Flex>
     </Grid.Col>
   );
-
-  console.log("width: ", width);
 
   return (
     <Header height={{ base: 75, md: 100 }} p="md">
@@ -252,7 +253,7 @@ function MyHeader({
         <Grid.Col span={2}>
           <Flex align="center" justify="flex-end">
             <Switch
-              size={width < 768 ? "md" : "lg"}
+              size={width < 992 ? "md" : "lg"}
               label={
                 width < 576
                   ? ""
