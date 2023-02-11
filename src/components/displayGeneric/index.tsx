@@ -761,6 +761,7 @@ function DisplayGeneric({
                         position={width < 576 ? "bottom" : "left"}
                         withArrow
                         shadow="md"
+                        radius="md"
                       >
                         <Popover.Target>
                           <Button

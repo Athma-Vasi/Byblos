@@ -228,6 +228,8 @@ function MyHeader({
     </Grid.Col>
   );
 
+  console.log("width: ", width);
+
   return (
     <Header height={{ base: 75, md: 100 }} p="md">
       <Grid columns={9} align="center">

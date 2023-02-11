@@ -164,7 +164,12 @@ function DisplayVolume({ allStates }: DisplayVolumeProps) {
   }
 
   return (
-    <Flex direction="column" align="center" justify="center">
+    <Flex
+      direction="column"
+      align="center"
+      justify="center"
+      style={{ width: "100%" }}
+    >
       {/* Nav links */}
       <Menu
         position="bottom-start"

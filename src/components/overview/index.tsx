@@ -244,86 +244,394 @@ function Overview({ allStates }: OverviewProps) {
     ? selectedVolume?.accessInfo?.webReaderLink
     : selectedVolumeForage?.accessInfo?.webReaderLink;
 
+  const aboutEditionDesktop = (
+    <Grid columns={width < 576 ? 1 : 3} align="center">
+      <Grid.Col span={1}>
+        <Image
+          width={width < 576 ? "50%" : "75%"}
+          src={imageSrc}
+          alt={imageAlt}
+          radius="xs"
+        />
+      </Grid.Col>
+
+      <Grid.Col span={1}>
+        <Grid columns={width < 576 ? 2 : 1}>
+          <Grid.Col span={1}>
+            {industryIdentifiers}
+            <Text>
+              Published: {publishedDate}
+              <Space h="xs" />
+            </Text>
+          </Grid.Col>
+
+          <Grid.Col span={1}>
+            <Text>
+              Publisher: {publisher}
+              <Space h="xs" />
+            </Text>
+            <Text>
+              Pages: {pageCount}
+              <Space h="xs" />
+            </Text>
+            <Text>
+              Author: {authors}
+              <Space h="xs" />
+            </Text>
+          </Grid.Col>
+        </Grid>
+      </Grid.Col>
+
+      <Grid.Col span={1}>
+        <Grid columns={width < 576 ? 2 : 1}>
+          <Grid.Col span={1}>
+            <Text>
+              Print type: {printType}
+              <Space h="xs" />
+            </Text>
+            <Text>
+              Categories: {categories}
+              <Space h="xs" />
+            </Text>
+            <Text>
+              Language: {language}
+              <Space h="xs" />
+            </Text>
+          </Grid.Col>
+
+          <Grid.Col span={1}>
+            <Text>
+              Average rating: {averageRating}
+              <Space h="xs" />
+            </Text>
+            <Text>
+              Ratings count: {ratingsCount}
+              <Space h="xs" />
+            </Text>
+            <Text>
+              Maturity rating: {maturityRating}
+              <Space h="xs" />
+            </Text>
+          </Grid.Col>
+        </Grid>
+      </Grid.Col>
+    </Grid>
+  );
+
+  const aboutEditionMobile = (
+    <Flex direction="column" align="flex-start" justify="center">
+      <Image
+        width={width < 576 ? "50%" : "75%"}
+        src={imageSrc}
+        alt={imageAlt}
+        radius="xs"
+      />
+
+      <Space h="sm" />
+
+      {industryIdentifiers}
+      <Text>
+        Published: {publishedDate}
+        <Space h="xs" />
+      </Text>
+
+      <Text>
+        Publisher: {publisher}
+        <Space h="xs" />
+      </Text>
+      <Text>
+        Pages: {pageCount}
+        <Space h="xs" />
+      </Text>
+      <Text>
+        Author: {authors}
+        <Space h="xs" />
+      </Text>
+
+      <Text>
+        Print type: {printType}
+        <Space h="xs" />
+      </Text>
+      <Text>
+        Categories: {categories}
+        <Space h="xs" />
+      </Text>
+      <Text>
+        Language: {language}
+        <Space h="xs" />
+      </Text>
+
+      <Text>
+        Average rating: {averageRating}
+        <Space h="xs" />
+      </Text>
+      <Text>
+        Ratings count: {ratingsCount}
+        <Space h="xs" />
+      </Text>
+      <Text>
+        Maturity rating: {maturityRating}
+        <Space h="xs" />
+      </Text>
+    </Flex>
+  );
+
+  const getBookDesktop = (
+    <Card shadow="sm" radius="md" style={{ width: "100%" }}>
+      <Flex direction="row" justify="space-between" align="center">
+        <Flex direction="row" justify="start" align="center">
+          <AiOutlineAmazon size={40} />
+          <Space w="xl" />
+          <Text>Amazon.ca</Text>
+        </Flex>
+
+        <a href={amazonLink} target="_blank">
+          <Button
+            variant="outline"
+            radius="lg"
+            leftIcon={<CgSearch size={18} />}
+          >
+            Search Amazon.ca
+          </Button>
+        </a>
+      </Flex>
+
+      <Space h="sm" />
+
+      <Flex direction="row" justify="space-between" align="center">
+        <Flex direction="row" justify="start" align="center">
+          <AiFillBook size={40} />
+          <Space w="xl" />
+          <Text>Chapters Indigo</Text>
+        </Flex>
+
+        <a href={chaptersLink} target="_blank">
+          <Button
+            variant="outline"
+            radius="lg"
+            leftIcon={<CgSearch size={18} />}
+          >
+            Search Chapters Indigo
+          </Button>
+        </a>
+      </Flex>
+
+      <Space h="sm" />
+
+      <Flex direction="row" justify="space-between" align="center">
+        <Flex direction="row" justify="start" align="center">
+          <AiOutlineGoogle size={40} />
+          <Space w="xl" />
+          <Text>Google Books</Text>
+        </Flex>
+
+        <a href={googleBooksLink} target="_blank">
+          <Button
+            variant="outline"
+            radius="lg"
+            leftIcon={<CgSearch size={18} />}
+          >
+            Search Google Books
+          </Button>
+        </a>
+      </Flex>
+    </Card>
+  );
+
+  const getBookMobile = (
+    <Card shadow="sm" radius="md" style={{ width: "100%" }}>
+      <Flex direction="column" align="start" justify="center">
+        {/* amazon section */}
+        <Flex direction="row" justify="start" align="center">
+          <AiOutlineAmazon size={40} />
+          <Space w="xl" />
+          <Text>Amazon.ca</Text>
+        </Flex>
+
+        <Space h="xs" />
+
+        <a href={amazonLink} target="_blank">
+          <Button
+            variant="outline"
+            radius="lg"
+            leftIcon={<CgSearch size={18} />}
+          >
+            Search Amazon.ca
+          </Button>
+        </a>
+
+        <Space h="lg" />
+        <Space h="lg" />
+
+        {/* chapters section */}
+        <Flex direction="row" justify="start" align="center">
+          <AiFillBook size={40} />
+          <Space w="xl" />
+          <Text>Chapters Indigo</Text>
+        </Flex>
+
+        <Space h="sm" />
+
+        <a href={chaptersLink} target="_blank">
+          <Button
+            variant="outline"
+            radius="lg"
+            leftIcon={<CgSearch size={18} />}
+          >
+            Search Chapters Indigo
+          </Button>
+        </a>
+
+        <Space h="lg" />
+        <Space h="lg" />
+
+        {/* google books section */}
+        <Flex direction="row" justify="start" align="center">
+          <AiOutlineGoogle size={40} />
+          <Space w="xl" />
+          <Text>Google Books</Text>
+        </Flex>
+
+        <Space h="sm" />
+
+        <a href={googleBooksLink} target="_blank">
+          <Button
+            variant="outline"
+            radius="lg"
+            leftIcon={<CgSearch size={18} />}
+          >
+            Search Google Books
+          </Button>
+        </a>
+      </Flex>
+    </Card>
+  );
+
+  const previewsDesktop = (
+    <Card shadow="sm" radius="md" style={{ width: "100%" }}>
+      <Text>{"Google Books (may require authorization)"}</Text>
+
+      <Space h="sm" />
+
+      <Flex direction="row" justify="space-between" align="center">
+        <Flex direction="row" justify="start" align="center">
+          <VscOpenPreview size={40} />
+          <Space w="xl" />
+          <Text>Sample preview</Text>
+        </Flex>
+
+        <a href={googleBooksPreview} target="_blank">
+          <Button variant="outline" radius="xl">
+            View sample preview online
+          </Button>
+        </a>
+      </Flex>
+
+      <Space h="sm" />
+
+      <Flex direction="row" justify="space-between" align="center">
+        <Flex direction="row" justify="start" align="center">
+          <CgEreader size={40} />
+          <Space w="xl" />
+          <Text>Web reader</Text>
+        </Flex>
+
+        <a href={googleBooksWebReader} target="_blank">
+          <Button variant="outline" radius="xl">
+            View sample using Google's web reader
+          </Button>
+        </a>
+      </Flex>
+
+      <Space h="sm" />
+
+      <Flex direction="row" justify="space-between" align="center">
+        <Flex direction="row" justify="start" align="center">
+          <FcKindle size={40} />
+          <Space w="xl" />
+          <Text>Epub sample</Text>
+        </Flex>
+
+        <a href={googleBooksEpub} target="_blank">
+          <Button variant="outline" radius="xl">
+            Free epub sample download
+          </Button>
+        </a>
+      </Flex>
+    </Card>
+  );
+
+  const previewsMobile = (
+    <Card shadow="sm" radius="md" style={{ width: "100%" }}>
+      <Text>{"Google Books (may require authorization)"}</Text>
+
+      <Space h="lg" />
+
+      <Flex direction="row" justify="flex-start" align="center">
+        <VscOpenPreview size={30} />
+        <Space w="xl" />
+        <Text>Sample preview</Text>
+      </Flex>
+
+      <Space h="sm" />
+
+      <a href={googleBooksPreview} target="_blank">
+        <Button variant="outline" radius="xl">
+          View sample preview online
+        </Button>
+      </a>
+
+      <Space h="lg" />
+      <Space h="lg" />
+
+      <Flex direction="row" justify="flex-start" align="center">
+        <CgEreader size={30} />
+        <Space w="xl" />
+        <Text>Web reader</Text>
+      </Flex>
+
+      <Space h="sm" />
+
+      <a href={googleBooksWebReader} target="_blank">
+        <Button variant="outline" radius="xl">
+          View sample with Google's web reader
+        </Button>
+      </a>
+
+      <Space h="lg" />
+      <Space h="lg" />
+
+      <Flex direction="row" justify="flex-start" align="center">
+        <FcKindle size={30} />
+        <Space w="xl" />
+        <Text>Epub sample</Text>
+      </Flex>
+
+      <Space h="sm" />
+
+      <a href={googleBooksEpub} target="_blank">
+        <Button variant="outline" radius="xl">
+          Free epub sample download
+        </Button>
+      </a>
+    </Card>
+  );
+
   return (
-    <Flex direction="column" p={width < 576 ? "sm" : "md"}>
+    <Flex
+      direction="column"
+      p={width < 576 ? "sm" : "md"}
+      style={{ width: "100%" }}
+    >
       <Space h="xs" />
 
       <Flex direction="row" justify={width < 576 ? "center" : "flex-start"}>
         <Title order={4}>About this edition</Title>
+        <Space h="xs" />
       </Flex>
 
       <Card shadow="sm" radius="md" style={{ width: "100%" }}>
-        <Grid columns={width < 576 ? 1 : 3} align="center">
-          <Grid.Col span={1}>
-            <Image
-              width={width < 576 ? "50%" : "75%"}
-              src={imageSrc}
-              alt={imageAlt}
-              radius="xs"
-            />
-          </Grid.Col>
-
-          <Grid.Col span={1}>
-            <Grid columns={width < 576 ? 2 : 1}>
-              <Grid.Col span={1}>
-                {industryIdentifiers}
-                <Text>
-                  Published: {publishedDate}
-                  <Space h="xs" />
-                </Text>
-              </Grid.Col>
-
-              <Grid.Col span={1}>
-                <Text>
-                  Publisher: {publisher}
-                  <Space h="xs" />
-                </Text>
-                <Text>
-                  Pages: {pageCount}
-                  <Space h="xs" />
-                </Text>
-                <Text>
-                  Author: {authors}
-                  <Space h="xs" />
-                </Text>
-              </Grid.Col>
-            </Grid>
-          </Grid.Col>
-
-          <Grid.Col span={1}>
-            <Grid columns={width < 576 ? 2 : 1}>
-              <Grid.Col span={1}>
-                <Text>
-                  Print type: {printType}
-                  <Space h="xs" />
-                </Text>
-                <Text>
-                  Categories: {categories}
-                  <Space h="xs" />
-                </Text>
-                <Text>
-                  Language: {language}
-                  <Space h="xs" />
-                </Text>
-              </Grid.Col>
-
-              <Grid.Col span={1}>
-                <Text>
-                  Average rating: {averageRating}
-                  <Space h="xs" />
-                </Text>
-                <Text>
-                  Ratings count: {ratingsCount}
-                  <Space h="xs" />
-                </Text>
-                <Text>
-                  Maturity rating: {maturityRating}
-                  <Space h="xs" />
-                </Text>
-              </Grid.Col>
-            </Grid>
-          </Grid.Col>
-        </Grid>
+        {width < 576 ? aboutEditionMobile : aboutEditionDesktop}
       </Card>
 
       <Space h="lg" />
@@ -331,129 +639,18 @@ function Overview({ allStates }: OverviewProps) {
 
       <Flex direction="row" justify={width < 576 ? "center" : "flex-start"}>
         <Title order={4}>Get book</Title>
+        <Space h="xs" />
       </Flex>
-
-      <Card shadow="sm" radius="md" style={{ width: "100%" }}>
-        <Flex direction="row" justify="space-between" align="center">
-          <Flex direction="row" justify="start" align="center">
-            <AiOutlineAmazon size={40} />
-            <Space w="xl" />
-            <Text>Amazon.ca</Text>
-          </Flex>
-
-          <a href={amazonLink} target="_blank">
-            <Button
-              variant="outline"
-              radius="lg"
-              leftIcon={<CgSearch size={18} />}
-            >
-              {" "}
-              Search Amazon.ca
-            </Button>
-          </a>
-        </Flex>
-
-        <Space h="sm" />
-
-        <Flex direction="row" justify="space-between" align="center">
-          <Flex direction="row" justify="start" align="center">
-            <AiFillBook size={40} />
-            <Space w="xl" />
-            <Text>Chapters Indigo</Text>
-          </Flex>
-
-          <a href={chaptersLink} target="_blank">
-            <Button
-              variant="outline"
-              radius="lg"
-              leftIcon={<CgSearch size={18} />}
-            >
-              {" "}
-              Search Chapters Indigo
-            </Button>
-          </a>
-        </Flex>
-
-        <Space h="sm" />
-
-        <Flex direction="row" justify="space-between" align="center">
-          <Flex direction="row" justify="start" align="center">
-            <AiOutlineGoogle size={40} />
-            <Space w="xl" />
-            <Text>Google Books</Text>
-          </Flex>
-
-          <a href={googleBooksLink} target="_blank">
-            <Button
-              variant="outline"
-              radius="lg"
-              leftIcon={<CgSearch size={18} />}
-            >
-              {" "}
-              Search Google Books
-            </Button>
-          </a>
-        </Flex>
-      </Card>
+      {width < 576 ? getBookMobile : getBookDesktop}
 
       <Space h="lg" />
       <Space h="lg" />
 
       <Flex direction="row" justify={width < 576 ? "center" : "flex-start"}>
         <Title order={4}>Previews</Title>
+        <Space h="xs" />
       </Flex>
-
-      <Card shadow="sm" radius="md" style={{ width: "100%" }}>
-        <Text>{"Google Books (may require authorization)"}</Text>
-
-        <Space h="sm" />
-
-        <Flex direction="row" justify="space-between" align="center">
-          <Flex direction="row" justify="start" align="center">
-            <VscOpenPreview size={40} />
-            <Space w="xl" />
-            <Text>Sample preview</Text>
-          </Flex>
-
-          <a href={googleBooksPreview} target="_blank">
-            <Button variant="outline" radius="xl">
-              View sample preview online
-            </Button>
-          </a>
-        </Flex>
-
-        <Space h="sm" />
-
-        <Flex direction="row" justify="space-between" align="center">
-          <Flex direction="row" justify="start" align="center">
-            <CgEreader size={40} />
-            <Space w="xl" />
-            <Text>Web reader</Text>
-          </Flex>
-
-          <a href={googleBooksWebReader} target="_blank">
-            <Button variant="outline" radius="xl">
-              View sample using Google's web reader
-            </Button>
-          </a>
-        </Flex>
-
-        <Space h="sm" />
-
-        <Flex direction="row" justify="space-between" align="center">
-          <Flex direction="row" justify="start" align="center">
-            <FcKindle size={40} />
-            <Space w="xl" />
-            <Text>Epub sample</Text>
-          </Flex>
-
-          <a href={googleBooksEpub} target="_blank">
-            <Button variant="outline" radius="xl">
-              Free epub sample download
-            </Button>
-          </a>
-        </Flex>
-      </Card>
+      {width < 576 ? previewsMobile : previewsDesktop}
     </Flex>
   );
 }
