@@ -711,9 +711,7 @@ function DisplayBookshelf({
                     <Image
                       style={{ cursor: "pointer" }}
                       src={item.volumeInfo.imageLinks?.thumbnail}
-                      alt={`thumbnail of ${
-                        item.volumeInfo.title ?? "unavailable"
-                      } book cover`}
+                      alt={``}
                       onClick={() => {
                         setModalSrc(
                           item.volumeInfo.imageLinks?.thumbnail ?? ""

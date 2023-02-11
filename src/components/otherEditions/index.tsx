@@ -54,37 +54,53 @@ function OtherEditions({
   } = allStates;
   let { responseDispatch } = allDispatches;
   let {
-    responseActions: { setFetchUrl, setSearchResults, setAll },
+    responseActions: { setAll },
   } = allActions;
 
   useEffect(() => {
     const fetchOtherEditions = async () => {
       try {
-        const fetchUrlWithName =
-          fetchUrl.split("q=")[0] +
-          `q=${
-            selectedVolume?.volumeInfo.title ??
-            otherEditions[0].volumeInfo.title
-          }+inauthor:${
-            selectedAuthor ?? otherEditions[0].volumeInfo.authors[0]
-          }&maxResults=40&startIndex=${startIndex}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
+        const [url, params] = fetchUrl.split("q=");
+        const fetchUrlWithName = `${url}q=${
+          selectedVolume?.volumeInfo.title || otherEditions[0].volumeInfo.title
+        }+inauthor:${
+          selectedAuthor || otherEditions[0].volumeInfo.authors[0]
+        }${params}`;
+
+        console.log(
+          "fetchUrlWithName inside otherEditions: ",
+          fetchUrlWithName
+        );
 
         const { data } = await axios.get(fetchUrlWithName);
 
         const itemsWithCustomId = insertCustomId(data.items ?? []);
 
+        startIndex = 0;
+        searchTerm =
+          `${
+            selectedVolume?.volumeInfo.title ??
+            otherEditions[0].volumeInfo.title
+          }` +
+          `+inauthor:${
+            selectedAuthor ?? otherEditions[0].volumeInfo.authors[0]
+          }`;
         searchResults = data;
-        fetchUrl = fetchUrlWithName;
 
         try {
+          await localforage.setItem<ResponseState["startIndex"]>(
+            "byblos-startIndex",
+            startIndex
+          );
+
+          await localforage.setItem<ResponseState["searchTerm"]>(
+            "byblos-searchTerm",
+            searchTerm
+          );
+
           await localforage.setItem<ResponseState["searchResults"]>(
             "byblos-searchResults",
             searchResults
-          );
-
-          await localforage.setItem<ResponseState["fetchUrl"]>(
-            "byblos-fetchUrl",
-            fetchUrl
           );
         } catch (error: any) {
           const error_ = new Error(error, {
@@ -101,23 +117,7 @@ function OtherEditions({
           console.groupEnd();
         } finally {
           responseDispatch({
-            type: setFetchUrl,
-            payload: {
-              responseState: {
-                fetchUrl,
-                startIndex,
-                searchTerm,
-                searchResults,
-                selectedVolume,
-                selectedAuthor,
-                selectedPublisher,
-                bookshelfVolumes,
-              },
-            },
-          });
-
-          responseDispatch({
-            type: setSearchResults,
+            type: setAll,
             payload: {
               responseState: {
                 fetchUrl,
@@ -161,32 +161,32 @@ function OtherEditions({
       const fetchMoreResults = async () => {
         const currStartIdx = startIndex + 40;
 
-        const searchTerm_ =
-          searchTerm ||
-          (await localforage
-            .getItem<HistoryState>("byblos-historyState")
-            .then((value) => value?.at(-1)?.searchTerm ?? ""));
-
-        const fetchUrl_ =
-          fetchUrl !== ""
-            ? fetchUrl.split("&startIndex=")[0] + `&startIndex=${currStartIdx}`
-            : await localforage
-                .getItem<ResponseState["fetchUrl"]>("byblos-fetchUrl")
-                .then(
-                  (value) =>
-                    value?.split("&startIndex=")[0] +
-                    `&startIndex=${currStartIdx}`
-                );
-
-        console.log("fetchUrl from otherEditions", fetchUrl_);
-
         try {
-          const { data } = await axios.get(
-            fetchUrl_ ??
-              `https://www.googleapis.com/books/v1/volumes?q=${
-                searchTerm_ ?? ""
-              }&maxResults=40&startIndex=0&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`
-          );
+          const searchTerm_ =
+            searchTerm ||
+            (await localforage.getItem<ResponseState["searchTerm"]>(
+              "byblos-searchTerm"
+            )) ||
+            (await localforage
+              .getItem<HistoryState>("byblos-searchTerm")
+              .then((value) => value?.at(-1)?.searchTerm)) ||
+            "";
+
+          const [url, params] =
+            fetchUrl.split("?q=") ||
+            (await localforage
+              .getItem<ResponseState["fetchUrl"]>("byblos-fetchUrl")
+              .then((value) => value?.split("?q="))) ||
+            (await localforage
+              .getItem<HistoryState>("byblos-fetchUrl")
+              .then((value) => value?.at(-1)?.fetchUrl?.split("?q="))) ||
+            "";
+
+          const fetchUrl_ = `${url}?q=${searchTerm}&startIndex=${currStartIdx}${params}`;
+
+          console.log("fetchMoreResults inside otherEditions: ", fetchUrl_);
+
+          const { data } = await axios.get(fetchUrl_);
 
           if (!ignore) {
             if (data.items) {
@@ -195,7 +195,7 @@ function OtherEditions({
                 type: setAll,
                 payload: {
                   responseState: {
-                    fetchUrl: fetchUrl_,
+                    fetchUrl,
                     startIndex: currStartIdx,
                     searchTerm: searchTerm_,
                     searchResults: {

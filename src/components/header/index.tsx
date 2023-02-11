@@ -12,8 +12,11 @@ import {
   useMantineTheme,
   Flex,
   TextInput,
+  Image,
 } from "@mantine/core";
 import { Link, useNavigate } from "react-router-dom";
+import logo from "../../assets/logo/pinterest_profile_image.png";
+import logo_text_slogan from "../../assets/logo/logo_text_slogan.png";
 
 import { Search } from "../search";
 import {
@@ -148,13 +151,17 @@ function MyHeader({
   }
 
   const displayOnDesktop = [
-    <Grid.Col span={2} style={{ display: `${width < 576 ? "none" : ""}` }}>
+    <Grid.Col span={3} style={{ display: `${width < 576 ? "none" : ""}` }}>
       <Link to={"/"}>
-        <Title order={1}>Byblos</Title>
+        <Image
+          src={logo_text_slogan}
+          alt="Byblos logo"
+          width={width < 768 ? 150 : 200}
+        />
       </Link>
     </Grid.Col>,
 
-    <Grid.Col span={width < 768 ? 4 : 5}>
+    <Grid.Col span={width < 768 ? 3 : 4}>
       <Search
         allStates={allStates}
         allActions={allActions}
@@ -165,7 +172,10 @@ function MyHeader({
 
   const displayOnMobile = (
     <Grid.Col span={6}>
-      <Flex direction="row" align="center" justify="center">
+      <Flex direction="row" align="center" justify="space-evenly">
+        <Link to={`/`}>
+          <Image src={logo} alt="Byblos logo" width={50} height={50} />
+        </Link>
         <Popover
           width={350}
           position="bottom"

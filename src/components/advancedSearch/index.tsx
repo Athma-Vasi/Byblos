@@ -86,11 +86,6 @@ function AdvancedSearch({
     const searchStr = populateSearchTermForFetch(formDataMap);
 
     searchTerm = searchStr;
-    fetchUrl = `https://www.googleapis.com/books/v1/volumes?q=${searchStr}&maxResults=40&startIndex=0&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
-
-    console.log(
-      `https://www.googleapis.com/books/v1/volumes?q=${searchStr}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`
-    );
 
     try {
       const data = await fetchSearchResults(searchStr);
@@ -204,9 +199,11 @@ function AdvancedSearch({
 
   async function fetchSearchResults(searchString: string) {
     try {
-      const { data } = await axios.get(
-        `https://www.googleapis.com/books/v1/volumes?q=${searchString}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`
-      );
+      const fetchStr = `https://www.googleapis.com/books/v1/volumes?q=${searchString}&key=${
+        import.meta.env.VITE_GOOGLE_BOOKS_API_KEY
+      }`;
+
+      const { data } = await axios.get(fetchStr);
 
       return data as ApiResponseVolume;
     } catch (error: any) {
@@ -685,7 +682,7 @@ function AdvancedSearch({
         {/* title section modifier */}
         <Grid
           columns={width < 576 ? 1 : 4}
-          p={width < 576 ? "sm" : "md"}
+          px={width < 576 ? "sm" : "md"}
           align="center"
         >
           {/* title section heading */}
@@ -700,11 +697,7 @@ function AdvancedSearch({
 
           {/* title section body */}
           <Grid.Col span={width < 576 ? 1 : 3}>
-            <Grid
-              columns={width < 576 ? 1 : 3}
-              py={width < 576 ? "sm" : "md"}
-              align="center"
-            >
+            <Grid columns={width < 576 ? 1 : 3} align="center">
               <Grid.Col span={1}>
                 <Text>Return books with the title</Text>
               </Grid.Col>
@@ -739,7 +732,7 @@ function AdvancedSearch({
         {/* author section modifier */}
         <Grid
           columns={width < 576 ? 1 : 4}
-          p={width < 576 ? "sm" : "md"}
+          px={width < 576 ? "sm" : "md"}
           align="center"
         >
           {/* author section heading */}
@@ -754,11 +747,7 @@ function AdvancedSearch({
 
           {/* author section body */}
           <Grid.Col span={width < 576 ? 1 : 3}>
-            <Grid
-              columns={width < 576 ? 1 : 3}
-              py={width < 576 ? "sm" : "md"}
-              align="center"
-            >
+            <Grid columns={width < 576 ? 1 : 3} align="center">
               <Grid.Col span={1}>
                 <Text>Return books with the author</Text>
               </Grid.Col>
@@ -797,7 +786,7 @@ function AdvancedSearch({
         {/* publisher section modifier */}
         <Grid
           columns={width < 576 ? 1 : 4}
-          p={width < 576 ? "sm" : "md"}
+          px={width < 576 ? "sm" : "md"}
           align="center"
         >
           {/* publisher section heading */}
@@ -812,11 +801,7 @@ function AdvancedSearch({
 
           {/* publisher section body */}
           <Grid.Col span={width < 576 ? 1 : 3}>
-            <Grid
-              columns={width < 576 ? 1 : 3}
-              py={width < 576 ? "sm" : "md"}
-              align="center"
-            >
+            <Grid columns={width < 576 ? 1 : 3} align="center">
               <Grid.Col span={1}>
                 <Text>Return books published by</Text>
               </Grid.Col>
@@ -855,7 +840,7 @@ function AdvancedSearch({
         {/* category section modifier */}
         <Grid
           columns={width < 576 ? 1 : 4}
-          p={width < 576 ? "sm" : "md"}
+          px={width < 576 ? "sm" : "md"}
           align="center"
         >
           {/* category section heading */}
@@ -870,11 +855,7 @@ function AdvancedSearch({
 
           {/* category section body */}
           <Grid.Col span={width < 576 ? 1 : 3}>
-            <Grid
-              columns={width < 576 ? 1 : 3}
-              py={width < 576 ? "sm" : "md"}
-              align="center"
-            >
+            <Grid columns={width < 576 ? 1 : 3} align="center">
               <Grid.Col span={1}>
                 <Text>Return books in the category</Text>
               </Grid.Col>
@@ -913,7 +894,7 @@ function AdvancedSearch({
         {/* isbn section modifier */}
         <Grid
           columns={width < 576 ? 1 : 4}
-          p={width < 576 ? "sm" : "md"}
+          px={width < 576 ? "sm" : "md"}
           align="center"
         >
           {/* isbn section heading */}
@@ -928,11 +909,7 @@ function AdvancedSearch({
 
           {/* isbn section body */}
           <Grid.Col span={width < 576 ? 1 : 3}>
-            <Grid
-              columns={width < 576 ? 1 : 3}
-              py={width < 576 ? "sm" : "md"}
-              align="center"
-            >
+            <Grid columns={width < 576 ? 1 : 3} align="center">
               <Grid.Col span={1}>
                 <Text>Return books with the ISBN</Text>
               </Grid.Col>
@@ -967,7 +944,7 @@ function AdvancedSearch({
         {/* lccn section modifier */}
         <Grid
           columns={width < 576 ? 1 : 4}
-          p={width < 576 ? "sm" : "md"}
+          px={width < 576 ? "sm" : "md"}
           align="center"
         >
           {/* lccn section heading */}
@@ -982,11 +959,7 @@ function AdvancedSearch({
 
           {/* lccn section body */}
           <Grid.Col span={width < 576 ? 1 : 3}>
-            <Grid
-              columns={width < 576 ? 1 : 3}
-              py={width < 576 ? "sm" : "md"}
-              align="center"
-            >
+            <Grid columns={width < 576 ? 1 : 3} align="center">
               <Grid.Col span={1}>
                 <Text>Return books with the LCCN</Text>
               </Grid.Col>
@@ -1021,7 +994,7 @@ function AdvancedSearch({
         {/* oclc section modifier */}
         <Grid
           columns={width < 576 ? 1 : 4}
-          p={width < 576 ? "sm" : "md"}
+          px={width < 576 ? "sm" : "md"}
           align="center"
         >
           {/* oclc section heading */}
@@ -1036,11 +1009,7 @@ function AdvancedSearch({
 
           {/* oclc section body */}
           <Grid.Col span={width < 576 ? 1 : 3}>
-            <Grid
-              columns={width < 576 ? 1 : 3}
-              py={width < 576 ? "sm" : "md"}
-              align="center"
-            >
+            <Grid columns={width < 576 ? 1 : 3} align="center">
               <Grid.Col span={1}>
                 <Text>Return books with the OCLC</Text>
               </Grid.Col>
@@ -1068,10 +1037,14 @@ function AdvancedSearch({
           </Grid.Col>
         </Grid>
 
+        {Array.from({ length: 3 }).map((_, i) => (
+          <Space key={i} h="md" />
+        ))}
+
         {/* submit button */}
         <Grid
           columns={width < 576 ? 1 : 4}
-          p={width < 576 ? "sm" : "md"}
+          px={width < 576 ? "sm" : "md"}
           align="center"
         >
           {/* empty div for alignment */}

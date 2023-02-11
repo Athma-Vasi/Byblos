@@ -52,27 +52,55 @@ function AuthorCollection({
   } = allStates;
   let { responseDispatch } = allDispatches;
   let {
-    responseActions: { setFetchUrl, setSearchResults, setAll },
+    responseActions: { setAll },
   } = allActions;
 
   useEffect(() => {
     const fetchAuthorCollection = async () => {
       try {
-        const fetchUrlWithAuthor = `https://www.googleapis.com/books/v1/volumes?q=${selectedAuthor}+inauthor:${selectedVolume?.volumeInfo.authors.join(
-          ","
-        )}&maxResults=40&startIndex=${startIndex}&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
+        const [url, params] = fetchUrl.split("q=");
+        const fetchUrlWithAuthor = `${url}q=+inauthor:${
+          selectedAuthor ||
+          selectedVolume?.volumeInfo.authors ||
+          authorCollection[0].volumeInfo.authors ||
+          searchResults?.items[0].volumeInfo.authors ||
+          ""
+        }${params}`;
+
+        console.log(
+          "fetchUrlWithAuthor inside authorCollection: ",
+          fetchUrlWithAuthor
+        );
 
         const { data } = await axios.get(fetchUrlWithAuthor);
 
         const itemsWithCustomId = insertCustomId(data.items ?? []);
 
+        startIndex = 0;
+        searchTerm = `+inauthor:${
+          selectedAuthor ||
+          selectedVolume?.volumeInfo.authors ||
+          authorCollection[0].volumeInfo.authors ||
+          searchResults?.items[0].volumeInfo.authors ||
+          ""
+        }`;
         searchResults = data;
-        fetchUrl = fetchUrlWithAuthor;
 
         try {
-          await localforage.setItem("byblos-searchResults", data);
+          await localforage.setItem<ResponseState["startIndex"]>(
+            "byblos-startIndex",
+            startIndex
+          );
 
-          await localforage.setItem("byblos-fetchUrl", fetchUrlWithAuthor);
+          await localforage.setItem<ResponseState["searchTerm"]>(
+            "byblos-searchTerm",
+            searchTerm
+          );
+
+          await localforage.setItem<ResponseState["searchResults"]>(
+            "byblos-searchResults",
+            searchResults
+          );
         } catch (error: any) {
           const error_ = new Error(error, {
             cause: "inner try block inside fetchAuthorCollection()",
@@ -88,7 +116,7 @@ function AuthorCollection({
           console.groupEnd();
         } finally {
           responseDispatch({
-            type: setFetchUrl,
+            type: setAll,
             payload: {
               responseState: {
                 fetchUrl,
@@ -103,21 +131,6 @@ function AuthorCollection({
             },
           });
 
-          responseDispatch({
-            type: setSearchResults,
-            payload: {
-              responseState: {
-                fetchUrl,
-                startIndex,
-                searchTerm,
-                searchResults,
-                selectedVolume,
-                selectedAuthor,
-                selectedPublisher,
-                bookshelfVolumes,
-              },
-            },
-          });
           setAuthorCollection(itemsWithCustomId);
         }
       } catch (error: any) {
@@ -147,32 +160,32 @@ function AuthorCollection({
       const fetchMoreResults = async () => {
         const currStartIdx = startIndex + 40;
 
-        const searchTerm_ =
-          searchTerm ||
-          (await localforage
-            .getItem<HistoryState>("byblos-historyState")
-            .then((value) => value?.at(-1)?.searchTerm ?? ""));
-
-        const fetchUrl_ =
-          fetchUrl !== ""
-            ? fetchUrl.split("&startIndex=")[0] + `&startIndex=${currStartIdx}`
-            : await localforage
-                .getItem<ResponseState["fetchUrl"]>("byblos-fetchUrl")
-                .then(
-                  (value) =>
-                    value?.split("&startIndex=")[0] +
-                    `&startIndex=${currStartIdx}`
-                );
-
         try {
-          const { data } = await axios.get(
-            fetchUrl_ ??
-              `https://www.googleapis.com/books/v1/volumes?q=${
-                searchTerm_ ?? ""
-              }&maxResults=40&startIndex=0&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`
-          );
+          const searchTerm_ =
+            searchTerm ||
+            (await localforage.getItem<ResponseState["searchTerm"]>(
+              "byblos-searchTerm"
+            )) ||
+            (await localforage
+              .getItem<HistoryState>("byblos-searchTerm")
+              .then((value) => value?.at(-1)?.searchTerm)) ||
+            "";
 
-          console.log("fetchUrl from authorCollection", fetchUrl_);
+          const [url, params] =
+            fetchUrl.split("?q=") ||
+            (await localforage
+              .getItem<ResponseState["fetchUrl"]>("byblos-fetchUrl")
+              .then((value) => value?.split("?q="))) ||
+            (await localforage
+              .getItem<HistoryState>("byblos-fetchUrl")
+              .then((value) => value?.at(-1)?.fetchUrl?.split("?q="))) ||
+            "";
+
+          const fetchUrl_ = `${url}?q=${searchTerm}&startIndex=${currStartIdx}${params}`;
+
+          console.log("fetchMoreResults inside authorCollection: ", fetchUrl_);
+
+          const { data } = await axios.get(fetchUrl_);
 
           if (!ignore) {
             if (data.items) {
@@ -181,7 +194,7 @@ function AuthorCollection({
                 type: setAll,
                 payload: {
                   responseState: {
-                    fetchUrl: fetchUrl_,
+                    fetchUrl,
                     startIndex: currStartIdx,
                     searchTerm: searchTerm_,
                     searchResults: {

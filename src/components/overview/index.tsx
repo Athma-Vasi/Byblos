@@ -10,7 +10,7 @@ import {
 } from "@mantine/core";
 import localforage from "localforage";
 import { useEffect, useState } from "react";
-import { AiOutlineAmazon, AiFillBook, AiOutlineGoogle } from "react-icons/ai";
+import { AiFillBook, AiOutlineAmazon, AiOutlineGoogle } from "react-icons/ai";
 import { FcKindle } from "react-icons/fc";
 import { CgEreader, CgSearch } from "react-icons/cg";
 import { useWindowSize } from "../../hooks/useWindowSize";
@@ -380,7 +380,7 @@ function Overview({ allStates }: OverviewProps) {
     <Card shadow="sm" radius="md" style={{ width: "100%" }}>
       <Flex direction="row" justify="space-between" align="center">
         <Flex direction="row" justify="start" align="center">
-          <AiOutlineAmazon size={40} />
+          <AiOutlineAmazon size={28} />
           <Space w="xl" />
           <Text>Amazon.ca</Text>
         </Flex>
@@ -400,7 +400,7 @@ function Overview({ allStates }: OverviewProps) {
 
       <Flex direction="row" justify="space-between" align="center">
         <Flex direction="row" justify="start" align="center">
-          <AiFillBook size={40} />
+          <AiFillBook size={28} />
           <Space w="xl" />
           <Text>Chapters Indigo</Text>
         </Flex>
@@ -420,7 +420,7 @@ function Overview({ allStates }: OverviewProps) {
 
       <Flex direction="row" justify="space-between" align="center">
         <Flex direction="row" justify="start" align="center">
-          <AiOutlineGoogle size={40} />
+          <AiOutlineGoogle size={28} />
           <Space w="xl" />
           <Text>Google Books</Text>
         </Flex>
@@ -443,7 +443,7 @@ function Overview({ allStates }: OverviewProps) {
       <Flex direction="column" align="start" justify="center">
         {/* amazon section */}
         <Flex direction="row" justify="start" align="center">
-          <AiOutlineAmazon size={40} />
+          <AiOutlineAmazon size={28} />
           <Space w="xl" />
           <Text>Amazon.ca</Text>
         </Flex>
@@ -465,7 +465,7 @@ function Overview({ allStates }: OverviewProps) {
 
         {/* chapters section */}
         <Flex direction="row" justify="start" align="center">
-          <AiFillBook size={40} />
+          <AiFillBook size={28} />
           <Space w="xl" />
           <Text>Chapters Indigo</Text>
         </Flex>
@@ -487,7 +487,7 @@ function Overview({ allStates }: OverviewProps) {
 
         {/* google books section */}
         <Flex direction="row" justify="start" align="center">
-          <AiOutlineGoogle size={40} />
+          <AiOutlineGoogle size={28} />
           <Space w="xl" />
           <Text>Google Books</Text>
         </Flex>
@@ -515,7 +515,7 @@ function Overview({ allStates }: OverviewProps) {
 
       <Flex direction="row" justify="space-between" align="center">
         <Flex direction="row" justify="start" align="center">
-          <VscOpenPreview size={40} />
+          <VscOpenPreview size={28} />
           <Space w="xl" />
           <Text>Sample preview</Text>
         </Flex>
@@ -531,7 +531,7 @@ function Overview({ allStates }: OverviewProps) {
 
       <Flex direction="row" justify="space-between" align="center">
         <Flex direction="row" justify="start" align="center">
-          <CgEreader size={40} />
+          <CgEreader size={28} />
           <Space w="xl" />
           <Text>Web reader</Text>
         </Flex>
@@ -547,7 +547,7 @@ function Overview({ allStates }: OverviewProps) {
 
       <Flex direction="row" justify="space-between" align="center">
         <Flex direction="row" justify="start" align="center">
-          <FcKindle size={40} />
+          <FcKindle size={28} />
           <Space w="xl" />
           <Text>Epub sample</Text>
         </Flex>
@@ -568,7 +568,7 @@ function Overview({ allStates }: OverviewProps) {
       <Space h="lg" />
 
       <Flex direction="row" justify="flex-start" align="center">
-        <VscOpenPreview size={30} />
+        <VscOpenPreview size={28} />
         <Space w="xl" />
         <Text>Sample preview</Text>
       </Flex>
@@ -585,7 +585,7 @@ function Overview({ allStates }: OverviewProps) {
       <Space h="lg" />
 
       <Flex direction="row" justify="flex-start" align="center">
-        <CgEreader size={30} />
+        <CgEreader size={28} />
         <Space w="xl" />
         <Text>Web reader</Text>
       </Flex>
@@ -602,7 +602,7 @@ function Overview({ allStates }: OverviewProps) {
       <Space h="lg" />
 
       <Flex direction="row" justify="flex-start" align="center">
-        <FcKindle size={30} />
+        <FcKindle size={28} />
         <Space w="xl" />
         <Text>Epub sample</Text>
       </Flex>

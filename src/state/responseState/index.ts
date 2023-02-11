@@ -1,7 +1,9 @@
 import { ResponseActions, ResponseDispatch, ResponseState } from "../../types";
 
 const initialResponseState: ResponseState = {
-  fetchUrl: "",
+  fetchUrl: `https://www.googleapis.com/books/v1/volumes?q=&maxResults=40&key=${
+    import.meta.env.VITE_GOOGLE_BOOKS_API_KEY
+  }`,
   startIndex: 0,
   searchTerm: "",
   searchResults: null,
