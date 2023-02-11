@@ -679,7 +679,8 @@ function DisplayBookshelf({
         {definedBookshelfVolumes?.length < 2 ? (
           <Container>
             <Card shadow="sm" p="md" radius="md" withBorder>
-              <Text>There seems to be nothing here (｡•́︿•̀｡) </Text>
+              <Text>There seems to be nothing here</Text>
+              <Text>(｡•́︿•̀｡)</Text>
             </Card>
           </Container>
         ) : null}

@@ -683,7 +683,8 @@ function DisplayGeneric({
         {modifiedSearchResults.length === 0 ? (
           <Container>
             <Card shadow="sm" p="md" radius="md" withBorder>
-              <Text>There are no volumes here (｡•́︿•̀｡) </Text>
+              <Text>There seems to be nothing here</Text>
+              <Text>(｡•́︿•̀｡)</Text>
             </Card>
           </Container>
         ) : null}

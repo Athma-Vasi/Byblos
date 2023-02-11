@@ -1,4 +1,13 @@
-import { Card, Grid, Space, Text, Image, Flex, Button } from "@mantine/core";
+import {
+  Card,
+  Grid,
+  Space,
+  Text,
+  Image,
+  Flex,
+  Button,
+  Title,
+} from "@mantine/core";
 import localforage from "localforage";
 import { useEffect, useState } from "react";
 import { AiOutlineAmazon, AiFillBook, AiOutlineGoogle } from "react-icons/ai";
@@ -236,11 +245,12 @@ function Overview({ allStates }: OverviewProps) {
     : selectedVolumeForage?.accessInfo?.webReaderLink;
 
   return (
-    <div>
+    <Flex direction="column" p={width < 576 ? "sm" : "md"}>
       <Space h="xs" />
-      <Text align="start" size="lg">
-        About this edition
-      </Text>
+
+      <Flex direction="row" justify={width < 576 ? "center" : "flex-start"}>
+        <Title order={4}>About this edition</Title>
+      </Flex>
 
       <Card shadow="sm" radius="md" style={{ width: "100%" }}>
         <Grid columns={width < 576 ? 1 : 3} align="center">
@@ -319,9 +329,9 @@ function Overview({ allStates }: OverviewProps) {
       <Space h="lg" />
       <Space h="lg" />
 
-      <Text align="start" size="lg">
-        Get book
-      </Text>
+      <Flex direction="row" justify={width < 576 ? "center" : "flex-start"}>
+        <Title order={4}>Get book</Title>
+      </Flex>
 
       <Card shadow="sm" radius="md" style={{ width: "100%" }}>
         <Flex direction="row" justify="space-between" align="center">
@@ -389,9 +399,9 @@ function Overview({ allStates }: OverviewProps) {
       <Space h="lg" />
       <Space h="lg" />
 
-      <Text align="start" size="lg">
-        Previews
-      </Text>
+      <Flex direction="row" justify={width < 576 ? "center" : "flex-start"}>
+        <Title order={4}>Previews</Title>
+      </Flex>
 
       <Card shadow="sm" radius="md" style={{ width: "100%" }}>
         <Text>{"Google Books (may require authorization)"}</Text>
@@ -444,7 +454,7 @@ function Overview({ allStates }: OverviewProps) {
           </a>
         </Flex>
       </Card>
-    </div>
+    </Flex>
   );
 }
 

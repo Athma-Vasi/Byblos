@@ -1,4 +1,4 @@
-import { Space } from "@mantine/core";
+import { Space, Text } from "@mantine/core";
 import axios from "axios";
 import localforage from "localforage";
 import { useEffect } from "react";
@@ -133,9 +133,6 @@ function DisplayResults({
         <Space key={i} h="xs" />
       ))}
 
-      {Array.from({ length: 5 }).map((_, i) => (
-        <Space key={i} h="xs" />
-      ))}
       <DisplayGeneric
         allStates={allStates}
         allActions={allActions}

@@ -1,4 +1,4 @@
-import { Flex, Menu, NavLink, Space } from "@mantine/core";
+import { Button, Flex, Menu, NavLink, Space } from "@mantine/core";
 import localforage from "localforage";
 import React, { useState } from "react";
 import { BsPersonLinesFill } from "react-icons/bs";
@@ -170,6 +170,7 @@ function DisplayVolume({ allStates }: DisplayVolumeProps) {
         position="bottom-start"
         transition={width < 576 ? "slide-left" : "slide-down"}
         transitionDuration={382}
+        radius="sm"
       >
         <Menu.Target>
           <NavLink
