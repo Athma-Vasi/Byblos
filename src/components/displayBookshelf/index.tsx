@@ -676,7 +676,7 @@ function DisplayBookshelf({
         alt={modalAlt}
       />
       <Flex gap="xl" direction="column">
-        {definedBookshelfVolumes?.length < 2 ? (
+        {definedBookshelfVolumes.length === 0 ? (
           <Container>
             <Card shadow="sm" p="md" radius="md" withBorder>
               <Text>There seems to be nothing here</Text>
@@ -684,7 +684,7 @@ function DisplayBookshelf({
             </Card>
           </Container>
         ) : null}
-        {definedBookshelfVolumes?.map((item) =>
+        {definedBookshelfVolumes.map((item) =>
           // prevents default volume from being rendered
           item.id === "aZ0YkIU0HusC" ? null : (
             <Card
@@ -693,9 +693,10 @@ function DisplayBookshelf({
               radius="md"
               withBorder
               key={item.customId}
-              style={{ minHeight: "300px" }}
+              style={{ minHeight: "325px" }}
             >
               <Grid key={item.customId} columns={9}>
+                {/* image column */}
                 <Grid.Col span={width < 992 ? 2 : 1}>
                   <Flex
                     style={{
@@ -709,9 +710,9 @@ function DisplayBookshelf({
                   >
                     <Image
                       style={{ cursor: "pointer" }}
-                      src={item.volumeInfo?.imageLinks?.thumbnail}
+                      src={item.volumeInfo.imageLinks?.thumbnail}
                       alt={`thumbnail of ${
-                        item.volumeInfo?.title ?? "unavailable"
+                        item.volumeInfo.title ?? "unavailable"
                       } book cover`}
                       onClick={() => {
                         setModalSrc(
@@ -728,21 +729,212 @@ function DisplayBookshelf({
                     />
                   </Flex>
                 </Grid.Col>
-                <Grid.Col span={width < 992 ? 6 : 7}>
-                  <Title
-                    order={3}
-                    onClick={() => {
-                      handleTitleClick(item);
-                    }}
-                    style={{ paddingBottom: "3px" }}
-                  >
-                    <Link
-                      to={`/home/displayVolume/${item.customId}`}
-                      style={{ textDecoration: "none", color: "inherit" }}
+
+                {/* description column */}
+                <Grid.Col span={width < 992 ? 7 : 8}>
+                  {/* title and popover */}
+                  <Flex align="center" justify="space-between">
+                    {/* title */}
+                    <Title
+                      order={3}
+                      onClick={() => {
+                        handleTitleClick(item);
+                      }}
+                      style={{ paddingBottom: "3px" }}
                     >
-                      {item.volumeInfo.title}
-                    </Link>
-                  </Title>
+                      <Link
+                        to={`/home/displayVolume/${item.customId}`}
+                        style={{ textDecoration: "none", color: "inherit" }}
+                      >
+                        {item.volumeInfo.title}
+                      </Link>
+                    </Title>
+
+                    <Flex>
+                      {/* popover */}
+                      <Popover
+                        width={300}
+                        position={width < 576 ? "bottom" : "left"}
+                        withArrow
+                        shadow="md"
+                      >
+                        <Popover.Target>
+                          <Button
+                            variant={width < 576 ? "light" : "subtle"}
+                            radius="lg"
+                          >
+                            <BsThreeDotsVertical size={20} />
+                          </Button>
+                        </Popover.Target>
+                        {/* ratings popover */}
+                        <Popover.Dropdown>
+                          <Flex
+                            direction="column"
+                            justify="center"
+                            align="center"
+                            gap="sm"
+                          >
+                            <Flex
+                              direction="row"
+                              align="center"
+                              justify="space-between"
+                              style={{
+                                width: "100%",
+                              }}
+                            >
+                              <Title order={5}>Rate</Title>
+                              <MyRating
+                                value={
+                                  tempLocalBookshelf?.find(
+                                    (book) => book.id === item.id
+                                  )?.rating ?? 0
+                                }
+                                onChange={(value) =>
+                                  handleUserBookshelfAction(
+                                    "rating",
+                                    item,
+                                    tempLocalBookshelf,
+                                    value
+                                  )
+                                }
+                              />
+                            </Flex>
+
+                            <Flex
+                              direction="row"
+                              align="center"
+                              justify="space-between"
+                              style={{
+                                width: "100%",
+                              }}
+                            >
+                              <Title order={5}>Favourite</Title>
+                              <Button
+                                variant={width < 576 ? "light" : "subtle"}
+                                radius="lg"
+                                onClick={() => {
+                                  handleUserBookshelfAction(
+                                    "favourite",
+                                    item,
+                                    tempLocalBookshelf,
+                                    tempLocalBookshelf.find(
+                                      (book) => book.id === item.id
+                                    )?.favourite ?? false
+                                  );
+                                }}
+                              >
+                                {tempLocalBookshelf?.find(
+                                  (book) => book.id === item.id
+                                )?.favourite ? (
+                                  <MdOutlineFavorite size={20} />
+                                ) : (
+                                  <MdOutlineFavoriteBorder size={20} />
+                                )}
+                              </Button>
+                            </Flex>
+
+                            <Flex
+                              direction="row"
+                              align="center"
+                              justify="space-between"
+                              style={{
+                                width: "100%",
+                              }}
+                            >
+                              <Title order={5}>Read later</Title>
+                              <Button
+                                variant={width < 576 ? "light" : "subtle"}
+                                radius="lg"
+                                onClick={() => {
+                                  handleUserBookshelfAction(
+                                    "readLater",
+                                    item,
+                                    tempLocalBookshelf,
+                                    tempLocalBookshelf.find(
+                                      (book) => book.id === item.id
+                                    )?.readLater ?? false
+                                  );
+                                }}
+                              >
+                                {tempLocalBookshelf?.find(
+                                  (book) => book.id === item.id
+                                )?.readLater ? (
+                                  <MdWatchLater size={20} />
+                                ) : (
+                                  <MdOutlineWatchLater size={20} />
+                                )}
+                              </Button>
+                            </Flex>
+
+                            <Flex
+                              direction="row"
+                              align="center"
+                              justify="space-between"
+                              style={{
+                                width: "100%",
+                              }}
+                            >
+                              <Title order={5}>Mark read</Title>
+                              <Button
+                                variant={width < 576 ? "light" : "subtle"}
+                                radius="lg"
+                                onClick={() => {
+                                  handleUserBookshelfAction(
+                                    "markRead",
+                                    item,
+                                    tempLocalBookshelf,
+                                    tempLocalBookshelf.find(
+                                      (book) => book.id === item.id
+                                    )?.markRead ?? false
+                                  );
+                                }}
+                              >
+                                {tempLocalBookshelf?.find(
+                                  (book) => book.id === item.id
+                                )?.markRead ? (
+                                  <IoMdCheckmarkCircle size={20} />
+                                ) : (
+                                  <IoMdCheckmarkCircleOutline size={20} />
+                                )}
+                              </Button>
+                            </Flex>
+
+                            <Flex
+                              direction="row"
+                              align="center"
+                              justify="space-between"
+                              style={{
+                                width: "100%",
+                              }}
+                            >
+                              <Title order={5}>Remove</Title>
+                              <Button
+                                variant={width < 576 ? "light" : "subtle"}
+                                radius="lg"
+                                disabled={
+                                  tempLocalBookshelf?.some(
+                                    (book) => book.id === item.id
+                                  )
+                                    ? false
+                                    : true
+                                }
+                                onClick={() => {
+                                  handleUserBookshelfAction(
+                                    "removeVolume",
+                                    item,
+                                    tempLocalBookshelf,
+                                    true
+                                  );
+                                }}
+                              >
+                                <HiOutlineDocumentRemove size={20} />
+                              </Button>
+                            </Flex>
+                          </Flex>
+                        </Popover.Dropdown>
+                      </Popover>
+                    </Flex>
+                  </Flex>
 
                   {item.volumeInfo.authors
                     ?.join(",:")
@@ -766,197 +958,31 @@ function DisplayBookshelf({
                   </Text>
 
                   <Spoiler
-                    maxHeight={150}
-                    showLabel="Show more"
-                    hideLabel="Hide"
+                    maxHeight={176}
+                    showLabel={
+                      width < 576 ? (
+                        <Button radius="md" variant="light">
+                          ⬇ Show more
+                        </Button>
+                      ) : (
+                        "Show more"
+                      )
+                    }
+                    hideLabel={
+                      width < 576 ? (
+                        <Button radius="md" variant="light">
+                          ⬆ Hide
+                        </Button>
+                      ) : (
+                        "Hide"
+                      )
+                    }
                     transitionDuration={382}
                   >
                     <Text>
                       {item.volumeInfo.description ?? "Description unavailable"}
                     </Text>
                   </Spoiler>
-                </Grid.Col>
-                <Grid.Col span={1}>
-                  <Center>
-                    <Popover
-                      width={300}
-                      position="left-start"
-                      withArrow
-                      shadow="md"
-                    >
-                      <Popover.Target>
-                        <Button variant="subtle" radius="lg">
-                          <BsThreeDotsVertical size={20} />
-                        </Button>
-                      </Popover.Target>
-                      {/* ratings popover */}
-                      <Popover.Dropdown>
-                        <Flex
-                          direction="column"
-                          justify="center"
-                          align="center"
-                          gap="sm"
-                        >
-                          <Flex
-                            direction="row"
-                            align="center"
-                            justify="space-between"
-                            style={{
-                              width: "100%",
-                            }}
-                          >
-                            <Title order={5}>Rate</Title>
-                            <MyRating
-                              value={
-                                tempLocalBookshelf?.find(
-                                  (book) => book.id === item.id
-                                )?.rating ?? 0
-                              }
-                              onChange={(value) =>
-                                handleUserBookshelfAction(
-                                  "rating",
-                                  item,
-                                  tempLocalBookshelf,
-                                  value
-                                )
-                              }
-                            />
-                          </Flex>
-
-                          <Flex
-                            direction="row"
-                            align="center"
-                            justify="space-between"
-                            style={{
-                              width: "100%",
-                            }}
-                          >
-                            <Title order={5}>Favourite</Title>
-                            <Button
-                              variant="subtle"
-                              radius="lg"
-                              onClick={() => {
-                                handleUserBookshelfAction(
-                                  "favourite",
-                                  item,
-                                  tempLocalBookshelf,
-                                  tempLocalBookshelf.find(
-                                    (book) => book.id === item.id
-                                  )?.favourite ?? false
-                                );
-                              }}
-                            >
-                              {tempLocalBookshelf?.find(
-                                (book) => book.id === item.id
-                              )?.favourite ? (
-                                <MdOutlineFavorite size={20} />
-                              ) : (
-                                <MdOutlineFavoriteBorder size={20} />
-                              )}
-                            </Button>
-                          </Flex>
-
-                          <Flex
-                            direction="row"
-                            align="center"
-                            justify="space-between"
-                            style={{
-                              width: "100%",
-                            }}
-                          >
-                            <Title order={5}>Read later</Title>
-                            <Button
-                              variant="subtle"
-                              radius="lg"
-                              onClick={() => {
-                                handleUserBookshelfAction(
-                                  "readLater",
-                                  item,
-                                  tempLocalBookshelf,
-                                  tempLocalBookshelf.find(
-                                    (book) => book.id === item.id
-                                  )?.readLater ?? false
-                                );
-                              }}
-                            >
-                              {tempLocalBookshelf?.find(
-                                (book) => book.id === item.id
-                              )?.readLater ? (
-                                <MdWatchLater size={20} />
-                              ) : (
-                                <MdOutlineWatchLater size={20} />
-                              )}
-                            </Button>
-                          </Flex>
-
-                          <Flex
-                            direction="row"
-                            align="center"
-                            justify="space-between"
-                            style={{
-                              width: "100%",
-                            }}
-                          >
-                            <Title order={5}>Mark read</Title>
-                            <Button
-                              variant="subtle"
-                              radius="lg"
-                              onClick={() => {
-                                handleUserBookshelfAction(
-                                  "markRead",
-                                  item,
-                                  tempLocalBookshelf,
-                                  tempLocalBookshelf.find(
-                                    (book) => book.id === item.id
-                                  )?.markRead ?? false
-                                );
-                              }}
-                            >
-                              {tempLocalBookshelf?.find(
-                                (book) => book.id === item.id
-                              )?.markRead ? (
-                                <IoMdCheckmarkCircle size={20} />
-                              ) : (
-                                <IoMdCheckmarkCircleOutline size={20} />
-                              )}
-                            </Button>
-                          </Flex>
-
-                          <Flex
-                            direction="row"
-                            align="center"
-                            justify="space-between"
-                            style={{
-                              width: "100%",
-                            }}
-                          >
-                            <Title order={5}>Remove</Title>
-                            <Button
-                              variant="subtle"
-                              radius="lg"
-                              disabled={
-                                tempLocalBookshelf?.some(
-                                  (book) => book.id === item.id
-                                )
-                                  ? false
-                                  : true
-                              }
-                              onClick={() => {
-                                handleUserBookshelfAction(
-                                  "removeVolume",
-                                  item,
-                                  tempLocalBookshelf,
-                                  true
-                                );
-                              }}
-                            >
-                              <HiOutlineDocumentRemove size={20} />
-                            </Button>
-                          </Flex>
-                        </Flex>
-                      </Popover.Dropdown>
-                    </Popover>
-                  </Center>
                 </Grid.Col>
               </Grid>
             </Card>

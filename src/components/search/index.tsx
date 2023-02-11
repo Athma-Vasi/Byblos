@@ -39,6 +39,8 @@ function Search({
     event: React.KeyboardEvent<HTMLInputElement>
   ) {
     if (event.key === "Enter") {
+      window.scrollTo(0, 0);
+
       try {
         const fetchUrlFromGenericSearch = `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40&startIndex=0&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
         const { data } = await axios.get(fetchUrlFromGenericSearch);
@@ -138,6 +140,8 @@ function rightInputSection(
   async function handleSearchIconClick(
     event: React.MouseEvent<SVGElement, MouseEvent>
   ) {
+    window.scrollTo(0, 0);
+
     try {
       const fetchUrlFromGenericSearch = `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40&startIndex=0&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
       const { data } = await axios.get(fetchUrlFromGenericSearch);

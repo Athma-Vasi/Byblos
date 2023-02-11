@@ -91,7 +91,7 @@ function MyHeader({
       //set popover to closed
       setPopoverOpened((open) => !open);
 
-      console.log("searchTerm: ", searchTerm);
+      window.scrollTo(0, 0);
 
       try {
         const fetchUrlFromGenericSearch = `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40&startIndex=0&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
@@ -135,7 +135,7 @@ function MyHeader({
           cause: "handleEnterKeyInput()",
         });
 
-        console.group("Error in search eventHandler");
+        console.group("Error in header search eventHandler");
         console.error("name: ", error_.name);
         console.error("message: ", error_.message);
         console.error("cause: ", error_.cause);
@@ -283,7 +283,7 @@ function rightInputSection(
     //set popover to closed
     setPopoverOpened((open) => !open);
 
-    console.log("searchTerm: ", searchTerm);
+    window.scrollTo(0, 0);
 
     try {
       const fetchUrlFromGenericSearch = `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40&startIndex=0&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
@@ -325,7 +325,7 @@ function rightInputSection(
         cause: "handleSearchIconClick()",
       });
 
-      console.group("Error in search rightInputSection() eventHandler");
+      console.group("Error in header search rightInputSection() eventHandler");
       console.error("name: ", error_.name);
       console.error("message: ", error_.message);
       console.error("cause: ", error_.cause);
