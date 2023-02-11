@@ -65,7 +65,7 @@ function OtherEditions({
           selectedVolume?.volumeInfo.title || otherEditions[0].volumeInfo.title
         }+inauthor:${
           selectedAuthor || otherEditions[0].volumeInfo.authors[0]
-        }${params}`;
+        }&maxResults=40${params}`;
 
         console.log(
           "fetchUrlWithName inside otherEditions: ",
@@ -182,7 +182,7 @@ function OtherEditions({
               .then((value) => value?.at(-1)?.fetchUrl?.split("?q="))) ||
             "";
 
-          const fetchUrl_ = `${url}?q=${searchTerm}&startIndex=${currStartIdx}${params}`;
+          const fetchUrl_ = `${url}?q=${searchTerm}&startIndex=${currStartIdx}&maxResults=40${params}`;
 
           console.log("fetchMoreResults inside otherEditions: ", fetchUrl_);
 

@@ -55,30 +55,65 @@ function DisplayResults({
       const fetchMoreResults = async () => {
         const currStartIdx = startIndex + 40;
 
-        const searchTerm_ =
-          searchTerm ||
-          (await localforage
-            .getItem<HistoryState>("byblos-historyState")
-            .then((value) => value?.at(-1)?.searchTerm ?? ""));
+        // const searchTerm_ =
+        //   searchTerm ||
+        //   (await localforage
+        //     .getItem<HistoryState>("byblos-historyState")
+        //     .then((value) => value?.at(-1)?.searchTerm ?? ""));
 
-        const fetchUrl_ =
-          fetchUrl !== ""
-            ? fetchUrl.split("&startIndex=")[0] + `&startIndex=${currStartIdx}`
-            : await localforage
-                .getItem<ResponseState["fetchUrl"]>("byblos-fetchUrl")
-                .then(
-                  (value) =>
-                    value?.split("&startIndex=")[0] +
-                    `&startIndex=${currStartIdx}`
-                );
+        // const fetchUrl_ =
+        //   fetchUrl !== ""
+        //     ? fetchUrl.split("&startIndex=")[0] + `&startIndex=${currStartIdx}`
+        //     : await localforage
+        //         .getItem<ResponseState["fetchUrl"]>("byblos-fetchUrl")
+        //         .then(
+        //           (value) =>
+        //             value?.split("&startIndex=")[0] +
+        //             `&startIndex=${currStartIdx}`
+        //         );
 
         try {
-          const { data } = await axios.get(
-            fetchUrl_ ??
-              `https://www.googleapis.com/books/v1/volumes?q=${
-                searchTerm_ ?? ""
-              }&maxResults=40&startIndex=0&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`
+          console.log(
+            "OG fetchUrl fetchMoreResults inside displayResults: ",
+            fetchUrl
           );
+
+          const searchTerm_ =
+            searchTerm ||
+            (await localforage.getItem<ResponseState["searchTerm"]>(
+              "byblos-searchTerm"
+            )) ||
+            (await localforage
+              .getItem<HistoryState>("byblos-searchTerm")
+              .then((value) => value?.at(-1)?.searchTerm)) ||
+            "";
+
+          console.log(
+            "searchTerm_ fetchMoreResults inside displayResults: ",
+            searchTerm_
+          );
+
+          const [url, params] =
+            fetchUrl.split("?q=") ||
+            (await localforage
+              .getItem<ResponseState["fetchUrl"]>("byblos-fetchUrl")
+              .then((value) => value?.split("?q="))) ||
+            (await localforage
+              .getItem<HistoryState>("byblos-fetchUrl")
+              .then((value) => value?.at(-1)?.fetchUrl?.split("?q="))) ||
+            "";
+
+          console.log("url fetchMoreResults inside displayResults: ", url);
+          console.log(
+            "params fetchMoreResults inside displayResults: ",
+            params
+          );
+
+          const fetchUrl_ = `${url}?q=${searchTerm}&startIndex=${currStartIdx}${params}`;
+
+          console.log("fetchMoreResults inside displayResults: ", fetchUrl_);
+
+          const { data } = await axios.get(fetchUrl_);
           if (!ignore) {
             if (data.items) {
               searchResults?.items?.push(...data?.items);
@@ -86,7 +121,7 @@ function DisplayResults({
                 type: setAll,
                 payload: {
                   responseState: {
-                    fetchUrl: fetchUrl_,
+                    fetchUrl,
                     startIndex: currStartIdx,
                     searchTerm: searchTerm_,
                     searchResults: {

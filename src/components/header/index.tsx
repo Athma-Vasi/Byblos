@@ -15,8 +15,7 @@ import {
   Image,
 } from "@mantine/core";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../../assets/logo/pinterest_profile_image.png";
-import logo_text_slogan from "../../assets/logo/logo_text_slogan.png";
+import logo_transparent from "../../../src/assets/logo/logo_transparent.png";
 
 import { Search } from "../search";
 import {
@@ -154,9 +153,9 @@ function MyHeader({
     <Grid.Col span={3} style={{ display: `${width < 576 ? "none" : ""}` }}>
       <Link to={"/"}>
         <Image
-          src={logo_text_slogan}
+          src={logo_transparent}
           alt="Byblos logo"
-          width={width < 768 ? 150 : 200}
+          width={width < 992 ? 50 : 75}
         />
       </Link>
     </Grid.Col>,
@@ -174,7 +173,12 @@ function MyHeader({
     <Grid.Col span={6}>
       <Flex direction="row" align="center" justify="space-evenly">
         <Link to={`/`}>
-          <Image src={logo} alt="Byblos logo" width={50} height={50} />
+          <Image
+            src={logo_transparent}
+            alt="Byblos logo"
+            width={50}
+            height={50}
+          />
         </Link>
         <Popover
           width={350}

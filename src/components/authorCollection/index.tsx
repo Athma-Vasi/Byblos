@@ -65,7 +65,7 @@ function AuthorCollection({
           authorCollection[0].volumeInfo.authors ||
           searchResults?.items[0].volumeInfo.authors ||
           ""
-        }${params}`;
+        }&maxResults=40${params}`;
 
         console.log(
           "fetchUrlWithAuthor inside authorCollection: ",
@@ -181,7 +181,7 @@ function AuthorCollection({
               .then((value) => value?.at(-1)?.fetchUrl?.split("?q="))) ||
             "";
 
-          const fetchUrl_ = `${url}?q=${searchTerm}&startIndex=${currStartIdx}${params}`;
+          const fetchUrl_ = `${url}?q=${searchTerm}&startIndex=${currStartIdx}&maxResults=40${params}`;
 
           console.log("fetchMoreResults inside authorCollection: ", fetchUrl_);
 

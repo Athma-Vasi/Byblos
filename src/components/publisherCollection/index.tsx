@@ -67,7 +67,7 @@ function PublisherCollection({
           publisherCollection[0].volumeInfo.publisher ||
           searchResults?.items[0].volumeInfo.publisher ||
           ""
-        }${params}`;
+        }&maxResults=40${params}`;
 
         console.log(
           "fetchUrlWithPublisher inside publisherCollection: ",
@@ -185,7 +185,7 @@ function PublisherCollection({
               .then((value) => value?.at(-1)?.fetchUrl?.split("?q="))) ||
             "";
 
-          const fetchUrl_ = `${url}?q=${searchTerm}&startIndex=${currStartIdx}${params}`;
+          const fetchUrl_ = `${url}?q=${searchTerm}&startIndex=${currStartIdx}&maxResults=40${params}`;
 
           console.log(
             "fetchMoreResults inside publisherCollection: ",
