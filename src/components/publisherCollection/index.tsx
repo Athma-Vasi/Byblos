@@ -1,4 +1,4 @@
-import { Text } from "@mantine/core";
+import { Space, Text, Title } from "@mantine/core";
 import axios from "axios";
 import localforage from "localforage";
 import { Fragment, Suspense, useEffect, useState } from "react";
@@ -49,6 +49,7 @@ function PublisherCollection({
       selectedPublisher,
       bookshelfVolumes,
     },
+    themeState: { theme },
   } = allStates;
   const { responseDispatch } = allDispatches;
   let {
@@ -244,9 +245,15 @@ function PublisherCollection({
 
   return (
     <Fragment>
+      <Title order={3} color={theme === "light" ? "dark.6" : "gray.5"}>
+        Publisher collection
+      </Title>
+
+      <Space h="md" />
+
       <ErrorBoundary
         fallback={
-          <Text>
+          <Text color={theme === "light" ? "dark.6" : "gray.5"}>
             {`Unable to display other editions ${
               selectedVolume ?? publisherCollection[0]?.volumeInfo.title ?? ""
             }`}

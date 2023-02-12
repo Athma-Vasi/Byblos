@@ -62,6 +62,8 @@ function MyHeader({
   const { width = 0 } = useWindowSize();
   const navigate = useNavigate();
 
+  const { themeState } = allStates;
+
   async function handleThemeSwitchClick(
     event: React.ChangeEvent<HTMLInputElement>
   ) {
@@ -217,6 +219,10 @@ function MyHeader({
                 onKeyDown={handleEnterKeyInput}
                 data-textinput="search"
                 data-autofocus
+                color={themeState.theme === "light" ? "dark.6" : "gray.5"}
+                style={{
+                  color: "GrayText",
+                }}
               />
 
               <Link
@@ -268,15 +274,16 @@ function MyHeader({
           <Flex align="center" justify="flex-end">
             <Switch
               size={width < 992 ? "md" : "lg"}
-              label={
-                width < 576
-                  ? ""
-                  : `${allStates.themeState.theme[0].toUpperCase()}${allStates.themeState.theme.slice(
-                      1
-                    )}`
-              }
               onChange={handleThemeSwitchClick}
             />
+            <Space w="sm" />
+            <Text color={themeState.theme === "light" ? "dark.6" : "gray.5"}>
+              {width < 576
+                ? ""
+                : `${allStates.themeState.theme[0].toUpperCase()}${allStates.themeState.theme.slice(
+                    1
+                  )}`}
+            </Text>
           </Flex>
         </Grid.Col>
       </Grid>

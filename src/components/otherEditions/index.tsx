@@ -1,4 +1,4 @@
-import { Text, Title } from "@mantine/core";
+import { Space, Text, Title } from "@mantine/core";
 import axios from "axios";
 import localforage from "localforage";
 import React, { Suspense } from "react";
@@ -51,6 +51,7 @@ function OtherEditions({
       selectedPublisher,
       bookshelfVolumes,
     },
+    themeState: { theme },
   } = allStates;
   let { responseDispatch } = allDispatches;
   let {
@@ -238,17 +239,26 @@ function OtherEditions({
 
   return (
     <div>
-      <Title order={3}>Other editions</Title>
+      <Title order={3} color={theme === "light" ? "dark.6" : "gray.5"}>
+        Other editions
+      </Title>
+
+      <Space h="md" />
+
       <ErrorBoundary
         fallback={
-          <Text>{`Unable to display other editions ${
+          <Text
+            color={theme === "light" ? "dark.6" : "gray.5"}
+          >{`Unable to display other editions ${
             selectedVolume ?? otherEditions[0]?.volumeInfo.title ?? ""
           }`}</Text>
         }
       >
         <Suspense
           fallback={
-            <Text>{`Loading other editions ${
+            <Text
+              color={theme === "light" ? "dark.6" : "gray.5"}
+            >{`Loading other editions ${
               selectedVolume ?? otherEditions[0]?.volumeInfo.title ?? ""
             }`}</Text>
           }

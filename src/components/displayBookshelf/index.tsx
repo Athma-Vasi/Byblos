@@ -83,6 +83,7 @@ function DisplayBookshelf({
       selectedPublisher,
       bookshelfVolumes,
     },
+    themeState: { theme },
   } = allStates;
   let { responseDispatch } = allDispatches;
 
@@ -679,8 +680,12 @@ function DisplayBookshelf({
         {definedBookshelfVolumes.length === 0 ? (
           <Container>
             <Card shadow="sm" p="md" radius="md" withBorder>
-              <Text>There seems to be nothing here</Text>
-              <Text>(｡•́︿•̀｡)</Text>
+              <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+                There seems to be nothing here
+              </Text>
+              <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+                (｡•́︿•̀｡)
+              </Text>
             </Card>
           </Container>
         ) : null}
@@ -739,6 +744,7 @@ function DisplayBookshelf({
                         handleTitleClick(item);
                       }}
                       style={{ paddingBottom: "3px" }}
+                      color={theme === "light" ? "dark.6" : "gray.5"}
                     >
                       <Link
                         to={`/home/displayVolume/${item.customId}`}
@@ -755,6 +761,7 @@ function DisplayBookshelf({
                         position={width < 576 ? "bottom" : "left"}
                         withArrow
                         shadow="md"
+                        radius="md"
                       >
                         <Popover.Target>
                           <Button
@@ -780,7 +787,12 @@ function DisplayBookshelf({
                                 width: "100%",
                               }}
                             >
-                              <Title order={5}>Rate</Title>
+                              <Title
+                                order={5}
+                                color={theme === "light" ? "dark.6" : "gray.5"}
+                              >
+                                Rate
+                              </Title>
                               <MyRating
                                 value={
                                   tempLocalBookshelf?.find(
@@ -806,7 +818,12 @@ function DisplayBookshelf({
                                 width: "100%",
                               }}
                             >
-                              <Title order={5}>Favourite</Title>
+                              <Title
+                                order={5}
+                                color={theme === "light" ? "dark.6" : "gray.5"}
+                              >
+                                Favourite
+                              </Title>
                               <Button
                                 variant={width < 576 ? "light" : "subtle"}
                                 radius="lg"
@@ -839,7 +856,12 @@ function DisplayBookshelf({
                                 width: "100%",
                               }}
                             >
-                              <Title order={5}>Read later</Title>
+                              <Title
+                                order={5}
+                                color={theme === "light" ? "dark.6" : "gray.5"}
+                              >
+                                Read later
+                              </Title>
                               <Button
                                 variant={width < 576 ? "light" : "subtle"}
                                 radius="lg"
@@ -872,7 +894,12 @@ function DisplayBookshelf({
                                 width: "100%",
                               }}
                             >
-                              <Title order={5}>Mark read</Title>
+                              <Title
+                                order={5}
+                                color={theme === "light" ? "dark.6" : "gray.5"}
+                              >
+                                Mark read
+                              </Title>
                               <Button
                                 variant={width < 576 ? "light" : "subtle"}
                                 radius="lg"
@@ -905,7 +932,12 @@ function DisplayBookshelf({
                                 width: "100%",
                               }}
                             >
-                              <Title order={5}>Remove</Title>
+                              <Title
+                                order={5}
+                                color={theme === "light" ? "dark.6" : "gray.5"}
+                              >
+                                Remove
+                              </Title>
                               <Button
                                 variant={width < 576 ? "light" : "subtle"}
                                 radius="lg"
@@ -938,10 +970,19 @@ function DisplayBookshelf({
                     ?.join(",:")
                     .split(":")
                     .map((author) => (
-                      <span key={author}>{author} </span>
+                      <Text
+                        style={{ display: "inline" }}
+                        color={theme === "light" ? "dark.6" : "gray.5"}
+                        key={author}
+                      >
+                        {author}{" "}
+                      </Text>
                     ))}
 
-                  <Text style={{ paddingTop: "3px", paddingBottom: "3px" }}>
+                  <Text
+                    style={{ paddingTop: "3px", paddingBottom: "3px" }}
+                    color={theme === "light" ? "dark.6" : "gray.5"}
+                  >
                     {Number.isNaN(
                       new Date(item.volumeInfo.publishedDate)
                         .getFullYear()
@@ -977,7 +1018,7 @@ function DisplayBookshelf({
                     }
                     transitionDuration={382}
                   >
-                    <Text>
+                    <Text color={theme === "light" ? "dark.6" : "gray.5"}>
                       {item.volumeInfo.description ?? "Description unavailable"}
                     </Text>
                   </Spoiler>

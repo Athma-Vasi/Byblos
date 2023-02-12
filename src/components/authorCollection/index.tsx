@@ -1,4 +1,4 @@
-import { Text } from "@mantine/core";
+import { Space, Text, Title } from "@mantine/core";
 import axios from "axios";
 import localforage from "localforage";
 import { Fragment, Suspense, useEffect, useState } from "react";
@@ -49,6 +49,7 @@ function AuthorCollection({
       selectedPublisher,
       bookshelfVolumes,
     },
+    themeState: { theme },
   } = allStates;
   let { responseDispatch } = allDispatches;
   let {
@@ -237,6 +238,12 @@ function AuthorCollection({
 
   return (
     <Fragment>
+      <Title order={3} color={theme === "light" ? "dark.6" : "gray.5"}>
+        Author collection
+      </Title>
+
+      <Space h="md" />
+
       <ErrorBoundary
         fallback={
           <Text>

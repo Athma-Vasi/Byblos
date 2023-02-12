@@ -481,6 +481,3 @@ export default function App() {
     </ThemeProvider>
   );
 }
-
-//AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI
-//TODO: restrict API key: https://cloud.google.com/docs/authentication/api-keys#securing_an_api_key

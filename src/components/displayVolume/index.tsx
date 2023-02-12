@@ -37,6 +37,7 @@ function DisplayVolume({ allStates }: DisplayVolumeProps) {
       selectedPublisher,
       bookshelfVolumes,
     },
+    themeState: { theme },
   } = allStates;
 
   const { volumeId, page } = useParams();
@@ -182,7 +183,14 @@ function DisplayVolume({ allStates }: DisplayVolumeProps) {
             active={navLinkActive.menu}
             label="Menu"
             variant="light"
-            icon={<BsMenuButtonFill size={20} />}
+            icon={
+              <BsMenuButtonFill
+                size={20}
+                style={{
+                  color: "GrayText",
+                }}
+              />
+            }
             onClick={() => {
               handleNavLinkActiveClick("Menu");
               setMenuOpened(!menuOpened);
@@ -191,7 +199,9 @@ function DisplayVolume({ allStates }: DisplayVolumeProps) {
         </Menu.Target>
 
         <Menu.Dropdown>
-          <Menu.Label>Navigate to</Menu.Label>
+          <Menu.Label color={theme === "light" ? "dark.6" : "gray.5"}>
+            Navigate to
+          </Menu.Label>
           <Flex direction={width < 576 ? "column" : "row"}>
             <Menu.Item>
               <Link
@@ -202,7 +212,14 @@ function DisplayVolume({ allStates }: DisplayVolumeProps) {
                   active={navLinkActive.overview}
                   label="Overview"
                   variant="subtle"
-                  icon={<HiOutlineViewGrid size={20} />}
+                  icon={
+                    <HiOutlineViewGrid
+                      size={20}
+                      style={{
+                        color: "GrayText",
+                      }}
+                    />
+                  }
                   onClick={() => handleNavLinkActiveClick("Overview")}
                 />
               </Link>
@@ -217,7 +234,14 @@ function DisplayVolume({ allStates }: DisplayVolumeProps) {
                   active={navLinkActive.otherEditions}
                   label="Other editions"
                   variant="subtle"
-                  icon={<VscUngroupByRefType size={20} />}
+                  icon={
+                    <VscUngroupByRefType
+                      size={20}
+                      style={{
+                        color: "GrayText",
+                      }}
+                    />
+                  }
                   onClick={() => handleNavLinkActiveClick("Other editions")}
                 />
               </Link>
@@ -232,7 +256,14 @@ function DisplayVolume({ allStates }: DisplayVolumeProps) {
                   active={navLinkActive.publisherCollection}
                   label="Publisher collection"
                   variant="subtle"
-                  icon={<MdOutlinePublish size={20} />}
+                  icon={
+                    <MdOutlinePublish
+                      size={20}
+                      style={{
+                        color: "GrayText",
+                      }}
+                    />
+                  }
                   onClick={() =>
                     handleNavLinkActiveClick("Publisher collection")
                   }
@@ -249,7 +280,14 @@ function DisplayVolume({ allStates }: DisplayVolumeProps) {
                   active={navLinkActive.authorCollection}
                   label="Author collection"
                   variant="subtle"
-                  icon={<BsPersonLinesFill size={20} />}
+                  icon={
+                    <BsPersonLinesFill
+                      size={20}
+                      style={{
+                        color: "GrayText",
+                      }}
+                    />
+                  }
                   onClick={() => handleNavLinkActiveClick("Author collection")}
                 />
               </Link>

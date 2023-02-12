@@ -53,6 +53,7 @@ function AdvancedSearch({
       selectedPublisher,
       bookshelfVolumes,
     },
+    themeState: { theme },
   } = allStates;
   let {
     responseActions: { setAll },
@@ -234,7 +235,9 @@ function AdvancedSearch({
               align="center"
               justify={width < 576 ? "flex-start" : "center"}
             >
-              <Title order={4}>Find results</Title>
+              <Title order={4} color={theme === "light" ? "dark.6" : "gray.5"}>
+                Find results
+              </Title>
             </Flex>
           </Grid.Col>
 
@@ -252,7 +255,7 @@ function AdvancedSearch({
                 py={width < 576 ? "sm" : "md"}
               >
                 <Grid.Col span={1}>
-                  <Text>
+                  <Text color={theme === "light" ? "dark.6" : "gray.5"}>
                     containing <strong>all</strong> of the words
                   </Text>
                 </Grid.Col>
@@ -270,7 +273,7 @@ function AdvancedSearch({
                 py={width < 576 ? "sm" : "md"}
               >
                 <Grid.Col span={1}>
-                  <Text>
+                  <Text color={theme === "light" ? "dark.6" : "gray.5"}>
                     containing the <strong>exact phrase</strong>
                   </Text>
                 </Grid.Col>
@@ -288,7 +291,7 @@ function AdvancedSearch({
                 py={width < 576 ? "sm" : "md"}
               >
                 <Grid.Col span={1}>
-                  <Text>
+                  <Text color={theme === "light" ? "dark.6" : "gray.5"}>
                     containing <strong>at least one</strong> of the words
                   </Text>
                 </Grid.Col>
@@ -306,7 +309,7 @@ function AdvancedSearch({
                 py={width < 576 ? "sm" : "md"}
               >
                 <Grid.Col span={1}>
-                  <Text>
+                  <Text color={theme === "light" ? "dark.6" : "gray.5"}>
                     containing <strong>none</strong> of the words
                   </Text>
                 </Grid.Col>
@@ -337,7 +340,9 @@ function AdvancedSearch({
               align="center"
               justify={width < 576 ? "flex-start" : "center"}
             >
-              <Title order={4}>Sort by</Title>
+              <Title order={4} color={theme === "light" ? "dark.6" : "gray.5"}>
+                Sort by
+              </Title>
             </Flex>
           </Grid.Col>
 
@@ -348,6 +353,7 @@ function AdvancedSearch({
                 // label="Sort by"
                 name="sortBy"
                 data-nativeselect="sortBy"
+                color={theme === "light" ? "dark.6" : "gray.5"}
               />
             ) : (
               <Flex justify="flex-start" align="center">
@@ -356,6 +362,7 @@ function AdvancedSearch({
                   // label="Sort by"
                   name="sortBy"
                   data-nativeselect="sortBy"
+                  color={theme === "light" ? "dark.6" : "gray.5"}
                 />
               </Flex>
             )}
@@ -378,7 +385,9 @@ function AdvancedSearch({
               align="center"
               justify={width < 576 ? "flex-start" : "center"}
             >
-              <Title order={4}>Download format</Title>
+              <Title order={4} color={theme === "light" ? "dark.6" : "gray.5"}>
+                Download format
+              </Title>
             </Flex>
           </Grid.Col>
           {/* download format body */}
@@ -402,7 +411,10 @@ function AdvancedSearch({
                   />
                 </HoverCard.Target>
                 <HoverCard.Dropdown>
-                  <Text data-radioinput="filter-allBooksFormat-dropdown">
+                  <Text
+                    data-radioinput="filter-allBooksFormat-dropdown"
+                    color={theme === "light" ? "dark.6" : "gray.5"}
+                  >
                     Default: does not restrict and returns all books
                   </Text>
                 </HoverCard.Dropdown>
@@ -422,7 +434,10 @@ function AdvancedSearch({
                   />
                 </HoverCard.Target>
                 <HoverCard.Dropdown>
-                  <Text data-radioinput="filter-epubFormat-dropdown">
+                  <Text
+                    data-radioinput="filter-epubFormat-dropdown"
+                    color={theme === "light" ? "dark.6" : "gray.5"}
+                  >
                     Only returns results that have an available epub download
                     format
                   </Text>
@@ -448,7 +463,9 @@ function AdvancedSearch({
               align="center"
               justify={width < 576 ? "flex-start" : "center"}
             >
-              <Title order={4}>Search</Title>
+              <Title order={4} color={theme === "light" ? "dark.6" : "gray.5"}>
+                Search
+              </Title>
             </Flex>
           </Grid.Col>
 
@@ -473,7 +490,10 @@ function AdvancedSearch({
                   />
                 </HoverCard.Target>
                 <HoverCard.Dropdown>
-                  <Text data-radioinput="filter-allBooks-dropdown">
+                  <Text
+                    data-radioinput="filter-allBooks-dropdown"
+                    color={theme === "light" ? "dark.6" : "gray.5"}
+                  >
                     Default: does not restrict and returns all books
                   </Text>
                 </HoverCard.Dropdown>
@@ -493,7 +513,10 @@ function AdvancedSearch({
                   />
                 </HoverCard.Target>
                 <HoverCard.Dropdown>
-                  <Text data-radioinput="filter-partialBooks-dropdown">
+                  <Text
+                    data-radioinput="filter-partialBooks-dropdown"
+                    color={theme === "light" ? "dark.6" : "gray.5"}
+                  >
                     Returns results where at least part of the text is
                     previewable.
                   </Text>
@@ -514,7 +537,10 @@ function AdvancedSearch({
                   />
                 </HoverCard.Target>
                 <HoverCard.Dropdown>
-                  <Text data-radioinput="filter-fullBooks-dropdown">
+                  <Text
+                    data-radioinput="filter-fullBooks-dropdown"
+                    color={theme === "light" ? "dark.6" : "gray.5"}
+                  >
                     Only returns results where all of the text is viewable.
                   </Text>
                 </HoverCard.Dropdown>
@@ -534,7 +560,10 @@ function AdvancedSearch({
                   />
                 </HoverCard.Target>
                 <HoverCard.Dropdown>
-                  <Text data-radioinput="filter-freeEbooks-dropdown">
+                  <Text
+                    data-radioinput="filter-freeEbooks-dropdown"
+                    color={theme === "light" ? "dark.6" : "gray.5"}
+                  >
                     Only returns results that are free Google eBooks.
                   </Text>
                 </HoverCard.Dropdown>
@@ -554,7 +583,10 @@ function AdvancedSearch({
                   />
                 </HoverCard.Target>
                 <HoverCard.Dropdown>
-                  <Text data-radioinput="filter-paidEbooks-dropdown">
+                  <Text
+                    data-radioinput="filter-paidEbooks-dropdown"
+                    color={theme === "light" ? "dark.6" : "gray.5"}
+                  >
                     Only returns results that are Google eBooks with a price.
                   </Text>
                 </HoverCard.Dropdown>
@@ -574,7 +606,10 @@ function AdvancedSearch({
                   />
                 </HoverCard.Target>
                 <HoverCard.Dropdown>
-                  <Text data-radioinput="filter-allEbooks-dropdown">
+                  <Text
+                    data-radioinput="filter-allEbooks-dropdown"
+                    color={theme === "light" ? "dark.6" : "gray.5"}
+                  >
                     Returns all Google eBooks, both free and paid. Examples of
                     non-eBooks would be publisher content that is available in
                     limited preview and not for sale, or magazines.
@@ -601,7 +636,9 @@ function AdvancedSearch({
               align="center"
               justify={width < 576 ? "flex-start" : "center"}
             >
-              <Title order={4}>Content</Title>
+              <Title order={4} color={theme === "light" ? "dark.6" : "gray.5"}>
+                Content
+              </Title>
             </Flex>
           </Grid.Col>
 
@@ -626,7 +663,10 @@ function AdvancedSearch({
                   />
                 </HoverCard.Target>
                 <HoverCard.Dropdown>
-                  <Text data-radioinput="filter-allContent-dropdown">
+                  <Text
+                    data-radioinput="filter-allContent-dropdown"
+                    color={theme === "light" ? "dark.6" : "gray.5"}
+                  >
                     Default: does not restrict and returns all publication types
                   </Text>
                 </HoverCard.Dropdown>
@@ -646,7 +686,10 @@ function AdvancedSearch({
                   />
                 </HoverCard.Target>
                 <HoverCard.Dropdown>
-                  <Text data-radioinput="filter-books-dropdown">
+                  <Text
+                    data-radioinput="filter-books-dropdown"
+                    color={theme === "light" ? "dark.6" : "gray.5"}
+                  >
                     Returns only results that are books.
                   </Text>
                 </HoverCard.Dropdown>
@@ -666,7 +709,10 @@ function AdvancedSearch({
                   />
                 </HoverCard.Target>
                 <HoverCard.Dropdown>
-                  <Text data-radioinput="filter-magazines-dropdown">
+                  <Text
+                    data-radioinput="filter-magazines-dropdown"
+                    color={theme === "light" ? "dark.6" : "gray.5"}
+                  >
                     Returns only results that are magazines.
                   </Text>
                 </HoverCard.Dropdown>
@@ -691,7 +737,9 @@ function AdvancedSearch({
               align="center"
               justify={width < 576 ? "flex-start" : "center"}
             >
-              <Title order={4}>Title</Title>
+              <Title order={4} color={theme === "light" ? "dark.6" : "gray.5"}>
+                Title
+              </Title>
             </Flex>
           </Grid.Col>
 
@@ -699,7 +747,9 @@ function AdvancedSearch({
           <Grid.Col span={width < 576 ? 1 : 3}>
             <Grid columns={width < 576 ? 1 : 3} align="center">
               <Grid.Col span={1}>
-                <Text>Return books with the title</Text>
+                <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+                  Return books with the title
+                </Text>
               </Grid.Col>
               <Grid.Col span={width < 576 ? 1 : 2}>
                 {/* title search input hover card */}
@@ -713,7 +763,10 @@ function AdvancedSearch({
                     <TextInput size="lg" name="title" data-textinput="title" />
                   </HoverCard.Target>
                   <HoverCard.Dropdown>
-                    <Text data-textinput="title-dropdown">
+                    <Text
+                      data-textinput="title-dropdown"
+                      color={theme === "light" ? "dark.6" : "gray.5"}
+                    >
                       {
                         "Search for books that contain this word or phrase in the title."
                       }
@@ -741,7 +794,9 @@ function AdvancedSearch({
               align="center"
               justify={width < 576 ? "flex-start" : "center"}
             >
-              <Title order={4}>Author</Title>
+              <Title order={4} color={theme === "light" ? "dark.6" : "gray.5"}>
+                Author
+              </Title>
             </Flex>
           </Grid.Col>
 
@@ -749,7 +804,9 @@ function AdvancedSearch({
           <Grid.Col span={width < 576 ? 1 : 3}>
             <Grid columns={width < 576 ? 1 : 3} align="center">
               <Grid.Col span={1}>
-                <Text>Return books with the author</Text>
+                <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+                  Return books with the author
+                </Text>
               </Grid.Col>
               <Grid.Col span={width < 576 ? 1 : 2}>
                 {/* author search input hover card */}
@@ -767,7 +824,10 @@ function AdvancedSearch({
                     />
                   </HoverCard.Target>
                   <HoverCard.Dropdown>
-                    <Text data-textinput="author-dropdown">
+                    <Text
+                      data-textinput="author-dropdown"
+                      color={theme === "light" ? "dark.6" : "gray.5"}
+                    >
                       {
                         "Search for books that contain this word or words in the author's name."
                       }
@@ -795,7 +855,9 @@ function AdvancedSearch({
               align="center"
               justify={width < 576 ? "flex-start" : "center"}
             >
-              <Title order={4}>Publisher</Title>
+              <Title order={4} color={theme === "light" ? "dark.6" : "gray.5"}>
+                Publisher
+              </Title>
             </Flex>
           </Grid.Col>
 
@@ -803,7 +865,9 @@ function AdvancedSearch({
           <Grid.Col span={width < 576 ? 1 : 3}>
             <Grid columns={width < 576 ? 1 : 3} align="center">
               <Grid.Col span={1}>
-                <Text>Return books published by</Text>
+                <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+                  Return books published by
+                </Text>
               </Grid.Col>
               <Grid.Col span={width < 576 ? 1 : 2}>
                 {/* publisher search input hover card */}
@@ -821,7 +885,10 @@ function AdvancedSearch({
                     />
                   </HoverCard.Target>
                   <HoverCard.Dropdown>
-                    <Text data-textinput="publisher-dropdown">
+                    <Text
+                      data-textinput="publisher-dropdown"
+                      color={theme === "light" ? "dark.6" : "gray.5"}
+                    >
                       {
                         "Search for books that contain this word or phrase in the publisher's name."
                       }
@@ -849,7 +916,9 @@ function AdvancedSearch({
               align="center"
               justify={width < 576 ? "flex-start" : "center"}
             >
-              <Title order={4}>Category</Title>
+              <Title order={4} color={theme === "light" ? "dark.6" : "gray.5"}>
+                Category
+              </Title>
             </Flex>
           </Grid.Col>
 
@@ -857,7 +926,9 @@ function AdvancedSearch({
           <Grid.Col span={width < 576 ? 1 : 3}>
             <Grid columns={width < 576 ? 1 : 3} align="center">
               <Grid.Col span={1}>
-                <Text>Return books in the category</Text>
+                <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+                  Return books in the category
+                </Text>
               </Grid.Col>
               <Grid.Col span={width < 576 ? 1 : 2}>
                 {/* category search input hover card */}
@@ -875,7 +946,10 @@ function AdvancedSearch({
                     />
                   </HoverCard.Target>
                   <HoverCard.Dropdown>
-                    <Text data-textinput="subject-dropdown">
+                    <Text
+                      data-textinput="subject-dropdown"
+                      color={theme === "light" ? "dark.6" : "gray.5"}
+                    >
                       {
                         "Search for books that contain this word or phrase within a category. Example: 'fiction'"
                       }
@@ -903,7 +977,9 @@ function AdvancedSearch({
               align="center"
               justify={width < 576 ? "flex-start" : "center"}
             >
-              <Title order={4}>ISBN</Title>
+              <Title order={4} color={theme === "light" ? "dark.6" : "gray.5"}>
+                ISBN
+              </Title>
             </Flex>
           </Grid.Col>
 
@@ -911,7 +987,9 @@ function AdvancedSearch({
           <Grid.Col span={width < 576 ? 1 : 3}>
             <Grid columns={width < 576 ? 1 : 3} align="center">
               <Grid.Col span={1}>
-                <Text>Return books with the ISBN</Text>
+                <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+                  Return books with the ISBN
+                </Text>
               </Grid.Col>
               <Grid.Col span={width < 576 ? 1 : 2}>
                 {/* isbn search input hover card */}
@@ -925,7 +1003,10 @@ function AdvancedSearch({
                     <TextInput size="lg" name="isbn" data-textinput="isbn" />
                   </HoverCard.Target>
                   <HoverCard.Dropdown>
-                    <Text data-textinput="isbn-dropdown">
+                    <Text
+                      data-textinput="isbn-dropdown"
+                      color={theme === "light" ? "dark.6" : "gray.5"}
+                    >
                       {
                         "Search for books that match this ISBN. The International Standard Book Number is a unique product identifier used in the publishing industry to identify the registrant as well as the specific title, edition and format. Example: '978-0671578282'"
                       }
@@ -953,7 +1034,9 @@ function AdvancedSearch({
               align="center"
               justify={width < 576 ? "flex-start" : "center"}
             >
-              <Title order={4}>LCCN</Title>
+              <Title order={4} color={theme === "light" ? "dark.6" : "gray.5"}>
+                LCCN
+              </Title>
             </Flex>
           </Grid.Col>
 
@@ -961,7 +1044,9 @@ function AdvancedSearch({
           <Grid.Col span={width < 576 ? 1 : 3}>
             <Grid columns={width < 576 ? 1 : 3} align="center">
               <Grid.Col span={1}>
-                <Text>Return books with the LCCN</Text>
+                <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+                  Return books with the LCCN
+                </Text>
               </Grid.Col>
               <Grid.Col span={width < 576 ? 1 : 2}>
                 {/* lccn search input hover card */}
@@ -975,7 +1060,10 @@ function AdvancedSearch({
                     <TextInput size="lg" name="lccn" data-textinput="lccn" />
                   </HoverCard.Target>
                   <HoverCard.Dropdown>
-                    <Text data-textinput="lccn-dropdown">
+                    <Text
+                      data-textinput="lccn-dropdown"
+                      color={theme === "light" ? "dark.6" : "gray.5"}
+                    >
                       {
                         "Search for books that match this LCCN. A Library of Congress Control Number is assigned to a book while the book is being catalogued by the Library of Congress, if it has been selected for addition to the Library's collections. Example: '96024819'"
                       }
@@ -1003,7 +1091,9 @@ function AdvancedSearch({
               align="center"
               justify={width < 576 ? "flex-start" : "center"}
             >
-              <Title order={4}>OCLC</Title>
+              <Title order={4} color={theme === "light" ? "dark.6" : "gray.5"}>
+                OCLC
+              </Title>
             </Flex>
           </Grid.Col>
 
@@ -1011,7 +1101,9 @@ function AdvancedSearch({
           <Grid.Col span={width < 576 ? 1 : 3}>
             <Grid columns={width < 576 ? 1 : 3} align="center">
               <Grid.Col span={1}>
-                <Text>Return books with the OCLC</Text>
+                <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+                  Return books with the OCLC
+                </Text>
               </Grid.Col>
               <Grid.Col span={width < 576 ? 1 : 2}>
                 {/* oclc search input hover card */}
@@ -1025,7 +1117,10 @@ function AdvancedSearch({
                     <TextInput size="lg" name="oclc" data-textinput="oclc" />
                   </HoverCard.Target>
                   <HoverCard.Dropdown>
-                    <Text data-textinput="oclc-dropdown">
+                    <Text
+                      data-textinput="oclc-dropdown"
+                      color={theme === "light" ? "dark.6" : "gray.5"}
+                    >
                       {
                         "Search for books that match this OCLC number. Online Computer Library Center is a cooperative, computerized network for libraries and provide bibliographic, abstract and full-text information. They also maintain the Dewey Decimal Classification system. Example: '42320675'"
                       }
@@ -1050,7 +1145,7 @@ function AdvancedSearch({
           {/* empty div for alignment */}
           <Grid.Col span={1}>
             <Center style={{ width: "100%", height: "100%" }}>
-              <Text></Text>
+              <Text color={theme === "light" ? "dark.6" : "gray.5"}></Text>
             </Center>
           </Grid.Col>
 
@@ -1059,6 +1154,7 @@ function AdvancedSearch({
               type="submit"
               variant="default"
               size={width < 992 ? "md" : "lg"}
+              color={theme === "light" ? "dark.6" : "gray.5"}
             >
               Search
             </Button>

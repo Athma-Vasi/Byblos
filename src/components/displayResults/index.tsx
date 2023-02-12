@@ -55,23 +55,6 @@ function DisplayResults({
       const fetchMoreResults = async () => {
         const currStartIdx = startIndex + 40;
 
-        // const searchTerm_ =
-        //   searchTerm ||
-        //   (await localforage
-        //     .getItem<HistoryState>("byblos-historyState")
-        //     .then((value) => value?.at(-1)?.searchTerm ?? ""));
-
-        // const fetchUrl_ =
-        //   fetchUrl !== ""
-        //     ? fetchUrl.split("&startIndex=")[0] + `&startIndex=${currStartIdx}`
-        //     : await localforage
-        //         .getItem<ResponseState["fetchUrl"]>("byblos-fetchUrl")
-        //         .then(
-        //           (value) =>
-        //             value?.split("&startIndex=")[0] +
-        //             `&startIndex=${currStartIdx}`
-        //         );
-
         try {
           console.log(
             "OG fetchUrl fetchMoreResults inside displayResults: ",

@@ -53,6 +53,7 @@ function MyNavBar({
       selectedPublisher,
       bookshelfVolumes,
     },
+    themeState: { theme },
   } = allStates;
   let { responseDispatch } = allDispatches;
   let {
@@ -402,13 +403,28 @@ function MyNavBar({
       hiddenBreakpoint="sm"
       hidden={!opened}
       width={{ sm: 200, lg: 300 }}
+      color={theme === "light" ? "dark.6" : "gray.5"}
     >
       <NavLink
         label="My Library"
         active={parentNavlinkActive}
         onClick={handleParentNavlinkClick}
-        icon={<BsBookshelf size={20} />}
-        rightSection={<TbChevronsRight size={20} />}
+        icon={
+          <BsBookshelf
+            size={20}
+            style={{
+              color: "GrayText",
+            }}
+          />
+        }
+        rightSection={
+          <TbChevronsRight
+            size={20}
+            style={{
+              color: "GrayText",
+            }}
+          />
+        }
         variant="subtle"
         childrenOffset={28}
         data-cy="navlink-myLibrary"
@@ -421,9 +437,23 @@ function MyNavBar({
         >
           <NavLink
             label="Bookshelf"
-            icon={<GiBookshelf size={20} />}
+            icon={
+              <GiBookshelf
+                size={20}
+                style={{
+                  color: "GrayText",
+                }}
+              />
+            }
             active={bookshelfNavlinkActive}
-            rightSection={<TbChevronRight size={20} />}
+            rightSection={
+              <TbChevronRight
+                size={20}
+                style={{
+                  color: "GrayText",
+                }}
+              />
+            }
             onClick={() => handleChildNavlinksClick("bookshelf")}
             variant="subtle"
             data-cy="navlink-bookshelf"
@@ -438,9 +468,23 @@ function MyNavBar({
         >
           <NavLink
             label="Favourites"
-            icon={<RiHomeHeartLine size={20} />}
+            icon={
+              <RiHomeHeartLine
+                size={20}
+                style={{
+                  color: "GrayText",
+                }}
+              />
+            }
             active={favouritesNavlinkActive}
-            rightSection={<TbChevronRight size={20} />}
+            rightSection={
+              <TbChevronRight
+                size={20}
+                style={{
+                  color: "GrayText",
+                }}
+              />
+            }
             onClick={() => handleChildNavlinksClick("favourites")}
             variant="subtle"
             data-cy="navlink-favourites"
@@ -455,9 +499,23 @@ function MyNavBar({
         >
           <NavLink
             label="Rated"
-            icon={<GiStarsStack size={20} />}
+            icon={
+              <GiStarsStack
+                size={20}
+                style={{
+                  color: "GrayText",
+                }}
+              />
+            }
             active={ratedNavlinkActive}
-            rightSection={<TbChevronRight size={20} />}
+            rightSection={
+              <TbChevronRight
+                size={20}
+                style={{
+                  color: "GrayText",
+                }}
+              />
+            }
             onClick={() => handleChildNavlinksClick("rated")}
             variant="subtle"
             data-cy="navlink-rated"
@@ -472,9 +530,23 @@ function MyNavBar({
         >
           <NavLink
             label="Finished reading"
-            icon={<GiBlackBook size={20} />}
+            icon={
+              <GiBlackBook
+                size={20}
+                style={{
+                  color: "GrayText",
+                }}
+              />
+            }
             active={markReadNavlinkActive}
-            rightSection={<TbChevronRight size={20} />}
+            rightSection={
+              <TbChevronRight
+                size={20}
+                style={{
+                  color: "GrayText",
+                }}
+              />
+            }
             onClick={() => handleChildNavlinksClick("markRead")}
             variant="subtle"
             data-cy="navlink-markRead"
@@ -489,9 +561,23 @@ function MyNavBar({
         >
           <NavLink
             label="Want to read"
-            icon={<RiHealthBookFill size={20} />}
+            icon={
+              <RiHealthBookFill
+                size={20}
+                style={{
+                  color: "GrayText",
+                }}
+              />
+            }
             active={readLaterNavlinkActive}
-            rightSection={<TbChevronRight size={20} />}
+            rightSection={
+              <TbChevronRight
+                size={20}
+                style={{
+                  color: "GrayText",
+                }}
+              />
+            }
             onClick={() => handleChildNavlinksClick("readLater")}
             variant="subtle"
             data-cy="navlink-readLater"
@@ -503,7 +589,14 @@ function MyNavBar({
 
       <NavLink
         label="Clear storage"
-        icon={<RiDeleteBin6Line size={20} />}
+        icon={
+          <RiDeleteBin6Line
+            size={20}
+            style={{
+              color: "GrayText",
+            }}
+          />
+        }
         onClick={handleClearStorageNavlinkClick}
       />
     </Navbar>

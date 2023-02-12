@@ -26,7 +26,7 @@ type SearchProps = {
 };
 
 function Search({
-  allStates: { responseState },
+  allStates: { responseState, themeState },
   allActions: { responseActions },
   allDispatches: { responseDispatch },
 }: SearchProps) {
@@ -121,7 +121,9 @@ function Search({
         to={`/home/advancedSearch`}
         style={{ textDecoration: "none", color: "inherit" }}
       >
-        <Text>Advanced Search</Text>
+        <Text color={themeState.theme === "light" ? "dark.7" : "gray.7"}>
+          Advanced Search
+        </Text>
       </Link>
     </Flex>
   );

@@ -46,6 +46,7 @@ function Welcome({ allStates, allActions, allDispatches }: WelcomeProps) {
         <Grid.Col span={width < 992 ? 5 : 9}>
           <Title
             order={3}
+            color={allStates.themeState.theme === "light" ? "dark.7" : "gray.7"}
           >{`Search the world's most comprehensive list of volumes powered by Google Books`}</Title>
         </Grid.Col>
         <Grid.Col span={1}></Grid.Col>
