@@ -42,39 +42,37 @@ function Search({
       window.scrollTo(0, 0);
 
       try {
-        const fetchUrlFromGenericSearch = `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40&startIndex=0&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
+        const fetchUrlFromGenericSearch = `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40&startIndex=0&key=${
+          import.meta.env.VITE_GOOGLE_BOOKS_API_KEY
+        }`;
         const { data } = await axios.get(fetchUrlFromGenericSearch);
 
         responseState.startIndex = 0;
         responseState.searchTerm = searchTerm;
         responseState.searchResults = data as ApiResponseVolume;
-        responseState.fetchUrl = fetchUrlFromGenericSearch;
 
         //initializes localforage keys to initial responseState values for some, and fetched values for others
-        await localforage.setItem("byblos-fetchUrl", fetchUrlFromGenericSearch);
-        await localforage.setItem(
+        await localforage.setItem<ResponseState["startIndex"]>(
+          "byblos-startIndex",
+          responseState.startIndex
+        );
+
+        await localforage.setItem<ResponseState["searchTerm"]>(
           "byblos-searchTerm",
           responseState.searchTerm
         );
-        await localforage.setItem(
+        await localforage.setItem<ResponseState["searchResults"]>(
           "byblos-searchResults",
           data as ApiResponseVolume
         );
-        await localforage.setItem(
-          "byblos-selectedVolume",
-          responseState.selectedVolume
-        );
-        await localforage.setItem(
-          "byblos-selectedAuthor",
-          responseState.selectedAuthor
-        );
-        await localforage.setItem(
-          "byblos-selectedPublisher",
-          responseState.selectedPublisher
-        );
+
         responseDispatch({
           type: responseActions.setAll,
-          payload: { responseState },
+          payload: {
+            responseState: {
+              ...responseState,
+            },
+          },
         });
 
         navigate(`/home/displayResults/1`);
@@ -145,37 +143,38 @@ function rightInputSection(
     window.scrollTo(0, 0);
 
     try {
-      const fetchUrlFromGenericSearch = `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40&startIndex=0&key=AIzaSyD-z8oCNZF8d7hRV6YYhtUuqgcBK22SeQI`;
+      const fetchUrlFromGenericSearch = `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40&startIndex=0&key=${
+        import.meta.env.VITE_GOOGLE_BOOKS_API_KEY
+      }`;
       const { data } = await axios.get(fetchUrlFromGenericSearch);
 
       responseState.startIndex = 0;
       responseState.searchTerm = searchTerm;
       responseState.searchResults = data as ApiResponseVolume;
-      responseState.fetchUrl = fetchUrlFromGenericSearch;
 
       //initializes localforage keys to initial responseState values for some, and fetched values for others
-      await localforage.setItem("byblos-fetchUrl", fetchUrlFromGenericSearch);
-      await localforage.setItem("byblos-startIndex", 0);
-      await localforage.setItem("byblos-searchTerm", responseState.searchTerm);
-      await localforage.setItem(
+      await localforage.setItem<ResponseState["startIndex"]>(
+        "byblos-startIndex",
+        responseState.startIndex
+      );
+
+      await localforage.setItem<ResponseState["searchTerm"]>(
+        "byblos-searchTerm",
+        responseState.searchTerm
+      );
+
+      await localforage.setItem<ResponseState["searchResults"]>(
         "byblos-searchResults",
         data as ApiResponseVolume
       );
-      await localforage.setItem(
-        "byblos-selectedVolume",
-        responseState.selectedVolume
-      );
-      await localforage.setItem(
-        "byblos-selectedAuthor",
-        responseState.selectedAuthor
-      );
-      await localforage.setItem(
-        "byblos-selectedPublisher",
-        responseState.selectedPublisher
-      );
+
       responseDispatch({
         type: responseActions.setAll,
-        payload: { responseState },
+        payload: {
+          responseState: {
+            ...responseState,
+          },
+        },
       });
 
       navigate(`/home/displayResults/1`);

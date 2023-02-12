@@ -92,7 +92,12 @@ function DisplayResults({
             params
           );
 
-          const fetchUrl_ = `${url}?q=${searchTerm}&startIndex=${currStartIdx}${params}`;
+          //includes check is for when the user searches using the search bar
+          //and not the advanced search page, as the fetchUrl from responseState ( fetchUrl never gets modified ) term does not
+          //include the maxResults param
+          const fetchUrl_ = params.includes("&maxResults=")
+            ? `${url}?q=${searchTerm}&startIndex=${currStartIdx}${params}`
+            : `${url}?q=${searchTerm}&startIndex=${currStartIdx}&maxResults=40${params}`;
 
           console.log("fetchMoreResults inside displayResults: ", fetchUrl_);
 
