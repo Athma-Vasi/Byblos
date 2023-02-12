@@ -155,14 +155,15 @@ function OtherEditions({
   }, []);
 
   //fetches more results when the user scrolls to the bottom of the page
+
   useEffect(() => {
     let ignore = false;
 
     if (inView) {
       const fetchMoreResults = async () => {
-        const currStartIdx = startIndex + 40;
-
         try {
+          const currStartIdx = startIndex + 40;
+
           const searchTerm_ =
             searchTerm ||
             (await localforage.getItem<ResponseState["searchTerm"]>(

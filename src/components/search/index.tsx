@@ -119,7 +119,7 @@ function Search({
         to={`/home/advancedSearch`}
         style={{ textDecoration: "none", color: "inherit" }}
       >
-        <Text color={themeState.theme === "light" ? "dark.7" : "gray.7"}>
+        <Text color={themeState.theme === "light" ? "dark.6" : "gray.5"}>
           Advanced Search
         </Text>
       </Link>

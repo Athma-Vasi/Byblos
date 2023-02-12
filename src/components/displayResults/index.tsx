@@ -144,7 +144,9 @@ function DisplayResults({
       fetchMoreResults();
     }
 
-    //clean up function ensures that the fetch that’s not relevant anymore will immediately get cleaned up so its copy of the ignore variable will be set to true
+    //clean up function ensures that the fetch that’s not relevant anymore
+    //will immediately get cleaned up so its copy of the ignore variable will
+    //be set to true
     return () => {
       ignore = true;
     };
