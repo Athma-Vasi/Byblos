@@ -170,7 +170,13 @@ function Home({ children, allStates, allActions, allDispatches }: HomeProps) {
           allDispatches={allDispatches}
         />
       }
-      footer={<MyFooter />}
+      footer={
+        <MyFooter
+          allStates={allStates}
+          allActions={allActions}
+          allDispatches={allDispatches}
+        />
+      }
       data-cy="home-appShell"
     >
       <Outlet />

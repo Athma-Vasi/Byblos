@@ -463,8 +463,6 @@ function DisplayBookshelf({
               "byblos-userBookshelf",
               tempLocalBookshelfClone
             );
-
-            // navigate(`/home/displayBookshelf`);
           } catch (error: any) {
             const error_ = new Error(error, {
               cause: "switch case 'removeVolume', in if block",
@@ -665,9 +663,7 @@ function DisplayBookshelf({
       setTempLocalBookshelf(value);
     });
   }, []);
-  //
-  //
-  //
+
   return (
     <Fragment>
       <MyImageModal

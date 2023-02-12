@@ -369,18 +369,22 @@ function MyNavBar({
       if (!userDecision) return;
 
       //remove responseState localforage items
-      await localforage.removeItem("byblos-fetchUrl");
-      await localforage.removeItem("byblos-startIndex");
-      await localforage.removeItem("byblos-searchTerm");
-      await localforage.removeItem("byblos-searchResults");
-      await localforage.removeItem("byblos-selectedVolume");
-      await localforage.removeItem("byblos-selectedAuthor");
-      await localforage.removeItem("byblos-selectedPublisher");
-      await localforage.removeItem("byblos-bookshelfVolumes");
+      const localforageKeysArr = [
+        await localforage.removeItem("byblos-fetchUrl"),
+        await localforage.removeItem("byblos-startIndex"),
+        await localforage.removeItem("byblos-searchTerm"),
+        await localforage.removeItem("byblos-searchResults"),
+        await localforage.removeItem("byblos-selectedVolume"),
+        await localforage.removeItem("byblos-selectedAuthor"),
+        await localforage.removeItem("byblos-selectedPublisher"),
+        await localforage.removeItem("byblos-bookshelfVolumes"),
+        await localforage.removeItem("byblos-userBookshelf"),
+        await localforage.removeItem("byblos-historyState"),
+      ];
 
-      //remove userBookshelf and historyState localforage items
-      await localforage.removeItem("byblos-userBookshelf");
-      await localforage.removeItem("byblos-historyState");
+      Promise.all(localforageKeysArr).then(() => {
+        window.alert("Your bookshelf has been cleared from this device.");
+      });
     } catch (error: any) {
       const error_ = new Error(error, {
         cause: "handleClearStorageNavlinkClick()",
