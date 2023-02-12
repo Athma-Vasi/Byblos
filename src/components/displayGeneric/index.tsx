@@ -686,12 +686,15 @@ function DisplayGeneric({
         {modifiedSearchResults.length === 0 ? (
           <Container>
             <Card shadow="sm" p="md" radius="md" withBorder>
-              <Text color={theme === "light" ? "dark.6" : "gray.5"}>
-                There seems to be nothing here
-              </Text>
-              <Text color={theme === "light" ? "dark.6" : "gray.5"}>
-                (｡•́︿•̀｡)
-              </Text>
+              <Flex direction="column" align="center" justify="center">
+                <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+                  There seems to be nothing here
+                </Text>
+                <Space h="md" />
+                <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+                  (｡•́︿•̀｡)
+                </Text>
+              </Flex>
             </Card>
           </Container>
         ) : null}

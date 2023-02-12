@@ -1,4 +1,4 @@
-import { Space, Text, Title } from "@mantine/core";
+import { Flex, Space, Text, Title } from "@mantine/core";
 import axios from "axios";
 import localforage from "localforage";
 import { Fragment, Suspense, useEffect, useState } from "react";
@@ -245,9 +245,11 @@ function PublisherCollection({
 
   return (
     <Fragment>
-      <Title order={3} color={theme === "light" ? "dark.6" : "gray.5"}>
-        Publisher collection
-      </Title>
+      <Flex justify="flex-start">
+        <Title order={3} color={theme === "light" ? "dark.6" : "gray.5"}>
+          Publisher collection
+        </Title>
+      </Flex>
 
       <Space h="md" />
 

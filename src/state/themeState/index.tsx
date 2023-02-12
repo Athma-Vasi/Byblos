@@ -1,7 +1,7 @@
 import { ThemeActions, ThemeDispatch, ThemeState } from "../../types";
 
 const initialThemeState: ThemeState = {
-  theme: "light",
+  theme: "dark",
 };
 
 const themeActions: ThemeActions = {

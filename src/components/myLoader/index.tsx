@@ -12,25 +12,21 @@ export default function MyLoader({ children, componentName }: MyLoaderProps) {
   const { width = 0 } = useWindowSize();
 
   return (
-    <Grid columns={3}>
+    <Grid columns={10}>
       {Array.from({ length: 5 }).map((_, i) => (
         <Space key={i} h="sm" />
       ))}
       <Grid.Col span={1}></Grid.Col>
-      <Grid.Col span={1}>
+      <Grid.Col span={8}>
         <Flex direction="column" align="center" justify="center">
           <Loader size={width < 576 ? "lg" : "xl"} />
-          {Array.from({ length: 5 }).map((_, i) => (
+          {Array.from({ length: 3 }).map((_, i) => (
             <Space key={i} h="sm" />
           ))}
 
-          <Progress value={75} striped animate />
-
-          {Array.from({ length: 5 }).map((_, i) => (
-            <Space key={i} h="sm" />
-          ))}
-
-          <Text>⋘ Please wait ... loading {componentName} ⋙ </Text>
+          <Text> Please wait ... </Text>
+          <Text>⬛⬛⬛⬜⬜</Text>
+          <Text>loading {componentName}</Text>
           <Text> </Text>
         </Flex>
       </Grid.Col>

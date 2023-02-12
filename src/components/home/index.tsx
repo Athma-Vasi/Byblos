@@ -16,6 +16,7 @@ import {
 import React from "react";
 import localforage from "localforage";
 import { responseActions } from "../../state/responseState";
+import MyLoader from "../myLoader";
 
 const Search = React.lazy(() => import("../search"));
 

@@ -1,4 +1,4 @@
-import { Button, Flex, Text } from "@mantine/core";
+import { Button, Flex, Space, Text } from "@mantine/core";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -11,11 +11,18 @@ type ErrorFallbackProps = {
 function ErrorFallback({ children, componentName, error }: ErrorFallbackProps) {
   return (
     <Flex direction="column" align="center" justify="center">
-      <Text>(╯°□°)╯︵ ɹoɹɹƎ</Text>
+      <Text>❗ Error ❗</Text>
+
+      <Space h="sm" />
+
       <Text>Something went wrong when retrieving {componentName}</Text>
-      <pre>{error.message}</pre>
+
+      <Space h="sm" />
+
       <Button>
-        <Link to={"/"}>Try again 🔁</Link>
+        <Link to={"/"} style={{ textDecoration: "none", color: "inherit" }}>
+          Try again 🔁
+        </Link>
       </Button>
     </Flex>
   );

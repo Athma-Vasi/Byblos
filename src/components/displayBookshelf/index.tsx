@@ -92,6 +92,7 @@ function DisplayBookshelf({
     bookshelfVolumes ??
     localForageFallback.map((bookshelfVolume) => bookshelfVolume.volume);
 
+  console.log("bookshelfVolumes from displayBookshelf", bookshelfVolumes);
   /**
    * much of the functionality of this component is similar to that of displayGeneric minus the infinite scroll
    */
@@ -673,15 +674,18 @@ function DisplayBookshelf({
         alt={modalAlt}
       />
       <Flex gap="xl" direction="column">
-        {definedBookshelfVolumes.length === 0 ? (
+        {definedBookshelfVolumes.length < 2 ? (
           <Container>
             <Card shadow="sm" p="md" radius="md" withBorder>
-              <Text color={theme === "light" ? "dark.6" : "gray.5"}>
-                There seems to be nothing here
-              </Text>
-              <Text color={theme === "light" ? "dark.6" : "gray.5"}>
-                (｡•́︿•̀｡)
-              </Text>
+              <Flex direction="column" align="center" justify="center">
+                <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+                  There seems to be nothing here
+                </Text>
+                <Space h="md" />
+                <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+                  (｡•́︿•̀｡)
+                </Text>
+              </Flex>
             </Card>
           </Container>
         ) : null}

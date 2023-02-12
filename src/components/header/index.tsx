@@ -146,7 +146,7 @@ function MyHeader({
   }
 
   const displayOnDesktop = [
-    <Grid.Col span={3} style={{ display: `${width < 576 ? "none" : ""}` }}>
+    <Grid.Col span={2} style={{ display: `${width < 576 ? "none" : ""}` }}>
       <Link to={"/"}>
         <Image
           src={logo_transparent}
@@ -157,7 +157,7 @@ function MyHeader({
       </Link>
     </Grid.Col>,
 
-    <Grid.Col span={width < 768 ? 3 : 4}>
+    <Grid.Col span={width < 768 ? 4 : 5}>
       <Search
         allStates={allStates}
         allActions={allActions}

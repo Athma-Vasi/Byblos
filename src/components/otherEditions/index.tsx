@@ -1,4 +1,4 @@
-import { Space, Text, Title } from "@mantine/core";
+import { Flex, Space, Text, Title } from "@mantine/core";
 import axios from "axios";
 import localforage from "localforage";
 import React, { Suspense } from "react";
@@ -240,9 +240,11 @@ function OtherEditions({
 
   return (
     <div>
-      <Title order={3} color={theme === "light" ? "dark.6" : "gray.5"}>
-        Other editions
-      </Title>
+      <Flex justify="flex-start">
+        <Title order={3} color={theme === "light" ? "dark.6" : "gray.5"}>
+          Other editions
+        </Title>
+      </Flex>
 
       <Space h="md" />
 

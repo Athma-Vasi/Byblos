@@ -4,6 +4,8 @@ import logo_transparent from "../../../src/assets/logo/logo_transparent.png";
 import { useWindowSize } from "../../hooks/useWindowSize";
 
 import { AllActions, AllDispatches, AllStates } from "../../types";
+import ErrorFallback from "../errorFallback";
+import MyLoader from "../myLoader";
 import { Search } from "../search";
 
 type WelcomeProps = {
@@ -20,6 +22,10 @@ function Welcome({ allStates, allActions, allDispatches }: WelcomeProps) {
       <Grid columns={7}>
         <Grid.Col span={2}></Grid.Col>
         <Grid.Col span={3}>
+          {Array.from({ length: 3 }).map((_, i) => (
+            <Space key={i} h="sm" />
+          ))}
+
           <Image
             src={logo_transparent}
             alt="Byblos logo"
@@ -48,7 +54,17 @@ function Welcome({ allStates, allActions, allDispatches }: WelcomeProps) {
             order={3}
             color={allStates.themeState.theme === "light" ? "dark.6" : "gray.5"}
             data-cy="slogan-welcome"
-          >{`Search the world's most comprehensive list of volumes powered by Google Books`}</Title>
+          >{`Search the world's most comprehensive list of volumes`}</Title>
+
+          <Space h="xs" />
+
+          <Title
+            order={5}
+            color={allStates.themeState.theme === "light" ? "dark.6" : "gray.5"}
+          >
+            {" "}
+            Powered by Google Books
+          </Title>
         </Grid.Col>
         <Grid.Col span={1}></Grid.Col>
       </Grid>
