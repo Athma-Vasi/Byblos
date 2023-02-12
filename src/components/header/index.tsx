@@ -260,6 +260,7 @@ function MyHeader({
               size="sm"
               color={theme.colors.gray[6]}
               mr="sm"
+              data-cy="burger-header"
             />
           </Grid.Col>
         </MediaQuery>

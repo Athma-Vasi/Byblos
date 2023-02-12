@@ -408,6 +408,7 @@ function MyNavBar({
       hidden={!opened}
       width={{ sm: 200, lg: 300 }}
       color={theme === "light" ? "dark.6" : "gray.5"}
+      data-cy="navbar"
     >
       <NavLink
         label="My Library"
@@ -601,6 +602,7 @@ function MyNavBar({
             }}
           />
         }
+        data-cy="navlink-clearStorage"
         onClick={handleClearStorageNavlinkClick}
       />
     </Navbar>

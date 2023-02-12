@@ -279,15 +279,24 @@ function Overview({ allStates }: OverviewProps) {
           </Grid.Col>
 
           <Grid.Col span={1}>
-            <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+            <Text
+              color={theme === "light" ? "dark.6" : "gray.5"}
+              data-cy="publisher-overview"
+            >
               Publisher: {publisher}
               <Space h="xs" />
             </Text>
-            <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+            <Text
+              color={theme === "light" ? "dark.6" : "gray.5"}
+              data-cy="pageCount-overview"
+            >
               Pages: {pageCount}
               <Space h="xs" />
             </Text>
-            <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+            <Text
+              color={theme === "light" ? "dark.6" : "gray.5"}
+              data-cy="author-overview"
+            >
               Author: {authors}
               <Space h="xs" />
             </Text>
@@ -298,30 +307,48 @@ function Overview({ allStates }: OverviewProps) {
       <Grid.Col span={1}>
         <Grid columns={width < 576 ? 2 : 1}>
           <Grid.Col span={1}>
-            <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+            <Text
+              color={theme === "light" ? "dark.6" : "gray.5"}
+              data-cy="printType-overview"
+            >
               Print type: {printType}
               <Space h="xs" />
             </Text>
-            <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+            <Text
+              color={theme === "light" ? "dark.6" : "gray.5"}
+              data-cy="categories-overview"
+            >
               Categories: {categories}
               <Space h="xs" />
             </Text>
-            <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+            <Text
+              color={theme === "light" ? "dark.6" : "gray.5"}
+              data-cy="language-overview"
+            >
               Language: {language}
               <Space h="xs" />
             </Text>
           </Grid.Col>
 
           <Grid.Col span={1}>
-            <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+            <Text
+              color={theme === "light" ? "dark.6" : "gray.5"}
+              data-cy="averageRating-overview"
+            >
               Average rating: {averageRating}
               <Space h="xs" />
             </Text>
-            <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+            <Text
+              color={theme === "light" ? "dark.6" : "gray.5"}
+              data-cy="ratingsCount-overview"
+            >
               Ratings count: {ratingsCount}
               <Space h="xs" />
             </Text>
-            <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+            <Text
+              color={theme === "light" ? "dark.6" : "gray.5"}
+              data-cy="maturityRating-overview"
+            >
               Maturity rating: {maturityRating}
               <Space h="xs" />
             </Text>
@@ -352,41 +379,68 @@ function Overview({ allStates }: OverviewProps) {
         <Space h="xs" />
       </Text>
 
-      <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+      <Text
+        color={theme === "light" ? "dark.6" : "gray.5"}
+        data-cy="publisher-overview"
+      >
         Publisher: {publisher}
         <Space h="xs" />
       </Text>
-      <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+      <Text
+        color={theme === "light" ? "dark.6" : "gray.5"}
+        data-cy="pageCount-overview"
+      >
         Pages: {pageCount}
         <Space h="xs" />
       </Text>
-      <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+      <Text
+        color={theme === "light" ? "dark.6" : "gray.5"}
+        data-cy="author-overview"
+      >
         Author: {authors}
         <Space h="xs" />
       </Text>
 
-      <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+      <Text
+        color={theme === "light" ? "dark.6" : "gray.5"}
+        data-cy="printType-overview"
+      >
         Print type: {printType}
         <Space h="xs" />
       </Text>
-      <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+      <Text
+        color={theme === "light" ? "dark.6" : "gray.5"}
+        data-cy="categories-overview"
+      >
         Categories: {categories}
         <Space h="xs" />
       </Text>
-      <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+      <Text
+        color={theme === "light" ? "dark.6" : "gray.5"}
+        data-cy="language-overview"
+      >
         Language: {language}
         <Space h="xs" />
       </Text>
 
-      <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+      <Text
+        color={theme === "light" ? "dark.6" : "gray.5"}
+        data-cy="averageRating-overview"
+      >
         Average rating: {averageRating}
         <Space h="xs" />
       </Text>
-      <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+      <Text
+        color={theme === "light" ? "dark.6" : "gray.5"}
+        data-cy="ratingsCount-overview"
+      >
         Ratings count: {ratingsCount}
         <Space h="xs" />
       </Text>
-      <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+      <Text
+        color={theme === "light" ? "dark.6" : "gray.5"}
+        data-cy="maturityRating-overview"
+      >
         Maturity rating: {maturityRating}
         <Space h="xs" />
       </Text>
@@ -397,12 +451,21 @@ function Overview({ allStates }: OverviewProps) {
     <Card shadow="sm" radius="md" style={{ width: "100%" }}>
       <Flex direction="row" justify="space-between" align="center">
         <Flex direction="row" justify="start" align="center">
-          <AiOutlineAmazon size={28} style={{ color: "GrayText" }} />
+          <AiOutlineAmazon
+            size={28}
+            style={{ color: "GrayText" }}
+            data-cy="amazonLogo-overview"
+          />
           <Space w="xl" />
-          <Text color={theme === "light" ? "dark.6" : "gray.5"}>Amazon.ca</Text>
+          <Text
+            color={theme === "light" ? "dark.6" : "gray.5"}
+            data-cy="amazonText-overview"
+          >
+            Amazon.ca
+          </Text>
         </Flex>
 
-        <a href={amazonLink} target="_blank">
+        <a href={amazonLink} target="_blank" data-cy="amazonLink-overview">
           <Button
             variant="outline"
             radius="lg"
@@ -417,14 +480,21 @@ function Overview({ allStates }: OverviewProps) {
 
       <Flex direction="row" justify="space-between" align="center">
         <Flex direction="row" justify="start" align="center">
-          <AiFillBook size={28} style={{ color: "GrayText" }} />
+          <AiFillBook
+            size={28}
+            style={{ color: "GrayText" }}
+            data-cy="chaptersLogo-overview"
+          />
           <Space w="xl" />
-          <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+          <Text
+            color={theme === "light" ? "dark.6" : "gray.5"}
+            data-cy="chaptersText-overview"
+          >
             Chapters Indigo
           </Text>
         </Flex>
 
-        <a href={chaptersLink} target="_blank">
+        <a href={chaptersLink} target="_blank" data-cy="chaptersLink-overview">
           <Button
             variant="outline"
             radius="lg"
@@ -439,14 +509,21 @@ function Overview({ allStates }: OverviewProps) {
 
       <Flex direction="row" justify="space-between" align="center">
         <Flex direction="row" justify="start" align="center">
-          <AiOutlineGoogle size={28} style={{ color: "GrayText" }} />
+          <AiOutlineGoogle
+            size={28}
+            style={{ color: "GrayText" }}
+            data-cy="googleLogo-overview"
+          />
           <Space w="xl" />
-          <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+          <Text
+            color={theme === "light" ? "dark.6" : "gray.5"}
+            data-cy="googleText-overview"
+          >
             Google Books
           </Text>
         </Flex>
 
-        <a href={googleBooksLink} target="_blank">
+        <a href={googleBooksLink} target="_blank" data-cy="googleLink-overview">
           <Button
             variant="outline"
             radius="lg"
@@ -464,14 +541,24 @@ function Overview({ allStates }: OverviewProps) {
       <Flex direction="column" align="start" justify="center">
         {/* amazon section */}
         <Flex direction="row" justify="start" align="center">
-          <AiOutlineAmazon size={28} style={{ color: "GrayText" }} />
+          <AiOutlineAmazon
+            size={28}
+            style={{ color: "GrayText" }}
+            data-cy="amazonLogo-overview"
+          />
           <Space w="xl" />
-          <Text color={theme === "light" ? "dark.6" : "gray.5"}>Amazon.ca</Text>
+          <Text
+            color={theme === "light" ? "dark.6" : "gray.5"}
+            data-cy="
+          amazonText-overview"
+          >
+            Amazon.ca
+          </Text>
         </Flex>
 
         <Space h="xs" />
 
-        <a href={amazonLink} target="_blank">
+        <a href={amazonLink} target="_blank" data-cy="amazonLink-overview">
           <Button
             variant="outline"
             radius="lg"
@@ -486,16 +573,23 @@ function Overview({ allStates }: OverviewProps) {
 
         {/* chapters section */}
         <Flex direction="row" justify="start" align="center">
-          <AiFillBook size={28} style={{ color: "GrayText" }} />
+          <AiFillBook
+            size={28}
+            style={{ color: "GrayText" }}
+            data-cy="chaptersLogo-overview"
+          />
           <Space w="xl" />
-          <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+          <Text
+            color={theme === "light" ? "dark.6" : "gray.5"}
+            data-cy="chaptersText-overview"
+          >
             Chapters Indigo
           </Text>
         </Flex>
 
         <Space h="sm" />
 
-        <a href={chaptersLink} target="_blank">
+        <a href={chaptersLink} target="_blank" data-cy="chaptersLink-overview">
           <Button
             variant="outline"
             radius="lg"
@@ -510,16 +604,23 @@ function Overview({ allStates }: OverviewProps) {
 
         {/* google books section */}
         <Flex direction="row" justify="start" align="center">
-          <AiOutlineGoogle size={28} style={{ color: "GrayText" }} />
+          <AiOutlineGoogle
+            size={28}
+            style={{ color: "GrayText" }}
+            data-cy="googleLogo-overview"
+          />
           <Space w="xl" />
-          <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+          <Text
+            color={theme === "light" ? "dark.6" : "gray.5"}
+            data-cy="googleText-overview"
+          >
             Google Books
           </Text>
         </Flex>
 
         <Space h="sm" />
 
-        <a href={googleBooksLink} target="_blank">
+        <a href={googleBooksLink} target="_blank" data-cy="googleLink-overview">
           <Button
             variant="outline"
             radius="lg"
@@ -542,14 +643,25 @@ function Overview({ allStates }: OverviewProps) {
 
       <Flex direction="row" justify="space-between" align="center">
         <Flex direction="row" justify="start" align="center">
-          <VscOpenPreview size={28} style={{ color: "GrayText" }} />
+          <VscOpenPreview
+            size={28}
+            style={{ color: "GrayText" }}
+            data-cy="previewLogo-overview"
+          />
           <Space w="xl" />
-          <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+          <Text
+            color={theme === "light" ? "dark.6" : "gray.5"}
+            data-cy="previewText-overview"
+          >
             Sample preview
           </Text>
         </Flex>
 
-        <a href={googleBooksPreview} target="_blank">
+        <a
+          href={googleBooksPreview}
+          target="_blank"
+          data-cy="previewLink-overview"
+        >
           <Button variant="outline" radius="xl">
             View sample preview online
           </Button>
@@ -560,14 +672,25 @@ function Overview({ allStates }: OverviewProps) {
 
       <Flex direction="row" justify="space-between" align="center">
         <Flex direction="row" justify="start" align="center">
-          <CgEreader size={28} style={{ color: "GrayText" }} />
+          <CgEreader
+            size={28}
+            style={{ color: "GrayText" }}
+            data-cy="webReaderLogo-overview"
+          />
           <Space w="xl" />
-          <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+          <Text
+            color={theme === "light" ? "dark.6" : "gray.5"}
+            data-cy="webReaderText-overview"
+          >
             Web reader
           </Text>
         </Flex>
 
-        <a href={googleBooksWebReader} target="_blank">
+        <a
+          href={googleBooksWebReader}
+          target="_blank"
+          data-cy="webReaderLink-overview"
+        >
           <Button variant="outline" radius="xl">
             View sample using Google's web reader
           </Button>
@@ -578,14 +701,25 @@ function Overview({ allStates }: OverviewProps) {
 
       <Flex direction="row" justify="space-between" align="center">
         <Flex direction="row" justify="start" align="center">
-          <FcKindle size={28} style={{ color: "GrayText" }} />
+          <FcKindle
+            size={28}
+            style={{ color: "GrayText" }}
+            data-cy="epubSampleLogo-overview"
+          />
           <Space w="xl" />
-          <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+          <Text
+            color={theme === "light" ? "dark.6" : "gray.5"}
+            data-cy="epubSampleText-overview"
+          >
             Epub sample
           </Text>
         </Flex>
 
-        <a href={googleBooksEpub} target="_blank">
+        <a
+          href={googleBooksEpub}
+          target="_blank"
+          data-cy="epubSampleLink-overview"
+        >
           <Button variant="outline" radius="xl">
             Free epub sample download
           </Button>
@@ -603,16 +737,27 @@ function Overview({ allStates }: OverviewProps) {
       <Space h="lg" />
 
       <Flex direction="row" justify="flex-start" align="center">
-        <VscOpenPreview size={28} style={{ color: "GrayText" }} />
+        <VscOpenPreview
+          size={28}
+          style={{ color: "GrayText" }}
+          data-cy="samplePreviewLogo-overview"
+        />
         <Space w="xl" />
-        <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+        <Text
+          color={theme === "light" ? "dark.6" : "gray.5"}
+          data-cy="samplePreviewText-overview"
+        >
           Sample preview
         </Text>
       </Flex>
 
       <Space h="sm" />
 
-      <a href={googleBooksPreview} target="_blank">
+      <a
+        href={googleBooksPreview}
+        target="_blank"
+        data-cy="samplePreviewLink-overview"
+      >
         <Button variant="outline" radius="xl">
           View sample preview online
         </Button>
@@ -622,14 +767,27 @@ function Overview({ allStates }: OverviewProps) {
       <Space h="lg" />
 
       <Flex direction="row" justify="flex-start" align="center">
-        <CgEreader size={28} style={{ color: "GrayText" }} />
+        <CgEreader
+          size={28}
+          style={{ color: "GrayText" }}
+          data-cy="webReaderLogo-overview"
+        />
         <Space w="xl" />
-        <Text color={theme === "light" ? "dark.6" : "gray.5"}>Web reader</Text>
+        <Text
+          color={theme === "light" ? "dark.6" : "gray.5"}
+          data-cy="webReaderText-overview"
+        >
+          Web reader
+        </Text>
       </Flex>
 
       <Space h="sm" />
 
-      <a href={googleBooksWebReader} target="_blank">
+      <a
+        href={googleBooksWebReader}
+        target="_blank"
+        data-cy="webReaderLink-overview"
+      >
         <Button variant="outline" radius="xl">
           View sample with Google's web reader
         </Button>
@@ -639,14 +797,27 @@ function Overview({ allStates }: OverviewProps) {
       <Space h="lg" />
 
       <Flex direction="row" justify="flex-start" align="center">
-        <FcKindle size={28} style={{ color: "GrayText" }} />
+        <FcKindle
+          size={28}
+          style={{ color: "GrayText" }}
+          data-cy="epubSampleLogo-overview"
+        />
         <Space w="xl" />
-        <Text color={theme === "light" ? "dark.6" : "gray.5"}>Epub sample</Text>
+        <Text
+          color={theme === "light" ? "dark.6" : "gray.5"}
+          data-cy="epubSampleText-overview"
+        >
+          Epub sample
+        </Text>
       </Flex>
 
       <Space h="sm" />
 
-      <a href={googleBooksEpub} target="_blank">
+      <a
+        href={googleBooksEpub}
+        target="_blank"
+        data-cy="epubSampleLink-overview"
+      >
         <Button variant="outline" radius="xl">
           Free epub sample download
         </Button>
@@ -681,7 +852,11 @@ function Overview({ allStates }: OverviewProps) {
       <Space h="lg" />
 
       <Flex direction="row" justify={width < 576 ? "center" : "flex-start"}>
-        <Title order={4} color={theme === "light" ? "dark.6" : "gray.5"}>
+        <Title
+          order={4}
+          color={theme === "light" ? "dark.6" : "gray.5"}
+          data-cy="getBook-overview"
+        >
           Get book
         </Title>
         <Space h="xs" />
@@ -692,7 +867,11 @@ function Overview({ allStates }: OverviewProps) {
       <Space h="lg" />
 
       <Flex direction="row" justify={width < 576 ? "center" : "flex-start"}>
-        <Title order={4} color={theme === "light" ? "dark.6" : "gray.5"}>
+        <Title
+          order={4}
+          color={theme === "light" ? "dark.6" : "gray.5"}
+          data-cy="previews-overview"
+        >
           Previews
         </Title>
         <Space h="xs" />

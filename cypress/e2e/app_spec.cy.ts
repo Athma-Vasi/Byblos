@@ -1,5 +1,7 @@
 import { mount } from "cypress/react18";
 
+//➯➯ denotes transition from one component to another
+
 describe("Advanced Search page ", () => {
   /*
   describe("parameter specificity modifiers", () => {
@@ -411,57 +413,28 @@ describe("Advanced Search page ", () => {
 
 describe("Welcome page", () => {
   /*
-  it("should have a logo", () => {
+  it("should have the following items", () => {
     cy.visit("localhost:5173/");
+    //logo
     cy.get("[data-cy='logo-welcome']").should("be.visible");
-  });
-
-  it("should have a advertising slogan", () => {
-    cy.visit("localhost:5173/");
+    //slogan
     cy.get("[data-cy='slogan-welcome']").should("be.visible");
-  });
-
-  it("should have a search text input", () => {
-    cy.visit("localhost:5173/");
+    //search input
     cy.get("[data-cy='searchInput']").should("be.visible");
-  });
-
-  it("should have a search icon present inside search input", () => {
-    cy.visit("localhost:5173/");
+    //search icon
     cy.get("[data-cy='searchIcon']").should("be.visible");
-  });
-
-  it("should have a `x` icon to clear the search input when it is not empty", () => {
-    cy.visit("localhost:5173/");
+    //close icon
     cy.get("[data-cy='searchInput']").type("test");
     cy.get("[data-cy='closeIcon']").should("be.visible");
-  });
-
-  it("should not have a `x` icon to clear the search input when it is empty", () => {
-    cy.visit("localhost:5173/");
-    cy.get("[data-cy='searchInput']").type("test");
-    cy.get("[data-cy='closeIcon']").should("be.visible");
+    //clear search input and close icon should disappear
     cy.get("[data-cy='searchInput']").clear();
     cy.get("[data-cy='closeIcon']").should("not.exist");
-  });
-
-  it("should have a divider icon when the search input is not empty", () => {
-    cy.visit("localhost:5173/");
+    //divider icon should appear
     cy.get("[data-cy='searchInput']").type("test");
     cy.get("[data-cy='dividerIcon']").should("be.visible");
-  });
-
-  it("should not have a divider icon when the search input is empty", () => {
-    cy.visit("localhost:5173/");
-    cy.get("[data-cy='searchInput']").type("test");
-    cy.get("[data-cy='dividerIcon']").should("be.visible");
+    //clear search input and divider icon should disappear
     cy.get("[data-cy='searchInput']").clear();
     cy.get("[data-cy='dividerIcon']").should("not.exist");
-  });
-
-  it("should have a button to go to the advanced search page", () => {
-    cy.visit("localhost:5173/");
-    cy.get("[data-cy='button-advancedSearch']").should("be.visible");
   });
 
   it('should take the user to the advanced search page when the "Advanced Search" button is clicked', () => {
@@ -500,191 +473,354 @@ describe("Header component", () => {
   */
 });
 
-describe("DisplayGeneric component from AdvancedSearch", () => {
+describe("AdvancedSearch ➯➯ DisplayGeneric", () => {
   describe('when author "c.j. cherryh" is entered in author field: ', () => {
-    /*
-    it("should display a thumbnail of a book", () => {
-      cy.visit("localhost:5173/home/advancedSearch");
-      cy.get("[data-textinput='author']").clear().type("c.j. cherryh");
-      cy.get("[data-cy='advancedSearch-searchButton']").click();
-      cy.get("[data-cy='image-thumbnail']").should("exist");
-    });
-
-    it("should display the title of the book", () => {
-      cy.visit("localhost:5173/home/advancedSearch");
-      cy.get("[data-textinput='author']").clear().type("c.j. cherryh");
-      cy.get("[data-cy='advancedSearch-searchButton']").click();
-      cy.get("[data-cy='title-volume']").should("exist");
-    });
-
-    it("should display the author of the book", () => {
-      cy.visit("localhost:5173/home/advancedSearch");
-      cy.get("[data-textinput='author']").clear().type("c.j. cherryh");
-      cy.get("[data-cy='advancedSearch-searchButton']").click();
-      cy.get("[data-cy='author-volume']").should("exist");
-    });
-
-    it("should display the published year of the book", () => {
-      cy.visit("localhost:5173/home/advancedSearch");
-      cy.get("[data-textinput='author']").clear().type("c.j. cherryh");
-      cy.get("[data-cy='advancedSearch-searchButton']").click();
-      cy.get("[data-cy='publishedYear-volume']").should("exist");
-    });
-
-    it("should display the description of the book", () => {
-      cy.visit("localhost:5173/home/advancedSearch");
-      cy.get("[data-textinput='author']").clear().type("c.j. cherryh");
-      cy.get("[data-cy='advancedSearch-searchButton']").click();
-      cy.get("[data-cy='description-volume']").should("exist");
-    });
-
-    it("should display a spoiler `Show more` below description", () => {
-      cy.visit("localhost:5173/home/advancedSearch");
-      cy.get("[data-textinput='author']").clear().type("c.j. cherryh");
-      cy.get("[data-cy='advancedSearch-searchButton']").click();
-      cy.get("[data-cy='spoiler-volume']").should("exist");
-    });
-
-    it("should display a dropdown icon next to title", () => {
-      cy.visit("localhost:5173/home/advancedSearch");
-      cy.get("[data-textinput='author']").clear().type("c.j. cherryh");
-      cy.get("[data-cy='advancedSearch-searchButton']").click();
-      cy.get("[data-cy='dropdownIcon-volume']").should("exist");
-    });
-    */
-    // it("should display a dropdown menu when dropdown icon is clicked", () => {
+    // it("should display appropriate fields in displayed card", () => {
     //   cy.visit("localhost:5173/home/advancedSearch");
     //   cy.get("[data-textinput='author']").clear().type("c.j. cherryh");
-    //   cy.get("[data-cy='advancedSearch-searchButton']").click().wait(500);
-    //   cy.get("[data-cy='dropdownIcon-volume']").first().click();
+    //   cy.get("[data-cy='advancedSearch-searchButton']").click();
+    //   //title
+    //   cy.get("[data-cy='title-volume']").should("exist");
+    //   //image thumbnail
+    //   cy.get("[data-cy='image-thumbnail']").should("exist");
+    //   //author
+    //   cy.get("[data-cy='author-volume']").should("exist");
+    //   //published year
+    //   cy.get("[data-cy='publishedYear-volume']").should("exist");
+    //   //description
+    //   cy.get("[data-cy='description-volume']").should("exist");
+    //   //spoiler
+    //   cy.get("[data-cy='spoiler-volume']").should("exist");
+    //   //dropdown icon
+    //   cy.get("[data-cy='dropdownIcon-volume']").should("exist");
+    //   //dropdown menu
     //   cy.get("[data-cy='dropdownMenu-volume']").should("exist");
     // });
-    // it("should display a `Rate` section when dropdown icon is clicked", () => {
+    // it("should display appropriate sections when dropdown icon is clicked", () => {
     //   cy.visit("localhost:5173/home/advancedSearch");
     //   cy.get("[data-textinput='author']").clear().type("c.j. cherryh");
     //   cy.get("[data-cy='advancedSearch-searchButton']").click().wait(500);
-    //   cy.get("[data-cy='dropdownIcon-volume']").first().click();
+    //   cy.get("[data-cy='dropdownIcon-volume']").first().click().wait(500);
+    //   //rate
     //   cy.get("[data-cy='rate-dropDownMenu']").first().should("exist");
-    // });
-    // it("should display a `Favourite` section when dropdown icon is clicked", () => {
-    //   cy.visit("localhost:5173/home/advancedSearch");
-    //   cy.get("[data-textinput='author']").clear().type("c.j. cherryh");
-    //   cy.get("[data-cy='advancedSearch-searchButton']").click().wait(500);
-    //   cy.get("[data-cy='dropdownIcon-volume']").first().click();
+    //   //favourite
     //   cy.get("[data-cy='favourite-dropDownMenu']").first().should("exist");
-    // });
-    // it("should display a `Read later` section when dropdown icon is clicked", () => {
-    //   cy.visit("localhost:5173/home/advancedSearch");
-    //   cy.get("[data-textinput='author']").clear().type("c.j. cherryh");
-    //   cy.get("[data-cy='advancedSearch-searchButton']").click().wait(500);
-    //   cy.get("[data-cy='dropdownIcon-volume']").first().click();
+    //   //read later
     //   cy.get("[data-cy='readLater-dropDownMenu']").first().should("exist");
-    // });
-    // it("should display a `Mark read` section when dropdown icon is clicked", () => {
-    //   cy.visit("localhost:5173/home/advancedSearch");
-    //   cy.get("[data-textinput='author']").clear().type("c.j. cherryh");
-    //   cy.get("[data-cy='advancedSearch-searchButton']").click().wait(500);
-    //   cy.get("[data-cy='dropdownIcon-volume']").first().click();
+    //   //mark read
     //   cy.get("[data-cy='markRead-dropDownMenu']").first().should("exist");
-    // });
-    // it("should display a `Remove` section when dropdown icon is clicked", () => {
-    //   cy.visit("localhost:5173/home/advancedSearch");
-    //   cy.get('[data-textinput="author"]').clear().type("c.j. cherryh");
-    //   cy.get('[data-cy="advancedSearch-searchButton"]').click().wait(500);
-    //   cy.get('[data-cy="dropdownIcon-volume"]').first().click();
+    //   //remove
     //   cy.get('[data-cy="remove-dropDownMenu"]').first().should("exist");
     // });
   });
 });
 
-describe("DisplayVolume component from DisplayGeneric", () => {
+describe("AdvancedSearch ➯➯ DisplayGeneric ➯➯ DisplayVolume ", () => {
   describe('when author "c.j. cherryh" is entered in author field and title `Divergence` is clicked ', () => {
-    // it("should have a `Menu` navlink", () => {
+    // it("should have a `Menu` and children navlinks", () => {
     //   cy.visit("localhost:5173/home/advancedSearch");
     //   cy.get("[data-textinput='author']").clear().type("c.j. cherryh");
     //   cy.get("[data-cy='advancedSearch-searchButton']").click();
     //   cy.get("[data-cy='title-volume']").first().click();
+    //   //menu navlink
     //   cy.get("[data-cy='menu-displayVolume']").should("exist");
-    // });
-    // it("should display a `Overview` navlink when menu navlink is clicked", () => {
-    //   cy.visit("localhost:5173/home/advancedSearch");
-    //   cy.get("[data-textinput='author']").clear().type("c.j. cherryh");
-    //   cy.get("[data-cy='advancedSearch-searchButton']").click();
-    //   cy.get("[data-cy='title-volume']").first().click();
     //   cy.get("[data-cy='menu-displayVolume']").click();
+    //   //children navlinks
     //   cy.get("[data-cy='menu-overview-displayVolume']").should("exist");
-    // });
-    // it("should have a `Other editions` navlink when menu navlink is clicked", () => {
-    //   cy.visit("localhost:5173/home/advancedSearch");
-    //   cy.get("[data-textinput='author']").clear().type("c.j. cherryh");
-    //   cy.get("[data-cy='advancedSearch-searchButton']").click();
-    //   cy.get("[data-cy='title-volume']").first().click();
-    //   cy.get("[data-cy='menu-displayVolume']").click();
-    //   cy.get("[data-cy='menu-otherEditions-displayVolume']").should("exist");
-    // });
-    // it("should have a `Publisher collection` navlink when menu navlink is clicked", () => {
-    //   cy.visit("localhost:5173/home/advancedSearch");
-    //   cy.get("[data-textinput='author']").clear().type("c.j. cherryh");
-    //   cy.get("[data-cy='advancedSearch-searchButton']").click();
-    //   cy.get("[data-cy='title-volume']").first().click();
-    //   cy.get("[data-cy='menu-displayVolume']").click();
-    //   cy.get("[data-cy='menu-publisherCollection-displayVolume']").should(
+    //   cy.get("[data-cy='menu-menu-otherEditions-displayVolume']").should("exist");
+    //   cy.get("[data-cy='menu-authorCollection-displayVolume']").should(
     //     "exist"
     //   );
-    // });
-    // it("should have an `Author collection` navlink when menu navlink is clicked", () => {
-    //   cy.visit("localhost:5173/home/advancedSearch");
-    //   cy.get('[data-textinput="author"]').clear().type("c.j. cherryh");
-    //   cy.get('[data-cy="advancedSearch-searchButton"]').click();
-    //   cy.get('[data-cy="title-volume"]').first().click();
-    //   cy.get('[data-cy="menu-displayVolume"]').click();
     //   cy.get('[data-cy="menu-authorCollection-displayVolume"]').should("exist");
     // });
-
-    // it("should have an `About this edition` section", () => {
+    // it("should have `About this edition` section and appropriate fields", () => {
     //   cy.visit("localhost:5173/home/advancedSearch");
     //   cy.get('[data-textinput="author"]').clear().type("c.j. cherryh");
     //   cy.get('[data-cy="advancedSearch-searchButton"]').click();
     //   cy.get('[data-cy="title-volume"]').first().click();
+    //   //title of section
     //   cy.get('[data-cy="aboutThisEdition-overview"]').should("exist");
+    //   //image thumbnail
+    //   cy.get('[data-cy="imageThumbnail-overview"]').should("exist");
+    //   //industry identifier (ISBN or OTHER)
+    //   cy.get('[data-cy="industryIdentifier-overview"]').should("exist");
+    //   //published date
+    //   cy.get('[data-cy="published-overview"]').should("exist");
+    //   //publisher
+    //   cy.get('[data-cy="publisher-overview"]').should("exist");
+    //   //page count
+    //   cy.get('[data-cy="pageCount-overview"]').should("exist");
+    //   //author
+    //   cy.get('[data-cy="author-overview"]').should("exist");
+    //   //print type
+    //   cy.get('[data-cy="printType-overview"]').should("exist");
+    //   //categories
+    //   cy.get('[data-cy="categories-overview"]').should("exist");
+    //   //language
+    //   cy.get('[data-cy="language-overview"]').should("exist");
+    //   //average rating
+    //   cy.get('[data-cy="averageRating-overview"]').should("exist");
+    //   //ratings count
+    //   cy.get('[data-cy="ratingsCount-overview"]').should("exist");
+    //   //maturity rating
+    //   cy.get('[data-cy="maturityRating-overview"]').should("exist");
     // });
-
-    it("should have an image thumbnail", () => {
-      cy.visit("localhost:5173/home/advancedSearch");
-      cy.get('[data-textinput="author"]').clear().type("c.j. cherryh");
-      cy.get('[data-cy="advancedSearch-searchButton"]').click();
-      cy.get('[data-cy="title-volume"]').first().click();
-      cy.get('[data-cy="imageThumbnail-overview"]').should("exist");
-    });
-
-    it("should have an industry identifier (ISBN or OTHER) section", () => {
-      cy.visit("localhost:5173/home/advancedSearch");
-      cy.get('[data-textinput="author"]').clear().type("c.j. cherryh");
-      cy.get('[data-cy="advancedSearch-searchButton"]').click();
-      cy.get('[data-cy="title-volume"]').first().click();
-      cy.get('[data-cy="industryIdentifier-overview"]').should("exist");
-    });
-
-    it("should have a `Published` section", () => {
-      cy.visit("localhost:5173/home/advancedSearch");
-      cy.get('[data-textinput="author"]').clear().type("c.j. cherryh");
-      cy.get('[data-cy="advancedSearch-searchButton"]').click();
-      cy.get('[data-cy="title-volume"]').first().click();
-      cy.get('[data-cy="published-overview"]').should("exist");
-    });
+    // it("should have `Get book` section and appropriate fields", () => {
+    //   cy.visit("localhost:5173/home/advancedSearch");
+    //   cy.get('[data-textinput="author"]').clear().type("c.j. cherryh");
+    //   cy.get('[data-cy="advancedSearch-searchButton"]').click();
+    //   cy.get('[data-cy="title-volume"]').first().click();
+    //   //title of section
+    //   cy.get('[data-cy="getBook-overview"]').should("exist");
+    //   //amazon logo
+    //   cy.get('[data-cy="amazonLogo-overview"]').should("exist");
+    //   //amazon text
+    //   cy.get('[data-cy="amazonText-overview"]').should("exist");
+    //   //amazon link
+    //   cy.get('[data-cy="amazonLink-overview"]').should("exist");
+    //   //url should have `amazon` in it
+    //   cy.get('[data-cy="amazonLink-overview"]')
+    //     .should("have.attr", "href")
+    //     .and("include", "amazon");
+    //   //chapters logo
+    //   cy.get('[data-cy="chaptersLogo-overview"]').should("exist");
+    //   //chapters text
+    //   cy.get('[data-cy="chaptersText-overview"]').should("exist");
+    //   //chapters link
+    //   cy.get('[data-cy="chaptersLink-overview"]').should("exist");
+    //   //url should have `chapters` in it
+    //   cy.get('[data-cy="chaptersLink-overview"]')
+    //     .should("have.attr", "href")
+    //     .and("include", "chapters");
+    //   //google logo
+    //   cy.get('[data-cy="googleLogo-overview"]').should("exist");
+    //   //google text
+    //   cy.get('[data-cy="googleText-overview"]').should("exist");
+    //   //google link
+    //   cy.get('[data-cy="googleLink-overview"]').should("exist");
+    //   //url should have `google` in it
+    //   cy.get('[data-cy="googleLink-overview"]')
+    //     .should("have.attr", "href")
+    //     .and("include", "google");
+    // });
+    // it("should have a `Previews` section and appropriate fields", () => {
+    //   cy.visit("localhost:5173/home/advancedSearch");
+    //   cy.get('[data-textinput="author"]').clear().type("c.j. cherryh");
+    //   cy.get('[data-cy="advancedSearch-searchButton"]').click();
+    //   cy.get('[data-cy="title-volume"]').first().click();
+    //   //title of section
+    //   cy.get('[data-cy="previews-overview"]').should("exist");
+    //   //sample preview logo
+    //   cy.get('[data-cy="samplePreviewLogo-overview"]').should("exist");
+    //   //sample preview text
+    //   cy.get('[data-cy="samplePreviewText-overview"]').should("exist");
+    //   //sample preview link
+    //   cy.get('[data-cy="samplePreviewLink-overview"]').should("exist");
+    //   //url should have `books.google` in it
+    //   cy.get('[data-cy="samplePreviewLink-overview"]')
+    //     .should("have.attr", "href")
+    //     .and("include", "books.google");
+    //   //web reader logo
+    //   cy.get('[data-cy="webReaderLogo-overview"]').should("exist");
+    //   //web reader text
+    //   cy.get('[data-cy="webReaderText-overview"]').should("exist");
+    //   //web reader link
+    //   cy.get('[data-cy="webReaderLink-overview"]').should("exist");
+    //   //url should have `play.google` in it
+    //   cy.get('[data-cy="webReaderLink-overview"]')
+    //     .should("have.attr", "href")
+    //     .and("include", "play.google");
+    //   //epub sample logo
+    //   cy.get('[data-cy="epubSampleLogo-overview"]').should("exist");
+    //   //epub sample text
+    //   cy.get('[data-cy="epubSampleText-overview"]').should("exist");
+    //   //epub sample link
+    //   cy.get('[data-cy="epubSampleLink-overview"]').should("exist");
+    // });
   });
 });
 
-// describe("Overview component from DisplayGeneric", () => {
-//   describe('when author "c.j. cherryh" is entered in author field and title `Divergence` is clicked ', () => {
-//     it("should have an `About this edition` section", () => {
-//       cy.visit("localhost:5173/home/advancedSearch");
-//       cy.get('[data-textinput="author"]').clear().type("c.j. cherryh");
-//       cy.get('[data-cy="advancedSearch-searchButton"]').click();
-//       cy.get('[data-cy="title-volume"]').first().click();
-//       cy.get('[data-cy="menu-displayVolume"]').click();
-//       cy.get('[data-cy="menu-overview-displayVolume"]').click();
-//       cy.get('[data-cy="aboutThisEdition-overview"]').should("exist");
-//     });
-//   });
-// });
+describe("AdvancedSearch ➯➯ DisplayGeneric ➯➯ DisplayVolume ➯➯ OtherEditions", () => {
+  /*
+  it("should display appropriate fields in displayed card", () => {
+    cy.visit("localhost:5173/home/advancedSearch");
+    cy.get("[data-textinput='author']").clear();
+    cy.get("[data-textinput='author']").type("c.j. cherryh");
+    cy.get("[data-cy='advancedSearch-searchButton']").click().wait(500);
+    cy.get("[data-cy='title-volume']").first().click().wait(500);
+    cy.get("[data-cy='menu-displayVolume']").click();
+    cy.get("[data-cy='menu-otherEditions-displayVolume']").click();
+
+    //title
+    cy.get("[data-cy='title-volume']").should("exist");
+    //image thumbnail
+    cy.get("[data-cy='image-thumbnail']").should("exist");
+    //author
+    cy.get("[data-cy='author-volume']").should("exist");
+    //published year
+    cy.get("[data-cy='publishedYear-volume']").should("exist");
+    //description
+    cy.get("[data-cy='description-volume']").should("exist");
+    //spoiler
+    cy.get("[data-cy='spoiler-volume']").should("exist");
+    //dropdown icon
+    cy.get("[data-cy='dropdownIcon-volume']").should("exist");
+    //dropdown menu
+    cy.get("[data-cy='dropdownMenu-volume']").should("exist");
+  });
+
+  it("should display appropriate sections when dropdown icon is clicked", () => {
+    cy.visit("localhost:5173/home/advancedSearch");
+    cy.get("[data-textinput='author']").clear();
+    cy.get("[data-textinput='author']").type("c.j. cherryh");
+    cy.get("[data-cy='advancedSearch-searchButton']").click().wait(500);
+    cy.get("[data-cy='title-volume']").first().click().wait(500);
+
+    cy.get("[data-cy='menu-displayVolume']").click();
+    cy.get("[data-cy='menu-otherEditions-displayVolume']").click();
+    //rate
+    cy.get("[data-cy='rate-dropDownMenu']").first().should("exist");
+    //favourite
+    cy.get("[data-cy='favourite-dropDownMenu']").first().should("exist");
+    //read later
+    cy.get("[data-cy='readLater-dropDownMenu']").first().should("exist");
+    //mark read
+    cy.get("[data-cy='markRead-dropDownMenu']").first().should("exist");
+    //remove
+    cy.get('[data-cy="remove-dropDownMenu"]').first().should("exist");
+  });
+  */
+});
+
+describe("AdvancedSearch ➯➯ DisplayGeneric ➯➯ DisplayVolume ➯➯ PublisherCollection", () => {
+  /*
+  it("should display appropriate fields in displayed card", () => {
+    cy.visit("localhost:5173/home/advancedSearch");
+    cy.get("[data-textinput='author']").clear();
+    cy.get("[data-textinput='author']").type("c.j. cherryh");
+    cy.get("[data-cy='advancedSearch-searchButton']").click().wait(500);
+    cy.get("[data-cy='title-volume']").first().click().wait(500);
+    cy.get("[data-cy='menu-displayVolume']").click();
+    cy.get("[data-cy='menu-authorCollection-displayVolume']").click();
+
+    //title
+    cy.get("[data-cy='title-volume']").should("exist");
+    //image thumbnail
+    cy.get("[data-cy='image-thumbnail']").should("exist");
+    //author
+    cy.get("[data-cy='author-volume']").should("exist");
+    //published year
+    cy.get("[data-cy='publishedYear-volume']").should("exist");
+    //description
+    cy.get("[data-cy='description-volume']").should("exist");
+    //spoiler
+    cy.get("[data-cy='spoiler-volume']").should("exist");
+    //dropdown icon
+    cy.get("[data-cy='dropdownIcon-volume']").should("exist");
+    //dropdown menu
+    cy.get("[data-cy='dropdownMenu-volume']").should("exist");
+  });
+
+  it("should display appropriate sections when dropdown icon is clicked", () => {
+    cy.visit("localhost:5173/home/advancedSearch");
+    cy.get("[data-textinput='author']").clear();
+    cy.get("[data-textinput='author']").type("c.j. cherryh");
+    cy.get("[data-cy='advancedSearch-searchButton']").click().wait(500);
+    cy.get("[data-cy='title-volume']").first().click().wait(500);
+
+    cy.get("[data-cy='menu-displayVolume']").click();
+    cy.get("[data-cy='menu-authorCollection-displayVolume']").click();
+    //rate
+    cy.get("[data-cy='rate-dropDownMenu']").first().should("exist");
+    //favourite
+    cy.get("[data-cy='favourite-dropDownMenu']").first().should("exist");
+    //read later
+    cy.get("[data-cy='readLater-dropDownMenu']").first().should("exist");
+    //mark read
+    cy.get("[data-cy='markRead-dropDownMenu']").first().should("exist");
+    //remove
+    cy.get('[data-cy="remove-dropDownMenu"]').first().should("exist");
+  });
+  */
+});
+
+describe("AdvancedSearch ➯➯ DisplayGeneric ➯➯ DisplayVolume ➯➯ AuthorCollection", () => {
+  /*
+  it("should display appropriate fields in displayed card", () => {
+    cy.visit("localhost:5173/home/advancedSearch");
+    cy.get("[data-textinput='author']").clear();
+    cy.get("[data-textinput='author']").type("c.j. cherryh");
+    cy.get("[data-cy='advancedSearch-searchButton']").click().wait(500);
+    cy.get("[data-cy='title-volume']").first().click().wait(500);
+    cy.get("[data-cy='menu-displayVolume']").click();
+    cy.get("[data-cy='menu-authorCollection-displayVolume']").click();
+
+    //title
+    cy.get("[data-cy='title-volume']").should("exist");
+    //image thumbnail
+    cy.get("[data-cy='image-thumbnail']").should("exist");
+    //author
+    cy.get("[data-cy='author-volume']").should("exist");
+    //published year
+    cy.get("[data-cy='publishedYear-volume']").should("exist");
+    //description
+    cy.get("[data-cy='description-volume']").should("exist");
+    //spoiler
+    cy.get("[data-cy='spoiler-volume']").should("exist");
+    //dropdown icon
+    cy.get("[data-cy='dropdownIcon-volume']").should("exist");
+    //dropdown menu
+    cy.get("[data-cy='dropdownMenu-volume']").should("exist");
+  });
+
+  it("should display appropriate sections when dropdown icon is clicked", () => {
+    cy.visit("localhost:5173/home/advancedSearch");
+    cy.get("[data-textinput='author']").clear();
+    cy.get("[data-textinput='author']").type("c.j. cherryh");
+    cy.get("[data-cy='advancedSearch-searchButton']").click().wait(500);
+    cy.get("[data-cy='title-volume']").first().click().wait(500);
+
+    cy.get("[data-cy='menu-displayVolume']").click();
+    cy.get("[data-cy='menu-authorCollection-displayVolume']").click();
+    //rate
+    cy.get("[data-cy='rate-dropDownMenu']").first().should("exist");
+    //favourite
+    cy.get("[data-cy='favourite-dropDownMenu']").first().should("exist");
+    //read later
+    cy.get("[data-cy='readLater-dropDownMenu']").first().should("exist");
+    //mark read
+    cy.get("[data-cy='markRead-dropDownMenu']").first().should("exist");
+    //remove
+    cy.get('[data-cy="remove-dropDownMenu"]').first().should("exist");
+  });
+  */
+});
+
+describe("Navbar", () => {
+  /*
+  it("should display navbar", () => {
+    cy.visit("localhost:5173/home");
+    cy.get("[data-cy='navbar']").should("exist");
+  });
+
+  it("should display `My Library` and `Clear storage` in navbar", () => {
+    cy.visit("localhost:5173/home");
+    cy.get("[data-cy='navbar']").should("exist");
+    cy.get("[data-cy='navlink-myLibrary']").should("exist");
+    cy.get("[data-cy='navlink-clearStorage']").should("exist");
+  });
+  
+
+  it("should display `My Library` children when clicked", () => {
+    cy.visit("localhost:5173/home");
+
+    cy.get("[data-cy='navlink-myLibrary']").click();
+    // cy.get("[data-cy='navlink-bookshelf']").should("exist");
+    // cy.get("[data-cy='navlink-favourites']").should("exist");
+    // cy.get("[data-cy='navlink-rated']").should("exist");
+    // cy.get("[data-cy='navlink-reading']").should("exist");
+    // cy.get("[data-cy='navlink-markRead']").should("exist");
+    // cy.get("[data-cy='navlink-readLater']").should("exist");
+  });
+  */
+});
