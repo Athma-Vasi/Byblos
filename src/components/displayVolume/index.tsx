@@ -191,6 +191,7 @@ function DisplayVolume({ allStates }: DisplayVolumeProps) {
                 }}
               />
             }
+            data-cy="menu-displayVolume"
             onClick={() => {
               handleNavLinkActiveClick("Menu");
               setMenuOpened(!menuOpened);
@@ -220,6 +221,7 @@ function DisplayVolume({ allStates }: DisplayVolumeProps) {
                       }}
                     />
                   }
+                  data-cy="menu-overview-displayVolume"
                   onClick={() => handleNavLinkActiveClick("Overview")}
                 />
               </Link>
@@ -242,6 +244,7 @@ function DisplayVolume({ allStates }: DisplayVolumeProps) {
                       }}
                     />
                   }
+                  data-cy="menu-otherEditions-displayVolume"
                   onClick={() => handleNavLinkActiveClick("Other editions")}
                 />
               </Link>
@@ -264,6 +267,7 @@ function DisplayVolume({ allStates }: DisplayVolumeProps) {
                       }}
                     />
                   }
+                  data-cy="menu-publisherCollection-displayVolume"
                   onClick={() =>
                     handleNavLinkActiveClick("Publisher collection")
                   }
@@ -288,6 +292,7 @@ function DisplayVolume({ allStates }: DisplayVolumeProps) {
                       }}
                     />
                   }
+                  data-cy="menu-authorCollection-displayVolume"
                   onClick={() => handleNavLinkActiveClick("Author collection")}
                 />
               </Link>

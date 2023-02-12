@@ -1155,6 +1155,7 @@ function AdvancedSearch({
               variant="default"
               size={width < 992 ? "md" : "lg"}
               color={theme === "light" ? "dark.6" : "gray.5"}
+              data-cy="advancedSearch-searchButton"
             >
               Search
             </Button>

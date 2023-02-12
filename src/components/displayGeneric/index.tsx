@@ -680,6 +680,7 @@ function DisplayGeneric({
         setModalOpened={setModalOpened}
         src={modalSrc}
         alt={modalAlt}
+        data-cy="image-modal"
       />
       <Flex gap="xl" direction="column">
         {modifiedSearchResults.length === 0 ? (
@@ -734,6 +735,7 @@ function DisplayGeneric({
                         <Text align="center">No image available</Text>
                       }
                       radius="xs"
+                      data-cy="image-thumbnail"
                     />
                   </Flex>
                 </Grid.Col>
@@ -748,6 +750,7 @@ function DisplayGeneric({
                       onClick={() => {
                         handleTitleClick(item);
                       }}
+                      data-cy="title-volume"
                       style={{ paddingBottom: "3px" }}
                       color={theme === "light" ? "dark.6" : "gray.5"}
                     >
@@ -772,6 +775,7 @@ function DisplayGeneric({
                           <Button
                             variant={width < 576 ? "light" : "subtle"}
                             radius="lg"
+                            data-cy="dropdownIcon-volume"
                           >
                             <BsThreeDotsVertical size={20} />
                           </Button>
@@ -783,6 +787,7 @@ function DisplayGeneric({
                             justify="center"
                             align="center"
                             gap="sm"
+                            data-cy="dropdownMenu-volume"
                           >
                             <Flex
                               direction="row"
@@ -795,6 +800,7 @@ function DisplayGeneric({
                               <Title
                                 order={5}
                                 color={theme === "light" ? "dark.6" : "gray.5"}
+                                data-cy="rate-dropDownMenu"
                               >
                                 Rate
                               </Title>
@@ -826,6 +832,7 @@ function DisplayGeneric({
                               <Title
                                 order={5}
                                 color={theme === "light" ? "dark.6" : "gray.5"}
+                                data-cy="favourite-dropDownMenu"
                               >
                                 Favourite
                               </Title>
@@ -864,6 +871,7 @@ function DisplayGeneric({
                               <Title
                                 order={5}
                                 color={theme === "light" ? "dark.6" : "gray.5"}
+                                data-cy="readLater-dropDownMenu"
                               >
                                 Read later
                               </Title>
@@ -902,6 +910,7 @@ function DisplayGeneric({
                               <Title
                                 order={5}
                                 color={theme === "light" ? "dark.6" : "gray.5"}
+                                data-cy="markRead-dropDownMenu"
                               >
                                 Mark read
                               </Title>
@@ -940,6 +949,7 @@ function DisplayGeneric({
                               <Title
                                 order={5}
                                 color={theme === "light" ? "dark.6" : "gray.5"}
+                                data-cy="remove-dropDownMenu"
                               >
                                 Remove
                               </Title>
@@ -979,6 +989,7 @@ function DisplayGeneric({
                         style={{ display: "inline" }}
                         color={theme === "light" ? "dark.6" : "gray.5"}
                         key={author}
+                        data-cy="author-volume"
                       >
                         {author}{" "}
                       </Text>
@@ -987,6 +998,7 @@ function DisplayGeneric({
                   <Text
                     style={{ paddingTop: "3px", paddingBottom: "3px" }}
                     color={theme === "light" ? "dark.6" : "gray.5"}
+                    data-cy="publishedYear-volume"
                   >
                     {Number.isNaN(
                       new Date(item.volumeInfo.publishedDate)
@@ -1003,6 +1015,7 @@ function DisplayGeneric({
 
                   <Spoiler
                     maxHeight={176}
+                    data-cy="spoiler-volume"
                     showLabel={
                       width < 576 ? (
                         <Button radius="md" variant="light">
@@ -1023,7 +1036,10 @@ function DisplayGeneric({
                     }
                     transitionDuration={382}
                   >
-                    <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+                    <Text
+                      color={theme === "light" ? "dark.6" : "gray.5"}
+                      data-cy="description-volume"
+                    >
                       {item.volumeInfo.description ?? "Description unavailable"}
                     </Text>
                   </Spoiler>

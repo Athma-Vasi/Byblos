@@ -16,16 +16,16 @@ type WelcomeProps = {
 function Welcome({ allStates, allActions, allDispatches }: WelcomeProps) {
   const { width = 0 } = useWindowSize();
   return (
-    <Flex
-      direction="column"
-      align="center"
-      justify="center"
-      style={{ outline: "2px solid GrayText" }}
-    >
+    <Flex direction="column" align="center" justify="center">
       <Grid columns={7}>
         <Grid.Col span={2}></Grid.Col>
         <Grid.Col span={3}>
-          <Image src={logo_transparent} alt="Byblos logo" radius="md" />
+          <Image
+            src={logo_transparent}
+            alt="Byblos logo"
+            radius="md"
+            data-cy="logo-welcome"
+          />
         </Grid.Col>
         <Grid.Col span={2}></Grid.Col>
       </Grid>
@@ -47,6 +47,7 @@ function Welcome({ allStates, allActions, allDispatches }: WelcomeProps) {
           <Title
             order={3}
             color={allStates.themeState.theme === "light" ? "dark.6" : "gray.5"}
+            data-cy="slogan-welcome"
           >{`Search the world's most comprehensive list of volumes powered by Google Books`}</Title>
         </Grid.Col>
         <Grid.Col span={1}></Grid.Col>

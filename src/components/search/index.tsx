@@ -112,14 +112,17 @@ function Search({
         )}
         rightSectionWidth={100}
         onKeyDown={handleEnterKeyInput}
-        data-textinput="search"
         data-autofocus
+        data-cy="searchInput"
       />
       <Link
         to={`/home/advancedSearch`}
         style={{ textDecoration: "none", color: "inherit" }}
       >
-        <Text color={themeState.theme === "light" ? "dark.6" : "gray.5"}>
+        <Text
+          color={themeState.theme === "light" ? "dark.6" : "gray.5"}
+          data-cy="button-advancedSearch"
+        >
           Advanced Search
         </Text>
       </Link>
@@ -208,6 +211,7 @@ function rightInputSection(
           onClick={() => {
             setSearchTerm("");
           }}
+          data-cy="closeIcon"
         />
       )}
       {searchTerm === "" ? (
@@ -215,6 +219,7 @@ function rightInputSection(
       ) : (
         <RxDividerVertical
           style={{ color: "GrayText", transform: "scale(1.5)" }}
+          data-cy="dividerIcon"
         />
       )}
       <CgSearch
@@ -223,6 +228,7 @@ function rightInputSection(
           transform: "scale(1.25)",
           cursor: "pointer",
         }}
+        data-cy="searchIcon"
         onClick={handleSearchIconClick}
       />
     </Flex>

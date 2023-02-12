@@ -92,6 +92,7 @@ function Overview({ allStates }: OverviewProps) {
         <Text
           key={id?.identifier}
           color={theme === "light" ? "dark.6" : "gray.5"}
+          data-cy="industryIdentifier-overview"
         >
           {id?.type?.includes("ISBN")
             ? `${id?.type?.split("_").join("-")}`
@@ -107,6 +108,7 @@ function Overview({ allStates }: OverviewProps) {
         <Text
           key={id?.identifier}
           color={theme === "light" ? "dark.6" : "gray.5"}
+          data-cy="industryIdentifier-overview"
         >
           {id?.type?.includes("ISBN")
             ? `${id?.type?.split("_").join("-")}`
@@ -259,6 +261,7 @@ function Overview({ allStates }: OverviewProps) {
           src={imageSrc}
           alt={imageAlt}
           radius="xs"
+          data-cy="imageThumbnail-overview"
         />
       </Grid.Col>
 
@@ -266,7 +269,10 @@ function Overview({ allStates }: OverviewProps) {
         <Grid columns={width < 576 ? 2 : 1}>
           <Grid.Col span={1}>
             {industryIdentifiers}
-            <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+            <Text
+              color={theme === "light" ? "dark.6" : "gray.5"}
+              data-cy="published-overview"
+            >
               Published: {publishedDate}
               <Space h="xs" />
             </Text>
@@ -332,12 +338,16 @@ function Overview({ allStates }: OverviewProps) {
         src={imageSrc}
         alt={imageAlt}
         radius="xs"
+        data-cy="imageThumbnail-overview"
       />
 
       <Space h="lg" />
 
       {industryIdentifiers}
-      <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+      <Text
+        color={theme === "light" ? "dark.6" : "gray.5"}
+        data-cy="published-overview"
+      >
         Published: {publishedDate}
         <Space h="xs" />
       </Text>
@@ -653,7 +663,11 @@ function Overview({ allStates }: OverviewProps) {
       <Space h="xs" />
 
       <Flex direction="row" justify={width < 576 ? "center" : "flex-start"}>
-        <Title order={4} color={theme === "light" ? "dark.6" : "gray.5"}>
+        <Title
+          order={4}
+          color={theme === "light" ? "dark.6" : "gray.5"}
+          data-cy="aboutThisEdition-overview"
+        >
           About this edition
         </Title>
         <Space h="xs" />

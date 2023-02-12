@@ -152,6 +152,7 @@ function MyHeader({
           src={logo_transparent}
           alt="Byblos logo"
           width={width < 992 ? 50 : 75}
+          data-cy="logo-header"
         />
       </Link>
     </Grid.Col>,
@@ -174,6 +175,7 @@ function MyHeader({
             alt="Byblos logo"
             width={50}
             height={50}
+            data-cy="logo-header"
           />
         </Link>
         <Popover
@@ -183,12 +185,14 @@ function MyHeader({
           shadow="md"
           opened={popoverOpened}
           onChange={setPopoverOpened}
+          data-cy="dropdownArrow"
         >
           <Popover.Target>
-            <Button variant="subtle">
+            <Button variant="subtle" data-cy="dropdownArrow-button">
               <BsChevronBarDown
                 size={26}
                 onClick={() => setPopoverOpened((open) => !open)}
+                data-cy="dropdownArrow-icon"
               />
             </Button>
           </Popover.Target>
@@ -211,7 +215,7 @@ function MyHeader({
                 )}
                 rightSectionWidth={100}
                 onKeyDown={handleEnterKeyInput}
-                data-textinput="search"
+                data-cy="searchInput-mobile"
                 data-autofocus
                 color={themeState.theme === "light" ? "dark.6" : "gray.5"}
                 style={{
@@ -269,6 +273,7 @@ function MyHeader({
             <Switch
               size={width < 992 ? "md" : "lg"}
               onChange={handleThemeSwitchClick}
+              data-cy="themeSwitch"
             />
             <Space w="sm" />
             <Text color={themeState.theme === "light" ? "dark.6" : "gray.5"}>
