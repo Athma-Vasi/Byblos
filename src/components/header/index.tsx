@@ -289,6 +289,13 @@ function MyHeader({
                   alignItems: "center",
                   justifyContent: "center",
                 }}
+                onClick={() =>
+                  toggleCurrentlyActiveNavlink(
+                    navlinksState,
+                    navlinksActions,
+                    navlinksDispatch
+                  )
+                }
               >
                 <RiSearchEyeLine
                   size={22}

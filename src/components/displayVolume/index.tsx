@@ -16,7 +16,9 @@ import {
   AllDispatches,
   AllStates,
   HistoryState,
+  NavlinksStateActionDispatch,
 } from "../../types";
+import { toggleCurrentlyActiveNavlink } from "../../utils";
 
 type DisplayVolumeProps = {
   children?: React.ReactNode;
@@ -25,21 +27,11 @@ type DisplayVolumeProps = {
   allDispatches: AllDispatches;
 };
 
-function DisplayVolume({ allStates }: DisplayVolumeProps) {
-  let {
-    responseState: {
-      fetchUrl,
-      startIndex,
-      searchTerm,
-      searchResults,
-      selectedVolume,
-      selectedAuthor,
-      selectedPublisher,
-      bookshelfVolumes,
-    },
-    themeState: { theme },
-  } = allStates;
-
+function DisplayVolume({
+  allStates,
+  allActions,
+  allDispatches,
+}: DisplayVolumeProps) {
   const { volumeId, page } = useParams();
   const { width = 0 } = useWindowSize();
 
@@ -52,7 +44,43 @@ function DisplayVolume({ allStates }: DisplayVolumeProps) {
   });
   const [menuOpened, setMenuOpened] = useState(false);
 
-  async function handleNavLinkActiveClick(label: string) {
+  let {
+    responseState: {
+      fetchUrl,
+      startIndex,
+      searchTerm,
+      searchResults,
+      selectedVolume,
+      selectedAuthor,
+      selectedPublisher,
+      bookshelfVolumes,
+    },
+    themeState: { theme },
+    navlinksState,
+  } = allStates;
+  let { navlinksActions } = allActions;
+  let { navlinksDispatch } = allDispatches;
+
+  const navlinksStateActionDispatch: NavlinksStateActionDispatch = {
+    navlinksState,
+    navlinksActions,
+    navlinksDispatch,
+  };
+
+  async function handleNavLinkActiveClick(
+    label: string,
+    navlinksStateActionDispatch: NavlinksStateActionDispatch
+  ) {
+    let { navlinksState, navlinksActions, navlinksDispatch } =
+      navlinksStateActionDispatch;
+
+    //sets currently active navlink and all other navlinks to false
+    toggleCurrentlyActiveNavlink(
+      navlinksState,
+      navlinksActions,
+      navlinksDispatch
+    );
+
     //set history state
     //used to retrieve history state when user clicks browser back button as
     //stateful data is lost when component unmounts
@@ -193,7 +221,7 @@ function DisplayVolume({ allStates }: DisplayVolumeProps) {
             }
             data-cy="menu-displayVolume"
             onClick={() => {
-              handleNavLinkActiveClick("Menu");
+              handleNavLinkActiveClick("Menu", navlinksStateActionDispatch);
               setMenuOpened(!menuOpened);
             }}
           />
@@ -222,7 +250,12 @@ function DisplayVolume({ allStates }: DisplayVolumeProps) {
                     />
                   }
                   data-cy="menu-overview-displayVolume"
-                  onClick={() => handleNavLinkActiveClick("Overview")}
+                  onClick={() =>
+                    handleNavLinkActiveClick(
+                      "Overview",
+                      navlinksStateActionDispatch
+                    )
+                  }
                 />
               </Link>
             </Menu.Item>
@@ -245,7 +278,12 @@ function DisplayVolume({ allStates }: DisplayVolumeProps) {
                     />
                   }
                   data-cy="menu-otherEditions-displayVolume"
-                  onClick={() => handleNavLinkActiveClick("Other editions")}
+                  onClick={() =>
+                    handleNavLinkActiveClick(
+                      "Other editions",
+                      navlinksStateActionDispatch
+                    )
+                  }
                 />
               </Link>
             </Menu.Item>
@@ -269,7 +307,10 @@ function DisplayVolume({ allStates }: DisplayVolumeProps) {
                   }
                   data-cy="menu-publisherCollection-displayVolume"
                   onClick={() =>
-                    handleNavLinkActiveClick("Publisher collection")
+                    handleNavLinkActiveClick(
+                      "Publisher collection",
+                      navlinksStateActionDispatch
+                    )
                   }
                 />
               </Link>
@@ -293,7 +334,12 @@ function DisplayVolume({ allStates }: DisplayVolumeProps) {
                     />
                   }
                   data-cy="menu-authorCollection-displayVolume"
-                  onClick={() => handleNavLinkActiveClick("Author collection")}
+                  onClick={() =>
+                    handleNavLinkActiveClick(
+                      "Author collection",
+                      navlinksStateActionDispatch
+                    )
+                  }
                 />
               </Link>
             </Menu.Item>

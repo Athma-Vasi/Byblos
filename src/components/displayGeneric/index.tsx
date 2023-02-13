@@ -31,13 +31,14 @@ import {
   AllDispatches,
   AllStates,
   HistoryState,
+  NavlinksStateActionDispatch,
   RatingAction,
   ResponseState,
   UserBookshelf,
   UserBookshelfActions,
   VolumeWithCustomId,
 } from "../../types";
-import { insertCustomId } from "../../utils";
+import { insertCustomId, toggleCurrentlyActiveNavlink } from "../../utils";
 import { MyImageModal } from "../myImageModal";
 import {
   IoMdCheckmarkCircle,
@@ -86,10 +87,12 @@ function DisplayGeneric({
       bookshelfVolumes,
     },
     themeState: { theme },
+    navlinksState,
   } = allStates;
-  let { responseDispatch } = allDispatches;
+  let { responseDispatch, navlinksDispatch } = allDispatches;
   let {
     responseActions: { setAll },
+    navlinksActions,
   } = allActions;
 
   //inserts custom id into searchResults for rendering as google api id may
@@ -97,6 +100,12 @@ function DisplayGeneric({
   const modifiedSearchResults = insertCustomId(
     searchResults?.items ?? localForageFallback
   );
+
+  const navlinksStateActionDispatch: NavlinksStateActionDispatch = {
+    navlinksState,
+    navlinksActions,
+    navlinksDispatch,
+  };
 
   /**
    * much of the functionality of this component is similar to that of displayBookshelf plus the infinite scroll
@@ -524,7 +533,20 @@ function DisplayGeneric({
     fetchLocalStorageFallback();
   }, []);
 
-  async function handleTitleClick(volume: VolumeWithCustomId) {
+  async function handleTitleClick(
+    volume: VolumeWithCustomId,
+    navlinksStateActionDispatch: NavlinksStateActionDispatch
+  ) {
+    let { navlinksState, navlinksActions, navlinksDispatch } =
+      navlinksStateActionDispatch;
+
+    //sets currently active navlink and all other navlinks to false
+    toggleCurrentlyActiveNavlink(
+      navlinksState,
+      navlinksActions,
+      navlinksDispatch
+    );
+
     //response state values are updated
     startIndex = 0;
     searchTerm = volume.volumeInfo.title;
@@ -751,7 +773,7 @@ function DisplayGeneric({
                     <Title
                       order={3}
                       onClick={() => {
-                        handleTitleClick(item);
+                        handleTitleClick(item, navlinksStateActionDispatch);
                       }}
                       data-cy="title-volume"
                       style={{ paddingBottom: "3px" }}

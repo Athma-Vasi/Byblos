@@ -25,7 +25,10 @@ import {
   ApiResponseVolume,
   FormInputNames,
 } from "../../types";
-import { populateSearchTermForFetch } from "../../utils";
+import {
+  populateSearchTermForFetch,
+  toggleCurrentlyActiveNavlink,
+} from "../../utils";
 
 type AdvancedSearchProps = {
   children?: React.ReactNode;
@@ -53,12 +56,14 @@ function AdvancedSearch({
       selectedPublisher,
       bookshelfVolumes,
     },
+    navlinksState,
     themeState: { theme },
   } = allStates;
   let {
     responseActions: { setAll },
+    navlinksActions,
   } = allActions;
-  let { responseDispatch } = allDispatches;
+  let { responseDispatch, navlinksDispatch } = allDispatches;
 
   useEffect(() => {
     // selects the default radio buttons on page load because passing checked={true} does not work
@@ -72,6 +77,13 @@ function AdvancedSearch({
     event: React.FormEvent<HTMLFormElement>
   ) {
     event.preventDefault();
+
+    //sets currently active navlink and all other navlinks to false
+    toggleCurrentlyActiveNavlink(
+      navlinksState,
+      navlinksActions,
+      navlinksDispatch
+    );
 
     const formData = new FormData(event.currentTarget);
     //turned into a map for better performance, intellisense and typescript support

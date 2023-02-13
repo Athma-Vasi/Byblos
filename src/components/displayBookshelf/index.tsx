@@ -27,9 +27,7 @@ import {
   UserBookshelfActions,
   HistoryState,
   ResponseState,
-  NavlinksDispatch,
-  NavlinksActions,
-  NavlinksState,
+  NavlinksStateActionDispatch,
 } from "../../types";
 
 import { defaultVolume } from "../../localData";
@@ -97,6 +95,12 @@ function DisplayBookshelf({
   const definedBookshelfVolumes =
     bookshelfVolumes ??
     localForageFallback.map((bookshelfVolume) => bookshelfVolume.volume);
+
+  const navlinksStateActionDispatch: NavlinksStateActionDispatch = {
+    navlinksState,
+    navlinksActions,
+    navlinksDispatch,
+  };
 
   console.log("bookshelfVolumes from displayBookshelf", bookshelfVolumes);
   /**
@@ -525,10 +529,11 @@ function DisplayBookshelf({
 
   async function handleTitleClick(
     volume: VolumeWithCustomId,
-    navlinksState: NavlinksState,
-    navlinksActions: NavlinksActions,
-    navlinksDispatch: React.Dispatch<NavlinksDispatch>
+    navlinksStateActionDispatch: NavlinksStateActionDispatch
   ) {
+    let { navlinksState, navlinksActions, navlinksDispatch } =
+      navlinksStateActionDispatch;
+
     //sets currently active navlink and all other navlinks to false
     toggleCurrentlyActiveNavlink(
       navlinksState,
@@ -759,12 +764,7 @@ function DisplayBookshelf({
                     <Title
                       order={3}
                       onClick={() => {
-                        handleTitleClick(
-                          item,
-                          navlinksState,
-                          navlinksActions,
-                          navlinksDispatch
-                        );
+                        handleTitleClick(item, navlinksStateActionDispatch);
                       }}
                       style={{ paddingBottom: "3px" }}
                       color={theme === "light" ? "dark.6" : "gray.5"}

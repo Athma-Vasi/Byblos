@@ -126,6 +126,13 @@ function Search({ allStates, allActions, allDispatches }: SearchProps) {
       <Link
         to={`/home/advancedSearch`}
         style={{ textDecoration: "none", color: "inherit" }}
+        onClick={() =>
+          toggleCurrentlyActiveNavlink(
+            navlinksState,
+            navlinksActions,
+            navlinksDispatch
+          )
+        }
       >
         <Text
           color={themeState.theme === "light" ? "dark.6" : "gray.5"}

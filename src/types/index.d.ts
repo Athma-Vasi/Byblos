@@ -75,6 +75,12 @@ type NavlinksActions = {
 type NavlinksDispatch = {
   type: NavlinksActions[keyof NavlinksActions];
 };
+
+type NavlinksStateActionDispatch = {
+  navlinksState: NavlinksState;
+  navlinksDispatch: React.Dispatch<NavlinksDispatch>;
+  navlinksActions: NavlinksActions;
+};
 //↑ navlinksState types
 
 type HistoryState = ResponseState[];
@@ -278,6 +284,7 @@ export type {
   NavlinksActions,
   NavlinksDispatch,
   NavlinksState,
+  NavlinksStateActionDispatch,
   RatingAction,
   ResponseActions,
   ResponseDispatch,
