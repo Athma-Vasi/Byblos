@@ -13,8 +13,7 @@ import {
   AllDispatches,
   AllStates,
   ApiResponseVolume,
-  ResponseActions,
-  ResponseDispatch,
+  NavlinksState,
   ResponseState,
 } from "../../types";
 
@@ -25,21 +24,79 @@ type SearchProps = {
   allDispatches: AllDispatches;
 };
 
-function Search({
-  allStates: { responseState, themeState },
-  allActions: { responseActions },
-  allDispatches: { responseDispatch },
-}: SearchProps) {
+function Search({ allStates, allActions, allDispatches }: SearchProps) {
   const [searchTerm, setSearchTerm] = useState("");
 
   const { width = 0 } = useWindowSize();
   const navigate = useNavigate();
+
+  let { responseState, navlinksState, themeState } = allStates;
+  let {
+    responseActions,
+    navlinksActions: {
+      setIsMyLibraryActive,
+      setIsBookshelfActive,
+      setIsFavouritesActive,
+      setIsMarkReadActive,
+      setIsRatedActive,
+      setIsReadLaterActive,
+    },
+  } = allActions;
+  let { responseDispatch, navlinksDispatch } = allDispatches;
 
   async function handleEnterKeyInput(
     event: React.KeyboardEvent<HTMLInputElement>
   ) {
     if (event.key === "Enter") {
       window.scrollTo(0, 0);
+
+      //finds currently active navlink from navlinksState obj
+      const currentlyActiveNavLink = Object.keys(navlinksState).find(
+        (key) => navlinksState[key as keyof NavlinksState] === true
+      ) as keyof NavlinksState;
+
+      //sets currently active navlink state to false
+      switch (currentlyActiveNavLink) {
+        case "isMyLibraryActive": {
+          navlinksDispatch({
+            type: setIsMyLibraryActive,
+          });
+          break;
+        }
+        case "isBookshelfActive": {
+          navlinksDispatch({
+            type: setIsBookshelfActive,
+          });
+          break;
+        }
+        case "isFavouritesActive": {
+          navlinksDispatch({
+            type: setIsFavouritesActive,
+          });
+          break;
+        }
+        case "isRatedActive": {
+          navlinksDispatch({
+            type: setIsRatedActive,
+          });
+          break;
+        }
+        case "isMarkReadActive": {
+          navlinksDispatch({
+            type: setIsMarkReadActive,
+          });
+          break;
+        }
+        case "isReadLaterActive": {
+          navlinksDispatch({
+            type: setIsReadLaterActive,
+          });
+          break;
+        }
+
+        default:
+          break;
+      }
 
       try {
         const fetchUrlFromGenericSearch = `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40&startIndex=0&key=${
@@ -106,9 +163,9 @@ function Search({
         rightSection={rightInputSection(
           searchTerm,
           setSearchTerm,
-          responseState,
-          responseDispatch,
-          responseActions
+          allStates,
+          allActions,
+          allDispatches
         )}
         rightSectionWidth={100}
         onKeyDown={handleEnterKeyInput}
@@ -135,15 +192,79 @@ export { Search };
 function rightInputSection(
   searchTerm: string,
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>,
-  responseState: ResponseState,
-  responseDispatch: React.Dispatch<ResponseDispatch>,
-  responseActions: ResponseActions
+  allStates: AllStates,
+  allActions: AllActions,
+  allDispatches: AllDispatches
 ) {
   const navigate = useNavigate();
+
+  let { responseState, navlinksState } = allStates;
+  let {
+    responseActions,
+    navlinksActions: {
+      setIsMyLibraryActive,
+      setIsBookshelfActive,
+      setIsFavouritesActive,
+      setIsMarkReadActive,
+      setIsRatedActive,
+      setIsReadLaterActive,
+    },
+  } = allActions;
+
+  let { responseDispatch, navlinksDispatch } = allDispatches;
+
   async function handleSearchIconClick(
     event: React.MouseEvent<SVGElement, MouseEvent>
   ) {
     window.scrollTo(0, 0);
+
+    //finds currently active navlink from navlinksState obj
+    const currentlyActiveNavLink = Object.keys(navlinksState).find(
+      (key) => navlinksState[key as keyof NavlinksState] === true
+    ) as keyof NavlinksState;
+
+    //sets currently active navlink state to false
+    switch (currentlyActiveNavLink) {
+      case "isMyLibraryActive": {
+        navlinksDispatch({
+          type: setIsMyLibraryActive,
+        });
+        break;
+      }
+      case "isBookshelfActive": {
+        navlinksDispatch({
+          type: setIsBookshelfActive,
+        });
+        break;
+      }
+      case "isFavouritesActive": {
+        navlinksDispatch({
+          type: setIsFavouritesActive,
+        });
+        break;
+      }
+      case "isRatedActive": {
+        navlinksDispatch({
+          type: setIsRatedActive,
+        });
+        break;
+      }
+      case "isMarkReadActive": {
+        navlinksDispatch({
+          type: setIsMarkReadActive,
+        });
+        break;
+      }
+      case "isReadLaterActive": {
+        navlinksDispatch({
+          type: setIsReadLaterActive,
+        });
+        break;
+      }
+
+      default:
+        break;
+    }
 
     try {
       const fetchUrlFromGenericSearch = `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40&startIndex=0&key=${
