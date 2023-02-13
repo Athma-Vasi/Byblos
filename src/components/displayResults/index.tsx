@@ -59,10 +59,10 @@ function DisplayResults({
         const currStartIdx = startIndex + 40;
 
         try {
-          console.log(
-            "OG fetchUrl fetchMoreResults inside displayResults: ",
-            fetchUrl
-          );
+          // console.log(
+          //   "OG fetchUrl fetchMoreResults inside displayResults: ",
+          //   fetchUrl
+          // );
 
           const searchTerm_ =
             searchTerm ||
@@ -74,10 +74,10 @@ function DisplayResults({
               .then((value) => value?.at(-1)?.searchTerm)) ||
             "";
 
-          console.log(
-            "searchTerm_ fetchMoreResults inside displayResults: ",
-            searchTerm_
-          );
+          // console.log(
+          //   "searchTerm_ fetchMoreResults inside displayResults: ",
+          //   searchTerm_
+          // );
 
           const [url, params] =
             fetchUrl.split("?q=") ||
@@ -89,11 +89,11 @@ function DisplayResults({
               .then((value) => value?.at(-1)?.fetchUrl?.split("?q="))) ||
             "";
 
-          console.log("url fetchMoreResults inside displayResults: ", url);
-          console.log(
-            "params fetchMoreResults inside displayResults: ",
-            params
-          );
+          // console.log("url fetchMoreResults inside displayResults: ", url);
+          // console.log(
+          //   "params fetchMoreResults inside displayResults: ",
+          //   params
+          // );
 
           //includes check is for when the user searches using the search bar
           //and not the advanced search page, as the fetchUrl from responseState ( fetchUrl never gets modified ) term does not
@@ -129,7 +129,11 @@ function DisplayResults({
                   },
                 },
               });
-            } else {
+            }
+            //certain popular searches like "the" will return 1000+ results
+            //so we set the max results to 600 to limit browser tab memory
+            //usage, since all results are stored in memory
+            if (currStartIdx > 600 || !data.items) {
               //setIsFetchedDataPresent to false so that the infinite scroll
               //useEffect doesn't run and fetch more results, triggering a
               //rerender and preventing spoiler button from showing description

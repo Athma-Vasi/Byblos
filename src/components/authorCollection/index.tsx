@@ -211,7 +211,11 @@ function AuthorCollection({
                   },
                 },
               });
-            } else {
+            }
+            //certain popular searches like "the" will return 1000+ results
+            //so we set the max results to 600 to limit browser tab memory
+            //usage, since all results are stored in memory
+            if (currStartIdx > 600 || !data.items) {
               //setIsFetchedDataPresent to false so that the infinite scroll
               //useEffect doesn't run and fetch more results, triggering a
               //rerender and preventing spoiler button from showing description
