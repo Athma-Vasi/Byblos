@@ -32,6 +32,8 @@ function AuthorCollection({
   const [authorCollection, setAuthorCollection] = useState<
     VolumeWithCustomId[]
   >([]);
+  const [isFetchedDataPresent, setIsFetchedDataPresent] =
+    useState<boolean>(true);
 
   const { volumeId } = useParams();
   const { ref, inView } = useInView({
@@ -209,6 +211,11 @@ function AuthorCollection({
                   },
                 },
               });
+            } else {
+              //setIsFetchedDataPresent to false so that the infinite scroll
+              //useEffect doesn't run and fetch more results, triggering a
+              //rerender and preventing spoiler button from showing description
+              setIsFetchedDataPresent(false);
             }
           }
         } catch (error: any) {
@@ -271,7 +278,10 @@ function AuthorCollection({
             allActions={allActions}
             allDispatches={allDispatches}
           />
-          <div ref={ref}></div>
+          {/* removes ref if server does not return any more items and allows
+            for the spoiler button to show the description and prevent unnecessary fetches
+          */}
+          <div ref={isFetchedDataPresent ? ref : null}></div>
         </Suspense>
       </ErrorBoundary>
     </Fragment>

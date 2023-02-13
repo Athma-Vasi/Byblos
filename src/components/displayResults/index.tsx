@@ -1,7 +1,7 @@
 import { Space, Text } from "@mantine/core";
 import axios from "axios";
 import localforage from "localforage";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useParams } from "react-router-dom";
 
@@ -26,6 +26,9 @@ function DisplayResults({
   allActions,
   allDispatches,
 }: DisplayResultsProps) {
+  const [isFetchedDataPresent, setIsFetchedDataPresent] =
+    useState<boolean>(true);
+
   const { volumeId, page } = useParams();
   const { ref, inView } = useInView({
     threshold: 0,
@@ -102,6 +105,9 @@ function DisplayResults({
           console.log("fetchMoreResults inside displayResults: ", fetchUrl_);
 
           const { data } = await axios.get(fetchUrl_);
+
+          console.log("data fetchMoreResults inside displayResults: ", data);
+
           if (!ignore) {
             if (data.items) {
               searchResults?.items?.push(...data?.items);
@@ -123,6 +129,11 @@ function DisplayResults({
                   },
                 },
               });
+            } else {
+              //setIsFetchedDataPresent to false so that the infinite scroll
+              //useEffect doesn't run and fetch more results, triggering a
+              //rerender and preventing spoiler button from showing description
+              setIsFetchedDataPresent(false);
             }
           }
         } catch (error: any) {
@@ -166,8 +177,10 @@ function DisplayResults({
       {Array.from({ length: 5 }).map((_, i) => (
         <Space key={i} h="lg" />
       ))}
-
-      <div ref={ref}></div>
+      {/* removes ref if server does not return any more items and allows
+            for the spoiler button to show the description and prevent unnecessary fetches
+          */}
+      <div ref={isFetchedDataPresent ? ref : null}></div>
     </div>
   );
 }
