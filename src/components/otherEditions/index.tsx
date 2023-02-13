@@ -240,7 +240,7 @@ function OtherEditions({
 
   return (
     <div>
-      <Flex justify="flex-start">
+      <Flex justify="center">
         <Title order={3} color={theme === "light" ? "dark.6" : "gray.5"}>
           Other editions
         </Title>

@@ -21,6 +21,11 @@ import {
 } from "./state/themeState";
 import { ThemeProvider } from "../src/components/themeProvider";
 import { AllActions, AllDispatches } from "./types";
+import {
+  navlinksReducer,
+  initialNavlinksState,
+  navlinksActions,
+} from "./state/navlinksState";
 
 const DisplayResults = React.lazy(() => import("./components/displayResults"));
 const DisplayVolume = React.lazy(() => import("./components/displayVolume"));
@@ -48,19 +53,27 @@ export default function App() {
     initialThemeState
   );
 
+  const [navlinksState, navlinksDispatch] = useReducer(
+    navlinksReducer,
+    initialNavlinksState
+  );
+
   const allStates = {
     responseState,
     themeState,
+    navlinksState,
   };
 
   const allActions: AllActions = {
     responseActions,
     themeActions,
+    navlinksActions,
   };
 
   const allDispatches: AllDispatches = {
     responseDispatch,
     themeDispatch,
+    navlinksDispatch,
   };
 
   return (

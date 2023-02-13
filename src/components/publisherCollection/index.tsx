@@ -245,7 +245,7 @@ function PublisherCollection({
 
   return (
     <Fragment>
-      <Flex justify="flex-start">
+      <Flex justify="center">
         <Title order={3} color={theme === "light" ? "dark.6" : "gray.5"}>
           Publisher collection
         </Title>

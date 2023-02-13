@@ -53,21 +53,48 @@ type ThemeDispatch = {
 };
 //↑ themeState types
 
+// ↓ navlinksState types
+type NavlinksState = {
+  isMyLibraryActive: boolean;
+  isBookshelfActive: boolean;
+  isFavouritesActive: boolean;
+  isRatedActive: boolean;
+  isMarkReadActive: boolean;
+  isReadLaterActive: boolean;
+};
+
+type NavlinksActions = {
+  setIsMyLibraryActive: "setIsMyLibraryActive";
+  setIsBookshelfActive: "setIsBookshelfActive";
+  setIsFavouritesActive: "setIsFavouritesActive";
+  setIsRatedActive: "setIsRatedActive";
+  setIsMarkReadActive: "setIsMarkReadActive";
+  setIsReadLaterActive: "setIsReadLaterActive";
+};
+
+type NavlinksDispatch = {
+  type: NavlinksActions[keyof NavlinksActions];
+};
+//↑ navlinksState types
+
 type HistoryState = ResponseState[];
 
 type AllStates = {
   responseState: ResponseState;
   themeState: ThemeState;
+  navlinksState: NavlinksState;
 };
 
 type AllDispatches = {
   responseDispatch: React.Dispatch<ResponseDispatch>;
   themeDispatch: React.Dispatch<ThemeDispatch>;
+  navlinksDispatch: React.Dispatch<NavlinksDispatch>;
 };
 
 type AllActions = {
   responseActions: ResponseActions;
   themeActions: ThemeActions;
+  navlinksActions: NavlinksActions;
 };
 
 type FormInputNames =
@@ -248,6 +275,9 @@ export type {
   ApiResponseUserBookshelf,
   FormInputNames,
   HistoryState,
+  NavlinksActions,
+  NavlinksDispatch,
+  NavlinksState,
   RatingAction,
   ResponseActions,
   ResponseDispatch,

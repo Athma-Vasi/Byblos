@@ -54,19 +54,25 @@ function MyNavBar({
       bookshelfVolumes,
     },
     themeState: { theme },
+    navlinksState: {
+      isMyLibraryActive,
+      isBookshelfActive,
+      isFavouritesActive,
+      isRatedActive,
+      isMarkReadActive,
+      isReadLaterActive,
+    },
   } = allStates;
   let { responseDispatch } = allDispatches;
   let {
-    responseActions: {
-      setFetchUrl,
-      setStartIndex,
-      setSearchTerm,
-      setSearchResults,
-      setSelectedVolume,
-      setSelectedAuthor,
-      setSelectedPublisher,
-      setBookshelfVolumes,
-      setAll,
+    responseActions: { setBookshelfVolumes },
+    navlinksActions: {
+      setIsMyLibraryActive,
+      setIsBookshelfActive,
+      setIsFavouritesActive,
+      setIsRatedActive,
+      setIsMarkReadActive,
+      setIsReadLaterActive,
     },
   } = allActions;
 

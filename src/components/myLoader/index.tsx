@@ -26,8 +26,8 @@ export default function MyLoader({ children, componentName }: MyLoaderProps) {
 
           <Text> Please wait ... </Text>
           <Text>⬛⬛⬛⬜⬜</Text>
-          <Text>loading {componentName}</Text>
-          <Text> </Text>
+          <Text> ... loading</Text>
+          <Text> {componentName} </Text>
         </Flex>
       </Grid.Col>
       <Grid.Col span={1}></Grid.Col>
