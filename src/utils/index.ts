@@ -1,9 +1,13 @@
 import localforage from "localforage";
 import { v4 as uuidV4 } from "uuid";
+import { navlinksActions } from "../state/navlinksState";
 
 import {
   ApiResponseVolume,
   FormInputNames,
+  NavlinksActions,
+  NavlinksDispatch,
+  NavlinksState,
   ResponseState,
   VolumeWithCustomId,
 } from "../types";
@@ -117,6 +121,71 @@ function populateSearchTermForFetch(formDataMap: Map<FormInputNames, string>) {
   const searchStrFinal = `${searchStrCondensedComesFirst}${searchStrWithAllCategories}${searchStrWithDownloadFormat}${searchStrWithViewability}${searchStrWithSortBy}${searchStrWithPrintType}${searchStrWithResultsPerPage}`;
 
   return searchStrFinal;
+}
+
+function toggleCurrentlyActiveNavlink(
+  navlinksState: NavlinksState,
+  navlinksActions: NavlinksActions,
+  navlinksDispatch: React.Dispatch<NavlinksDispatch>
+): void {
+  let {
+    setIsMyLibraryActive,
+    setIsBookshelfActive,
+    setIsFavouritesActive,
+    setIsRatedActive,
+    setIsMarkReadActive,
+    setIsReadLaterActive,
+  } = navlinksActions;
+
+  const navlinksStateClone = structuredClone(navlinksState);
+
+  //finds currently active navlink from navlinksState obj
+  const currentlyActiveNavLink = Object.keys(navlinksStateClone).find(
+    (key) => navlinksStateClone[key as keyof NavlinksState] === true
+  ) as keyof NavlinksState;
+
+  //sets currently active navlink state to false
+  switch (currentlyActiveNavLink) {
+    case "isMyLibraryActive": {
+      navlinksDispatch({
+        type: setIsMyLibraryActive,
+      });
+      break;
+    }
+    case "isBookshelfActive": {
+      navlinksDispatch({
+        type: setIsBookshelfActive,
+      });
+      break;
+    }
+    case "isFavouritesActive": {
+      navlinksDispatch({
+        type: setIsFavouritesActive,
+      });
+      break;
+    }
+    case "isRatedActive": {
+      navlinksDispatch({
+        type: setIsRatedActive,
+      });
+      break;
+    }
+    case "isMarkReadActive": {
+      navlinksDispatch({
+        type: setIsMarkReadActive,
+      });
+      break;
+    }
+    case "isReadLaterActive": {
+      navlinksDispatch({
+        type: setIsReadLaterActive,
+      });
+      break;
+    }
+
+    default:
+      break;
+  }
 }
 
 function getLanguageFromCode(code: string) {
@@ -382,4 +451,9 @@ function getLanguageFromCode(code: string) {
   return languageTable.get(code) ?? code;
 }
 
-export { getLanguageFromCode, insertCustomId, populateSearchTermForFetch };
+export {
+  getLanguageFromCode,
+  insertCustomId,
+  populateSearchTermForFetch,
+  toggleCurrentlyActiveNavlink,
+};

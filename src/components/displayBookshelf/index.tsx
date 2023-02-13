@@ -27,6 +27,9 @@ import {
   UserBookshelfActions,
   HistoryState,
   ResponseState,
+  NavlinksDispatch,
+  NavlinksActions,
+  NavlinksState,
 } from "../../types";
 
 import { defaultVolume } from "../../localData";
@@ -44,6 +47,7 @@ import {
 } from "react-icons/md";
 import { MyImageModal } from "../myImageModal";
 import MyRating from "../myRating";
+import { toggleCurrentlyActiveNavlink } from "../../utils";
 
 type DisplayBookshelfProps = {
   children?: React.ReactNode;
@@ -83,9 +87,11 @@ function DisplayBookshelf({
       selectedPublisher,
       bookshelfVolumes,
     },
+    navlinksState,
     themeState: { theme },
   } = allStates;
-  let { responseDispatch } = allDispatches;
+  let { navlinksActions } = allActions;
+  let { responseDispatch, navlinksDispatch } = allDispatches;
 
   //localforage fallback is to always have some volumes to display
   const definedBookshelfVolumes =
@@ -517,7 +523,19 @@ function DisplayBookshelf({
     fetchLocalStorageFallback();
   }, []);
 
-  async function handleTitleClick(volume: VolumeWithCustomId) {
+  async function handleTitleClick(
+    volume: VolumeWithCustomId,
+    navlinksState: NavlinksState,
+    navlinksActions: NavlinksActions,
+    navlinksDispatch: React.Dispatch<NavlinksDispatch>
+  ) {
+    //sets currently active navlink and all other navlinks to false
+    toggleCurrentlyActiveNavlink(
+      navlinksState,
+      navlinksActions,
+      navlinksDispatch
+    );
+
     //response state values are updated
     startIndex = 0;
     searchTerm = volume.volumeInfo.title;
@@ -741,7 +759,12 @@ function DisplayBookshelf({
                     <Title
                       order={3}
                       onClick={() => {
-                        handleTitleClick(item);
+                        handleTitleClick(
+                          item,
+                          navlinksState,
+                          navlinksActions,
+                          navlinksDispatch
+                        );
                       }}
                       style={{ paddingBottom: "3px" }}
                       color={theme === "light" ? "dark.6" : "gray.5"}
