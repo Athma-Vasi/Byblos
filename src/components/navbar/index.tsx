@@ -1,5 +1,4 @@
-import { Button, Navbar, NavLink, Space } from "@mantine/core";
-import { useState } from "react";
+import { Navbar, NavLink, Space } from "@mantine/core";
 import { TbChevronsRight, TbChevronRight } from "react-icons/tb";
 import { BsBookshelf } from "react-icons/bs";
 import { GiBlackBook, GiBookshelf, GiStarsStack } from "react-icons/gi";
@@ -35,13 +34,6 @@ function MyNavBar({
   allActions,
   allDispatches,
 }: MyNavBarProps) {
-  const [parentNavlinkActive, setparentNavlinkActive] = useState(false);
-  const [bookshelfNavlinkActive, setBookshelfNavlinkActive] = useState(false);
-  const [favouritesNavlinkActive, setFavouritesNavlinkActive] = useState(false);
-  const [markReadNavlinkActive, setMarkReadNavlinkActive] = useState(false);
-  const [readLaterNavlinkActive, setReadLaterNavlinkActive] = useState(false);
-  const [ratedNavlinkActive, setRatedNavlinkActive] = useState(false);
-
   let {
     responseState: {
       fetchUrl,
@@ -63,7 +55,7 @@ function MyNavBar({
       isReadLaterActive,
     },
   } = allStates;
-  let { responseDispatch } = allDispatches;
+  let { responseDispatch, navlinksDispatch } = allDispatches;
   let {
     responseActions: { setBookshelfVolumes },
     navlinksActions: {
@@ -77,7 +69,9 @@ function MyNavBar({
   } = allActions;
 
   async function handleParentNavlinkClick() {
-    setparentNavlinkActive((prev) => !prev);
+    navlinksDispatch({
+      type: setIsMyLibraryActive,
+    });
 
     //history state is updated whenever the user clicks on a navlink
     //the history state is an array of objects, each object representing the state of the app at a particular point in time
@@ -136,66 +130,48 @@ function MyNavBar({
     //navigate to top of page
     window.scrollTo(0, 0);
 
-    //first set all other navlinks to false to remove active state
     switch (navLinkKind) {
       case "bookshelf": {
-        setBookshelfNavlinkActive((prev) => !prev);
-        setRatedNavlinkActive(false);
-        setFavouritesNavlinkActive(false);
-        setMarkReadNavlinkActive(false);
-        setReadLaterNavlinkActive(false);
+        navlinksDispatch({
+          type: setIsBookshelfActive,
+        });
 
         break;
       }
       case "rated": {
-        setRatedNavlinkActive((prev) => !prev);
-        setBookshelfNavlinkActive(false);
-        setFavouritesNavlinkActive(false);
-        setMarkReadNavlinkActive(false);
-        setReadLaterNavlinkActive(false);
+        navlinksDispatch({
+          type: setIsRatedActive,
+        });
 
         break;
       }
 
       case "favourites": {
-        setFavouritesNavlinkActive((prev) => !prev);
-        setRatedNavlinkActive(false);
-        setBookshelfNavlinkActive(false);
-        setMarkReadNavlinkActive(false);
-        setReadLaterNavlinkActive(false);
+        navlinksDispatch({
+          type: setIsFavouritesActive,
+        });
 
         break;
       }
 
       case "markRead": {
-        setMarkReadNavlinkActive((prev) => !prev);
-        setRatedNavlinkActive(false);
-        setBookshelfNavlinkActive(false);
-        setFavouritesNavlinkActive(false);
-        setReadLaterNavlinkActive(false);
+        navlinksDispatch({
+          type: setIsMarkReadActive,
+        });
 
         break;
       }
 
       case "readLater": {
-        setReadLaterNavlinkActive((prev) => !prev);
-        setRatedNavlinkActive(false);
-        setBookshelfNavlinkActive(false);
-        setFavouritesNavlinkActive(false);
-        setMarkReadNavlinkActive(false);
+        navlinksDispatch({
+          type: setIsReadLaterActive,
+        });
 
         break;
       }
 
-      default: {
-        setBookshelfNavlinkActive((prev) => !prev);
-        setRatedNavlinkActive(false);
-        setFavouritesNavlinkActive(false);
-        setMarkReadNavlinkActive(false);
-        setReadLaterNavlinkActive(false);
-
+      default:
         break;
-      }
     }
 
     try {
@@ -418,7 +394,7 @@ function MyNavBar({
     >
       <NavLink
         label="My Library"
-        active={parentNavlinkActive}
+        active={isMyLibraryActive}
         onClick={handleParentNavlinkClick}
         icon={
           <BsBookshelf
@@ -456,7 +432,7 @@ function MyNavBar({
                 }}
               />
             }
-            active={bookshelfNavlinkActive}
+            active={isBookshelfActive}
             rightSection={
               <TbChevronRight
                 size={20}
@@ -487,7 +463,7 @@ function MyNavBar({
                 }}
               />
             }
-            active={favouritesNavlinkActive}
+            active={isFavouritesActive}
             rightSection={
               <TbChevronRight
                 size={20}
@@ -518,7 +494,7 @@ function MyNavBar({
                 }}
               />
             }
-            active={ratedNavlinkActive}
+            active={isRatedActive}
             rightSection={
               <TbChevronRight
                 size={20}
@@ -549,7 +525,7 @@ function MyNavBar({
                 }}
               />
             }
-            active={markReadNavlinkActive}
+            active={isMarkReadActive}
             rightSection={
               <TbChevronRight
                 size={20}
@@ -580,7 +556,7 @@ function MyNavBar({
                 }}
               />
             }
-            active={readLaterNavlinkActive}
+            active={isReadLaterActive}
             rightSection={
               <TbChevronRight
                 size={20}

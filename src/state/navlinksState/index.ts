@@ -35,7 +35,7 @@ function navlinksReducer(
     case navlinksActions.setIsMyLibraryActive: {
       return {
         ...navlinksState,
-        setIsMyLibraryActive: !isMyLibraryActive,
+        isMyLibraryActive: !isMyLibraryActive,
         isBookshelfActive: false,
         isFavouritesActive: false,
         isRatedActive: false,
