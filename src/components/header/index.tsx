@@ -7,7 +7,6 @@ import {
   Popover,
   Switch,
   Text,
-  Title,
   Space,
   useMantineTheme,
   Flex,
@@ -23,21 +22,20 @@ import {
   AllDispatches,
   AllStates,
   ApiResponseVolume,
+  NavlinksState,
   ResponseActions,
   ResponseDispatch,
   ResponseState,
 } from "../../types";
 import localforage from "localforage";
 import { useWindowSize } from "../../hooks/useWindowSize";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import { BsChevronBarDown } from "react-icons/bs";
 import axios from "axios";
 import { CgSearch } from "react-icons/cg";
 import { RiCloseLine, RiSearchEyeLine } from "react-icons/ri";
 import { RxDividerVertical } from "react-icons/rx";
 import { responseActions } from "../../state/responseState";
-import { GrSearchAdvanced } from "react-icons/gr";
-import { MdManageSearch, MdOutlineManageSearch } from "react-icons/md";
 
 type MyHeaderProps = {
   children?: React.ReactNode;
@@ -62,7 +60,18 @@ function MyHeader({
   const { width = 0 } = useWindowSize();
   const navigate = useNavigate();
 
-  const { themeState } = allStates;
+  const { themeState, navlinksState } = allStates;
+  const {
+    navlinksActions: {
+      setIsMyLibraryActive,
+      setIsBookshelfActive,
+      setIsFavouritesActive,
+      setIsRatedActive,
+      setIsMarkReadActive,
+      setIsReadLaterActive,
+    },
+  } = allActions;
+  const { navlinksDispatch } = allDispatches;
 
   async function handleThemeSwitchClick(
     event: React.ChangeEvent<HTMLInputElement>
@@ -96,6 +105,54 @@ function MyHeader({
       setPopoverOpened((open) => !open);
 
       window.scrollTo(0, 0);
+
+      //finds currently active navlink from navlinksState obj
+      const currentlyActiveNavLink = Object.keys(navlinksState).find(
+        (key) => navlinksState[key as keyof NavlinksState] === true
+      ) as keyof NavlinksState;
+
+      //sets currently active navlink state to false
+      switch (currentlyActiveNavLink) {
+        case "isMyLibraryActive": {
+          navlinksDispatch({
+            type: setIsMyLibraryActive,
+          });
+          break;
+        }
+        case "isBookshelfActive": {
+          navlinksDispatch({
+            type: setIsBookshelfActive,
+          });
+          break;
+        }
+        case "isFavouritesActive": {
+          navlinksDispatch({
+            type: setIsFavouritesActive,
+          });
+          break;
+        }
+        case "isRatedActive": {
+          navlinksDispatch({
+            type: setIsRatedActive,
+          });
+          break;
+        }
+        case "isMarkReadActive": {
+          navlinksDispatch({
+            type: setIsMarkReadActive,
+          });
+          break;
+        }
+        case "isReadLaterActive": {
+          navlinksDispatch({
+            type: setIsReadLaterActive,
+          });
+          break;
+        }
+
+        default:
+          break;
+      }
 
       try {
         const fetchUrlFromGenericSearch = `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40&startIndex=0&key=${
@@ -209,9 +266,9 @@ function MyHeader({
                   searchTerm,
                   setSearchTerm,
                   setPopoverOpened,
-                  allStates.responseState,
-                  allDispatches.responseDispatch,
-                  responseActions
+                  allStates,
+                  allActions,
+                  allDispatches
                 )}
                 rightSectionWidth={100}
                 onKeyDown={handleEnterKeyInput}
@@ -295,11 +352,25 @@ function rightInputSection(
   searchTerm: string,
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>,
   setPopoverOpened: React.Dispatch<React.SetStateAction<boolean>>,
-  responseState: ResponseState,
-  responseDispatch: React.Dispatch<ResponseDispatch>,
-  responseActions: ResponseActions
+  allStates: AllStates,
+  allActions: AllActions,
+  allDispatches: AllDispatches
 ) {
   const navigate = useNavigate();
+
+  let { responseState, navlinksState } = allStates;
+  let {
+    responseActions,
+    navlinksActions: {
+      setIsMyLibraryActive,
+      setIsBookshelfActive,
+      setIsFavouritesActive,
+      setIsRatedActive,
+      setIsMarkReadActive,
+      setIsReadLaterActive,
+    },
+  } = allActions;
+  let { responseDispatch, navlinksDispatch } = allDispatches;
 
   async function handleSearchIconClick(
     event: React.MouseEvent<SVGElement, MouseEvent>
@@ -308,6 +379,54 @@ function rightInputSection(
     setPopoverOpened((open) => !open);
 
     window.scrollTo(0, 0);
+
+    //finds currently active navlink from navlinksState obj
+    const currentlyActiveNavLink = Object.keys(navlinksState).find(
+      (key) => navlinksState[key as keyof NavlinksState] === true
+    ) as keyof NavlinksState;
+
+    //sets currently active navlink state to false
+    switch (currentlyActiveNavLink) {
+      case "isMyLibraryActive": {
+        navlinksDispatch({
+          type: setIsMyLibraryActive,
+        });
+        break;
+      }
+      case "isBookshelfActive": {
+        navlinksDispatch({
+          type: setIsBookshelfActive,
+        });
+        break;
+      }
+      case "isFavouritesActive": {
+        navlinksDispatch({
+          type: setIsFavouritesActive,
+        });
+        break;
+      }
+      case "isRatedActive": {
+        navlinksDispatch({
+          type: setIsRatedActive,
+        });
+        break;
+      }
+      case "isMarkReadActive": {
+        navlinksDispatch({
+          type: setIsMarkReadActive,
+        });
+        break;
+      }
+      case "isReadLaterActive": {
+        navlinksDispatch({
+          type: setIsReadLaterActive,
+        });
+        break;
+      }
+
+      default:
+        break;
+    }
 
     try {
       const fetchUrlFromGenericSearch = `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40&startIndex=0&key=${
@@ -391,5 +510,106 @@ function rightInputSection(
     </Flex>
   );
 }
+
+// function rightInputSection(
+//   searchTerm: string,
+//   setSearchTerm: React.Dispatch<React.SetStateAction<string>>,
+//   setPopoverOpened: React.Dispatch<React.SetStateAction<boolean>>,
+//   responseState: ResponseState,
+//   responseDispatch: React.Dispatch<ResponseDispatch>,
+//   responseActions: ResponseActions
+// ) {
+//   const navigate = useNavigate();
+
+//   async function handleSearchIconClick(
+//     event: React.MouseEvent<SVGElement, MouseEvent>
+//   ) {
+//     //set popover to closed
+//     setPopoverOpened((open) => !open);
+
+//     window.scrollTo(0, 0);
+
+//     try {
+//       const fetchUrlFromGenericSearch = `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40&startIndex=0&key=${
+//         import.meta.env.VITE_GOOGLE_BOOKS_API_KEY
+//       }`;
+//       const { data } = await axios.get(fetchUrlFromGenericSearch);
+
+//       responseState.startIndex = 0;
+//       responseState.searchTerm = searchTerm;
+//       responseState.searchResults = data as ApiResponseVolume;
+
+//       //initializes localforage keys to initial responseState values for some, and fetched values for others
+//       await localforage.setItem<ResponseState["startIndex"]>(
+//         "byblos-startIndex",
+//         responseState.startIndex
+//       );
+
+//       await localforage.setItem<ResponseState["searchTerm"]>(
+//         "byblos-searchTerm",
+//         responseState.searchTerm
+//       );
+
+//       await localforage.setItem<ResponseState["searchResults"]>(
+//         "byblos-searchResults",
+//         data as ApiResponseVolume
+//       );
+
+//       responseDispatch({
+//         type: responseActions.setAll,
+//         payload: { responseState: { ...responseState } },
+//       });
+
+//       navigate(`/home/displayResults/1`);
+//     } catch (error: any) {
+//       const error_ = new Error(error, {
+//         cause: "handleSearchIconClick()",
+//       });
+
+//       console.group("Error in header search rightInputSection() eventHandler");
+//       console.error("name: ", error_.name);
+//       console.error("message: ", error_.message);
+//       console.error("cause: ", error_.cause);
+//       console.groupCollapsed("stack trace");
+//       console.trace(error_);
+//       console.error("detailed stack trace", error_.stack);
+//       console.groupEnd();
+//     }
+//   }
+
+//   return (
+//     <Flex gap="xs">
+//       {searchTerm === "" ? (
+//         ""
+//       ) : (
+//         <RiCloseLine
+//           style={{
+//             color: "GrayText",
+//             transform: "scale(1.5)",
+//             cursor: "pointer",
+//           }}
+//           onClick={() => {
+//             setSearchTerm("");
+//           }}
+//         />
+//       )}
+//       {searchTerm === "" ? (
+//         ""
+//       ) : (
+//         <RxDividerVertical
+//           style={{ color: "GrayText", transform: "scale(1.5)" }}
+//         />
+//       )}
+//       <CgSearch
+//         style={{
+//           color: "GrayText",
+//           transform: "scale(1.25)",
+//           cursor: "pointer",
+//         }}
+//         onClick={handleSearchIconClick}
+//       />
+//     </Flex>
+//   );
+// }
 
 export { MyHeader };

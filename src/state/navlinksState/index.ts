@@ -106,7 +106,14 @@ function navlinksReducer(
     }
 
     default: {
-      return navlinksState;
+      return {
+        isMyLibraryActive: false,
+        isBookshelfActive: false,
+        isFavouritesActive: false,
+        isRatedActive: false,
+        isMarkReadActive: false,
+        isReadLaterActive: false,
+      };
     }
   }
 }
