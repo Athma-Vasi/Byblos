@@ -258,13 +258,15 @@ function Overview({ allStates }: OverviewProps) {
   const aboutEditionDesktop = (
     <Grid columns={width < 576 ? 1 : 3} align="center">
       <Grid.Col span={1}>
-        <Image
-          width={width < 576 ? "50%" : "75%"}
-          src={imageSrc}
-          alt={imageAlt}
-          radius="xs"
-          data-cy="imageThumbnail-overview"
-        />
+        <Flex align="center" justify="center">
+          <Image
+            width={width < 992 ? "75%" : "50%"}
+            src={imageSrc}
+            alt={imageAlt}
+            radius="xs"
+            data-cy="imageThumbnail-overview"
+          />
+        </Flex>
       </Grid.Col>
 
       <Grid.Col span={1}>

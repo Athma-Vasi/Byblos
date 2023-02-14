@@ -228,15 +228,21 @@ function MyHeader({
   const displayOnMobile = (
     <Grid.Col span={6}>
       <Flex direction="row" align="center" justify="space-evenly">
-        <Link to={`/`}>
-          <Image
-            src={logo_transparent}
-            alt="Byblos logo"
-            width={50}
-            height={50}
-            data-cy="logo-header"
-          />
-        </Link>
+        <Flex
+          // style={{ outline: "1px solid GrayText" }}
+          justify="center"
+          align="center"
+        >
+          <Link
+            to={`/`}
+            style={{
+              textDecoration: "none",
+              color: themeState.theme === "light" ? "#B06519" : "#B87333",
+            }}
+          >
+            <Text size="lg">Byblos</Text>
+          </Link>
+        </Flex>
         <Popover
           width={350}
           position="bottom"

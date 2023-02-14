@@ -362,6 +362,7 @@ function MyNavBar({
         await localforage.removeItem("byblos-bookshelfVolumes"),
         await localforage.removeItem("byblos-userBookshelf"),
         await localforage.removeItem("byblos-historyState"),
+        await localforage.removeItem("byblos-footer"),
       ];
 
       Promise.all(localforageKeysArr).then(() => {
