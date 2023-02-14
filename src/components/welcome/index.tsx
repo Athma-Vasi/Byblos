@@ -93,10 +93,6 @@ function Welcome({ allStates, allActions, allDispatches }: WelcomeProps) {
         />
       </Flex>
 
-      {Array.from({ length: 3 }).map((_, i) => (
-        <Space key={i} h="xs" />
-      ))}
-
       <Flex
         direction="column"
         justify="center"

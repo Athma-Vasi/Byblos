@@ -88,8 +88,6 @@ function populateSearchTermForFetch(formDataMap: Map<FormInputNames, string>) {
     formDataMap.get("filter-printType") === "" ? "" : "&printType="
   }${formDataMap.get("filter-printType")}`;
 
-  // const searchStrWithResultsPerPage = `&maxResults=40`;
-
   const searchStrWithSortBy = `${
     formDataMap.get("sortBy") === "relevance"
       ? ""
@@ -166,9 +164,8 @@ function toggleCurrentlyActiveNavlink(
   }
 }
 
+//literally just returns a random progress value lmao ଘ( ≧▽≦ )ଓ
 function showRandomProgress(): { value: string; art: string } {
-  //literally just returns a random progress value lmao ଘ( ≧▽≦ )ଓ
-
   const loadingMap = new Map<string, string>([
     ["0", "▒▒▒▒▒▒▒▒▒▒"],
     ["10", "█▒▒▒▒▒▒▒▒▒"],
@@ -198,7 +195,7 @@ function getLanguageFromCode(code: string) {
   function outputLanguageTable() {
     //copy pasted from http://www.lingoes.net/en/translator/langcode.htm
     //converted to string literal and then into a map object for easier look up
-    //used in the overview section when displaying the language of volume
+    //used in the overview section when displaying the language of a volume
 
     const langCodesStr = `af	Afrikaans
     af-ZA	Afrikaans (South Africa)

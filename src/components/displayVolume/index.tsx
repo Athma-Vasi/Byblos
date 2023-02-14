@@ -142,6 +142,7 @@ function DisplayVolume({
       case "Overview": {
         setNavLinkActive({
           ...navLinkActive,
+          menu: false,
           overview: true,
           otherEditions: false,
           publisherCollection: false,
@@ -152,6 +153,7 @@ function DisplayVolume({
       case "Other editions": {
         setNavLinkActive({
           ...navLinkActive,
+          menu: false,
           overview: false,
           otherEditions: true,
           publisherCollection: false,
@@ -162,6 +164,7 @@ function DisplayVolume({
       case "Publisher collection": {
         setNavLinkActive({
           ...navLinkActive,
+          menu: false,
           overview: false,
           otherEditions: false,
           publisherCollection: true,
@@ -172,6 +175,7 @@ function DisplayVolume({
       case "Author collection": {
         setNavLinkActive({
           ...navLinkActive,
+          menu: false,
           overview: false,
           otherEditions: false,
           publisherCollection: false,
@@ -182,6 +186,7 @@ function DisplayVolume({
       default: {
         setNavLinkActive({
           ...navLinkActive,
+          menu: false,
           overview: true,
           otherEditions: false,
           publisherCollection: false,

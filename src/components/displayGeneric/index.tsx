@@ -1015,7 +1015,7 @@ function DisplayGeneric({
                         color={theme === "light" ? "dark.5" : "gray.5"}
                         key={author}
                         data-cy="author-volume"
-                        size={width < 576 ? "md" : "lg"}
+                        size={width < 576 ? "lg" : "xl"}
                       >
                         {author}{" "}
                       </Text>
@@ -1025,7 +1025,7 @@ function DisplayGeneric({
                     style={{ paddingTop: "3px", paddingBottom: "3px" }}
                     color={theme === "light" ? "dark.5" : "gray.5"}
                     data-cy="publishedYear-volume"
-                    size={width < 576 ? "sm" : "md"}
+                    size={"md"}
                   >
                     {Number.isNaN(
                       new Date(item.volumeInfo.publishedDate)
@@ -1072,7 +1072,7 @@ function DisplayGeneric({
                     <Text
                       color={theme === "light" ? "dark.5" : "gray.5"}
                       data-cy="description-volume"
-                      size={width < 576 ? "sm" : "md"}
+                      size="md"
                     >
                       {item.volumeInfo.description ?? "Description unavailable"}
                     </Text>
