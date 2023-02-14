@@ -71,11 +71,6 @@ function AuthorCollection({
           ""
         }&maxResults=40${params}`;
 
-        console.log(
-          "fetchUrlWithAuthor inside authorCollection: ",
-          fetchUrlWithAuthor
-        );
-
         const { data } = await axios.get(fetchUrlWithAuthor);
 
         const itemsWithCustomId = insertCustomId(data.items ?? []);
@@ -186,8 +181,6 @@ function AuthorCollection({
             "";
 
           const fetchUrl_ = `${url}?q=${searchTerm}&startIndex=${currStartIdx}&maxResults=40${params}`;
-
-          console.log("fetchMoreResults inside authorCollection: ", fetchUrl_);
 
           const { data } = await axios.get(fetchUrl_);
 

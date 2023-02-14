@@ -59,11 +59,6 @@ function DisplayResults({
         const currStartIdx = startIndex + 40;
 
         try {
-          // console.log(
-          //   "OG fetchUrl fetchMoreResults inside displayResults: ",
-          //   fetchUrl
-          // );
-
           const searchTerm_ =
             searchTerm ||
             (await localforage.getItem<ResponseState["searchTerm"]>(
@@ -73,11 +68,6 @@ function DisplayResults({
               .getItem<HistoryState>("byblos-searchTerm")
               .then((value) => value?.at(-1)?.searchTerm)) ||
             "";
-
-          // console.log(
-          //   "searchTerm_ fetchMoreResults inside displayResults: ",
-          //   searchTerm_
-          // );
 
           const [url, params] =
             fetchUrl.split("?q=") ||
@@ -89,12 +79,6 @@ function DisplayResults({
               .then((value) => value?.at(-1)?.fetchUrl?.split("?q="))) ||
             "";
 
-          console.log("url fetchMoreResults inside displayResults: ", url);
-          console.log(
-            "params fetchMoreResults inside displayResults: ",
-            params
-          );
-
           //includes check is for when the user searches using the search bar
           //and not the advanced search page, as the fetchUrl from responseState ( fetchUrl never gets modified ) term does not
           //include the maxResults param
@@ -102,11 +86,7 @@ function DisplayResults({
             ? `${url}?q=${searchTerm}&startIndex=${currStartIdx}${params}`
             : `${url}?q=${searchTerm}&startIndex=${currStartIdx}&maxResults=40${params}`;
 
-          console.log("fetchMoreResults inside displayResults: ", fetchUrl_);
-
           const { data } = await axios.get(fetchUrl_);
-
-          console.log("data fetchMoreResults inside displayResults: ", data);
 
           if (!ignore) {
             if (data.items) {

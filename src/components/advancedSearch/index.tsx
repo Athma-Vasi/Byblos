@@ -1,6 +1,5 @@
 import {
   Button,
-  Card,
   Center,
   Flex,
   Grid,
@@ -26,6 +25,7 @@ import {
   FormInputNames,
 } from "../../types";
 import {
+  clickDefaultRadioBttns,
   populateSearchTermForFetch,
   toggleCurrentlyActiveNavlink,
 } from "../../utils";
@@ -68,9 +68,6 @@ function AdvancedSearch({
   useEffect(() => {
     // selects the default radio buttons on page load because passing checked={true} does not work
     clickDefaultRadioBttns();
-
-    //TESTING ONLY: REMOVE THIS
-    populateInputsForTesting();
   }, []);
 
   async function handleSearchFormSubmit(
@@ -144,70 +141,6 @@ function AdvancedSearch({
       window.scrollTo(0, 0);
       navigate(`/home/displayResults/1`);
     }
-  }
-
-  function populateInputsForTesting() {
-    /*
-    const findAll = document.querySelector<HTMLInputElement>(
-      "[data-textinput='find-allWords']",
-    );
-    findAll === null ? null : (findAll.defaultValue = "barrayar");
-  
-    const findExact = document.querySelector<HTMLInputElement>(
-      "[data-textinput='find-exactPhrase']",
-    );
-    findExact === null ? null : (findExact.defaultValue = "barrayar");
-  
-    const findAtLeastOne = document.querySelector<HTMLInputElement>(
-      "[data-textinput='find-atLeastOne']",
-    );
-    findAtLeastOne === null ? null : (findAtLeastOne.defaultValue = "barrayar");
-  
-    const findWithout = document.querySelector<HTMLInputElement>(
-      "[data-textinput='find-none']",
-    );
-    findWithout === null ? null : (findWithout.defaultValue = "barrayar");
-  
-    */
-    const title = document.querySelector<HTMLInputElement>(
-      "[data-textinput='title']"
-    );
-    title === null ? null : (title.defaultValue = "Harry Potter");
-    // const author = document.querySelector<HTMLInputElement>(
-    //   "[data-textinput='author']"
-    // );
-    // author === null ? null : (author.defaultValue = "j.k. rowling");
-    // const publisher = document.querySelector<HTMLInputElement>(
-    //   "[data-textinput='publisher']",
-    // );
-    // publisher === null ? null : (publisher.defaultValue = "baen");
-    // const subject = document.querySelector<HTMLInputElement>(
-    //   "[data-textinput='subject']",
-    // );
-    // subject === null ? null : (subject.defaultValue = "science fiction");
-    // const isbn = document.querySelector<HTMLInputElement>("[data-textinput='isbn']");
-    // isbn === null ? null : (isbn.defaultValue = "978-0671578282");
-    // const lccn = document.querySelector<HTMLInputElement>("[data-textinput='lccn']");
-    // lccn === null ? null : (lccn.defaultValue = " 96024819");
-    // const oclc = document.querySelector<HTMLInputElement>("[data-textinput='oclc']");
-    // oclc === null ? null : (oclc.defaultValue = " 42320675");
-  }
-
-  function clickDefaultRadioBttns() {
-    const allBooksRadio = document.querySelector<HTMLInputElement>(
-      "[data-radioinput='filter-allBooks']"
-    );
-    allBooksRadio?.click();
-
-    const allContentRadio = document.querySelector<HTMLInputElement>(
-      "[data-radioinput='filter-allContent']"
-    );
-    allContentRadio?.click();
-
-    const allFormatsRadio = document.querySelector<HTMLInputElement>(
-      "[data-radioinput='filter-allBooksFormat']"
-    );
-    allFormatsRadio?.click();
   }
 
   async function fetchSearchResults(searchString: string) {

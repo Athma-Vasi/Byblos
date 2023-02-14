@@ -102,7 +102,6 @@ function DisplayBookshelf({
     navlinksDispatch,
   };
 
-  console.log("bookshelfVolumes from displayBookshelf", bookshelfVolumes);
   /**
    * much of the functionality of this component is similar to that of displayGeneric minus the infinite scroll
    */

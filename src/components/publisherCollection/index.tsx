@@ -73,11 +73,6 @@ function PublisherCollection({
           ""
         }&maxResults=40${params}`;
 
-        console.log(
-          "fetchUrlWithPublisher inside publisherCollection: ",
-          fetchUrlWithPublisher
-        );
-
         const { data } = await axios.get(fetchUrlWithPublisher);
 
         const itemsWithCustomId = insertCustomId(data.items ?? []);
@@ -190,11 +185,6 @@ function PublisherCollection({
             "";
 
           const fetchUrl_ = `${url}?q=${searchTerm}&startIndex=${currStartIdx}&maxResults=40${params}`;
-
-          console.log(
-            "fetchMoreResults inside publisherCollection: ",
-            fetchUrl_
-          );
 
           const { data } = await axios.get(fetchUrl_);
 

@@ -164,6 +164,84 @@ function toggleCurrentlyActiveNavlink(
   }
 }
 
+function populateInputsForTesting() {
+  const findAll = document.querySelector<HTMLInputElement>(
+    "[data-textinput='find-allWords']"
+  );
+  findAll === null ? null : (findAll.defaultValue = "Barrayar");
+
+  const findExact = document.querySelector<HTMLInputElement>(
+    "[data-textinput='find-exactPhrase']"
+  );
+  findExact === null ? null : (findExact.defaultValue = "Hyperion");
+
+  const findAtLeastOne = document.querySelector<HTMLInputElement>(
+    "[data-textinput='find-atLeastOne']"
+  );
+  findAtLeastOne === null
+    ? null
+    : (findAtLeastOne.defaultValue = "The Moon and the Sun");
+
+  const findWithout = document.querySelector<HTMLInputElement>(
+    "[data-textinput='find-none']"
+  );
+  findWithout === null
+    ? null
+    : (findWithout.defaultValue = "A Fire Upon the Deep");
+
+  const title = document.querySelector<HTMLInputElement>(
+    "[data-textinput='title']"
+  );
+  title === null ? null : (title.defaultValue = "The Uplift War");
+
+  const author = document.querySelector<HTMLInputElement>(
+    "[data-textinput='author']"
+  );
+  author === null ? null : (author.defaultValue = "c.j. cherryh");
+
+  const publisher = document.querySelector<HTMLInputElement>(
+    "[data-textinput='publisher']"
+  );
+  publisher === null ? null : (publisher.defaultValue = "baen");
+
+  const subject = document.querySelector<HTMLInputElement>(
+    "[data-textinput='subject']"
+  );
+  subject === null ? null : (subject.defaultValue = "science fiction");
+
+  const isbn = document.querySelector<HTMLInputElement>(
+    "[data-textinput='isbn']"
+  );
+  isbn === null ? null : (isbn.defaultValue = "978-0671578282");
+
+  const lccn = document.querySelector<HTMLInputElement>(
+    "[data-textinput='lccn']"
+  );
+  lccn === null ? null : (lccn.defaultValue = " 96024819");
+
+  const oclc = document.querySelector<HTMLInputElement>(
+    "[data-textinput='oclc']"
+  );
+  oclc === null ? null : (oclc.defaultValue = " 42320675");
+}
+
+function clickDefaultRadioBttns() {
+  const allBooksRadio = document.querySelector<HTMLInputElement>(
+    "[data-radioinput='filter-allBooks']"
+  );
+  allBooksRadio?.click();
+
+  const allContentRadio = document.querySelector<HTMLInputElement>(
+    "[data-radioinput='filter-allContent']"
+  );
+  allContentRadio?.click();
+
+  const allFormatsRadio = document.querySelector<HTMLInputElement>(
+    "[data-radioinput='filter-allBooksFormat']"
+  );
+  allFormatsRadio?.click();
+}
+
 //literally just returns a random progress value lmao ଘ( ≧▽≦ )ଓ
 function showRandomProgress(): { value: string; art: string } {
   const loadingMap = new Map<string, string>([
@@ -474,9 +552,11 @@ function insertCustomId(
 }
 
 export {
+  clickDefaultRadioBttns,
   getLanguageFromCode,
   insertCustomId,
   populateSearchTermForFetch,
+  populateInputsForTesting,
   showRandomProgress,
   toggleCurrentlyActiveNavlink,
 };

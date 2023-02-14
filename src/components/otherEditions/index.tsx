@@ -71,11 +71,6 @@ function OtherEditions({
           selectedAuthor || otherEditions[0].volumeInfo.authors[0]
         }&maxResults=40${params}`;
 
-        console.log(
-          "fetchUrlWithName inside otherEditions: ",
-          fetchUrlWithName
-        );
-
         const { data } = await axios.get(fetchUrlWithName);
 
         const itemsWithCustomId = insertCustomId(data.items ?? []);
@@ -189,11 +184,7 @@ function OtherEditions({
 
           const fetchUrl_ = `${url}?q=${searchTerm}&startIndex=${currStartIdx}&maxResults=40${params}`;
 
-          console.log("fetchMoreResults inside otherEditions: ", fetchUrl_);
-
           const { data } = await axios.get(fetchUrl_);
-
-          console.log("data inside otherEditions fetchMoreResults(): ", data);
 
           if (!ignore) {
             if (data.items) {
