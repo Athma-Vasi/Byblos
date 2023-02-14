@@ -1,6 +1,4 @@
-import localforage from "localforage";
 import { v4 as uuidV4 } from "uuid";
-import { navlinksActions } from "../state/navlinksState";
 
 import {
   ApiResponseVolume,
@@ -8,28 +6,8 @@ import {
   NavlinksActions,
   NavlinksDispatch,
   NavlinksState,
-  ResponseState,
   VolumeWithCustomId,
 } from "../types";
-
-function insertCustomId(
-  items: ApiResponseVolume["items"]
-): VolumeWithCustomId[] {
-  //this function is used to add a custom id to each volume object
-  //only used for rendering as there are sometimes duplicate ids returned from the api
-  return items.map((item) => {
-    const customId = uuidV4();
-    const clone = structuredClone(item);
-    Object.defineProperty(clone, "customId", {
-      value: customId,
-      writable: false,
-      enumerable: true,
-      configurable: false,
-    });
-
-    return clone as VolumeWithCustomId;
-  });
-}
 
 function populateSearchTermForFetch(formDataMap: Map<FormInputNames, string>) {
   // this function is used to create the search string for the fetch request
@@ -189,7 +167,8 @@ function toggleCurrentlyActiveNavlink(
 }
 
 function showRandomProgress(): { value: string; art: string } {
-  //literally returns a random progress value lmao ≧◠ᴥ◠≦
+  //literally just returns a random progress value lmao ଘ( ≧▽≦ )ଓ
+
   const loadingMap = new Map<string, string>([
     ["0", "▒▒▒▒▒▒▒▒▒▒"],
     ["10", "█▒▒▒▒▒▒▒▒▒"],
@@ -476,6 +455,25 @@ function getLanguageFromCode(code: string) {
 
   //returns the language name for the code from the table, else returns the code
   return languageTable.get(code) ?? code;
+}
+
+function insertCustomId(
+  items: ApiResponseVolume["items"]
+): VolumeWithCustomId[] {
+  //this function is used to add a custom id to each volume object
+  //only used for rendering as there are sometimes duplicate ids returned from the api
+  return items.map((item) => {
+    const customId = uuidV4();
+    const clone = structuredClone(item);
+    Object.defineProperty(clone, "customId", {
+      value: customId,
+      writable: false,
+      enumerable: true,
+      configurable: false,
+    });
+
+    return clone as VolumeWithCustomId;
+  });
 }
 
 export {
