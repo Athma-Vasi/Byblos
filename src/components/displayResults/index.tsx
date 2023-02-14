@@ -89,11 +89,11 @@ function DisplayResults({
               .then((value) => value?.at(-1)?.fetchUrl?.split("?q="))) ||
             "";
 
-          // console.log("url fetchMoreResults inside displayResults: ", url);
-          // console.log(
-          //   "params fetchMoreResults inside displayResults: ",
-          //   params
-          // );
+          console.log("url fetchMoreResults inside displayResults: ", url);
+          console.log(
+            "params fetchMoreResults inside displayResults: ",
+            params
+          );
 
           //includes check is for when the user searches using the search bar
           //and not the advanced search page, as the fetchUrl from responseState ( fetchUrl never gets modified ) term does not

@@ -400,7 +400,7 @@ function MyNavBar({
           <BsBookshelf
             size={20}
             style={{
-              color: "GrayText",
+              color: `${theme === "light" ? "#B06519" : "#B87333"}`,
             }}
           />
         }
@@ -408,7 +408,7 @@ function MyNavBar({
           <TbChevronsRight
             size={20}
             style={{
-              color: "GrayText",
+              color: `${theme === "light" ? "#B06519" : "#B87333"}`,
             }}
           />
         }
@@ -428,7 +428,7 @@ function MyNavBar({
               <GiBookshelf
                 size={20}
                 style={{
-                  color: "GrayText",
+                  color: `${theme === "light" ? "#B06519" : "#B87333"}`,
                 }}
               />
             }
@@ -437,7 +437,7 @@ function MyNavBar({
               <TbChevronRight
                 size={20}
                 style={{
-                  color: "GrayText",
+                  color: `${theme === "light" ? "#B06519" : "#B87333"}`,
                 }}
               />
             }
@@ -459,7 +459,7 @@ function MyNavBar({
               <RiHomeHeartLine
                 size={20}
                 style={{
-                  color: "GrayText",
+                  color: `${theme === "light" ? "#B06519" : "#B87333"}`,
                 }}
               />
             }
@@ -468,7 +468,7 @@ function MyNavBar({
               <TbChevronRight
                 size={20}
                 style={{
-                  color: "GrayText",
+                  color: `${theme === "light" ? "#B06519" : "#B87333"}`,
                 }}
               />
             }
@@ -490,7 +490,7 @@ function MyNavBar({
               <GiStarsStack
                 size={20}
                 style={{
-                  color: "GrayText",
+                  color: `${theme === "light" ? "#B06519" : "#B87333"}`,
                 }}
               />
             }
@@ -499,7 +499,7 @@ function MyNavBar({
               <TbChevronRight
                 size={20}
                 style={{
-                  color: "GrayText",
+                  color: `${theme === "light" ? "#B06519" : "#B87333"}`,
                 }}
               />
             }
@@ -521,7 +521,7 @@ function MyNavBar({
               <GiBlackBook
                 size={20}
                 style={{
-                  color: "GrayText",
+                  color: `${theme === "light" ? "#B06519" : "#B87333"}`,
                 }}
               />
             }
@@ -530,7 +530,7 @@ function MyNavBar({
               <TbChevronRight
                 size={20}
                 style={{
-                  color: "GrayText",
+                  color: `${theme === "light" ? "#B06519" : "#B87333"}`,
                 }}
               />
             }
@@ -552,7 +552,7 @@ function MyNavBar({
               <RiHealthBookFill
                 size={20}
                 style={{
-                  color: "GrayText",
+                  color: `${theme === "light" ? "#B06519" : "#B87333"}`,
                 }}
               />
             }
@@ -561,7 +561,7 @@ function MyNavBar({
               <TbChevronRight
                 size={20}
                 style={{
-                  color: "GrayText",
+                  color: `${theme === "light" ? "#B06519" : "#B87333"}`,
                 }}
               />
             }
@@ -580,7 +580,7 @@ function MyNavBar({
           <RiDeleteBin6Line
             size={20}
             style={{
-              color: "GrayText",
+              color: `${theme === "light" ? "#B06519" : "#B87333"}`,
             }}
           />
         }

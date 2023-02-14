@@ -1,4 +1,4 @@
-import { Button, Flex, Menu, NavLink, Space } from "@mantine/core";
+import { Button, Flex, Menu, NavLink, Space, Text } from "@mantine/core";
 import localforage from "localforage";
 import React, { useState } from "react";
 import { BsPersonLinesFill } from "react-icons/bs";
@@ -215,7 +215,7 @@ function DisplayVolume({
               <BsMenuButtonFill
                 size={20}
                 style={{
-                  color: "GrayText",
+                  color: `${theme === "light" ? "#B06519" : "#B87333"}`,
                 }}
               />
             }
@@ -231,6 +231,7 @@ function DisplayVolume({
           <Menu.Label color={theme === "light" ? "dark.6" : "gray.5"}>
             Navigate to
           </Menu.Label>
+
           <Flex direction={width < 576 ? "column" : "row"}>
             <Menu.Item>
               <Link
@@ -245,7 +246,7 @@ function DisplayVolume({
                     <HiOutlineViewGrid
                       size={20}
                       style={{
-                        color: "GrayText",
+                        color: `${theme === "light" ? "#B06519" : "#B87333"}`,
                       }}
                     />
                   }
@@ -273,7 +274,7 @@ function DisplayVolume({
                     <VscUngroupByRefType
                       size={20}
                       style={{
-                        color: "GrayText",
+                        color: `${theme === "light" ? "#B06519" : "#B87333"}`,
                       }}
                     />
                   }
@@ -301,7 +302,7 @@ function DisplayVolume({
                     <MdOutlinePublish
                       size={20}
                       style={{
-                        color: "GrayText",
+                        color: `${theme === "light" ? "#B06519" : "#B87333"}`,
                       }}
                     />
                   }
@@ -329,7 +330,7 @@ function DisplayVolume({
                     <BsPersonLinesFill
                       size={20}
                       style={{
-                        color: "GrayText",
+                        color: `${theme === "light" ? "#B06519" : "#B87333"}`,
                       }}
                     />
                   }

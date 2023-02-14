@@ -135,7 +135,7 @@ function Search({ allStates, allActions, allDispatches }: SearchProps) {
         }
       >
         <Text
-          color={themeState.theme === "light" ? "dark.6" : "gray.5"}
+          color={themeState.theme === "light" ? "dark.5" : "gray.5"}
           data-cy="button-advancedSearch"
         >
           Advanced Search
@@ -232,7 +232,9 @@ function rightInputSection(
       ) : (
         <RiCloseLine
           style={{
-            color: "GrayText",
+            color: `${
+              allStates.themeState.theme === "light" ? "#B06519" : "#B87333"
+            }`,
             transform: "scale(1.5)",
             cursor: "pointer",
           }}
@@ -246,13 +248,20 @@ function rightInputSection(
         ""
       ) : (
         <RxDividerVertical
-          style={{ color: "GrayText", transform: "scale(1.5)" }}
+          style={{
+            color: `${
+              allStates.themeState.theme === "light" ? "#B06519" : "#B87333"
+            }`,
+            transform: "scale(1.5)",
+          }}
           data-cy="dividerIcon"
         />
       )}
       <CgSearch
         style={{
-          color: "GrayText",
+          color: `${
+            allStates.themeState.theme === "light" ? "#B06519" : "#B87333"
+          }`,
           transform: "scale(1.25)",
           cursor: "pointer",
         }}

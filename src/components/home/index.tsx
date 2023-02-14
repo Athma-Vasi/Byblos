@@ -5,6 +5,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { MyFooter } from "../footer";
 import { MyHeader } from "../header";
 import { MyNavBar } from "../navbar";
+import { CustomFonts } from "../theme/customFonts";
 
 import {
   AllActions,

@@ -250,7 +250,7 @@ function AuthorCollection({
   return (
     <Fragment>
       <Flex justify="center">
-        <Title order={3} color={theme === "light" ? "dark.6" : "gray.5"}>
+        <Title order={3} color={theme === "light" ? "dark.5" : "gray.5"}>
           Author collection
         </Title>
       </Flex>

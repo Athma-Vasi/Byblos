@@ -8,6 +8,7 @@ import ErrorFallback from "./components/errorFallback";
 import { Home } from "./components/home";
 import MyLoader from "./components/myLoader";
 import { Welcome } from "./components/welcome";
+import { CustomFonts } from "./components/theme/customFonts";
 
 import {
   initialResponseState,
@@ -19,7 +20,7 @@ import {
   themeActions,
   themeReducer,
 } from "./state/themeState";
-import { ThemeProvider } from "../src/components/themeProvider";
+import { ThemeProvider } from "./components/theme/themeProvider";
 import { AllActions, AllDispatches } from "./types";
 import {
   navlinksReducer,

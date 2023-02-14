@@ -1,5 +1,6 @@
 import { Image, Modal } from "@mantine/core";
 import { Fragment } from "react";
+import { AllStates } from "../../types";
 
 type MyImageModalProps = {
   children?: React.ReactNode;
@@ -9,10 +10,20 @@ type MyImageModalProps = {
   setModalOpened: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function MyImageModal({ modalOpened, setModalOpened, src, alt }: MyImageModalProps) {
+function MyImageModal({
+  modalOpened,
+  setModalOpened,
+  src,
+  alt,
+}: MyImageModalProps) {
   return (
     <Fragment>
-      <Modal opened={modalOpened} onClose={() => setModalOpened(false)} size="xs">
+      <Modal
+        opened={modalOpened}
+        onClose={() => setModalOpened(false)}
+        size="xs"
+        data-cy="image-modal"
+      >
         <Image src={src} alt={alt} />
       </Modal>
     </Fragment>

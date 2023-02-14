@@ -110,7 +110,7 @@ function populateSearchTermForFetch(formDataMap: Map<FormInputNames, string>) {
     formDataMap.get("filter-printType") === "" ? "" : "&printType="
   }${formDataMap.get("filter-printType")}`;
 
-  const searchStrWithResultsPerPage = `&maxResults=40`;
+  // const searchStrWithResultsPerPage = `&maxResults=40`;
 
   const searchStrWithSortBy = `${
     formDataMap.get("sortBy") === "relevance"
@@ -118,7 +118,7 @@ function populateSearchTermForFetch(formDataMap: Map<FormInputNames, string>) {
       : `&orderBy=${formDataMap.get("sortBy")}`
   }`;
 
-  const searchStrFinal = `${searchStrCondensedComesFirst}${searchStrWithAllCategories}${searchStrWithDownloadFormat}${searchStrWithViewability}${searchStrWithSortBy}${searchStrWithPrintType}${searchStrWithResultsPerPage}`;
+  const searchStrFinal = `${searchStrCondensedComesFirst}${searchStrWithAllCategories}${searchStrWithDownloadFormat}${searchStrWithViewability}${searchStrWithSortBy}${searchStrWithPrintType}`;
 
   return searchStrFinal;
 }

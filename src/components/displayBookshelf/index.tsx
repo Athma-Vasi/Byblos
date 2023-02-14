@@ -695,17 +695,18 @@ function DisplayBookshelf({
         setModalOpened={setModalOpened}
         src={modalSrc}
         alt={modalAlt}
+        data-cy="image-modal"
       />
       <Flex gap="xl" direction="column">
         {definedBookshelfVolumes.length < 2 ? (
           <Container>
             <Card shadow="sm" p="md" radius="md" withBorder>
               <Flex direction="column" align="center" justify="center">
-                <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+                <Text color={theme === "light" ? "dark.5" : "gray.5"}>
                   There seems to be nothing here
                 </Text>
                 <Space h="md" />
-                <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+                <Text color={theme === "light" ? "dark.5" : "gray.5"}>
                   (｡•́︿•̀｡)
                 </Text>
               </Flex>
@@ -752,6 +753,7 @@ function DisplayBookshelf({
                         <Text align="center">No image available</Text>
                       }
                       radius="xs"
+                      data-cy="image-thumbnail"
                     />
                   </Flex>
                 </Grid.Col>
@@ -762,12 +764,13 @@ function DisplayBookshelf({
                   <Flex align="center" justify="space-between">
                     {/* title */}
                     <Title
-                      order={3}
+                      order={2}
                       onClick={() => {
                         handleTitleClick(item, navlinksStateActionDispatch);
                       }}
+                      data-cy="title-volume"
                       style={{ paddingBottom: "3px" }}
-                      color={theme === "light" ? "dark.6" : "gray.5"}
+                      color={theme === "light" ? "dark.5" : "gray.5"}
                     >
                       <Link
                         to={`/home/displayVolume/${item.customId}`}
@@ -783,13 +786,14 @@ function DisplayBookshelf({
                         width={300}
                         position={width < 576 ? "bottom" : "left"}
                         withArrow
-                        shadow="md"
+                        shadow="xl"
                         radius="md"
                       >
                         <Popover.Target>
                           <Button
                             variant={width < 576 ? "light" : "subtle"}
                             radius="lg"
+                            data-cy="dropdownIcon-volume"
                           >
                             <BsThreeDotsVertical size={20} />
                           </Button>
@@ -801,6 +805,7 @@ function DisplayBookshelf({
                             justify="center"
                             align="center"
                             gap="sm"
+                            data-cy="dropdownMenu-volume"
                           >
                             <Flex
                               direction="row"
@@ -810,12 +815,13 @@ function DisplayBookshelf({
                                 width: "100%",
                               }}
                             >
-                              <Title
-                                order={5}
-                                color={theme === "light" ? "dark.6" : "gray.5"}
+                              <Text
+                                size={width < 576 ? "sm" : "md"}
+                                color={theme === "light" ? "dark.5" : "gray.5"}
+                                data-cy="rate-dropDownMenu"
                               >
                                 Rate
-                              </Title>
+                              </Text>
                               <MyRating
                                 value={
                                   tempLocalBookshelf?.find(
@@ -841,12 +847,13 @@ function DisplayBookshelf({
                                 width: "100%",
                               }}
                             >
-                              <Title
-                                order={5}
-                                color={theme === "light" ? "dark.6" : "gray.5"}
+                              <Text
+                                size={width < 576 ? "sm" : "md"}
+                                color={theme === "light" ? "dark.5" : "gray.5"}
+                                data-cy="favourite-dropDownMenu"
                               >
                                 Favourite
-                              </Title>
+                              </Text>
                               <Button
                                 variant={width < 576 ? "light" : "subtle"}
                                 radius="lg"
@@ -879,12 +886,13 @@ function DisplayBookshelf({
                                 width: "100%",
                               }}
                             >
-                              <Title
-                                order={5}
-                                color={theme === "light" ? "dark.6" : "gray.5"}
+                              <Text
+                                size={width < 576 ? "sm" : "md"}
+                                color={theme === "light" ? "dark.5" : "gray.5"}
+                                data-cy="readLater-dropDownMenu"
                               >
                                 Read later
-                              </Title>
+                              </Text>
                               <Button
                                 variant={width < 576 ? "light" : "subtle"}
                                 radius="lg"
@@ -917,12 +925,13 @@ function DisplayBookshelf({
                                 width: "100%",
                               }}
                             >
-                              <Title
-                                order={5}
-                                color={theme === "light" ? "dark.6" : "gray.5"}
+                              <Text
+                                size={width < 576 ? "sm" : "md"}
+                                color={theme === "light" ? "dark.5" : "gray.5"}
+                                data-cy="markRead-dropDownMenu"
                               >
                                 Mark read
-                              </Title>
+                              </Text>
                               <Button
                                 variant={width < 576 ? "light" : "subtle"}
                                 radius="lg"
@@ -955,12 +964,13 @@ function DisplayBookshelf({
                                 width: "100%",
                               }}
                             >
-                              <Title
-                                order={5}
-                                color={theme === "light" ? "dark.6" : "gray.5"}
+                              <Text
+                                size={width < 576 ? "sm" : "md"}
+                                color={theme === "light" ? "dark.5" : "gray.5"}
+                                data-cy="remove-dropDownMenu"
                               >
                                 Remove
-                              </Title>
+                              </Text>
                               <Button
                                 variant={width < 576 ? "light" : "subtle"}
                                 radius="lg"
@@ -995,8 +1005,10 @@ function DisplayBookshelf({
                     .map((author) => (
                       <Text
                         style={{ display: "inline" }}
-                        color={theme === "light" ? "dark.6" : "gray.5"}
+                        color={theme === "light" ? "dark.5" : "gray.5"}
                         key={author}
+                        data-cy="author-volume"
+                        size={width < 576 ? "md" : "lg"}
                       >
                         {author}{" "}
                       </Text>
@@ -1004,7 +1016,9 @@ function DisplayBookshelf({
 
                   <Text
                     style={{ paddingTop: "3px", paddingBottom: "3px" }}
-                    color={theme === "light" ? "dark.6" : "gray.5"}
+                    color={theme === "light" ? "dark.5" : "gray.5"}
+                    data-cy="publishedYear-volume"
+                    size={width < 576 ? "sm" : "md"}
                   >
                     {Number.isNaN(
                       new Date(item.volumeInfo.publishedDate)
@@ -1020,28 +1034,39 @@ function DisplayBookshelf({
                   </Text>
 
                   <Spoiler
-                    maxHeight={176}
+                    maxHeight={width < 576 ? 174 : 178}
+                    data-cy="spoiler-volume"
                     showLabel={
                       width < 576 ? (
                         <Button radius="md" variant="light">
-                          ⬇ Show more
+                          <Text size={width < 576 ? "sm" : "md"}>
+                            ⬇ Show more
+                          </Text>
                         </Button>
                       ) : (
-                        "Show more"
+                        <Text size={width < 576 ? "sm" : "md"} weight="bold">
+                          ⬇ Show more
+                        </Text>
                       )
                     }
                     hideLabel={
                       width < 576 ? (
                         <Button radius="md" variant="light">
-                          ⬆ Hide
+                          <Text size={width < 576 ? "sm" : "md"}>⬆ Hide</Text>
                         </Button>
                       ) : (
-                        "Hide"
+                        <Text size={width < 576 ? "sm" : "md"} weight="bold">
+                          ⬆ Hide
+                        </Text>
                       )
                     }
                     transitionDuration={382}
                   >
-                    <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+                    <Text
+                      color={theme === "light" ? "dark.5" : "gray.5"}
+                      data-cy="description-volume"
+                      size={width < 576 ? "sm" : "md"}
+                    >
                       {item.volumeInfo.description ?? "Description unavailable"}
                     </Text>
                   </Spoiler>

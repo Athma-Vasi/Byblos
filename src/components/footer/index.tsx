@@ -21,7 +21,7 @@ function MyFooter({
   return (
     <Footer height={60} p="md">
       <Flex direction="row" justify="center" align="center">
-        <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+        <Text color={theme === "light" ? "dark.5" : "gray.5"}>
           Made by
           <Button variant="subtle">
             <a
@@ -36,7 +36,7 @@ function MyFooter({
 
         <Space w="xl" />
 
-        <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+        <Text color={theme === "light" ? "dark.5" : "gray.5"}>
           <Button variant="subtle">
             <a
               href="https://github.com/Athma-Vasi/Byblos"

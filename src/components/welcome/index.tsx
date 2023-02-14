@@ -1,6 +1,8 @@
 import { Flex, Grid, Image, Space, Title } from "@mantine/core";
-import React from "react";
-import logo_transparent from "../../../src/assets/logo/logo_transparent.png";
+import React, { Fragment } from "react";
+import logo_transparent_dark from "../../../src/assets/logo/logo_transparent.png";
+
+import logo_transparent_light from "../../../src/assets/logo-light/logo_transparent.png";
 import { useWindowSize } from "../../hooks/useWindowSize";
 
 import { AllActions, AllDispatches, AllStates } from "../../types";
@@ -17,6 +19,9 @@ type WelcomeProps = {
 
 function Welcome({ allStates, allActions, allDispatches }: WelcomeProps) {
   const { width = 0 } = useWindowSize();
+
+  let { theme } = allStates.themeState;
+
   return (
     <Flex direction="column" align="center" justify="center">
       <Grid columns={7}>
@@ -26,12 +31,53 @@ function Welcome({ allStates, allActions, allDispatches }: WelcomeProps) {
             <Space key={i} h="sm" />
           ))}
 
-          <Image
-            src={logo_transparent}
-            alt="Byblos logo"
-            radius="md"
-            data-cy="logo-welcome"
-          />
+          <Flex
+            direction="column"
+            align="center"
+            justify="center"
+            style={{ outline: "1px solid GrayText", position: "relative" }}
+          >
+            <Image
+              src={logo_transparent_dark}
+              alt="Byblos logo"
+              radius="md"
+              data-cy="logo-welcome"
+            />
+
+            <Fragment>
+              <Title
+                order={width < 576 ? 2 : 1}
+                size={width < 576 ? "20px" : width < 768 ? "32px" : "48px"}
+                color={
+                  allStates.themeState.theme === "light" ? "dark.5" : "gray.5"
+                }
+                style={{
+                  position: "absolute",
+                  top: "65%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                }}
+              >
+                Byblos
+              </Title>
+
+              <Title
+                order={width < 576 ? 4 : 3}
+                size={width < 576 ? "7px" : width < 768 ? "12px" : "16px"}
+                color={
+                  allStates.themeState.theme === "light" ? "dark.5" : "gray.5"
+                }
+                style={{
+                  position: "absolute",
+                  top: "77%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                }}
+              >
+                Your library, always open
+              </Title>
+            </Fragment>
+          </Flex>
         </Grid.Col>
         <Grid.Col span={2}></Grid.Col>
       </Grid>
@@ -52,7 +98,7 @@ function Welcome({ allStates, allActions, allDispatches }: WelcomeProps) {
         <Grid.Col span={width < 992 ? 5 : 9}>
           <Title
             order={3}
-            color={allStates.themeState.theme === "light" ? "dark.6" : "gray.5"}
+            color={allStates.themeState.theme === "light" ? "dark.5" : "gray.5"}
             data-cy="slogan-welcome"
           >{`Search the world's most comprehensive list of volumes`}</Title>
 
@@ -60,7 +106,7 @@ function Welcome({ allStates, allActions, allDispatches }: WelcomeProps) {
 
           <Title
             order={5}
-            color={allStates.themeState.theme === "light" ? "dark.6" : "gray.5"}
+            color={allStates.themeState.theme === "light" ? "dark.5" : "gray.5"}
           >
             {" "}
             Powered by Google Books

@@ -254,7 +254,7 @@ function OtherEditions({
   return (
     <div>
       <Flex justify="center">
-        <Title order={3} color={theme === "light" ? "dark.6" : "gray.5"}>
+        <Title order={3} color={theme === "light" ? "dark.5" : "gray.5"}>
           Other editions
         </Title>
       </Flex>
@@ -264,7 +264,7 @@ function OtherEditions({
       <ErrorBoundary
         fallback={
           <Text
-            color={theme === "light" ? "dark.6" : "gray.5"}
+            color={theme === "light" ? "dark.5" : "gray.5"}
           >{`Unable to display other editions ${
             selectedVolume ?? otherEditions[0]?.volumeInfo.title ?? ""
           }`}</Text>
@@ -273,7 +273,7 @@ function OtherEditions({
         <Suspense
           fallback={
             <Text
-              color={theme === "light" ? "dark.6" : "gray.5"}
+              color={theme === "light" ? "dark.5" : "gray.5"}
             >{`Loading other editions ${
               selectedVolume ?? otherEditions[0]?.volumeInfo.title ?? ""
             }`}</Text>

@@ -274,7 +274,7 @@ function MyHeader({
                 onKeyDown={handleEnterKeyInput}
                 data-cy="searchInput-mobile"
                 data-autofocus
-                color={themeState.theme === "light" ? "dark.6" : "gray.5"}
+                color={themeState.theme === "light" ? "dark.5" : "gray.5"}
                 style={{
                   color: "GrayText",
                 }}
@@ -299,7 +299,13 @@ function MyHeader({
               >
                 <RiSearchEyeLine
                   size={22}
-                  style={{ color: "GrayText" }}
+                  style={{
+                    color: `${
+                      allStates.themeState.theme === "light"
+                        ? "#B06519"
+                        : "#B87333"
+                    }`,
+                  }}
                   onClick={() => {
                     setPopoverOpened((open) => !open);
                     window.scrollTo(0, 0);
@@ -322,7 +328,11 @@ function MyHeader({
               opened={opened}
               onClick={() => setOpened((o) => !o)}
               size="sm"
-              color={theme.colors.gray[6]}
+              color={
+                themeState.theme === "light"
+                  ? theme.colors.brand[4]
+                  : theme.colors.brand[8]
+              }
               mr="sm"
               data-cy="burger-header"
             />
@@ -439,7 +449,9 @@ function rightInputSection(
       ) : (
         <RiCloseLine
           style={{
-            color: "GrayText",
+            color: `${
+              allStates.themeState.theme === "light" ? "#B06519" : "#B87333"
+            }`,
             transform: "scale(1.5)",
             cursor: "pointer",
           }}
@@ -452,12 +464,19 @@ function rightInputSection(
         ""
       ) : (
         <RxDividerVertical
-          style={{ color: "GrayText", transform: "scale(1.5)" }}
+          style={{
+            color: `${
+              allStates.themeState.theme === "light" ? "#B06519" : "#B87333"
+            }`,
+            transform: "scale(1.5)",
+          }}
         />
       )}
       <CgSearch
         style={{
-          color: "GrayText",
+          color: `${
+            allStates.themeState.theme === "light" ? "#B06519" : "#B87333"
+          }`,
           transform: "scale(1.25)",
           cursor: "pointer",
         }}

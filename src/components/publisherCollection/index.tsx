@@ -257,7 +257,7 @@ function PublisherCollection({
   return (
     <Fragment>
       <Flex justify="center">
-        <Title order={3} color={theme === "light" ? "dark.6" : "gray.5"}>
+        <Title order={3} color={theme === "light" ? "dark.5" : "gray.5"}>
           Publisher collection
         </Title>
       </Flex>
@@ -266,7 +266,7 @@ function PublisherCollection({
 
       <ErrorBoundary
         fallback={
-          <Text color={theme === "light" ? "dark.6" : "gray.5"}>
+          <Text color={theme === "light" ? "dark.5" : "gray.5"}>
             {`Unable to display other editions ${
               selectedVolume ?? publisherCollection[0]?.volumeInfo.title ?? ""
             }`}
