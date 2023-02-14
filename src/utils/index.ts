@@ -188,6 +188,33 @@ function toggleCurrentlyActiveNavlink(
   }
 }
 
+function showRandomProgress(): { value: string; art: string } {
+  //literally returns a random progress value lmao ≧◠ᴥ◠≦
+  const loadingMap = new Map<string, string>([
+    ["0", "▒▒▒▒▒▒▒▒▒▒"],
+    ["10", "█▒▒▒▒▒▒▒▒▒"],
+    ["20", "██▒▒▒▒▒▒▒▒"],
+    ["30", "███▒▒▒▒▒▒▒"],
+    ["40", "████▒▒▒▒▒▒"],
+    ["50", "█████▒▒▒▒▒"],
+    ["60", "██████▒▒▒▒"],
+    ["70", "███████▒▒▒"],
+    ["80", "████████▒▒"],
+    ["90", "█████████▒"],
+    ["100", "██████████"],
+  ]);
+
+  const progressValues: string[] = Array.from(loadingMap.keys());
+
+  const randomProgress: string =
+    progressValues[Math.floor(Math.random() * progressValues.length)];
+
+  return {
+    value: randomProgress,
+    art: loadingMap.get(randomProgress) ?? "███████▒▒▒",
+  };
+}
+
 function getLanguageFromCode(code: string) {
   function outputLanguageTable() {
     //copy pasted from http://www.lingoes.net/en/translator/langcode.htm
@@ -455,5 +482,6 @@ export {
   getLanguageFromCode,
   insertCustomId,
   populateSearchTermForFetch,
+  showRandomProgress,
   toggleCurrentlyActiveNavlink,
 };

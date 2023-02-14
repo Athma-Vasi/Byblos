@@ -16,6 +16,7 @@ import {
 } from "../../types";
 import { insertCustomId } from "../../utils";
 import DisplayGeneric from "../displayGeneric";
+import MyLoader from "../myLoader";
 
 type PublisherCollectionProps = {
   children?: React.ReactNode;
@@ -273,15 +274,7 @@ function PublisherCollection({
           </Text>
         }
       >
-        <Suspense
-          fallback={
-            <Text>
-              {`Loading other editions ${
-                selectedVolume ?? publisherCollection[0]?.volumeInfo.title ?? ""
-              }`}
-            </Text>
-          }
-        >
+        <Suspense fallback={<MyLoader componentName="Publisher Collection" />}>
           <DisplayGeneric
             allStates={allStates}
             allActions={allActions}

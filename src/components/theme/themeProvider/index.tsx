@@ -34,13 +34,11 @@ function ThemeProvider({ children, allStates }: ThemeProviderProps) {
 
     primaryShade: { light: 4, dark: 8 },
 
-    fontFamily:
-      theme === "dark" ? "Work Sans, sans-serif" : "Source Serif Pro, serif",
+    fontFamily: theme === "dark" ? "Work Sans, sans-serif" : "Lora, serif",
 
     headings: {
       fontWeight: 700,
-      fontFamily:
-        theme === "dark" ? "Work Sans, sans-serif" : "Source Serif Pro, serif",
+      fontFamily: theme === "dark" ? "Work Sans, sans-serif" : "Lora, serif",
     },
 
     fontSizes: {

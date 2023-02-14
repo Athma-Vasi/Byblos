@@ -50,6 +50,8 @@ function Search({ allStates, allActions, allDispatches }: SearchProps) {
       );
 
       try {
+        if (searchTerm === "") return;
+
         const fetchUrlFromGenericSearch = `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40&startIndex=0&key=${
           import.meta.env.VITE_GOOGLE_BOOKS_API_KEY
         }`;
@@ -109,7 +111,7 @@ function Search({ allStates, allActions, allDispatches }: SearchProps) {
           setSearchTerm(event.currentTarget.value);
         }}
         size={`${
-          width < 576 ? "xs" : width < 768 ? "sm" : width < 992 ? "md" : "lg"
+          width < 576 ? "sm" : width < 768 ? "md" : width < 992 ? "lg" : "lg"
         }`}
         rightSection={rightInputSection(
           searchTerm,
@@ -125,7 +127,7 @@ function Search({ allStates, allActions, allDispatches }: SearchProps) {
       />
       <Link
         to={`/home/advancedSearch`}
-        style={{ textDecoration: "none", color: "inherit" }}
+        style={{ textDecoration: "none", color: "inherit", cursor: "pointer" }}
         onClick={() =>
           toggleCurrentlyActiveNavlink(
             navlinksState,
@@ -136,6 +138,7 @@ function Search({ allStates, allActions, allDispatches }: SearchProps) {
       >
         <Text
           color={themeState.theme === "light" ? "dark.5" : "gray.5"}
+          size={width < 576 ? "sm" : "md"}
           data-cy="button-advancedSearch"
         >
           Advanced Search
@@ -174,6 +177,8 @@ function rightInputSection(
     );
 
     try {
+      if (searchTerm === "") return;
+
       const fetchUrlFromGenericSearch = `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40&startIndex=0&key=${
         import.meta.env.VITE_GOOGLE_BOOKS_API_KEY
       }`;

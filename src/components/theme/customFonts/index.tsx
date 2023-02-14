@@ -1,7 +1,7 @@
 import { Global } from "@mantine/core";
-import regularSerif from "../../../assets/fonts/SourceSerifPro-Regular.ttf";
-import italicSerif from "../../../assets/fonts/SourceSerifPro-Italic.ttf";
-import boldSerif from "../../../assets/fonts/SourceSerifPro-Bold.ttf";
+import regularSerif from "../../../assets/fonts/Lora-Regular.ttf";
+import italicSerif from "../../../assets/fonts/Lora-Italic.ttf";
+import boldSerif from "../../../assets/fonts/Lora-Bold.ttf";
 import regularSans from "../../../assets/fonts/WorkSans-Regular.ttf";
 import italicSans from "../../../assets/fonts/WorkSans-Italic.ttf";
 import boldSans from "../../../assets/fonts/WorkSans-Bold.ttf";
@@ -13,7 +13,7 @@ function CustomFonts() {
         //serif font: Source Serif Pro
         {
           "@font-face": {
-            fontFamily: "Source Serif Pro",
+            fontFamily: "Lora",
             fontStyle: "normal",
             fontWeight: 400,
             src: `url(${regularSerif}) format("truetype")`,
@@ -21,7 +21,7 @@ function CustomFonts() {
         },
         {
           "@font-face": {
-            fontFamily: "Source Serif Pro",
+            fontFamily: "Lora",
             fontStyle: "italic",
             fontWeight: 400,
             src: `url(${italicSerif}) format("truetype")`,
@@ -29,7 +29,7 @@ function CustomFonts() {
         },
         {
           "@font-face": {
-            fontFamily: "Source Serif Pro",
+            fontFamily: "Lora",
             fontStyle: "normal",
             fontWeight: 700,
             src: `url(${boldSerif}) format("truetype")`,

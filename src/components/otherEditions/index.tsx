@@ -16,6 +16,7 @@ import {
   VolumeWithCustomId,
 } from "../../types";
 import { insertCustomId } from "../../utils";
+import MyLoader from "../myLoader";
 
 const DisplayGeneric = React.lazy(() => import("../displayGeneric"));
 
@@ -270,15 +271,7 @@ function OtherEditions({
           }`}</Text>
         }
       >
-        <Suspense
-          fallback={
-            <Text
-              color={theme === "light" ? "dark.5" : "gray.5"}
-            >{`Loading other editions ${
-              selectedVolume ?? otherEditions[0]?.volumeInfo.title ?? ""
-            }`}</Text>
-          }
-        >
+        <Suspense fallback={<MyLoader componentName="Other Editions" />}>
           <DisplayGeneric
             allStates={allStates}
             allActions={allActions}

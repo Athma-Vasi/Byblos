@@ -24,96 +24,99 @@ function Welcome({ allStates, allActions, allDispatches }: WelcomeProps) {
 
   return (
     <Flex direction="column" align="center" justify="center">
-      <Grid columns={7}>
-        <Grid.Col span={2}></Grid.Col>
-        <Grid.Col span={3}>
-          {Array.from({ length: 3 }).map((_, i) => (
-            <Space key={i} h="sm" />
-          ))}
+      <Flex
+        direction="column"
+        align="center"
+        justify="center"
+        style={{
+          position: "relative",
+        }}
+      >
+        <Image
+          src={logo_transparent_dark}
+          alt="Byblos logo"
+          radius="md"
+          data-cy="logo-welcome"
+          width={
+            width < 576 ? 250 : width < 768 ? 350 : width < 992 ? 400 : 500
+          }
+        />
 
-          <Flex
-            direction="column"
-            align="center"
-            justify="center"
-            style={{ outline: "1px solid GrayText", position: "relative" }}
+        <Fragment>
+          <Title
+            order={width < 576 ? 2 : 1}
+            size={width < 576 ? "32px" : width < 768 ? "48px" : "48px"}
+            color={allStates.themeState.theme === "light" ? "dark.5" : "gray.5"}
+            style={{
+              position: "absolute",
+              top: "65%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
           >
-            <Image
-              src={logo_transparent_dark}
-              alt="Byblos logo"
-              radius="md"
-              data-cy="logo-welcome"
-            />
+            Byblos
+          </Title>
 
-            <Fragment>
-              <Title
-                order={width < 576 ? 2 : 1}
-                size={width < 576 ? "20px" : width < 768 ? "32px" : "48px"}
-                color={
-                  allStates.themeState.theme === "light" ? "dark.5" : "gray.5"
-                }
-                style={{
-                  position: "absolute",
-                  top: "65%",
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                }}
-              >
-                Byblos
-              </Title>
-
-              <Title
-                order={width < 576 ? 4 : 3}
-                size={width < 576 ? "7px" : width < 768 ? "12px" : "16px"}
-                color={
-                  allStates.themeState.theme === "light" ? "dark.5" : "gray.5"
-                }
-                style={{
-                  position: "absolute",
-                  top: "77%",
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                }}
-              >
-                Your library, always open
-              </Title>
-            </Fragment>
-          </Flex>
-        </Grid.Col>
-        <Grid.Col span={2}></Grid.Col>
-      </Grid>
+          <Title
+            order={width < 576 ? 4 : 3}
+            size={width < 576 ? "10px" : width < 768 ? "14px" : "16px"}
+            color={allStates.themeState.theme === "light" ? "dark.5" : "gray.5"}
+            style={{
+              position: "absolute",
+              top: "78%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            Your library, always open
+          </Title>
+        </Fragment>
+      </Flex>
 
       {Array.from({ length: 3 }).map((_, i) => (
-        <Space key={i} h="sm" />
+        <Space key={i} h="xs" />
       ))}
-      <Search
-        allStates={allStates}
-        allActions={allActions}
-        allDispatches={allDispatches}
-      />
 
-      <Space h="lg" />
+      <Flex
+        style={{
+          width: "100%",
+          paddingLeft: "2rem",
+          paddingRight: "1rem",
+        }}
+        justify="center"
+        align="center"
+      >
+        <Search
+          allStates={allStates}
+          allActions={allActions}
+          allDispatches={allDispatches}
+        />
+      </Flex>
 
-      <Grid columns={width < 992 ? 7 : 11}>
-        <Grid.Col span={1}></Grid.Col>
-        <Grid.Col span={width < 992 ? 5 : 9}>
-          <Title
-            order={3}
-            color={allStates.themeState.theme === "light" ? "dark.5" : "gray.5"}
-            data-cy="slogan-welcome"
-          >{`Search the world's most comprehensive list of volumes`}</Title>
+      {Array.from({ length: 3 }).map((_, i) => (
+        <Space key={i} h="xs" />
+      ))}
 
-          <Space h="xs" />
-
-          <Title
-            order={5}
-            color={allStates.themeState.theme === "light" ? "dark.5" : "gray.5"}
-          >
-            {" "}
-            Powered by Google Books
-          </Title>
-        </Grid.Col>
-        <Grid.Col span={1}></Grid.Col>
-      </Grid>
+      <Flex
+        direction="column"
+        justify="center"
+        align="start"
+        p={width < 576 ? "2rem" : "3rem"}
+      >
+        <Title
+          order={3}
+          color={allStates.themeState.theme === "light" ? "dark.5" : "gray.5"}
+          data-cy="slogan-welcome"
+        >{`Search the world's most comprehensive list of volumes`}</Title>
+        <Space h="xs" />
+        <Title
+          order={5}
+          color={allStates.themeState.theme === "light" ? "dark.5" : "gray.5"}
+        >
+          {" "}
+          Powered by Google Books
+        </Title>
+      </Flex>
 
       {Array.from({ length: 5 }).map((_, i) => (
         <Space key={i} h="lg" />

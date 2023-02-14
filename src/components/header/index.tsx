@@ -155,6 +155,8 @@ function MyHeader({
       }
 
       try {
+        if (searchTerm === "") return;
+
         const fetchUrlFromGenericSearch = `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40&startIndex=0&key=${
           import.meta.env.VITE_GOOGLE_BOOKS_API_KEY
         }`;
@@ -395,6 +397,8 @@ function rightInputSection(
     );
 
     try {
+      if (searchTerm === "") return;
+
       const fetchUrlFromGenericSearch = `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40&startIndex=0&key=${
         import.meta.env.VITE_GOOGLE_BOOKS_API_KEY
       }`;

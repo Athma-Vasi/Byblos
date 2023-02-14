@@ -16,6 +16,7 @@ import {
 } from "../../types";
 import { insertCustomId } from "../../utils";
 import DisplayGeneric from "../displayGeneric";
+import MyLoader from "../myLoader";
 
 type AuthorCollectionProps = {
   children?: React.ReactNode;
@@ -266,17 +267,7 @@ function AuthorCollection({
           </Text>
         }
       >
-        <Suspense
-          fallback={
-            <Text>
-              {`Loading other volumes ${
-                selectedAuthor ??
-                authorCollection[0]?.volumeInfo.authors[0] ??
-                ""
-              }`}
-            </Text>
-          }
-        >
+        <Suspense fallback={<MyLoader componentName="Author Collection" />}>
           <DisplayGeneric
             allStates={allStates}
             allActions={allActions}

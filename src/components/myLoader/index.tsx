@@ -2,6 +2,7 @@ import { Flex, Grid, Loader, Progress, Space, Text } from "@mantine/core";
 import React from "react";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
+import { showRandomProgress } from "../../utils";
 
 type MyLoaderProps = {
   children?: React.ReactNode;
@@ -10,6 +11,8 @@ type MyLoaderProps = {
 
 export default function MyLoader({ children, componentName }: MyLoaderProps) {
   const { width = 0 } = useWindowSize();
+
+  const { value, art } = showRandomProgress();
 
   return (
     <Grid columns={10}>
@@ -25,7 +28,9 @@ export default function MyLoader({ children, componentName }: MyLoaderProps) {
           ))}
 
           <Text> Please wait ... </Text>
-          <Text>⬛⬛⬛⬜⬜</Text>
+          <Text color="#B06519">
+            {art} {value}%
+          </Text>
           <Text> ... loading</Text>
           <Text> {componentName} </Text>
         </Flex>

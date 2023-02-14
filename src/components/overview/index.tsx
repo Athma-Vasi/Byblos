@@ -725,7 +725,7 @@ function Overview({ allStates }: OverviewProps) {
           data-cy="webReaderLink-overview"
         >
           <Button variant="outline" radius="xl">
-            View sample using Google's web reader
+            View sample with web reader
           </Button>
         </a>
       </Flex>
@@ -828,7 +828,7 @@ function Overview({ allStates }: OverviewProps) {
         data-cy="webReaderLink-overview"
       >
         <Button variant="outline" radius="xl">
-          View sample with Google's web reader
+          View sample with web reader
         </Button>
       </a>
 
@@ -881,7 +881,7 @@ function Overview({ allStates }: OverviewProps) {
         >
           About this edition
         </Title>
-        <Space h="xs" />
+        <Space h="sm" />
       </Flex>
 
       <Card shadow="sm" radius="md" style={{ width: "100%" }}>
@@ -899,7 +899,7 @@ function Overview({ allStates }: OverviewProps) {
         >
           Get book
         </Title>
-        <Space h="xs" />
+        <Space h="sm" />
       </Flex>
       {width < 576 ? getBookMobile : getBookDesktop}
 
@@ -914,7 +914,7 @@ function Overview({ allStates }: OverviewProps) {
         >
           Previews
         </Title>
-        <Space h="xs" />
+        <Space h="sm" />
       </Flex>
       {width < 576 ? previewsMobile : previewsDesktop}
     </Flex>
