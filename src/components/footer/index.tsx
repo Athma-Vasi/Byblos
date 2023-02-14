@@ -100,7 +100,7 @@ function MyFooter({
           </Button>
         </Text>
 
-        <Button variant="outline" onClick={handleFooterHideBttnClick}>
+        <Button variant="light" onClick={handleFooterHideBttnClick}>
           Hide
         </Button>
       </Flex>

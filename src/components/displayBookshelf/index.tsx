@@ -770,7 +770,7 @@ function DisplayBookshelf({
                       }}
                       data-cy="title-volume"
                       style={{ paddingBottom: "3px" }}
-                      color={theme === "light" ? "dark.5" : "gray.5"}
+                      color={theme === "light" ? "dark.5" : "gray.4"}
                     >
                       <Link
                         to={`/home/displayVolume/${item.customId}`}
@@ -1005,10 +1005,10 @@ function DisplayBookshelf({
                     .map((author) => (
                       <Text
                         style={{ display: "inline" }}
-                        color={theme === "light" ? "dark.5" : "gray.5"}
+                        color={theme === "light" ? "dark.5" : "gray.4"}
                         key={author}
                         data-cy="author-volume"
-                        size={width < 576 ? "md" : "lg"}
+                        size={width < 576 ? "lg" : "xl"}
                       >
                         {author}{" "}
                       </Text>
@@ -1018,7 +1018,7 @@ function DisplayBookshelf({
                     style={{ paddingTop: "3px", paddingBottom: "3px" }}
                     color={theme === "light" ? "dark.5" : "gray.5"}
                     data-cy="publishedYear-volume"
-                    size={width < 576 ? "sm" : "md"}
+                    size="md"
                   >
                     {Number.isNaN(
                       new Date(item.volumeInfo.publishedDate)
@@ -1065,7 +1065,7 @@ function DisplayBookshelf({
                     <Text
                       color={theme === "light" ? "dark.5" : "gray.5"}
                       data-cy="description-volume"
-                      size={width < 576 ? "sm" : "md"}
+                      size="md"
                     >
                       {item.volumeInfo.description ?? "Description unavailable"}
                     </Text>

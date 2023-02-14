@@ -253,12 +253,12 @@ function MyHeader({
           data-cy="dropdownArrow"
         >
           <Popover.Target>
-            <Button variant="subtle" data-cy="dropdownArrow-button">
-              <BsChevronBarDown
-                size={26}
-                onClick={() => setPopoverOpened((open) => !open)}
-                data-cy="dropdownArrow-icon"
-              />
+            <Button
+              variant="subtle"
+              data-cy="dropdownArrow-button"
+              onClick={() => setPopoverOpened((open) => !open)}
+            >
+              <BsChevronBarDown size={26} data-cy="dropdownArrow-icon" />
             </Button>
           </Popover.Target>
 

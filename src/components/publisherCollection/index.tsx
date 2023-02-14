@@ -284,6 +284,9 @@ function PublisherCollection({
             for the spoiler button to show the description and prevent unnecessary fetches
           */}
           <div ref={isFetchedDataPresent ? ref : null}></div>
+          {Array.from({ length: 5 }).map((_, i) => (
+            <Space key={i} h="xl" />
+          ))}
         </Suspense>
       </ErrorBoundary>
     </Fragment>

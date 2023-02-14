@@ -178,13 +178,14 @@ function DisplayResults({
         allActions={allActions}
         allDispatches={allDispatches}
       />
-      {Array.from({ length: 5 }).map((_, i) => (
-        <Space key={i} h="lg" />
-      ))}
+
       {/* removes ref if server does not return any more items and allows
             for the spoiler button to show the description and prevent unnecessary fetches
           */}
       <div ref={isFetchedDataPresent ? ref : null}></div>
+      {Array.from({ length: 5 }).map((_, i) => (
+        <Space key={i} h="xl" />
+      ))}
     </div>
   );
 }

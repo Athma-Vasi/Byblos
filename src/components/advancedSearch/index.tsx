@@ -169,14 +169,14 @@ function AdvancedSearch({
     findWithout === null ? null : (findWithout.defaultValue = "barrayar");
   
     */
-    // const title = document.querySelector<HTMLInputElement>(
-    //   "[data-textinput='title']"
-    // );
-    // title === null ? null : (title.defaultValue = "The Uplift War ");
-    const author = document.querySelector<HTMLInputElement>(
-      "[data-textinput='author']"
+    const title = document.querySelector<HTMLInputElement>(
+      "[data-textinput='title']"
     );
-    author === null ? null : (author.defaultValue = "c.j. cherryh");
+    title === null ? null : (title.defaultValue = "Harry Potter");
+    // const author = document.querySelector<HTMLInputElement>(
+    //   "[data-textinput='author']"
+    // );
+    // author === null ? null : (author.defaultValue = "j.k. rowling");
     // const publisher = document.querySelector<HTMLInputElement>(
     //   "[data-textinput='publisher']",
     // );

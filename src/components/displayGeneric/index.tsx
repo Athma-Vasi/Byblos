@@ -777,7 +777,7 @@ function DisplayGeneric({
                       }}
                       data-cy="title-volume"
                       style={{ paddingBottom: "3px" }}
-                      color={theme === "light" ? "dark.5" : "gray.5"}
+                      color={theme === "light" ? "dark.5" : "gray.4"}
                     >
                       <Link
                         to={`/home/displayVolume/${item.customId}`}
@@ -1012,7 +1012,7 @@ function DisplayGeneric({
                     .map((author) => (
                       <Text
                         style={{ display: "inline" }}
-                        color={theme === "light" ? "dark.5" : "gray.5"}
+                        color={theme === "light" ? "dark.5" : "gray.4"}
                         key={author}
                         data-cy="author-volume"
                         size={width < 576 ? "lg" : "xl"}
