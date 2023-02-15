@@ -43,7 +43,7 @@ function Welcome({ allStates, allActions, allDispatches }: WelcomeProps) {
           <Title
             order={width < 576 ? 2 : 1}
             size={width < 576 ? "32px" : width < 768 ? "48px" : "48px"}
-            color={allStates.themeState.theme === "light" ? "dark.5" : "gray.5"}
+            color={theme === "light" ? "dark.5" : "gray.5"}
             style={{
               position: "absolute",
               top: "65%",
@@ -57,7 +57,7 @@ function Welcome({ allStates, allActions, allDispatches }: WelcomeProps) {
           <Title
             order={width < 576 ? 4 : 3}
             size={width < 576 ? "10px" : width < 768 ? "14px" : "16px"}
-            color={allStates.themeState.theme === "light" ? "dark.5" : "gray.5"}
+            color={theme === "light" ? "dark.5" : "gray.5"}
             style={{
               position: "absolute",
               top: "78%",
@@ -98,14 +98,11 @@ function Welcome({ allStates, allActions, allDispatches }: WelcomeProps) {
       >
         <Title
           order={3}
-          color={allStates.themeState.theme === "light" ? "dark.5" : "gray.5"}
+          color={theme === "light" ? "dark.5" : "gray.5"}
           data-cy="slogan-welcome"
         >{`Search the world's most comprehensive list of volumes`}</Title>
         <Space h="xs" />
-        <Title
-          order={5}
-          color={allStates.themeState.theme === "light" ? "dark.5" : "gray.5"}
-        >
+        <Title order={5} color={theme === "light" ? "dark.5" : "gray.5"}>
           {" "}
           Powered by Google Books
         </Title>

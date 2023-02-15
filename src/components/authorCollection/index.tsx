@@ -1,4 +1,4 @@
-import { Flex, Space, Text, Title } from "@mantine/core";
+import { Flex, Space, Title } from "@mantine/core";
 import axios from "axios";
 import localforage from "localforage";
 import { Fragment, Suspense, useEffect, useState } from "react";

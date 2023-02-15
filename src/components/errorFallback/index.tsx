@@ -4,11 +4,10 @@ import { Link } from "react-router-dom";
 
 type ErrorFallbackProps = {
   children?: React.ReactNode;
-  error?: any;
   componentName: string;
 };
 
-function ErrorFallback({ children, componentName, error }: ErrorFallbackProps) {
+function ErrorFallback({ componentName }: ErrorFallbackProps) {
   return (
     <Flex direction="column" align="center" justify="center">
       <Text>❗ Error ❗</Text>

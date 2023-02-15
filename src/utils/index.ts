@@ -99,6 +99,7 @@ function populateSearchTermForFetch(formDataMap: Map<FormInputNames, string>) {
   return searchStrFinal;
 }
 
+//turns off mylibrary navlink and children navlinks when user navigates out of mylibrary
 function toggleCurrentlyActiveNavlink(
   navlinksState: NavlinksState,
   navlinksActions: NavlinksActions,
@@ -164,67 +165,66 @@ function toggleCurrentlyActiveNavlink(
   }
 }
 
+//used for testing only
 function populateInputsForTesting() {
   const findAll = document.querySelector<HTMLInputElement>(
     "[data-textinput='find-allWords']"
   );
-  findAll === null ? null : (findAll.defaultValue = "Barrayar");
+  findAll && (findAll.defaultValue = "Barrayar");
 
   const findExact = document.querySelector<HTMLInputElement>(
     "[data-textinput='find-exactPhrase']"
   );
-  findExact === null ? null : (findExact.defaultValue = "Hyperion");
+  findExact && (findExact.defaultValue = "Hyperion");
 
   const findAtLeastOne = document.querySelector<HTMLInputElement>(
     "[data-textinput='find-atLeastOne']"
   );
-  findAtLeastOne === null
-    ? null
-    : (findAtLeastOne.defaultValue = "The Moon and the Sun");
+  findAtLeastOne && (findAtLeastOne.defaultValue = "The Moon and the Sun");
 
   const findWithout = document.querySelector<HTMLInputElement>(
     "[data-textinput='find-none']"
   );
-  findWithout === null
-    ? null
-    : (findWithout.defaultValue = "A Fire Upon the Deep");
+  findWithout && (findWithout.defaultValue = "A Fire Upon the Deep");
 
   const title = document.querySelector<HTMLInputElement>(
     "[data-textinput='title']"
   );
-  title === null ? null : (title.defaultValue = "The Uplift War");
+  title && (title.defaultValue = "The Uplift War");
 
   const author = document.querySelector<HTMLInputElement>(
     "[data-textinput='author']"
   );
-  author === null ? null : (author.defaultValue = "c.j. cherryh");
+  author && (author.defaultValue = "c.j. cherryh");
 
   const publisher = document.querySelector<HTMLInputElement>(
     "[data-textinput='publisher']"
   );
-  publisher === null ? null : (publisher.defaultValue = "baen");
+  publisher && (publisher.defaultValue = "baen");
 
   const subject = document.querySelector<HTMLInputElement>(
     "[data-textinput='subject']"
   );
-  subject === null ? null : (subject.defaultValue = "science fiction");
+  subject && (subject.defaultValue = "science fiction");
 
   const isbn = document.querySelector<HTMLInputElement>(
     "[data-textinput='isbn']"
   );
-  isbn === null ? null : (isbn.defaultValue = "978-0671578282");
+  isbn && (isbn.defaultValue = "978-0671578282");
 
   const lccn = document.querySelector<HTMLInputElement>(
     "[data-textinput='lccn']"
   );
-  lccn === null ? null : (lccn.defaultValue = " 96024819");
+  lccn && (lccn.defaultValue = " 96024819");
 
   const oclc = document.querySelector<HTMLInputElement>(
     "[data-textinput='oclc']"
   );
-  oclc === null ? null : (oclc.defaultValue = " 42320675");
+  oclc && (oclc.defaultValue = " 42320675");
 }
 
+//sets the default radio buttons for advancedSearch radio inputs as currently
+//the checked={true} attribute is not working
 function clickDefaultRadioBttns() {
   const allBooksRadio = document.querySelector<HTMLInputElement>(
     "[data-radioinput='filter-allBooks']"
@@ -532,11 +532,11 @@ function getLanguageFromCode(code: string) {
   return languageTable.get(code) ?? code;
 }
 
+//this function is used to add a custom id to each volume object
+//only used for rendering as there are sometimes duplicate ids returned from the api
 function insertCustomId(
   items: ApiResponseVolume["items"]
 ): VolumeWithCustomId[] {
-  //this function is used to add a custom id to each volume object
-  //only used for rendering as there are sometimes duplicate ids returned from the api
   return items.map((item) => {
     const customId = uuidV4();
     const clone = structuredClone(item);

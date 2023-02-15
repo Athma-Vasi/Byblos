@@ -17,16 +17,16 @@ function ThemeProvider({ children, allStates }: ThemeProviderProps) {
 
     colors: {
       brand: [
-        "#FFE5B4",
-        "#FBCEB1",
-        "#FF7F50",
-        "#FA8072",
-        "#B06519",
-        "#CC4E5C",
-        "#B7410E",
-        "#A0522D",
-        "#B87333",
-        "#C04000",
+        "#FFE5B4", // peach
+        "#FBCEB1", // apricot
+        "#FF7F50", // coral
+        "#FA8072", // salmon
+        "#B06519", // ginger
+        "#CC4E5C", // terracotta
+        "#B7410E", // rust
+        "#A0522D", // sienna
+        "#B87333", // copper
+        "#C04000", // mahogany
       ],
     },
 

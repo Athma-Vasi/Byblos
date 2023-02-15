@@ -8,13 +8,11 @@ import { RxDividerVertical } from "react-icons/rx";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
-import { navlinksActions } from "../../state/navlinksState";
 import {
   AllActions,
   AllDispatches,
   AllStates,
   ApiResponseVolume,
-  NavlinksState,
   ResponseState,
 } from "../../types";
 import { toggleCurrentlyActiveNavlink } from "../../utils";

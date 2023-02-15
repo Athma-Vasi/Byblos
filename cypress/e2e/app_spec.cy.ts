@@ -55,9 +55,6 @@ describe("Advanced Search page ", () => {
       cy.get("[data-nativeselect='resultsPerPage']").should("have.value", "10");
     });
 
-    //not working well, need to figure out how to select the option
-    //contains just confirms that the data array contains the value, not necessarily that the user has selected it and it is displayed
-
     it("should display '20' when user selects '20' in resultsPerPage input", () => {
       cy.visit("localhost:5173/home/advancedSearch");
 

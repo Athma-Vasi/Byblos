@@ -1,25 +1,23 @@
-import { AppShell, Space, useMantineTheme } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { AppShell, useMantineTheme } from "@mantine/core";
+import { Suspense, useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-
-import { MyFooter } from "../footer";
-import { MyHeader } from "../header";
-import { MyNavBar } from "../navbar";
-import { CustomFonts } from "../theme/customFonts";
 
 import {
   AllActions,
   AllDispatches,
   AllStates,
   HistoryState,
-  Volume,
 } from "../../types";
 import React from "react";
 import localforage from "localforage";
 import { responseActions } from "../../state/responseState";
+import { ErrorBoundary } from "react-error-boundary";
+import ErrorFallback from "../errorFallback";
 import MyLoader from "../myLoader";
 
-const Search = React.lazy(() => import("../search"));
+const MyNavBar = React.lazy(() => import("../navbar"));
+const MyHeader = React.lazy(() => import("../header"));
+const MyFooter = React.lazy(() => import("../footer"));
 
 type HomeProps = {
   children?: React.ReactNode;
@@ -28,7 +26,7 @@ type HomeProps = {
   allDispatches: AllDispatches;
 };
 
-function Home({ children, allStates, allActions, allDispatches }: HomeProps) {
+function Home({ allStates, allActions, allDispatches }: HomeProps) {
   let {
     responseState: {
       fetchUrl,
@@ -42,21 +40,8 @@ function Home({ children, allStates, allActions, allDispatches }: HomeProps) {
     },
   } = allStates;
   let { responseDispatch } = allDispatches;
-  let {
-    responseActions: {
-      setFetchUrl,
-      setStartIndex,
-      setSearchTerm,
-      setSearchResults,
-      setSelectedVolume,
-      setSelectedAuthor,
-      setSelectedPublisher,
-      setBookshelfVolumes,
-    },
-  } = allActions;
 
   const theme = useMantineTheme();
-  const navigate = useNavigate();
   const [opened, setOpened] = useState(false);
 
   useEffect(() => {
@@ -72,7 +57,7 @@ function Home({ children, allStates, allActions, allDispatches }: HomeProps) {
   }, []);
 
   useEffect(() => {
-    // crude implementation of the browser history state to fetch the correct
+    // implementation of the browser history state to fetch the correct
     // state upon browser back button click as component state is not persisted.
     // whenever user clicks on a title, current state of the app is saved
     // as an array of responsState objects in localforage
@@ -155,29 +140,41 @@ function Home({ children, allStates, allActions, allDispatches }: HomeProps) {
       navbarOffsetBreakpoint="sm"
       asideOffsetBreakpoint="sm"
       navbar={
-        <MyNavBar
-          setOpened={setOpened}
-          opened={opened}
-          allStates={allStates}
-          allActions={allActions}
-          allDispatches={allDispatches}
-        />
+        <ErrorBoundary fallback={<ErrorFallback componentName="Navbar" />}>
+          <Suspense fallback={<MyLoader componentName="Navbar" />}>
+            <MyNavBar
+              setOpened={setOpened}
+              opened={opened}
+              allStates={allStates}
+              allActions={allActions}
+              allDispatches={allDispatches}
+            />
+          </Suspense>
+        </ErrorBoundary>
       }
       header={
-        <MyHeader
-          opened={opened}
-          setOpened={setOpened}
-          allStates={allStates}
-          allActions={allActions}
-          allDispatches={allDispatches}
-        />
+        <ErrorBoundary fallback={<ErrorFallback componentName="Header" />}>
+          <Suspense fallback={<MyLoader componentName="Header" />}>
+            <MyHeader
+              opened={opened}
+              setOpened={setOpened}
+              allStates={allStates}
+              allActions={allActions}
+              allDispatches={allDispatches}
+            />
+          </Suspense>
+        </ErrorBoundary>
       }
       footer={
-        <MyFooter
-          allStates={allStates}
-          allActions={allActions}
-          allDispatches={allDispatches}
-        />
+        <ErrorBoundary fallback={<ErrorFallback componentName="Footer" />}>
+          <Suspense fallback={<MyLoader componentName="Footer" />}>
+            <MyFooter
+              allStates={allStates}
+              allActions={allActions}
+              allDispatches={allDispatches}
+            />
+          </Suspense>
+        </ErrorBoundary>
       }
       data-cy="home-appShell"
     >

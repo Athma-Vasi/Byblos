@@ -10,12 +10,7 @@ type MyFooterProps = {
   allDispatches: AllDispatches;
 };
 
-function MyFooter({
-  children,
-  allStates,
-  allActions,
-  allDispatches,
-}: MyFooterProps) {
+function MyFooter({ allStates }: MyFooterProps) {
   const [isFooterVisible, setIsFooterVisible] = useState<boolean | null>(null);
 
   const {
@@ -27,11 +22,8 @@ function MyFooter({
       try {
         const footerVisibility = await localforage.getItem("byblos-footer");
 
-        if (footerVisibility === "hidden") {
-          setIsFooterVisible(false);
-        } else {
-          setIsFooterVisible(true);
-        }
+        if (footerVisibility === "hidden") setIsFooterVisible(false);
+        else setIsFooterVisible(true);
       } catch (error: any) {
         const error_ = new Error(error, {
           cause: "fetchFooterVisibility()",
@@ -110,4 +102,4 @@ function MyFooter({
   );
 }
 
-export { MyFooter };
+export default MyFooter;

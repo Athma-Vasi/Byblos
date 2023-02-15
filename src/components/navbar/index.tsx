@@ -592,4 +592,4 @@ function MyNavBar({
   );
 }
 
-export { MyNavBar };
+export default MyNavBar;

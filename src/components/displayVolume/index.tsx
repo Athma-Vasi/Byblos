@@ -1,9 +1,8 @@
-import { Button, Flex, Menu, NavLink, Space, Text } from "@mantine/core";
+import { Flex, Menu, NavLink, Space } from "@mantine/core";
 import localforage from "localforage";
 import React, { useState } from "react";
 import { BsPersonLinesFill } from "react-icons/bs";
 import { BsMenuButtonFill } from "react-icons/bs";
-import { GrOverview } from "react-icons/gr";
 import { HiOutlineViewGrid } from "react-icons/hi";
 import { MdOutlinePublish } from "react-icons/md";
 import { VscUngroupByRefType } from "react-icons/vsc";

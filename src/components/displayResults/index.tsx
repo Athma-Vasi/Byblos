@@ -1,4 +1,4 @@
-import { Space, Text } from "@mantine/core";
+import { Space } from "@mantine/core";
 import axios from "axios";
 import localforage from "localforage";
 import { Suspense, useEffect, useState } from "react";

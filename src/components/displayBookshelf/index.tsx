@@ -1,7 +1,6 @@
 import {
   Button,
   Card,
-  Center,
   Container,
   Flex,
   Grid,
@@ -702,7 +701,7 @@ function DisplayBookshelf({
             <Card shadow="sm" p="md" radius="md" withBorder>
               <Flex direction="column" align="center" justify="center">
                 <Text color={theme === "light" ? "dark.5" : "gray.5"}>
-                  There seems to be nothing here
+                  There seems to be nothing here.
                 </Text>
                 <Space h="md" />
                 <Text color={theme === "light" ? "dark.5" : "gray.5"} size={28}>

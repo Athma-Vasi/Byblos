@@ -1,4 +1,4 @@
-import { Flex, Grid, Loader, Progress, Space, Text } from "@mantine/core";
+import { Flex, Grid, Loader, Space, Text } from "@mantine/core";
 import React from "react";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
@@ -9,7 +9,7 @@ type MyLoaderProps = {
   componentName: string;
 };
 
-export default function MyLoader({ children, componentName }: MyLoaderProps) {
+function MyLoader({ componentName }: MyLoaderProps) {
   const { width = 0 } = useWindowSize();
 
   const { value, art } = showRandomProgress();
@@ -39,3 +39,5 @@ export default function MyLoader({ children, componentName }: MyLoaderProps) {
     </Grid>
   );
 }
+
+export default MyLoader;
