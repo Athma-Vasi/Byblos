@@ -36,7 +36,11 @@ import {
   UserBookshelfActions,
   VolumeWithCustomId,
 } from "../../types";
-import { insertCustomId, toggleCurrentlyActiveNavlink } from "../../utils";
+import {
+  insertCustomId,
+  toggleCurrentlyActiveNavlink,
+  upgradeImgLinkToHttps,
+} from "../../utils";
 import { MyImageModal } from "../myImageModal";
 import {
   IoMdCheckmarkCircle,
@@ -95,9 +99,13 @@ function DisplayGeneric({
 
   //inserts custom id into searchResults for rendering as google api id may
   //not be unique
-  const modifiedSearchResults = insertCustomId(
+  let modifiedSearchResults = insertCustomId(
     searchResults?.items ?? localForageFallback
   );
+
+  modifiedSearchResults = upgradeImgLinkToHttps(modifiedSearchResults);
+
+  console.log("modifiedSearchResults", modifiedSearchResults);
 
   const navlinksStateActionDispatch: NavlinksStateActionDispatch = {
     navlinksState,

@@ -15,7 +15,7 @@ import {
   ResponseState,
   VolumeWithCustomId,
 } from "../../types";
-import { insertCustomId } from "../../utils";
+import { insertCustomId, upgradeImgLinkToHttps } from "../../utils";
 import ErrorFallback from "../errorFallback";
 import MyLoader from "../myLoader";
 
@@ -73,7 +73,8 @@ function OtherEditions({
 
         const { data } = await axios.get(fetchUrlWithName);
 
-        const itemsWithCustomId = insertCustomId(data.items ?? []);
+        let itemsWithCustomId = insertCustomId(data.items ?? []);
+        itemsWithCustomId = upgradeImgLinkToHttps(itemsWithCustomId);
 
         startIndex = 0;
         searchTerm =

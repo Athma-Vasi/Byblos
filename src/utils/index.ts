@@ -551,6 +551,23 @@ function insertCustomId(
   });
 }
 
+function upgradeImgLinkToHttps(
+  items: VolumeWithCustomId[]
+): VolumeWithCustomId[] {
+  return items.map((item) => {
+    const clone = structuredClone(item);
+    const imgLink = clone.volumeInfo.imageLinks?.thumbnail;
+    if (imgLink && clone.volumeInfo.imageLinks) {
+      clone.volumeInfo.imageLinks.thumbnail = imgLink.replace(
+        "http:",
+        "https:"
+      );
+    }
+
+    return clone;
+  });
+}
+
 export {
   clickDefaultRadioBttns,
   getLanguageFromCode,
@@ -559,4 +576,5 @@ export {
   populateInputsForTesting,
   showRandomProgress,
   toggleCurrentlyActiveNavlink,
+  upgradeImgLinkToHttps,
 };

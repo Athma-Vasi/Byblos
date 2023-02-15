@@ -14,7 +14,7 @@ import {
   ResponseState,
   VolumeWithCustomId,
 } from "../../types";
-import { insertCustomId } from "../../utils";
+import { insertCustomId, upgradeImgLinkToHttps } from "../../utils";
 import DisplayGeneric from "../displayGeneric";
 import ErrorFallback from "../errorFallback";
 import MyLoader from "../myLoader";
@@ -76,7 +76,8 @@ function PublisherCollection({
 
         const { data } = await axios.get(fetchUrlWithPublisher);
 
-        const itemsWithCustomId = insertCustomId(data.items ?? []);
+        let itemsWithCustomId = insertCustomId(data.items ?? []);
+        itemsWithCustomId = upgradeImgLinkToHttps(itemsWithCustomId);
 
         startIndex = 0;
         searchTerm = `${
