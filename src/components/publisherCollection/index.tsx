@@ -211,8 +211,7 @@ function PublisherCollection({
               });
             }
             //certain popular searches like "the" will return 1000+ results
-            //so we set the max results to 600 to limit browser tab memory
-            //usage, since all results are stored in memory
+            //so we set the max results to 600 for optimal performance
             if (currStartIdx > 600 || !data.items) {
               //setIsFetchedDataPresent to false so that the infinite scroll
               //useEffect doesn't run and fetch more results, triggering a

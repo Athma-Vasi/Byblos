@@ -1,13 +1,10 @@
-import { Flex, Grid, Image, Space, Title } from "@mantine/core";
+import { Flex, Image, Space, Title } from "@mantine/core";
 import React, { Fragment } from "react";
 import logo_transparent_dark from "../../../src/assets/logo/logo_transparent.png";
 
-import logo_transparent_light from "../../../src/assets/logo-light/logo_transparent.png";
 import { useWindowSize } from "../../hooks/useWindowSize";
 
 import { AllActions, AllDispatches, AllStates } from "../../types";
-import ErrorFallback from "../errorFallback";
-import MyLoader from "../myLoader";
 import { Search } from "../search";
 
 type WelcomeProps = {

@@ -139,7 +139,7 @@ function AdvancedSearch({
       });
 
       window.scrollTo(0, 0);
-      navigate(`/home/displayResults/1`);
+      navigate(`/home/displayResults`);
     }
   }
 

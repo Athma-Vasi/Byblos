@@ -225,7 +225,7 @@ export default function App() {
                   </ErrorBoundary>
                 }
               />
-              <Route
+              {/* <Route
                 path=":page"
                 element={
                   <ErrorBoundary
@@ -244,7 +244,7 @@ export default function App() {
                     </Suspense>
                   </ErrorBoundary>
                 }
-              ></Route>
+              ></Route> */}
             </Route>
             <Route
               path="displayVolume/:volumeId"
@@ -335,7 +335,7 @@ export default function App() {
                     </ErrorBoundary>
                   }
                 ></Route>
-                <Route
+                {/* <Route
                   path=":page"
                   element={
                     <ErrorBoundary
@@ -354,7 +354,7 @@ export default function App() {
                       </Suspense>
                     </ErrorBoundary>
                   }
-                ></Route>
+                ></Route> */}
               </Route>
               <Route
                 path="publisherCollection"
@@ -400,7 +400,7 @@ export default function App() {
                     </ErrorBoundary>
                   }
                 ></Route>
-                <Route
+                {/* <Route
                   path=":page"
                   element={
                     <ErrorBoundary
@@ -421,7 +421,7 @@ export default function App() {
                       </Suspense>
                     </ErrorBoundary>
                   }
-                ></Route>
+                ></Route> */}
               </Route>
               <Route
                 path="authorCollection"
@@ -465,7 +465,7 @@ export default function App() {
                     </ErrorBoundary>
                   }
                 ></Route>
-                <Route
+                {/* <Route
                   path=":page"
                   element={
                     <ErrorBoundary
@@ -486,7 +486,7 @@ export default function App() {
                       </Suspense>
                     </ErrorBoundary>
                   }
-                ></Route>
+                ></Route> */}
               </Route>
             </Route>
           </Route>

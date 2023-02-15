@@ -186,7 +186,7 @@ function MyHeader({
           payload: { responseState: { ...allStates.responseState } },
         });
 
-        navigate(`/home/displayResults/1`);
+        navigate(`/home/displayResults`);
       } catch (error: any) {
         const error_ = new Error(error, {
           cause: "handleEnterKeyInput()",
@@ -328,7 +328,11 @@ function MyHeader({
   );
 
   return (
-    <Header height={{ base: 75, md: 100 }} p="md">
+    <Header
+      height={{ base: 75, md: 100 }}
+      px="md"
+      py={width < 576 ? "md" : "sm"}
+    >
       <Grid columns={9} align="center">
         <MediaQuery largerThan="sm" styles={{ display: "none" }}>
           <Grid.Col span={1}>
@@ -435,7 +439,7 @@ function rightInputSection(
         payload: { responseState: { ...responseState } },
       });
 
-      navigate(`/home/displayResults/1`);
+      navigate(`/home/displayResults`);
     } catch (error: any) {
       const error_ = new Error(error, {
         cause: "handleSearchIconClick()",

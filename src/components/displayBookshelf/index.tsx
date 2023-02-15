@@ -72,7 +72,7 @@ function DisplayBookshelf({
   const [modalAlt, setModalAlt] = useState("");
 
   const { width = 0 } = useWindowSize();
-  const { volumeId, page } = useParams();
+  const { volumeId } = useParams();
 
   let {
     responseState: {
@@ -705,7 +705,7 @@ function DisplayBookshelf({
                   There seems to be nothing here
                 </Text>
                 <Space h="md" />
-                <Text color={theme === "light" ? "dark.5" : "gray.5"}>
+                <Text color={theme === "light" ? "dark.5" : "gray.5"} size={28}>
                   (｡•́︿•̀｡)
                 </Text>
               </Flex>

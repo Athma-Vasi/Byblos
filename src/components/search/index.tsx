@@ -85,7 +85,7 @@ function Search({ allStates, allActions, allDispatches }: SearchProps) {
           },
         });
 
-        navigate(`/home/displayResults/1`);
+        navigate(`/home/displayResults`);
       } catch (error: any) {
         const error_ = new Error(error, {
           cause: "handleEnterKeyInput()",
@@ -213,7 +213,7 @@ function rightInputSection(
         },
       });
 
-      navigate(`/home/displayResults/1`);
+      navigate(`/home/displayResults`);
     } catch (error: any) {
       const error_ = new Error(error, {
         cause: "handleSearchIconClick()",

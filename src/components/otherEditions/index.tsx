@@ -5,7 +5,7 @@ import React, { Suspense } from "react";
 import { useEffect, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { useInView } from "react-intersection-observer";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import {
   AllActions,
@@ -36,8 +36,7 @@ function OtherEditions({
   const [isFetchedDataPresent, setIsFetchedDataPresent] =
     useState<boolean>(true);
 
-  const { volumeId, page } = useParams();
-  const navigate = useNavigate();
+  const { volumeId } = useParams();
 
   const { ref, inView } = useInView({
     threshold: 0,
@@ -209,8 +208,7 @@ function OtherEditions({
               });
             }
             //certain popular searches like "the" will return 1000+ results
-            //so we set the max results to 600 to limit browser tab memory
-            //usage, since all results are stored in memory
+            //so we set the max results to 600 for optimal performance
             if (currStartIdx > 600 || !data.items) {
               //setIsFetchedDataPresent to false so that the infinite scroll
               //useEffect doesn't run and fetch more results, triggering a

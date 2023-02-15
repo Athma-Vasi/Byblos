@@ -32,7 +32,7 @@ function DisplayVolume({
   allActions,
   allDispatches,
 }: DisplayVolumeProps) {
-  const { volumeId, page } = useParams();
+  const { volumeId } = useParams();
   const { width = 0 } = useWindowSize();
 
   const [navLinkActive, setNavLinkActive] = useState({
@@ -268,7 +268,7 @@ function DisplayVolume({
 
             <Menu.Item>
               <Link
-                to={`/home/displayVolume/${volumeId}/otherEditions/1`}
+                to={`/home/displayVolume/${volumeId}/otherEditions`}
                 style={{ textDecoration: "none", color: "inherit" }}
               >
                 <NavLink
@@ -296,7 +296,7 @@ function DisplayVolume({
 
             <Menu.Item>
               <Link
-                to={`/home/displayVolume/${volumeId}/publisherCollection/1`}
+                to={`/home/displayVolume/${volumeId}/publisherCollection`}
                 style={{ textDecoration: "none", color: "inherit" }}
               >
                 <NavLink
@@ -324,7 +324,7 @@ function DisplayVolume({
 
             <Menu.Item>
               <Link
-                to={`/home/displayVolume/${volumeId}/authorCollection/1`}
+                to={`/home/displayVolume/${volumeId}/authorCollection`}
                 style={{ textDecoration: "none", color: "inherit" }}
               >
                 <NavLink

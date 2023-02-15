@@ -713,7 +713,7 @@ function DisplayGeneric({
                   There seems to be nothing here
                 </Text>
                 <Space h="md" />
-                <Text color={theme === "light" ? "dark.5" : "gray.5"}>
+                <Text color={theme === "light" ? "dark.5" : "gray.5"} size={28}>
                   (｡•́︿•̀｡)
                 </Text>
               </Flex>
