@@ -562,6 +562,11 @@ function upgradeImgLinkToHttps(
         "http:",
         "https:"
       );
+
+      clone.volumeInfo.imageLinks.smallThumbnail = imgLink.replace(
+        "http:",
+        "https:"
+      );
     }
 
     return clone;
