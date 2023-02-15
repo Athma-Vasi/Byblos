@@ -8,7 +8,6 @@ import ErrorFallback from "./components/errorFallback";
 import { Home } from "./components/home";
 import MyLoader from "./components/myLoader";
 import { Welcome } from "./components/welcome";
-import { CustomFonts } from "./components/theme/customFonts";
 
 import {
   initialResponseState,
@@ -225,26 +224,6 @@ export default function App() {
                   </ErrorBoundary>
                 }
               />
-              {/* <Route
-                path=":page"
-                element={
-                  <ErrorBoundary
-                    fallback={
-                      <ErrorFallback componentName="search results page" />
-                    }
-                  >
-                    <Suspense
-                      fallback={<MyLoader componentName="Search results" />}
-                    >
-                      <DisplayResults
-                        allStates={allStates}
-                        allActions={allActions}
-                        allDispatches={allDispatches}
-                      />
-                    </Suspense>
-                  </ErrorBoundary>
-                }
-              ></Route> */}
             </Route>
             <Route
               path="displayVolume/:volumeId"
@@ -335,26 +314,6 @@ export default function App() {
                     </ErrorBoundary>
                   }
                 ></Route>
-                {/* <Route
-                  path=":page"
-                  element={
-                    <ErrorBoundary
-                      fallback={
-                        <ErrorFallback componentName="Other editions page" />
-                      }
-                    >
-                      <Suspense
-                        fallback={<MyLoader componentName="Other editions" />}
-                      >
-                        <OtherEditions
-                          allStates={allStates}
-                          allActions={allActions}
-                          allDispatches={allDispatches}
-                        />
-                      </Suspense>
-                    </ErrorBoundary>
-                  }
-                ></Route> */}
               </Route>
               <Route
                 path="publisherCollection"
@@ -400,28 +359,6 @@ export default function App() {
                     </ErrorBoundary>
                   }
                 ></Route>
-                {/* <Route
-                  path=":page"
-                  element={
-                    <ErrorBoundary
-                      fallback={
-                        <ErrorFallback componentName="Publisher collection page" />
-                      }
-                    >
-                      <Suspense
-                        fallback={
-                          <MyLoader componentName="Publisher collection" />
-                        }
-                      >
-                        <PublisherCollection
-                          allStates={allStates}
-                          allActions={allActions}
-                          allDispatches={allDispatches}
-                        />
-                      </Suspense>
-                    </ErrorBoundary>
-                  }
-                ></Route> */}
               </Route>
               <Route
                 path="authorCollection"
@@ -465,28 +402,6 @@ export default function App() {
                     </ErrorBoundary>
                   }
                 ></Route>
-                {/* <Route
-                  path=":page"
-                  element={
-                    <ErrorBoundary
-                      fallback={
-                        <ErrorFallback componentName="Author collection page" />
-                      }
-                    >
-                      <Suspense
-                        fallback={
-                          <MyLoader componentName="Author collection" />
-                        }
-                      >
-                        <AuthorCollection
-                          allStates={allStates}
-                          allActions={allActions}
-                          allDispatches={allDispatches}
-                        />
-                      </Suspense>
-                    </ErrorBoundary>
-                  }
-                ></Route> */}
               </Route>
             </Route>
           </Route>

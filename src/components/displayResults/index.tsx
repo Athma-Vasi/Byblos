@@ -1,7 +1,8 @@
 import { Space, Text } from "@mantine/core";
 import axios from "axios";
 import localforage from "localforage";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import { useInView } from "react-intersection-observer";
 import { useParams } from "react-router-dom";
 
@@ -13,6 +14,8 @@ import {
   ResponseState,
 } from "../../types";
 import DisplayGeneric from "../displayGeneric";
+import ErrorFallback from "../errorFallback";
+import MyLoader from "../myLoader";
 
 type DisplayResultsProps = {
   children?: React.ReactNode;
@@ -152,11 +155,17 @@ function DisplayResults({
         <Space key={i} h="xs" />
       ))}
 
-      <DisplayGeneric
-        allStates={allStates}
-        allActions={allActions}
-        allDispatches={allDispatches}
-      />
+      <ErrorBoundary
+        fallback={<ErrorFallback componentName="Display Results" />}
+      >
+        <Suspense fallback={<MyLoader componentName="Display Results" />}>
+          <DisplayGeneric
+            allStates={allStates}
+            allActions={allActions}
+            allDispatches={allDispatches}
+          />
+        </Suspense>
+      </ErrorBoundary>
 
       {/* removes ref if server does not return any more items and allows
             for the spoiler button to show the description and prevent unnecessary fetches

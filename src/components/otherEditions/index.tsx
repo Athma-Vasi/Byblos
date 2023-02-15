@@ -16,6 +16,7 @@ import {
   VolumeWithCustomId,
 } from "../../types";
 import { insertCustomId } from "../../utils";
+import ErrorFallback from "../errorFallback";
 import MyLoader from "../myLoader";
 
 const DisplayGeneric = React.lazy(() => import("../displayGeneric"));
@@ -252,13 +253,7 @@ function OtherEditions({
       <Space h="md" />
 
       <ErrorBoundary
-        fallback={
-          <Text
-            color={theme === "light" ? "dark.5" : "gray.5"}
-          >{`Unable to display other editions ${
-            selectedVolume ?? otherEditions[0]?.volumeInfo.title ?? ""
-          }`}</Text>
-        }
+        fallback={<ErrorFallback componentName="Other Editions" />}
       >
         <Suspense fallback={<MyLoader componentName="Other Editions" />}>
           <DisplayGeneric

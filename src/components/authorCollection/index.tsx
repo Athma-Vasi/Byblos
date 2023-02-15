@@ -16,6 +16,7 @@ import {
 } from "../../types";
 import { insertCustomId } from "../../utils";
 import DisplayGeneric from "../displayGeneric";
+import ErrorFallback from "../errorFallback";
 import MyLoader from "../myLoader";
 
 type AuthorCollectionProps = {
@@ -251,13 +252,7 @@ function AuthorCollection({
       <Space h="md" />
 
       <ErrorBoundary
-        fallback={
-          <Text>
-            {`Unable to display other volumes ${
-              selectedAuthor ?? authorCollection[0]?.volumeInfo.authors[0] ?? ""
-            }`}
-          </Text>
-        }
+        fallback={<ErrorFallback componentName="Author Collection" />}
       >
         <Suspense fallback={<MyLoader componentName="Author Collection" />}>
           <DisplayGeneric

@@ -16,6 +16,7 @@ import {
 } from "../../types";
 import { insertCustomId } from "../../utils";
 import DisplayGeneric from "../displayGeneric";
+import ErrorFallback from "../errorFallback";
 import MyLoader from "../myLoader";
 
 type PublisherCollectionProps = {
@@ -255,13 +256,7 @@ function PublisherCollection({
       <Space h="md" />
 
       <ErrorBoundary
-        fallback={
-          <Text color={theme === "light" ? "dark.5" : "gray.5"}>
-            {`Unable to display other editions ${
-              selectedVolume ?? publisherCollection[0]?.volumeInfo.title ?? ""
-            }`}
-          </Text>
-        }
+        fallback={<ErrorFallback componentName="Publisher Collection" />}
       >
         <Suspense fallback={<MyLoader componentName="Publisher Collection" />}>
           <DisplayGeneric
