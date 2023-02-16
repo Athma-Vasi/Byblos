@@ -92,7 +92,7 @@ function Overview({ allStates }: OverviewProps) {
         <Text
           key={id?.identifier}
           color={theme === "light" ? "dark.5" : "gray.5"}
-          size={width < 576 ? "md" : "lg"}
+          size={width < 992 ? "md" : "lg"}
           data-cy="industryIdentifier-overview"
         >
           {id?.type?.includes("ISBN")
@@ -109,7 +109,7 @@ function Overview({ allStates }: OverviewProps) {
         <Text
           key={id?.identifier}
           color={theme === "light" ? "dark.5" : "gray.5"}
-          size={width < 576 ? "md" : "lg"}
+          size={width < 992 ? "md" : "lg"}
           data-cy="industryIdentifier-overview"
         >
           {id?.type?.includes("ISBN")
@@ -277,7 +277,7 @@ function Overview({ allStates }: OverviewProps) {
             {industryIdentifiers}
             <Text
               color={theme === "light" ? "dark.5" : "gray.5"}
-              size={width < 576 ? "md" : "lg"}
+              size={width < 992 ? "md" : "lg"}
               data-cy="published-overview"
             >
               Published: {publishedDate}
@@ -288,7 +288,7 @@ function Overview({ allStates }: OverviewProps) {
           <Grid.Col span={1}>
             <Text
               color={theme === "light" ? "dark.5" : "gray.5"}
-              size={width < 576 ? "md" : "lg"}
+              size={width < 992 ? "md" : "lg"}
               data-cy="publisher-overview"
             >
               Publisher: {publisher}
@@ -296,7 +296,7 @@ function Overview({ allStates }: OverviewProps) {
             </Text>
             <Text
               color={theme === "light" ? "dark.5" : "gray.5"}
-              size={width < 576 ? "md" : "lg"}
+              size={width < 992 ? "md" : "lg"}
               data-cy="pageCount-overview"
             >
               Pages: {pageCount}
@@ -304,7 +304,7 @@ function Overview({ allStates }: OverviewProps) {
             </Text>
             <Text
               color={theme === "light" ? "dark.5" : "gray.5"}
-              size={width < 576 ? "md" : "lg"}
+              size={width < 992 ? "md" : "lg"}
               data-cy="author-overview"
             >
               Author: {authors}
@@ -319,7 +319,7 @@ function Overview({ allStates }: OverviewProps) {
           <Grid.Col span={1}>
             <Text
               color={theme === "light" ? "dark.5" : "gray.5"}
-              size={width < 576 ? "md" : "lg"}
+              size={width < 992 ? "md" : "lg"}
               data-cy="printType-overview"
             >
               Print type: {printType}
@@ -327,7 +327,7 @@ function Overview({ allStates }: OverviewProps) {
             </Text>
             <Text
               color={theme === "light" ? "dark.5" : "gray.5"}
-              size={width < 576 ? "md" : "lg"}
+              size={width < 992 ? "md" : "lg"}
               data-cy="categories-overview"
             >
               Categories: {categories}
@@ -335,7 +335,7 @@ function Overview({ allStates }: OverviewProps) {
             </Text>
             <Text
               color={theme === "light" ? "dark.5" : "gray.5"}
-              size={width < 576 ? "md" : "lg"}
+              size={width < 992 ? "md" : "lg"}
               data-cy="language-overview"
             >
               Language: {language}
@@ -346,7 +346,7 @@ function Overview({ allStates }: OverviewProps) {
           <Grid.Col span={1}>
             <Text
               color={theme === "light" ? "dark.5" : "gray.5"}
-              size={width < 576 ? "md" : "lg"}
+              size={width < 992 ? "md" : "lg"}
               data-cy="averageRating-overview"
             >
               Average rating: {averageRating}
@@ -354,7 +354,7 @@ function Overview({ allStates }: OverviewProps) {
             </Text>
             <Text
               color={theme === "light" ? "dark.5" : "gray.5"}
-              size={width < 576 ? "md" : "lg"}
+              size={width < 992 ? "md" : "lg"}
               data-cy="ratingsCount-overview"
             >
               Ratings count: {ratingsCount}
@@ -362,7 +362,7 @@ function Overview({ allStates }: OverviewProps) {
             </Text>
             <Text
               color={theme === "light" ? "dark.5" : "gray.5"}
-              size={width < 576 ? "md" : "lg"}
+              size={width < 992 ? "md" : "lg"}
               data-cy="maturityRating-overview"
             >
               Maturity rating: {maturityRating}
@@ -389,7 +389,7 @@ function Overview({ allStates }: OverviewProps) {
       {industryIdentifiers}
       <Text
         color={theme === "light" ? "dark.5" : "gray.5"}
-        size={width < 576 ? "md" : "lg"}
+        size={width < 992 ? "md" : "lg"}
         data-cy="published-overview"
       >
         Published: {publishedDate}
@@ -398,7 +398,7 @@ function Overview({ allStates }: OverviewProps) {
 
       <Text
         color={theme === "light" ? "dark.5" : "gray.5"}
-        size={width < 576 ? "md" : "lg"}
+        size={width < 992 ? "md" : "lg"}
         data-cy="publisher-overview"
       >
         Publisher: {publisher}
@@ -406,7 +406,7 @@ function Overview({ allStates }: OverviewProps) {
       </Text>
       <Text
         color={theme === "light" ? "dark.5" : "gray.5"}
-        size={width < 576 ? "md" : "lg"}
+        size={width < 992 ? "md" : "lg"}
         data-cy="pageCount-overview"
       >
         Pages: {pageCount}
@@ -414,7 +414,7 @@ function Overview({ allStates }: OverviewProps) {
       </Text>
       <Text
         color={theme === "light" ? "dark.5" : "gray.5"}
-        size={width < 576 ? "md" : "lg"}
+        size={width < 992 ? "md" : "lg"}
         data-cy="author-overview"
       >
         Author: {authors}
@@ -423,7 +423,7 @@ function Overview({ allStates }: OverviewProps) {
 
       <Text
         color={theme === "light" ? "dark.5" : "gray.5"}
-        size={width < 576 ? "md" : "lg"}
+        size={width < 992 ? "md" : "lg"}
         data-cy="printType-overview"
       >
         Print type: {printType}
@@ -431,7 +431,7 @@ function Overview({ allStates }: OverviewProps) {
       </Text>
       <Text
         color={theme === "light" ? "dark.5" : "gray.5"}
-        size={width < 576 ? "md" : "lg"}
+        size={width < 992 ? "md" : "lg"}
         data-cy="categories-overview"
       >
         Categories: {categories}
@@ -439,7 +439,7 @@ function Overview({ allStates }: OverviewProps) {
       </Text>
       <Text
         color={theme === "light" ? "dark.5" : "gray.5"}
-        size={width < 576 ? "md" : "lg"}
+        size={width < 992 ? "md" : "lg"}
         data-cy="language-overview"
       >
         Language: {language}
@@ -448,7 +448,7 @@ function Overview({ allStates }: OverviewProps) {
 
       <Text
         color={theme === "light" ? "dark.5" : "gray.5"}
-        size={width < 576 ? "md" : "lg"}
+        size={width < 992 ? "md" : "lg"}
         data-cy="averageRating-overview"
       >
         Average rating: {averageRating}
@@ -456,7 +456,7 @@ function Overview({ allStates }: OverviewProps) {
       </Text>
       <Text
         color={theme === "light" ? "dark.5" : "gray.5"}
-        size={width < 576 ? "md" : "lg"}
+        size={width < 992 ? "md" : "lg"}
         data-cy="ratingsCount-overview"
       >
         Ratings count: {ratingsCount}
@@ -464,7 +464,7 @@ function Overview({ allStates }: OverviewProps) {
       </Text>
       <Text
         color={theme === "light" ? "dark.5" : "gray.5"}
-        size={width < 576 ? "md" : "lg"}
+        size={width < 992 ? "md" : "lg"}
         data-cy="maturityRating-overview"
       >
         Maturity rating: {maturityRating}
@@ -485,7 +485,7 @@ function Overview({ allStates }: OverviewProps) {
           <Space w="xl" />
           <Text
             color={theme === "light" ? "dark.5" : "gray.5"}
-            size={width < 576 ? "md" : "lg"}
+            size={width < 992 ? "md" : "lg"}
             data-cy="amazonText-overview"
           >
             Amazon.ca
@@ -515,7 +515,7 @@ function Overview({ allStates }: OverviewProps) {
           <Space w="xl" />
           <Text
             color={theme === "light" ? "dark.5" : "gray.5"}
-            size={width < 576 ? "md" : "lg"}
+            size={width < 992 ? "md" : "lg"}
             data-cy="chaptersText-overview"
           >
             Chapters Indigo
@@ -545,7 +545,7 @@ function Overview({ allStates }: OverviewProps) {
           <Space w="xl" />
           <Text
             color={theme === "light" ? "dark.5" : "gray.5"}
-            size={width < 576 ? "md" : "lg"}
+            size={width < 992 ? "md" : "lg"}
             data-cy="googleText-overview"
           >
             Google Books
@@ -578,7 +578,7 @@ function Overview({ allStates }: OverviewProps) {
           <Space w="xl" />
           <Text
             color={theme === "light" ? "dark.5" : "gray.5"}
-            size={width < 576 ? "md" : "lg"}
+            size={width < 992 ? "md" : "lg"}
             data-cy="
           amazonText-overview"
           >
@@ -611,7 +611,7 @@ function Overview({ allStates }: OverviewProps) {
           <Space w="xl" />
           <Text
             color={theme === "light" ? "dark.5" : "gray.5"}
-            size={width < 576 ? "md" : "lg"}
+            size={width < 992 ? "md" : "lg"}
             data-cy="chaptersText-overview"
           >
             Chapters Indigo
@@ -643,7 +643,7 @@ function Overview({ allStates }: OverviewProps) {
           <Space w="xl" />
           <Text
             color={theme === "light" ? "dark.5" : "gray.5"}
-            size={width < 576 ? "md" : "lg"}
+            size={width < 992 ? "md" : "lg"}
             data-cy="googleText-overview"
           >
             Google Books
@@ -669,7 +669,7 @@ function Overview({ allStates }: OverviewProps) {
     <Card shadow="sm" radius="md" style={{ width: "100%" }}>
       <Text
         color={theme === "light" ? "dark.5" : "gray.5"}
-        size={width < 576 ? "md" : "lg"}
+        size={width < 992 ? "md" : "lg"}
       >
         {"Google Books (may require authorization)"}
       </Text>
@@ -686,7 +686,7 @@ function Overview({ allStates }: OverviewProps) {
           <Space w="xl" />
           <Text
             color={theme === "light" ? "dark.5" : "gray.5"}
-            size={width < 576 ? "md" : "lg"}
+            size={width < 992 ? "md" : "lg"}
             data-cy="previewText-overview"
           >
             Sample preview
@@ -716,7 +716,7 @@ function Overview({ allStates }: OverviewProps) {
           <Space w="xl" />
           <Text
             color={theme === "light" ? "dark.5" : "gray.5"}
-            size={width < 576 ? "md" : "lg"}
+            size={width < 992 ? "md" : "lg"}
             data-cy="webReaderText-overview"
           >
             Web reader
@@ -746,7 +746,7 @@ function Overview({ allStates }: OverviewProps) {
           <Space w="xl" />
           <Text
             color={theme === "light" ? "dark.5" : "gray.5"}
-            size={width < 576 ? "md" : "lg"}
+            size={width < 992 ? "md" : "lg"}
             data-cy="epubSampleText-overview"
           >
             Epub sample{" "}
@@ -777,7 +777,7 @@ function Overview({ allStates }: OverviewProps) {
     <Card shadow="sm" radius="md" style={{ width: "100%" }}>
       <Text
         color={theme === "light" ? "dark.5" : "gray.5"}
-        size={width < 576 ? "md" : "lg"}
+        size={width < 992 ? "md" : "lg"}
       >
         {"Google Books (may require authorization)"}
       </Text>
@@ -793,7 +793,7 @@ function Overview({ allStates }: OverviewProps) {
         <Space w="xl" />
         <Text
           color={theme === "light" ? "dark.5" : "gray.5"}
-          size={width < 576 ? "md" : "lg"}
+          size={width < 992 ? "md" : "lg"}
           data-cy="samplePreviewText-overview"
         >
           Sample preview
@@ -824,7 +824,7 @@ function Overview({ allStates }: OverviewProps) {
         <Space w="xl" />
         <Text
           color={theme === "light" ? "dark.5" : "gray.5"}
-          size={width < 576 ? "md" : "lg"}
+          size={width < 992 ? "md" : "lg"}
           data-cy="webReaderText-overview"
         >
           Web reader
@@ -855,7 +855,7 @@ function Overview({ allStates }: OverviewProps) {
         <Space w="xl" />
         <Text
           color={theme === "light" ? "dark.5" : "gray.5"}
-          size={width < 576 ? "md" : "lg"}
+          size={width < 992 ? "md" : "lg"}
           data-cy="epubSampleText-overview"
         >
           Epub sample {googleBooksEpub === "Unavailable" ? "(unavailable)" : ""}
