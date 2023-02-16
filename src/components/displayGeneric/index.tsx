@@ -105,8 +105,6 @@ function DisplayGeneric({
 
   modifiedSearchResults = upgradeLinksToHttps(modifiedSearchResults);
 
-  console.log("modifiedSearchResults", modifiedSearchResults);
-
   const navlinksStateActionDispatch: NavlinksStateActionDispatch = {
     navlinksState,
     navlinksActions,
