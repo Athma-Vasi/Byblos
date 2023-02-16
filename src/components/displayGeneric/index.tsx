@@ -39,7 +39,7 @@ import {
 import {
   insertCustomId,
   toggleCurrentlyActiveNavlink,
-  upgradeImgLinkToHttps,
+  upgradeLinksToHttps,
 } from "../../utils";
 import { MyImageModal } from "../myImageModal";
 import {
@@ -103,7 +103,7 @@ function DisplayGeneric({
     searchResults?.items ?? localForageFallback
   );
 
-  modifiedSearchResults = upgradeImgLinkToHttps(modifiedSearchResults);
+  modifiedSearchResults = upgradeLinksToHttps(modifiedSearchResults);
 
   console.log("modifiedSearchResults", modifiedSearchResults);
 

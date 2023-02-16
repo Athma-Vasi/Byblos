@@ -551,11 +551,12 @@ function insertCustomId(
   });
 }
 
-function upgradeImgLinkToHttps(
+function upgradeLinksToHttps(
   items: VolumeWithCustomId[]
 ): VolumeWithCustomId[] {
   return items.map((item) => {
     const clone = structuredClone(item);
+
     const imgLink = clone.volumeInfo.imageLinks?.thumbnail;
     if (imgLink && clone.volumeInfo.imageLinks) {
       clone.volumeInfo.imageLinks.thumbnail = imgLink.replace(
@@ -564,6 +565,29 @@ function upgradeImgLinkToHttps(
       );
 
       clone.volumeInfo.imageLinks.smallThumbnail = imgLink.replace(
+        "http:",
+        "https:"
+      );
+    }
+
+    const infoLink = clone.volumeInfo.infoLink;
+    if (infoLink) {
+      clone.volumeInfo.infoLink = infoLink.replace("http:", "https:");
+    }
+
+    const previewLink = clone.volumeInfo.previewLink;
+    if (previewLink) {
+      clone.volumeInfo.previewLink = previewLink.replace("http:", "https:");
+    }
+
+    const webReaderLink = clone.accessInfo.webReaderLink;
+    if (webReaderLink) {
+      clone.accessInfo.webReaderLink = webReaderLink.replace("http:", "https:");
+    }
+
+    const acsTokenLink = clone.accessInfo.epub.acsTokenLink;
+    if (acsTokenLink) {
+      clone.accessInfo.epub.acsTokenLink = acsTokenLink.replace(
         "http:",
         "https:"
       );
@@ -581,5 +605,5 @@ export {
   populateInputsForTesting,
   showRandomProgress,
   toggleCurrentlyActiveNavlink,
-  upgradeImgLinkToHttps,
+  upgradeLinksToHttps,
 };
