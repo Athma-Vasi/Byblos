@@ -243,6 +243,10 @@ function Overview({ allStates }: OverviewProps) {
     ? selectedVolume?.volumeInfo.previewLink
     : selectedVolumeForage?.volumeInfo.previewLink;
 
+  const googleBooksWebReader = selectedVolume
+    ? selectedVolume?.accessInfo?.webReaderLink
+    : selectedVolumeForage?.accessInfo?.webReaderLink;
+
   const googleBooksEpub = selectedVolume
     ? selectedVolume?.accessInfo?.epub?.isAvailable
       ? selectedVolume?.accessInfo?.epub?.acsTokenLink
@@ -251,9 +255,7 @@ function Overview({ allStates }: OverviewProps) {
     ? selectedVolumeForage?.accessInfo?.epub?.acsTokenLink
     : "Unavailable";
 
-  const googleBooksWebReader = selectedVolume
-    ? selectedVolume?.accessInfo?.webReaderLink
-    : selectedVolumeForage?.accessInfo?.webReaderLink;
+  console.log("googleBooksEpub", googleBooksEpub);
 
   const aboutEditionDesktop = (
     <Grid columns={width < 576 ? 1 : 3} align="center">
@@ -747,19 +749,26 @@ function Overview({ allStates }: OverviewProps) {
             size={width < 576 ? "md" : "lg"}
             data-cy="epubSampleText-overview"
           >
-            Epub sample
+            Epub sample{" "}
+            {googleBooksEpub === "Unavailable" ? "(unavailable)" : ""}
           </Text>
         </Flex>
 
-        <a
-          href={googleBooksEpub}
-          target="_blank"
-          data-cy="epubSampleLink-overview"
-        >
-          <Button variant="outline" radius="xl">
+        {googleBooksEpub === "Unavailable" ? (
+          <Button variant="outline" radius="xl" disabled>
             Free epub sample download
           </Button>
-        </a>
+        ) : (
+          <a
+            href={googleBooksEpub}
+            target="_blank"
+            data-cy="epubSampleLink-overview"
+          >
+            <Button variant="outline" radius="xl">
+              Free epub sample download
+            </Button>
+          </a>
+        )}
       </Flex>
     </Card>
   );
@@ -849,21 +858,27 @@ function Overview({ allStates }: OverviewProps) {
           size={width < 576 ? "md" : "lg"}
           data-cy="epubSampleText-overview"
         >
-          Epub sample
+          Epub sample {googleBooksEpub === "Unavailable" ? "(unavailable)" : ""}
         </Text>
       </Flex>
 
       <Space h="sm" />
 
-      <a
-        href={googleBooksEpub}
-        target="_blank"
-        data-cy="epubSampleLink-overview"
-      >
-        <Button variant="outline" radius="xl">
+      {googleBooksEpub === "Unavailable" ? (
+        <Button variant="outline" radius="xl" disabled>
           Free epub sample download
         </Button>
-      </a>
+      ) : (
+        <a
+          href={googleBooksEpub}
+          target="_blank"
+          data-cy="epubSampleLink-overview"
+        >
+          <Button variant="outline" radius="xl">
+            Free epub sample download
+          </Button>
+        </a>
+      )}
     </Card>
   );
 
