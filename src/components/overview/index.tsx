@@ -255,8 +255,6 @@ function Overview({ allStates }: OverviewProps) {
     ? selectedVolumeForage?.accessInfo?.epub?.acsTokenLink
     : "Unavailable";
 
-  console.log("googleBooksEpub", googleBooksEpub);
-
   const aboutEditionDesktop = (
     <Grid columns={width < 576 ? 1 : 3} align="center">
       <Grid.Col span={1}>
