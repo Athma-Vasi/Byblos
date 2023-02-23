@@ -317,7 +317,7 @@ function MyHeader({
         <Grid.Col span={2}>
           <Flex align="center" justify="flex-end">
             <Switch
-              size={width < 992 ? "md" : "lg"}
+              size={width < 992 ? "sm" : "md"}
               onChange={handleThemeSwitchClick}
               data-cy="themeSwitch"
             />

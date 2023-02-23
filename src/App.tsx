@@ -58,7 +58,7 @@ export default function App() {
     initialNavlinksState
   );
 
-  const allStates = {
+  let allStates = {
     responseState,
     themeState,
     navlinksState,

@@ -1,4 +1,4 @@
-import { Flex, Space, Text, Title } from "@mantine/core";
+import { Flex, Loader, Space, Text, Title } from "@mantine/core";
 import axios from "axios";
 import localforage from "localforage";
 import React, { Suspense } from "react";
@@ -265,7 +265,15 @@ function OtherEditions({
           {/* removes ref if server does not return any more items and allows
             for the spoiler button to show the description and prevent unnecessary fetches
           */}
-          <div ref={isFetchedDataPresent ? ref : null}></div>
+          <div ref={isFetchedDataPresent ? ref : null}>
+            {isFetchedDataPresent ? (
+              <Flex align="center" justify="center">
+                <Loader size="sm" />
+                <Space w="xs" />
+                <Text>Fetching more results...</Text>
+              </Flex>
+            ) : null}
+          </div>
           {Array.from({ length: 5 }).map((_, i) => (
             <Space key={i} h="xl" />
           ))}

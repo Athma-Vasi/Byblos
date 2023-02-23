@@ -69,16 +69,18 @@ function MyFooter({ allStates }: MyFooterProps) {
   return isFooterVisible ? (
     <Footer height={60} px="md" py="xs">
       <Flex direction="row" justify="space-evenly" align="center">
-        <Text color={theme === "light" ? "dark.5" : "gray.5"}>Made by</Text>
-        <Button variant="subtle">
-          <a
-            href="https://github.com/Athma-Vasi"
-            target="_blank"
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            Athma Vasi
-          </a>
-        </Button>
+        <Flex align="center" justify="center">
+          <Text color={theme === "light" ? "dark.5" : "gray.5"}>Made by</Text>
+          <Button variant="subtle">
+            <a
+              href="https://github.com/Athma-Vasi"
+              target="_blank"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              Athma Vasi
+            </a>
+          </Button>
+        </Flex>
 
         <Text color={theme === "light" ? "dark.5" : "gray.5"}>
           <Button variant="subtle">
@@ -92,7 +94,7 @@ function MyFooter({ allStates }: MyFooterProps) {
           </Button>
         </Text>
 
-        <Button variant="light" onClick={handleFooterHideBttnClick}>
+        <Button variant="subtle" onClick={handleFooterHideBttnClick}>
           Hide
         </Button>
       </Flex>
