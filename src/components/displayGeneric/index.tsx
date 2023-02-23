@@ -775,7 +775,7 @@ function DisplayGeneric({
                   <Flex align="center" justify="space-between">
                     {/* title */}
                     <Title
-                      order={2}
+                      order={3}
                       onClick={() => {
                         handleTitleClick(item, navlinksStateActionDispatch);
                       }}
@@ -1019,7 +1019,7 @@ function DisplayGeneric({
                         color={theme === "light" ? "dark.5" : "gray.4"}
                         key={author}
                         data-cy="author-volume"
-                        size={width < 576 ? "lg" : "xl"}
+                        size={width < 576 ? "lg" : "md"}
                       >
                         {author}{" "}
                       </Text>

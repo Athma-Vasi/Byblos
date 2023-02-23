@@ -3,7 +3,7 @@ import axios from "axios";
 import localforage from "localforage";
 import React, { useState } from "react";
 import { CgSearch } from "react-icons/cg";
-import { RiCloseLine } from "react-icons/ri";
+import { RiCloseLine, RiSearchEyeLine } from "react-icons/ri";
 import { RxDividerVertical } from "react-icons/rx";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -134,13 +134,22 @@ function Search({ allStates, allActions, allDispatches }: SearchProps) {
           )
         }
       >
-        <Text
+        {/* <Text
           color={themeState.theme === "light" ? "dark.5" : "gray.5"}
           size={width < 576 ? "sm" : "md"}
           data-cy="button-advancedSearch"
         >
           Advanced Search
-        </Text>
+        </Text> */}
+        <RiSearchEyeLine
+          size={21}
+          style={{
+            color: `${
+              allStates.themeState.theme === "light" ? "#B06519" : "#B87333"
+            }`,
+            marginTop: "4px",
+          }}
+        />
       </Link>
     </Flex>
   );

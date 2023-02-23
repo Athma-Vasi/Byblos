@@ -168,6 +168,11 @@ function AdvancedSearch({
 
   return (
     <div>
+      <Flex align="center" justify="center" p={width < 576 ? "sm" : "md"}>
+        <Title order={3} color={theme === "light" ? "dark.5" : "gray.5"}>
+          Advanced search
+        </Title>
+      </Flex>
       <form action="#" method="GET" onSubmit={handleSearchFormSubmit}>
         {/* search term specificity modifiers */}
         <Grid
@@ -180,7 +185,7 @@ function AdvancedSearch({
               align="center"
               justify={width < 576 ? "flex-start" : "center"}
             >
-              <Title order={3} color={theme === "light" ? "dark.5" : "gray.5"}>
+              <Title order={4} color={theme === "light" ? "dark.5" : "gray.5"}>
                 Find results
               </Title>
             </Flex>
@@ -305,7 +310,7 @@ function AdvancedSearch({
               align="center"
               justify={width < 576 ? "flex-start" : "center"}
             >
-              <Title order={3} color={theme === "light" ? "dark.5" : "gray.5"}>
+              <Title order={4} color={theme === "light" ? "dark.5" : "gray.5"}>
                 Sort by
               </Title>
             </Flex>
@@ -352,7 +357,7 @@ function AdvancedSearch({
               align="center"
               justify={width < 576 ? "flex-start" : "center"}
             >
-              <Title order={3} color={theme === "light" ? "dark.5" : "gray.5"}>
+              <Title order={4} color={theme === "light" ? "dark.5" : "gray.5"}>
                 Download format
               </Title>
             </Flex>
@@ -432,7 +437,7 @@ function AdvancedSearch({
               align="center"
               justify={width < 576 ? "flex-start" : "center"}
             >
-              <Title order={3} color={theme === "light" ? "dark.5" : "gray.5"}>
+              <Title order={4} color={theme === "light" ? "dark.5" : "gray.5"}>
                 Search
               </Title>
             </Flex>
@@ -611,7 +616,7 @@ function AdvancedSearch({
               align="center"
               justify={width < 576 ? "flex-start" : "center"}
             >
-              <Title order={3} color={theme === "light" ? "dark.5" : "gray.5"}>
+              <Title order={4} color={theme === "light" ? "dark.5" : "gray.5"}>
                 Content
               </Title>
             </Flex>
@@ -715,7 +720,7 @@ function AdvancedSearch({
               align="center"
               justify={width < 576 ? "flex-start" : "center"}
             >
-              <Title order={3} color={theme === "light" ? "dark.5" : "gray.5"}>
+              <Title order={4} color={theme === "light" ? "dark.5" : "gray.5"}>
                 Title
               </Title>
             </Flex>
@@ -782,7 +787,7 @@ function AdvancedSearch({
               align="center"
               justify={width < 576 ? "flex-start" : "center"}
             >
-              <Title order={3} color={theme === "light" ? "dark.5" : "gray.5"}>
+              <Title order={4} color={theme === "light" ? "dark.5" : "gray.5"}>
                 Author
               </Title>
             </Flex>
@@ -849,7 +854,7 @@ function AdvancedSearch({
               align="center"
               justify={width < 576 ? "flex-start" : "center"}
             >
-              <Title order={3} color={theme === "light" ? "dark.5" : "gray.5"}>
+              <Title order={4} color={theme === "light" ? "dark.5" : "gray.5"}>
                 Publisher
               </Title>
             </Flex>
@@ -916,7 +921,7 @@ function AdvancedSearch({
               align="center"
               justify={width < 576 ? "flex-start" : "center"}
             >
-              <Title order={3} color={theme === "light" ? "dark.5" : "gray.5"}>
+              <Title order={4} color={theme === "light" ? "dark.5" : "gray.5"}>
                 Category
               </Title>
             </Flex>
@@ -983,7 +988,7 @@ function AdvancedSearch({
               align="center"
               justify={width < 576 ? "flex-start" : "center"}
             >
-              <Title order={3} color={theme === "light" ? "dark.5" : "gray.5"}>
+              <Title order={4} color={theme === "light" ? "dark.5" : "gray.5"}>
                 ISBN
               </Title>
             </Flex>
@@ -1050,7 +1055,7 @@ function AdvancedSearch({
               align="center"
               justify={width < 576 ? "flex-start" : "center"}
             >
-              <Title order={3} color={theme === "light" ? "dark.5" : "gray.5"}>
+              <Title order={4} color={theme === "light" ? "dark.5" : "gray.5"}>
                 LCCN
               </Title>
             </Flex>
@@ -1117,7 +1122,7 @@ function AdvancedSearch({
               align="center"
               justify={width < 576 ? "flex-start" : "center"}
             >
-              <Title order={3} color={theme === "light" ? "dark.5" : "gray.5"}>
+              <Title order={4} color={theme === "light" ? "dark.5" : "gray.5"}>
                 OCLC
               </Title>
             </Flex>
