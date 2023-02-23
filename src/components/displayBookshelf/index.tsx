@@ -704,7 +704,10 @@ function DisplayBookshelf({
                   There seems to be nothing here.
                 </Text>
                 <Space h="md" />
-                <Text color={theme === "light" ? "dark.5" : "gray.5"} size={28}>
+                <Text
+                  color={theme === "light" ? "brand.4" : "brand.8"}
+                  size={28}
+                >
                   (｡•́︿•̀｡)
                 </Text>
               </Flex>
