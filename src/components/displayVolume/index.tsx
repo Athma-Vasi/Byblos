@@ -8,6 +8,7 @@ import { MdOutlinePublish } from "react-icons/md";
 import { VscUngroupByRefType } from "react-icons/vsc";
 import { Outlet, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import "./index.css";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
 import {
@@ -228,6 +229,12 @@ function DisplayVolume({
               handleNavLinkActiveClick("Menu", navlinksStateActionDispatch);
               setMenuOpened(!menuOpened);
             }}
+            style={{
+              width: "auto",
+              marginRight: "auto",
+              marginLeft: "1rem",
+              borderRadius: "0.25rem",
+            }}
           />
         </Menu.Target>
 
@@ -240,7 +247,7 @@ function DisplayVolume({
             <Menu.Item>
               <Link
                 to={`/home/displayVolume/${volumeId}/overview`}
-                style={{ textDecoration: "none", color: "inherit" }}
+                className="overview-navlink"
               >
                 <NavLink
                   active={navLinkActive.overview}
@@ -268,7 +275,7 @@ function DisplayVolume({
             <Menu.Item>
               <Link
                 to={`/home/displayVolume/${volumeId}/otherEditions`}
-                style={{ textDecoration: "none", color: "inherit" }}
+                className="otherEditions-navlink"
               >
                 <NavLink
                   active={navLinkActive.otherEditions}
@@ -296,7 +303,7 @@ function DisplayVolume({
             <Menu.Item>
               <Link
                 to={`/home/displayVolume/${volumeId}/publisherCollection`}
-                style={{ textDecoration: "none", color: "inherit" }}
+                className="publisherCollection-navlink"
               >
                 <NavLink
                   active={navLinkActive.publisherCollection}
@@ -324,7 +331,7 @@ function DisplayVolume({
             <Menu.Item>
               <Link
                 to={`/home/displayVolume/${volumeId}/authorCollection`}
-                style={{ textDecoration: "none", color: "inherit" }}
+                className="authorCollection-navlink"
               >
                 <NavLink
                   active={navLinkActive.authorCollection}
@@ -352,7 +359,7 @@ function DisplayVolume({
         </Menu.Dropdown>
       </Menu>
 
-      <Space h="xl" />
+      <Space h="xs" />
 
       <Outlet />
     </Flex>

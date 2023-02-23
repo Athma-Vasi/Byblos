@@ -242,17 +242,18 @@ function AuthorCollection({
     };
   }, [inView]);
 
-  const fetchedDataStateText = isFetchedDataPresent ? (
-    <Flex align="center" justify="center">
-      <Loader size="sm" />
-      <Space w="xs" />
-      <Text>Fetching more results...</Text>
-    </Flex>
-  ) : (
-    <Flex align="center" justify="center">
-      <Text>No more results</Text>
-    </Flex>
-  );
+  const fetchedDataStateText =
+    searchResults && isFetchedDataPresent ? (
+      <Flex align="center" justify="center">
+        <Loader size="sm" />
+        <Space w="xs" />
+        <Text>Fetching more results...</Text>
+      </Flex>
+    ) : (
+      <Flex align="center" justify="center">
+        <Text>No more results</Text>
+      </Flex>
+    );
 
   return (
     <Fragment>

@@ -1,0 +1,7 @@
+.overview-navlink,
+.otherEditions-navlink,
+.publisherCollection-navlink,
+.authorCollection-navlink {
+  text-decoration: none;
+  color: inherit;
+}
