@@ -1,5 +1,7 @@
 # Byblos
 
+ヾ(＾ ◡ ＾)ノ Hi there! Welcome to Byblos!
+
 Byblos is a free web app that allows you to explore an endless world of literature, all stored in one convenient location. Dive into a treasure trove of millions of books from all corners of the globe, at your fingertips and ready to be discovered.
 
 With Byblos, you can search and preview any book before making a commitment. Once finished, rate and favorite your most beloved reads and organize them in your personal bookshelf. Never lose track of your favorites again and easily access them whenever you need them.
@@ -30,7 +32,7 @@ Future updates planned may include:
 
 ### Contributions
 
-Thank you for your interest in contributing to my app! Here's a brief guide on how to get started:
+( ˶ˆᗜˆ˵ ) Thank you for your interest in contributing to my app! Here's a brief guide on how to get started:
 
 #### Setting up a Development Environment
 
@@ -59,10 +61,10 @@ Before submitting code changes, you should run the app's test suite to ensure th
 npm install --dev
 ```
 
-3. Run the tests:
+3. Start the cypress test environment and select app_spec_cy.ts
 
 ```
-npm test
+npx cypress open
 ```
 
 #### Submitting Pull Requests
@@ -93,10 +95,11 @@ To maintain consistency in the codebase, we follow certain code formatting and s
 - Use single quotes for string literals.
 - Place opening braces on the same line as the function declaration.
 
-That's it! I hope this guide helps you get started with contributing to my app. If you have any further questions or need help with anything, feel free to ask!
+That's it! I hope this guide helps you get started with contributing to my app. If you have any further questions or need help with anything, feel free to ask! ヾ(＾ ∇ ＾).
 
 ### License
 
+MIT License
 Copyright © 2023 Athma Vasi
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -104,11 +107,3 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-```
-
-```
-
-```
-
-```
