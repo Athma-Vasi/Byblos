@@ -9,6 +9,10 @@ With Byblos, you can search and preview any book before making a commitment. Onc
 **Screenshots**
 ![Welcome page](src/assets/screenshots/welcome-page-dark.png?raw=true "Welcome page")
 
+<div align="center">
+    <img src="src/assets/screenshots/advanced-search-1.png" width="400px"</img> 
+</div>
+
 ### Project Goals
 
 This project was initially started as a remake of the author's Odin Project's Library app. Partway through the project, they decided to expand the scope, partly to improve upon the native Google Books user experience, and partly to familiarize themselves with the API and with the new Mantine component library.
