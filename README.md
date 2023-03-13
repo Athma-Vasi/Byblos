@@ -6,6 +6,9 @@ Byblos is a free web app that allows you to explore an endless world of literatu
 
 With Byblos, you can search and preview any book before making a commitment. Once finished, rate and favorite your most beloved reads and organize them in your personal bookshelf. Never lose track of your favorites again and easily access them whenever you need them.
 
+**Screenshots**
+![Welcome page](src/assets/screenshots/welcome-page-dark.png?raw=true "Welcome page")
+
 ### Project Goals
 
 This project was initially started as a remake of the author's Odin Project's Library app. Partway through the project, they decided to expand the scope, partly to improve upon the native Google Books user experience, and partly to familiarize themselves with the API and with the new Mantine component library.
