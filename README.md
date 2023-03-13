@@ -8,14 +8,14 @@ With Byblos, you can search and preview any book before making a commitment. Onc
 
 **Screenshots**
 
-<div align="center">
-    <img src="src/assets/screenshots/welcome-page-dark.png" alt="welcome page" width="200px"></img>
-    <img src="src/assets/screenshots/advanced-search-1.png" alt="advanced search generic modifiers" width="200px"</img>
-    <img src="src/assets/screenshots/advanced-search-2.png" alt="advanced search content type" width="200px"</img>
-    <img src="src/assets/screenshots/advanced-search-3.png" alt="advanced search volume modifiers" width="200px"</img>
-    <img src="src/assets/screenshots/results-1.png" alt="volume result with user actions" width="200px"></img>
-    <img src="src/assets/screenshots/overview-1.png" alt="volume result in overview page" width="200px"></img>
-    <img src="src/assets/screenshots/bookshelf-1.png" alt="volume result with bookshelf expanded" width="200px"></img>    
+<div align="center" style="display: inline-block; overflow-x: scrollbar">
+    <img src="src/assets/screenshots/welcome-page-dark.png" alt="welcome page" width="100px"></img>
+    <img src="src/assets/screenshots/advanced-search-1.png" alt="advanced search generic modifiers" width="100px"</img>
+    <img src="src/assets/screenshots/advanced-search-2.png" alt="advanced search content type" width="100px"</img>
+    <img src="src/assets/screenshots/advanced-search-3.png" alt="advanced search volume modifiers" width="100px"</img>
+    <img src="src/assets/screenshots/results-1.png" alt="volume result with user actions" width="100px"></img>
+    <img src="src/assets/screenshots/overview-1.png" alt="volume result in overview page" width="100px"></img>
+    <img src="src/assets/screenshots/bookshelf-1.png" alt="volume result with bookshelf expanded" width="100px"></img>    
 </div>
 
 ### Project Goals
