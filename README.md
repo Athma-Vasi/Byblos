@@ -30,6 +30,10 @@ Once a volume is chosen, the user can view a short description, and clicking on 
 
 Any volume can be favorited, rated, selected to read later and marked as read. Doing so will store the volume in the user's own personal bookshelf where they can filter according to aforementioned actions.
 
+#### Technologies used
+
+[React](https://beta.reactjs.org/), [Mantine](https://mantine.dev/), [TypeScript](https://www.typescriptlang.org/), [Cypress](https://docs.cypress.io/guides/overview/why-cypress), [React Router](https://reactrouter.com/en/main), [Axios](https://axios-http.com/docs/intro), [localForage](https://localforage.github.io/localForage/), [Emotion](https://emotion.sh/docs/introduction) and [Vite](https://vitejs.dev/guide/)
+
 ### Todo
 
 This app is a work in progress and is still in beta. At present, the app does not fullfill all of the author's stated goals. It falls short of providing all of the Google Books native functionality. However, it mimics closely the core functionality.
