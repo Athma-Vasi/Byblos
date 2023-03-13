@@ -8,7 +8,7 @@ With Byblos, you can search and preview any book before making a commitment. Onc
 
 **Screenshots**
 
-<div align="center" style="display: inline-block; overflow-x: scrollbar">
+<div align="center" style="display: inline-block; overflow-x: scroll">
     <img src="src/assets/screenshots/welcome-page-dark.png" alt="welcome page" width="100px"></img>
     <img src="src/assets/screenshots/advanced-search-1.png" alt="advanced search generic modifiers" width="100px"</img>
     <img src="src/assets/screenshots/advanced-search-2.png" alt="advanced search content type" width="100px"</img>
