@@ -11,7 +11,9 @@ import {
   AllDispatches,
   AllStates,
   HistoryState,
+  NavlinksState,
   ResponseState,
+  ThemeState,
 } from "../../types";
 import DisplayGeneric from "../displayGeneric";
 import ErrorFallback from "../errorFallback";
@@ -19,13 +21,17 @@ import MyLoader from "../myLoader";
 
 type DisplayResultsProps = {
   children?: React.ReactNode;
-  allStates: AllStates;
+  themeState: ThemeState;
+  responseState: ResponseState;
+  navlinksState: NavlinksState;
   allActions: AllActions;
   allDispatches: AllDispatches;
 };
 
 function DisplayResults({
-  allStates,
+  themeState,
+  responseState,
+  navlinksState,
   allActions,
   allDispatches,
 }: DisplayResultsProps) {
@@ -38,17 +44,15 @@ function DisplayResults({
   });
 
   let {
-    responseState: {
-      fetchUrl,
-      startIndex,
-      searchTerm,
-      searchResults,
-      selectedVolume,
-      selectedAuthor,
-      selectedPublisher,
-      bookshelfVolumes,
-    },
-  } = allStates;
+    fetchUrl,
+    startIndex,
+    searchTerm,
+    searchResults,
+    selectedVolume,
+    selectedAuthor,
+    selectedPublisher,
+    bookshelfVolumes,
+  } = responseState;
   let { responseDispatch } = allDispatches;
   let {
     responseActions: { setAll },
@@ -113,8 +117,10 @@ function DisplayResults({
                 },
               });
             }
-            //certain popular searches like "the" will return 1000+ results
-            //so we set the max results to 600 for optimal performance
+            //certain popular searches like "harry potter" will return 2000+ results
+            //so max results is set to 600 for best performance because
+            //on author's system, >600 results in firefox dev edition causes slowdown
+
             if (currStartIdx > 600 || !data.items) {
               //setIsFetchedDataPresent to false so that the infinite scroll
               //useEffect doesn't run and fetch more results, triggering a
