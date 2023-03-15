@@ -149,32 +149,28 @@ function Home({
       asideOffsetBreakpoint="sm"
       navbar={
         <ErrorBoundary fallback={<ErrorFallback componentName="Navbar" />}>
-          <Suspense fallback={<MyLoader componentName="Navbar" />}>
-            <MyNavBar
-              setOpened={setOpened}
-              opened={opened}
-              themeState={themeState}
-              responseState={responseState}
-              navlinksState={navlinksState}
-              allActions={allActions}
-              allDispatches={allDispatches}
-            />
-          </Suspense>
+          <MyNavBar
+            setOpened={setOpened}
+            opened={opened}
+            themeState={themeState}
+            responseState={responseState}
+            navlinksState={navlinksState}
+            allActions={allActions}
+            allDispatches={allDispatches}
+          />
         </ErrorBoundary>
       }
       header={
         <ErrorBoundary fallback={<ErrorFallback componentName="Header" />}>
-          <Suspense fallback={<MyLoader componentName="Header" />}>
-            <MyHeader
-              opened={opened}
-              setOpened={setOpened}
-              themeState={themeState}
-              responseState={responseState}
-              navlinksState={navlinksState}
-              allActions={allActions}
-              allDispatches={allDispatches}
-            />
-          </Suspense>
+          <MyHeader
+            opened={opened}
+            setOpened={setOpened}
+            themeState={themeState}
+            responseState={responseState}
+            navlinksState={navlinksState}
+            allActions={allActions}
+            allDispatches={allDispatches}
+          />
         </ErrorBoundary>
       }
       footer={

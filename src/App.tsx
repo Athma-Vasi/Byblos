@@ -400,7 +400,9 @@ export default function App() {
                       fallback={<MyLoader componentName="Author collection" />}
                     >
                       <AuthorCollection
-                        allStates={allStates}
+                        themeState={themeState}
+                        responseState={responseState}
+                        navlinksState={navlinksState}
                         allActions={allActions}
                         allDispatches={allDispatches}
                       />
@@ -422,7 +424,9 @@ export default function App() {
                         }
                       >
                         <AuthorCollection
-                          allStates={allStates}
+                          themeState={themeState}
+                          responseState={responseState}
+                          navlinksState={navlinksState}
                           allActions={allActions}
                           allDispatches={allDispatches}
                         />
