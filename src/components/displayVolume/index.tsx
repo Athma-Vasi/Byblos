@@ -14,21 +14,27 @@ import { useWindowSize } from "../../hooks/useWindowSize";
 import {
   AllActions,
   AllDispatches,
-  AllStates,
   HistoryState,
+  NavlinksState,
   NavlinksStateActionDispatch,
+  ResponseState,
+  ThemeState,
 } from "../../types";
 import { toggleCurrentlyActiveNavlink } from "../../utils";
 
 type DisplayVolumeProps = {
   children?: React.ReactNode;
-  allStates: AllStates;
+  themeState: ThemeState;
+  responseState: ResponseState;
+  navlinksState: NavlinksState;
   allActions: AllActions;
   allDispatches: AllDispatches;
 };
 
 function DisplayVolume({
-  allStates,
+  themeState,
+  responseState,
+  navlinksState,
   allActions,
   allDispatches,
 }: DisplayVolumeProps) {
@@ -45,19 +51,16 @@ function DisplayVolume({
   const [menuOpened, setMenuOpened] = useState(false);
 
   let {
-    responseState: {
-      fetchUrl,
-      startIndex,
-      searchTerm,
-      searchResults,
-      selectedVolume,
-      selectedAuthor,
-      selectedPublisher,
-      bookshelfVolumes,
-    },
-    themeState: { theme },
-    navlinksState,
-  } = allStates;
+    fetchUrl,
+    startIndex,
+    searchTerm,
+    searchResults,
+    selectedVolume,
+    selectedAuthor,
+    selectedPublisher,
+    bookshelfVolumes,
+  } = responseState;
+  let { theme } = themeState;
   let { navlinksActions } = allActions;
   let { navlinksDispatch } = allDispatches;
 

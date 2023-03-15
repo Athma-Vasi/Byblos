@@ -207,7 +207,9 @@ export default function App() {
                     fallback={<MyLoader componentName="Search results" />}
                   >
                     <DisplayResults
-                      allStates={allStates}
+                      themeState={themeState}
+                      responseState={responseState}
+                      navlinksState={navlinksState}
                       allActions={allActions}
                       allDispatches={allDispatches}
                     />
@@ -228,7 +230,9 @@ export default function App() {
                       fallback={<MyLoader componentName="Search results" />}
                     >
                       <DisplayResults
-                        allStates={allStates}
+                        themeState={themeState}
+                        responseState={responseState}
+                        navlinksState={navlinksState}
                         allActions={allActions}
                         allDispatches={allDispatches}
                       />
@@ -245,7 +249,9 @@ export default function App() {
                 >
                   <Suspense fallback={<MyLoader componentName="volume" />}>
                     <DisplayVolume
-                      allStates={allStates}
+                      themeState={themeState}
+                      responseState={responseState}
+                      navlinksState={navlinksState}
                       allActions={allActions}
                       allDispatches={allDispatches}
                     />
