@@ -17,8 +17,8 @@ import { useWindowSize } from "../../hooks/useWindowSize";
 import {
   AllActions,
   AllDispatches,
-  AllStates,
   ResponseState,
+  ThemeState,
   VolumeWithCustomId,
 } from "../../types";
 import { getLanguageFromCode } from "../../utils";
@@ -26,22 +26,21 @@ import { VscOpenPreview } from "react-icons/vsc";
 
 type OverviewProps = {
   children?: React.ReactNode;
-  allStates: AllStates;
+  themeState: ThemeState;
+  responseState: ResponseState;
   allActions: AllActions;
   allDispatches: AllDispatches;
 };
 
-function Overview({ allStates }: OverviewProps) {
+function Overview({ themeState, responseState }: OverviewProps) {
   const { width = 0 } = useWindowSize();
 
   //used as backup if selectedVolume is null
   const [selectedVolumeForage, setSelectedVolumeForage] =
     useState<VolumeWithCustomId | null>(null);
 
-  const {
-    responseState: { selectedVolume },
-    themeState: { theme },
-  } = allStates;
+  const { theme } = themeState;
+  const { selectedVolume } = responseState;
 
   useEffect(() => {
     const fetchSelectedVolumeFromLocalForage = async () => {
@@ -73,7 +72,7 @@ function Overview({ allStates }: OverviewProps) {
   }, []);
 
   /**
-   * logic inside jsx is moved outside to make it more readable. selectedVolume from responseState is used first, if it is null, then selectedVolume from localforage is used.
+   * logic inside return is moved outside to make it more readable. For all below: selectedVolume from responseState is used first, if it is null, selectedVolume from localforage is used instead.
    */
   const imageSrc =
     selectedVolume?.volumeInfo.imageLinks?.thumbnail ??
