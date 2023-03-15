@@ -11,7 +11,9 @@ import {
   AllDispatches,
   AllStates,
   HistoryState,
+  NavlinksState,
   ResponseState,
+  ThemeState,
   VolumeWithCustomId,
 } from "../../types";
 import { insertCustomId, upgradeLinksToHttps } from "../../utils";
@@ -21,13 +23,17 @@ import MyLoader from "../myLoader";
 
 type AuthorCollectionProps = {
   children?: React.ReactNode;
-  allStates: AllStates;
+  themeState: ThemeState;
+  responseState: ResponseState;
+  navlinksState: NavlinksState;
   allActions: AllActions;
   allDispatches: AllDispatches;
 };
 
 function AuthorCollection({
-  allStates,
+  themeState,
+  responseState,
+  navlinksState,
   allActions,
   allDispatches,
 }: AuthorCollectionProps) {
@@ -43,18 +49,16 @@ function AuthorCollection({
   });
 
   let {
-    responseState: {
-      fetchUrl,
-      startIndex,
-      searchTerm,
-      searchResults,
-      selectedVolume,
-      selectedAuthor,
-      selectedPublisher,
-      bookshelfVolumes,
-    },
-    themeState: { theme },
-  } = allStates;
+    fetchUrl,
+    startIndex,
+    searchTerm,
+    searchResults,
+    selectedVolume,
+    selectedAuthor,
+    selectedPublisher,
+    bookshelfVolumes,
+  } = responseState;
+  let { theme } = themeState;
   let { responseDispatch } = allDispatches;
   let {
     responseActions: { setAll },
@@ -270,7 +274,9 @@ function AuthorCollection({
       >
         <Suspense fallback={<MyLoader componentName="Author Collection" />}>
           <DisplayGeneric
-            allStates={allStates}
+            themeState={themeState}
+            responseState={responseState}
+            navlinksState={navlinksState}
             allActions={allActions}
             allDispatches={allDispatches}
           />

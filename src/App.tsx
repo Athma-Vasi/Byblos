@@ -353,7 +353,9 @@ export default function App() {
                       }
                     >
                       <PublisherCollection
-                        allStates={allStates}
+                        themeState={themeState}
+                        responseState={responseState}
+                        navlinksState={navlinksState}
                         allActions={allActions}
                         allDispatches={allDispatches}
                       />
@@ -375,7 +377,9 @@ export default function App() {
                         }
                       >
                         <PublisherCollection
-                          allStates={allStates}
+                          themeState={themeState}
+                          responseState={responseState}
+                          navlinksState={navlinksState}
                           allActions={allActions}
                           allDispatches={allDispatches}
                         />
