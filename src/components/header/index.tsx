@@ -24,6 +24,7 @@ import {
   ApiResponseVolume,
   NavlinksState,
   ResponseState,
+  ThemeState,
 } from "../../types";
 import localforage from "localforage";
 import { useWindowSize } from "../../hooks/useWindowSize";
@@ -41,7 +42,9 @@ type MyHeaderProps = {
   children?: React.ReactNode;
   opened: boolean;
   setOpened: React.Dispatch<React.SetStateAction<boolean>>;
-  allStates: AllStates;
+  themeState: ThemeState;
+  responseState: ResponseState;
+  navlinksState: NavlinksState;
   allActions: AllActions;
   allDispatches: AllDispatches;
 };
@@ -49,7 +52,9 @@ type MyHeaderProps = {
 function MyHeader({
   opened,
   setOpened,
-  allStates,
+  themeState,
+  responseState,
+  navlinksState,
   allActions,
   allDispatches,
 }: MyHeaderProps) {
@@ -60,23 +65,12 @@ function MyHeader({
   const { width = 0 } = useWindowSize();
   const navigate = useNavigate();
 
-  const { themeState, navlinksState } = allStates;
-  const {
-    navlinksActions: {
-      setIsMyLibraryActive,
-      setIsBookshelfActive,
-      setIsFavouritesActive,
-      setIsRatedActive,
-      setIsMarkReadActive,
-      setIsReadLaterActive,
-    },
-  } = allActions;
   const { navlinksDispatch } = allDispatches;
 
   async function handleThemeSwitchClick(
     event: React.ChangeEvent<HTMLInputElement>
   ) {
-    if (allStates.themeState.theme === "light") {
+    if (themeState.theme === "light") {
       allDispatches.themeDispatch({
         type: allActions.themeActions.setDarkTheme,
         payload: {
@@ -121,19 +115,19 @@ function MyHeader({
         }`;
         const { data } = await axios.get(fetchUrlFromGenericSearch);
 
-        allStates.responseState.startIndex = 0;
-        allStates.responseState.searchTerm = searchTerm;
-        allStates.responseState.searchResults = data as ApiResponseVolume;
+        responseState.startIndex = 0;
+        responseState.searchTerm = searchTerm;
+        responseState.searchResults = data as ApiResponseVolume;
 
         //initializes localforage keys to initial responseState values for some, and fetched values for others
         await localforage.setItem<ResponseState["startIndex"]>(
           "byblos-startIndex",
-          allStates.responseState.startIndex
+          responseState.startIndex
         );
 
         await localforage.setItem<ResponseState["searchTerm"]>(
           "byblos-searchTerm",
-          allStates.responseState.searchTerm
+          responseState.searchTerm
         );
         await localforage.setItem<ResponseState["searchResults"]>(
           "byblos-searchResults",
@@ -142,7 +136,7 @@ function MyHeader({
 
         allDispatches.responseDispatch({
           type: responseActions.setAll,
-          payload: { responseState: { ...allStates.responseState } },
+          payload: { responseState: { ...responseState } },
         });
 
         navigate(`/home/displayResults`);
@@ -177,7 +171,9 @@ function MyHeader({
 
     <Grid.Col span={width < 768 ? 4 : 5}>
       <Search
-        allStates={allStates}
+        themeState={themeState}
+        responseState={responseState}
+        navlinksState={navlinksState}
         allActions={allActions}
         allDispatches={allDispatches}
       />
@@ -187,11 +183,7 @@ function MyHeader({
   const displayOnMobile = (
     <Grid.Col span={6}>
       <Flex direction="row" align="center" justify="space-evenly">
-        <Flex
-          // style={{ outline: "1px solid GrayText" }}
-          justify="center"
-          align="center"
-        >
+        <Flex justify="center" align="center">
           <Link
             to={`/`}
             style={{
@@ -229,14 +221,16 @@ function MyHeader({
                   setSearchTerm(event.currentTarget.value);
                 }}
                 size="lg"
-                rightSection={rightInputSection(
+                rightSection={rightInputSection({
                   searchTerm,
                   setSearchTerm,
                   setPopoverOpened,
-                  allStates,
+                  themeState,
+                  responseState,
+                  navlinksState,
                   allActions,
-                  allDispatches
-                )}
+                  allDispatches,
+                })}
                 rightSectionWidth={100}
                 onKeyDown={handleEnterKeyInput}
                 data-cy="searchInput-mobile"
@@ -268,9 +262,7 @@ function MyHeader({
                   size={22}
                   style={{
                     color: `${
-                      allStates.themeState.theme === "light"
-                        ? "#B06519"
-                        : "#B87333"
+                      themeState.theme === "light" ? "#B06519" : "#B87333"
                     }`,
                   }}
                   onClick={() => {
@@ -325,7 +317,7 @@ function MyHeader({
             <Text color={themeState.theme === "light" ? "dark.6" : "gray.5"}>
               {width < 576
                 ? ""
-                : `${allStates.themeState.theme[0].toUpperCase()}${allStates.themeState.theme.slice(
+                : `${themeState.theme[0].toUpperCase()}${themeState.theme.slice(
                     1
                   )}`}
             </Text>
@@ -336,17 +328,29 @@ function MyHeader({
   );
 }
 
-function rightInputSection(
-  searchTerm: string,
-  setSearchTerm: React.Dispatch<React.SetStateAction<string>>,
-  setPopoverOpened: React.Dispatch<React.SetStateAction<boolean>>,
-  allStates: AllStates,
-  allActions: AllActions,
-  allDispatches: AllDispatches
-) {
+type RightInputSectionProps = {
+  searchTerm: string;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
+  setPopoverOpened: React.Dispatch<React.SetStateAction<boolean>>;
+  themeState: ThemeState;
+  responseState: ResponseState;
+  navlinksState: NavlinksState;
+  allActions: AllActions;
+  allDispatches: AllDispatches;
+};
+
+function rightInputSection({
+  searchTerm,
+  setSearchTerm,
+  setPopoverOpened,
+  themeState,
+  responseState,
+  navlinksState,
+  allActions,
+  allDispatches,
+}: RightInputSectionProps) {
   const navigate = useNavigate();
 
-  let { responseState, navlinksState } = allStates;
   let { responseActions, navlinksActions } = allActions;
   let { responseDispatch, navlinksDispatch } = allDispatches;
 
@@ -422,9 +426,7 @@ function rightInputSection(
       ) : (
         <RiCloseLine
           style={{
-            color: `${
-              allStates.themeState.theme === "light" ? "#B06519" : "#B87333"
-            }`,
+            color: `${themeState.theme === "light" ? "#B06519" : "#B87333"}`,
             transform: "scale(1.5)",
             cursor: "pointer",
           }}
@@ -438,18 +440,14 @@ function rightInputSection(
       ) : (
         <RxDividerVertical
           style={{
-            color: `${
-              allStates.themeState.theme === "light" ? "#B06519" : "#B87333"
-            }`,
+            color: `${themeState.theme === "light" ? "#B06519" : "#B87333"}`,
             transform: "scale(1.5)",
           }}
         />
       )}
       <CgSearch
         style={{
-          color: `${
-            allStates.themeState.theme === "light" ? "#B06519" : "#B87333"
-          }`,
+          color: `${themeState.theme === "light" ? "#B06519" : "#B87333"}`,
           transform: "scale(1.25)",
           cursor: "pointer",
         }}
