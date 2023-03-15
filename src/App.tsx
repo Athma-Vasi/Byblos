@@ -125,7 +125,9 @@ export default function App() {
               >
                 <Suspense fallback={<MyLoader componentName="Home" />}>
                   <Home
-                    allStates={allStates}
+                    themeState={themeState}
+                    responseState={responseState}
+                    navlinksState={navlinksState}
                     allActions={allActions}
                     allDispatches={allDispatches}
                   />
@@ -141,7 +143,9 @@ export default function App() {
                 >
                   <Suspense fallback={<MyLoader componentName="Home" />}>
                     <Home
-                      allStates={allStates}
+                      themeState={themeState}
+                      responseState={responseState}
+                      navlinksState={navlinksState}
                       allActions={allActions}
                       allDispatches={allDispatches}
                     />
@@ -161,7 +165,9 @@ export default function App() {
                     fallback={<MyLoader componentName="Advanced Search" />}
                   >
                     <AdvancedSearch
-                      allStates={allStates}
+                      themeState={themeState}
+                      responseState={responseState}
+                      navlinksState={navlinksState}
                       allActions={allActions}
                       allDispatches={allDispatches}
                     />
@@ -178,7 +184,9 @@ export default function App() {
                 >
                   <Suspense fallback={<MyLoader componentName="Bookshelf" />}>
                     <DisplayBookshelf
-                      allStates={allStates}
+                      themeState={themeState}
+                      responseState={responseState}
+                      navlinksState={navlinksState}
                       allActions={allActions}
                       allDispatches={allDispatches}
                     />

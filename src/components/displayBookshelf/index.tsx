@@ -27,6 +27,8 @@ import {
   HistoryState,
   ResponseState,
   NavlinksStateActionDispatch,
+  NavlinksState,
+  ThemeState,
 } from "../../types";
 
 import { defaultVolume } from "../../localData";
@@ -48,13 +50,17 @@ import { toggleCurrentlyActiveNavlink } from "../../utils";
 
 type DisplayBookshelfProps = {
   children?: React.ReactNode;
-  allStates: AllStates;
+  themeState: ThemeState;
+  responseState: ResponseState;
+  navlinksState: NavlinksState;
   allActions: AllActions;
   allDispatches: AllDispatches;
 };
 
 function DisplayBookshelf({
-  allStates,
+  themeState,
+  responseState,
+  navlinksState,
   allActions,
   allDispatches,
 }: DisplayBookshelfProps) {
@@ -74,19 +80,16 @@ function DisplayBookshelf({
   const { volumeId } = useParams();
 
   let {
-    responseState: {
-      fetchUrl,
-      startIndex,
-      searchTerm,
-      searchResults,
-      selectedVolume,
-      selectedAuthor,
-      selectedPublisher,
-      bookshelfVolumes,
-    },
-    navlinksState,
-    themeState: { theme },
-  } = allStates;
+    fetchUrl,
+    startIndex,
+    searchTerm,
+    searchResults,
+    selectedVolume,
+    selectedAuthor,
+    selectedPublisher,
+    bookshelfVolumes,
+  } = responseState;
+  let { theme } = themeState;
   let { navlinksActions } = allActions;
   let { responseDispatch, navlinksDispatch } = allDispatches;
 
