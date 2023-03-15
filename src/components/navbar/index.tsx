@@ -12,6 +12,9 @@ import {
   AllDispatches,
   AllStates,
   HistoryState,
+  NavlinksState,
+  ResponseState,
+  ThemeState,
   UserBookshelf,
   VolumeWithCustomId,
 } from "../../types";
@@ -22,7 +25,9 @@ type MyNavBarProps = {
   children?: React.ReactNode;
   opened: boolean;
   setOpened: React.Dispatch<React.SetStateAction<boolean>>;
-  allStates: AllStates;
+  themeState: ThemeState;
+  responseState: ResponseState;
+  navlinksState: NavlinksState;
   allActions: AllActions;
   allDispatches: AllDispatches;
 };
@@ -30,31 +35,32 @@ type MyNavBarProps = {
 function MyNavBar({
   opened,
   setOpened,
-  allStates,
+  themeState,
+  responseState,
+  navlinksState,
   allActions,
   allDispatches,
 }: MyNavBarProps) {
   let {
-    responseState: {
-      fetchUrl,
-      startIndex,
-      searchTerm,
-      searchResults,
-      selectedVolume,
-      selectedAuthor,
-      selectedPublisher,
-      bookshelfVolumes,
-    },
-    themeState: { theme },
-    navlinksState: {
-      isMyLibraryActive,
-      isBookshelfActive,
-      isFavouritesActive,
-      isRatedActive,
-      isMarkReadActive,
-      isReadLaterActive,
-    },
-  } = allStates;
+    fetchUrl,
+    startIndex,
+    searchTerm,
+    searchResults,
+    selectedVolume,
+    selectedAuthor,
+    selectedPublisher,
+    bookshelfVolumes,
+  } = responseState;
+  let { theme } = themeState;
+  let {
+    isMyLibraryActive,
+    isBookshelfActive,
+    isFavouritesActive,
+    isRatedActive,
+    isMarkReadActive,
+    isReadLaterActive,
+  } = navlinksState;
+
   let { responseDispatch, navlinksDispatch } = allDispatches;
   let {
     responseActions: { setBookshelfVolumes },

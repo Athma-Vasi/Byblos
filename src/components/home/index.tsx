@@ -154,7 +154,9 @@ function Home({
             <MyNavBar
               setOpened={setOpened}
               opened={opened}
-              allStates={allStates}
+              themeState={themeState}
+              responseState={responseState}
+              navlinksState={navlinksState}
               allActions={allActions}
               allDispatches={allDispatches}
             />
