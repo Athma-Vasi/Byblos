@@ -268,7 +268,8 @@ export default function App() {
                   >
                     <Suspense fallback={<MyLoader componentName="Overview" />}>
                       <Overview
-                        allStates={allStates}
+                        themeState={themeState}
+                        responseState={responseState}
                         allActions={allActions}
                         allDispatches={allDispatches}
                       />
@@ -284,7 +285,8 @@ export default function App() {
                   >
                     <Suspense fallback={<MyLoader componentName="Overview" />}>
                       <Overview
-                        allStates={allStates}
+                        themeState={themeState}
+                        responseState={responseState}
                         allActions={allActions}
                         allDispatches={allDispatches}
                       />

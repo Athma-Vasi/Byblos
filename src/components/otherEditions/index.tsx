@@ -12,7 +12,9 @@ import {
   AllDispatches,
   AllStates,
   HistoryState,
+  NavlinksState,
   ResponseState,
+  ThemeState,
   VolumeWithCustomId,
 } from "../../types";
 import { insertCustomId, upgradeLinksToHttps } from "../../utils";
@@ -23,13 +25,17 @@ const DisplayGeneric = React.lazy(() => import("../displayGeneric"));
 
 type OtherEditionsProps = {
   children?: React.ReactNode;
-  allStates: AllStates;
+  themeState: ThemeState;
+  responseState: ResponseState;
+  navlinksState: NavlinksState;
   allActions: AllActions;
   allDispatches: AllDispatches;
 };
 
 function OtherEditions({
-  allStates,
+  themeState,
+  responseState,
+  navlinksState,
   allActions,
   allDispatches,
 }: OtherEditionsProps) {
@@ -44,18 +50,16 @@ function OtherEditions({
   });
 
   let {
-    responseState: {
-      fetchUrl,
-      startIndex,
-      searchTerm,
-      searchResults,
-      selectedVolume,
-      selectedAuthor,
-      selectedPublisher,
-      bookshelfVolumes,
-    },
-    themeState: { theme },
-  } = allStates;
+    fetchUrl,
+    startIndex,
+    searchTerm,
+    searchResults,
+    selectedVolume,
+    selectedAuthor,
+    selectedPublisher,
+    bookshelfVolumes,
+  } = responseState;
+  let { theme } = themeState;
   let { responseDispatch } = allDispatches;
   let {
     responseActions: { setAll },
@@ -154,7 +158,6 @@ function OtherEditions({
   }, []);
 
   //fetches more results when the user scrolls to the bottom of the page
-
   useEffect(() => {
     let ignore = false;
 
@@ -209,8 +212,9 @@ function OtherEditions({
                 },
               });
             }
-            //certain popular searches like "the" will return 1000+ results
-            //so we set the max results to 600 for optimal performance
+            //certain popular searches like "harry potter" will return 2000+ results
+            //so max results is set to 600 for best performance because
+            //on author's system, >600 results in firefox dev edition causes slowdown
             if (currStartIdx > 600 || !data.items) {
               //setIsFetchedDataPresent to false so that the infinite scroll
               //useEffect doesn't run and fetch more results, triggering a
@@ -271,7 +275,9 @@ function OtherEditions({
       >
         <Suspense fallback={<MyLoader componentName="Other Editions" />}>
           <DisplayGeneric
-            allStates={allStates}
+            themeState={themeState}
+            responseState={responseState}
+            navlinksState={navlinksState}
             allActions={allActions}
             allDispatches={allDispatches}
           />
