@@ -1,12 +1,15 @@
 import { AppShell, useMantineTheme } from "@mantine/core";
 import { Suspense, useEffect, useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 import {
   AllActions,
   AllDispatches,
   AllStates,
   HistoryState,
+  NavlinksState,
+  ResponseState,
+  ThemeState,
 } from "../../types";
 import React from "react";
 import localforage from "localforage";
@@ -21,24 +24,30 @@ const MyFooter = React.lazy(() => import("../footer"));
 
 type HomeProps = {
   children?: React.ReactNode;
-  allStates: AllStates;
+  themeState: ThemeState;
+  responseState: ResponseState;
+  navlinksState: NavlinksState;
   allActions: AllActions;
   allDispatches: AllDispatches;
 };
 
-function Home({ allStates, allActions, allDispatches }: HomeProps) {
+function Home({
+  themeState,
+  responseState,
+  navlinksState,
+  allActions,
+  allDispatches,
+}: HomeProps) {
   let {
-    responseState: {
-      fetchUrl,
-      startIndex,
-      searchTerm,
-      searchResults,
-      selectedVolume,
-      selectedAuthor,
-      selectedPublisher,
-      bookshelfVolumes,
-    },
-  } = allStates;
+    fetchUrl,
+    startIndex,
+    searchTerm,
+    searchResults,
+    selectedVolume,
+    selectedAuthor,
+    selectedPublisher,
+    bookshelfVolumes,
+  } = responseState;
   let { responseDispatch } = allDispatches;
 
   const theme = useMantineTheme();
