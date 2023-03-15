@@ -9,7 +9,6 @@ import { useParams } from "react-router-dom";
 import {
   AllActions,
   AllDispatches,
-  AllStates,
   HistoryState,
   NavlinksState,
   ResponseState,
@@ -179,7 +178,9 @@ function DisplayResults({
       >
         <Suspense fallback={<MyLoader componentName="Display Results" />}>
           <DisplayGeneric
-            allStates={allStates}
+            themeState={themeState}
+            responseState={responseState}
+            navlinksState={navlinksState}
             allActions={allActions}
             allDispatches={allDispatches}
           />

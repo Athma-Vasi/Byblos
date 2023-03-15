@@ -27,11 +27,12 @@ import { useWindowSize } from "../../hooks/useWindowSize";
 import {
   AllActions,
   AllDispatches,
-  AllStates,
   HistoryState,
+  NavlinksState,
   NavlinksStateActionDispatch,
   RatingAction,
   ResponseState,
+  ThemeState,
   UserBookshelf,
   UserBookshelfActions,
   VolumeWithCustomId,
@@ -52,13 +53,17 @@ import { defaultVolume } from "../../localData";
 
 type DisplayGenericProps = {
   children?: React.ReactNode;
-  allStates: AllStates;
+  themeState: ThemeState;
+  responseState: ResponseState;
+  navlinksState: NavlinksState;
   allActions: AllActions;
   allDispatches: AllDispatches;
 };
 
 function DisplayGeneric({
-  allStates,
+  themeState,
+  responseState,
+  navlinksState,
   allActions,
   allDispatches,
 }: DisplayGenericProps) {
@@ -78,19 +83,16 @@ function DisplayGeneric({
   const { volumeId, page } = useParams();
 
   let {
-    responseState: {
-      fetchUrl,
-      startIndex,
-      searchTerm,
-      searchResults,
-      selectedVolume,
-      selectedAuthor,
-      selectedPublisher,
-      bookshelfVolumes,
-    },
-    themeState: { theme },
-    navlinksState,
-  } = allStates;
+    fetchUrl,
+    startIndex,
+    searchTerm,
+    searchResults,
+    selectedVolume,
+    selectedAuthor,
+    selectedPublisher,
+    bookshelfVolumes,
+  } = responseState;
+  let { theme } = themeState;
   let { responseDispatch, navlinksDispatch } = allDispatches;
   let {
     responseActions: { setAll },
