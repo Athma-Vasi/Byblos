@@ -1,21 +1,17 @@
-import { Button, Flex, Footer, Space, Text } from "@mantine/core";
+import { Button, Flex, Footer, Text } from "@mantine/core";
 import localforage from "localforage";
 import { Fragment, useEffect, useState } from "react";
-import { AllActions, AllDispatches, AllStates } from "../../types";
+import { AllActions, AllDispatches, ThemeState } from "../../types";
 
 type MyFooterProps = {
   children?: React.ReactNode;
-  allStates: AllStates;
+  themeState: ThemeState;
   allActions: AllActions;
   allDispatches: AllDispatches;
 };
 
-function MyFooter({ allStates }: MyFooterProps) {
+function MyFooter({ themeState: { theme } }: MyFooterProps) {
   const [isFooterVisible, setIsFooterVisible] = useState<boolean | null>(null);
-
-  const {
-    themeState: { theme },
-  } = allStates;
 
   useEffect(() => {
     const fetchFooterVisibility = async () => {

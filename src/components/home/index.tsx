@@ -169,7 +169,9 @@ function Home({
             <MyHeader
               opened={opened}
               setOpened={setOpened}
-              allStates={allStates}
+              themeState={themeState}
+              responseState={responseState}
+              navlinksState={navlinksState}
               allActions={allActions}
               allDispatches={allDispatches}
             />
@@ -180,7 +182,7 @@ function Home({
         <ErrorBoundary fallback={<ErrorFallback componentName="Footer" />}>
           <Suspense fallback={<MyLoader componentName="Footer" />}>
             <MyFooter
-              allStates={allStates}
+              themeState={themeState}
               allActions={allActions}
               allDispatches={allDispatches}
             />
