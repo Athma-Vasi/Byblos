@@ -1,6 +1,6 @@
 # Byblos
 
-ヾ(＾ ◡ ＾)ノ Hi there! Welcome to Byblos!
+ヾ(^ ◡ ^)ノ Hi there! Welcome to Byblos!
 
 Byblos is a free web app that allows you to explore an endless world of literature, all stored in one convenient location. Dive into a treasure trove of millions of books from all corners of the globe, at your fingertips and ready to be discovered.
 
