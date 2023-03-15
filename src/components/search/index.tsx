@@ -13,24 +13,34 @@ import {
   AllDispatches,
   AllStates,
   ApiResponseVolume,
+  NavlinksState,
   ResponseState,
+  ThemeState,
 } from "../../types";
 import { toggleCurrentlyActiveNavlink } from "../../utils";
 
 type SearchProps = {
   children?: React.ReactNode;
-  allStates: AllStates;
+  themeState: ThemeState;
+  responseState: ResponseState;
+  navlinksState: NavlinksState;
   allActions: AllActions;
   allDispatches: AllDispatches;
 };
 
-function Search({ allStates, allActions, allDispatches }: SearchProps) {
+function Search({
+  themeState,
+  responseState,
+  navlinksState,
+  allActions,
+  allDispatches,
+}: SearchProps) {
   const [searchTerm, setSearchTerm] = useState("");
 
   const { width = 0 } = useWindowSize();
   const navigate = useNavigate();
 
-  let { responseState, navlinksState, themeState } = allStates;
+  let { theme } = themeState;
   let { responseActions, navlinksActions } = allActions;
   let { responseDispatch, navlinksDispatch } = allDispatches;
 
@@ -111,13 +121,15 @@ function Search({ allStates, allActions, allDispatches }: SearchProps) {
         size={`${
           width < 576 ? "sm" : width < 768 ? "md" : width < 992 ? "lg" : "lg"
         }`}
-        rightSection={rightInputSection(
+        rightSection={rightInputSection({
           searchTerm,
           setSearchTerm,
-          allStates,
+          themeState,
+          responseState,
+          navlinksState,
           allActions,
-          allDispatches
-        )}
+          allDispatches,
+        })}
         rightSectionWidth={100}
         onKeyDown={handleEnterKeyInput}
         data-autofocus
@@ -144,9 +156,7 @@ function Search({ allStates, allActions, allDispatches }: SearchProps) {
         <RiSearchEyeLine
           size={21}
           style={{
-            color: `${
-              allStates.themeState.theme === "light" ? "#B06519" : "#B87333"
-            }`,
+            color: `${theme === "light" ? "#B06519" : "#B87333"}`,
             marginTop: "4px",
           }}
         />
@@ -157,18 +167,29 @@ function Search({ allStates, allActions, allDispatches }: SearchProps) {
 
 export { Search };
 
-function rightInputSection(
-  searchTerm: string,
-  setSearchTerm: React.Dispatch<React.SetStateAction<string>>,
-  allStates: AllStates,
-  allActions: AllActions,
-  allDispatches: AllDispatches
-) {
+type RightInputSectionProps = {
+  searchTerm: string;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
+  themeState: ThemeState;
+  responseState: ResponseState;
+  navlinksState: NavlinksState;
+  allActions: AllActions;
+  allDispatches: AllDispatches;
+};
+
+function rightInputSection({
+  searchTerm,
+  setSearchTerm,
+  themeState,
+  responseState,
+  navlinksState,
+  allActions,
+  allDispatches,
+}: RightInputSectionProps) {
   const navigate = useNavigate();
 
-  let { responseState, navlinksState } = allStates;
+  let { theme } = themeState;
   let { responseActions, navlinksActions } = allActions;
-
   let { responseDispatch, navlinksDispatch } = allDispatches;
 
   async function handleSearchIconClick(
@@ -244,9 +265,7 @@ function rightInputSection(
       ) : (
         <RiCloseLine
           style={{
-            color: `${
-              allStates.themeState.theme === "light" ? "#B06519" : "#B87333"
-            }`,
+            color: `${theme === "light" ? "#B06519" : "#B87333"}`,
             transform: "scale(1.5)",
             cursor: "pointer",
           }}
@@ -261,9 +280,7 @@ function rightInputSection(
       ) : (
         <RxDividerVertical
           style={{
-            color: `${
-              allStates.themeState.theme === "light" ? "#B06519" : "#B87333"
-            }`,
+            color: `${theme === "light" ? "#B06519" : "#B87333"}`,
             transform: "scale(1.5)",
           }}
           data-cy="dividerIcon"
@@ -271,9 +288,7 @@ function rightInputSection(
       )}
       <CgSearch
         style={{
-          color: `${
-            allStates.themeState.theme === "light" ? "#B06519" : "#B87333"
-          }`,
+          color: `${theme === "light" ? "#B06519" : "#B87333"}`,
           transform: "scale(1.25)",
           cursor: "pointer",
         }}

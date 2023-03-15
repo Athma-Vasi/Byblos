@@ -4,20 +4,34 @@ import logo_transparent_dark from "../../../src/assets/logo/logo_transparent.png
 
 import { useWindowSize } from "../../hooks/useWindowSize";
 
-import { AllActions, AllDispatches, AllStates } from "../../types";
+import {
+  AllActions,
+  AllDispatches,
+  NavlinksState,
+  ResponseState,
+  ThemeState,
+} from "../../types";
 import { Search } from "../search";
 
 type WelcomeProps = {
   children?: React.ReactNode;
-  allStates: AllStates;
+  themeState: ThemeState;
+  responseState: ResponseState;
+  navlinksState: NavlinksState;
   allActions: AllActions;
   allDispatches: AllDispatches;
 };
 
-function Welcome({ allStates, allActions, allDispatches }: WelcomeProps) {
+function Welcome({
+  themeState,
+  responseState,
+  navlinksState,
+  allActions,
+  allDispatches,
+}: WelcomeProps) {
   const { width = 0 } = useWindowSize();
 
-  let { theme } = allStates.themeState;
+  let { theme } = themeState;
 
   return (
     <Flex direction="column" align="center" justify="center">
@@ -84,7 +98,9 @@ function Welcome({ allStates, allActions, allDispatches }: WelcomeProps) {
         align="center"
       >
         <Search
-          allStates={allStates}
+          themeState={themeState}
+          responseState={responseState}
+          navlinksState={navlinksState}
           allActions={allActions}
           allDispatches={allDispatches}
         />

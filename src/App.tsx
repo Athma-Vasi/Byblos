@@ -77,7 +77,7 @@ export default function App() {
   };
 
   return (
-    <ThemeProvider allStates={allStates}>
+    <ThemeProvider themeState={themeState}>
       <BrowserRouter>
         <Routes>
           <Route
