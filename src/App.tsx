@@ -306,7 +306,9 @@ export default function App() {
                       fallback={<MyLoader componentName="Other editions" />}
                     >
                       <OtherEditions
-                        allStates={allStates}
+                        themeState={themeState}
+                        responseState={responseState}
+                        navlinksState={navlinksState}
                         allActions={allActions}
                         allDispatches={allDispatches}
                       />
@@ -326,7 +328,9 @@ export default function App() {
                         fallback={<MyLoader componentName="Other editions" />}
                       >
                         <OtherEditions
-                          allStates={allStates}
+                          themeState={themeState}
+                          responseState={responseState}
+                          navlinksState={navlinksState}
                           allActions={allActions}
                           allDispatches={allDispatches}
                         />
