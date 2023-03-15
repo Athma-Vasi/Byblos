@@ -1,17 +1,16 @@
 import { MantineProvider, MantineThemeOverride } from "@mantine/core";
 import { CustomFonts } from "../customFonts";
-import { AllStates } from "../../../types";
+import { ThemeState } from "../../../types";
 
 type ThemeProviderProps = {
   children: React.ReactNode;
-  allStates: AllStates;
+  themeState: ThemeState;
 };
 
-function ThemeProvider({ children, allStates }: ThemeProviderProps) {
-  const {
-    themeState: { theme },
-  } = allStates;
-
+function ThemeProvider({
+  children,
+  themeState: { theme },
+}: ThemeProviderProps) {
   const theme_: MantineThemeOverride = {
     colorScheme: theme,
 

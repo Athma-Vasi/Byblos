@@ -58,11 +58,11 @@ export default function App() {
     initialNavlinksState
   );
 
-  let allStates = {
-    responseState,
-    themeState,
-    navlinksState,
-  };
+  // let allStates = {
+  //   responseState,
+  //   themeState,
+  //   navlinksState,
+  // };
 
   const allActions: AllActions = {
     responseActions,
